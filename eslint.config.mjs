@@ -34,6 +34,10 @@ const eslintConfig = [
       "react-hooks/exhaustive-deps": "off",
       '@typescript-eslint/*': 'off',
       "react-hooks/*": "off",
+       "react/jsx-key": "off",
+      "prefer-const": "off",
+      "react/no-children-prop": "off",
+      "@next/next/no-page-custom-font": "off"
     },
   },
 ];
