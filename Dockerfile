@@ -1,23 +1,29 @@
 # Use Node.js as a base image
 FROM node:18-alpine
 
-# Set the working directory
+# Set working directory
 WORKDIR /app
 
-
-# Install the dependencies
+# Install pnpm globally
 RUN npm install -g pnpm
 
-# Copy the package.json and package-lock.json to the working directory
+# Copy package files first
 COPY package.json pnpm-lock.yaml ./
 
+# Install dependencies
 RUN pnpm install
 
-# Copy the remaining application files to the working directory
+# Add DaisyUI during build
+RUN pnpm add -D daisyui && pnpm install
+
+# Copy the rest of the app
 COPY . .
 
+# Rebuild (optional if DaisyUI is used in build)
 RUN pnpm run build
 
+# Expose the port
 EXPOSE 8003
 
+# Start the app
 CMD ["pnpm", "start", "-p", "8003"]
