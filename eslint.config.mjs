@@ -30,7 +30,8 @@ const eslintConfig = [
       "@typescript-eslint/no-unnecessary-boolean-literal-compare": "off",
       "@typescript-eslint/no-unnecessary-condition": "off",
       "@typescript-eslint/no-unnecessary-qualifier": "off",
-      " @typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "react-hooks/exhaustive-deps": "off",
 
     },
   },
