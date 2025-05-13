@@ -141,7 +141,7 @@ const CreateDiscount = (props: Props) => {
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const droppedFiles = Array.from(e.dataTransfer.files) as File[];
+    const droppedFiles = Array.from(e.dataTransfer.files);
     setFile((prevImages) => [...prevImages, ...droppedFiles]);
     setIsHovering(false);
   };
