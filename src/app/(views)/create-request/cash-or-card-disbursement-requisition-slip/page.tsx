@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
