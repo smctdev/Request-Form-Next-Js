@@ -57,7 +57,7 @@ const CreateStockRequistion = (props: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [file, setFile] = useState<File[]>([]);
+  const [file, setFile] = useState<any[]>([]);
   const [notedBy, setNotedBy] = useState<Approver[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [approvedBy, setApprovedBy] = useState<Approver[]>([]);

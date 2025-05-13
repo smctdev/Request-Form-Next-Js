@@ -53,7 +53,7 @@ const CreateCashDisbursement = (props: Props) => {
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [file, setFile] = useState<File[]>([]);
+  const [file, setFile] = useState<any[]>([]);
   const {
     formState: { errors: formErrors },
   } = useForm<FormData>();

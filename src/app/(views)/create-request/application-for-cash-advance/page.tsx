@@ -111,7 +111,7 @@ const CreateApplicationCash = (props: Props) => {
   const [totalFare, setTotalFare] = useState(0);
   const [totalContingency, setTotalContingency] = useState(0);
   const router = useRouter();
-  const [file, setFile] = useState<File[]>([]);
+  const [file, setFile] = useState<any[]>([]);
   const [isHovering, setIsHovering] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);

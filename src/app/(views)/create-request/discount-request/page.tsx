@@ -82,7 +82,7 @@ const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white";
 const CreateDiscount = (props: Props) => {
   const [formData, setFormData] = useState<any>(null);
   const router = useRouter();
-  const [file, setFile] = useState<File[]>([]);
+  const [file, setFile] = useState<any[]>([]);
   const [totalAmount, setTotalAmount] = useState({
     totalLabor: 0,
     totalSpotCash: 0,

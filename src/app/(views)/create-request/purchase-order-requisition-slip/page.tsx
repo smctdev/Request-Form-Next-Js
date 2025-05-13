@@ -67,7 +67,7 @@ const CreatePurchaseOrder = (props: Props) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [formData, setFormData] = useState<any>(null);
-  const [file, setFile] = useState<File[]>([]);
+  const [file, setFile] = useState<any[]>([]);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>

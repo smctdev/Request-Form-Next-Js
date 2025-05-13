@@ -97,7 +97,7 @@ const CreateLiquidation = (props: Props) => {
   const [formData, setFormData] = useState<any>(null);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [file, setFile] = useState<File[]>([]);
+  const [file, setFile] = useState<any[]>([]);
   const [selectedApproverList, setSelectedApproverList] = useState<
     number | null
   >(null);
