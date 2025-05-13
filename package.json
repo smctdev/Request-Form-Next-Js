@@ -1,0 +1,51 @@
+{
+  "name": "next-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ably/laravel-echo": "^1.0.6",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@hookform/resolvers": "^5.0.1",
+    "@react-spring/web": "^9.7.5",
+    "@types/number-to-words": "^1.2.3",
+    "axios": "^1.9.0",
+    "date-fns": "^4.1.0",
+    "laravel-echo": "^2.0.2",
+    "next": "15.3.1",
+    "number-to-words": "^1.2.4",
+    "pusher-js": "^8.4.0",
+    "react": "^19.0.0",
+    "react-data-table-component": "^7.7.0",
+    "react-datepicker": "^8.3.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.2",
+    "react-icons": "^5.5.0",
+    "react-player": "^2.16.0",
+    "react-signature-canvas": "1.1.0-alpha.2",
+    "react-spinners": "^0.17.0",
+    "recharts": "^2.15.3",
+    "sweetalert2": "^11.21.0",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@heroicons/react": "^2.2.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.1",
+    "mini-css-extract-plugin": "^2.9.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
