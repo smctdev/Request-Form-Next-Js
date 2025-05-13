@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  request-form-nextjs:
+    build: .
+    container_name: request-form-nextjs
+    restart: unless-stopped
+    ports:
+      - "8003:8003"
