@@ -32,6 +32,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn-icons-png.flaticon.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "requestserver.smctgroup",
+        pathname: "/storage/**", // Or "/**" if you serve images outside /storage
+      },
     ],
   },
 };
