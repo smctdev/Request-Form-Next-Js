@@ -11,7 +11,7 @@ const BaseContent = ({ children }: any) => {
   const { user } = useAuth();
   const pathname = usePathname();
 
-  if (pathname === "/login" || pathname === "/registration" || pathname === "/")
+  if (pathname === "/login" || pathname === "/registration" || pathname === "/" || pathname === "/forgot-password")
     return <>{children}</>;
 
   const toggleSidebar = () => {

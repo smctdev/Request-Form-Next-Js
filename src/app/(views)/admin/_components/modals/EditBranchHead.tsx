@@ -208,7 +208,7 @@ const EditBranchHead = ({
           <div className="bg-white flex-col w-10/12 sm:w-full  rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex space-x-2">
             <h3 className="p-4 text-lg font-bold">
               Branches for{" "}
-              {`${selectedUser?.user.data.firstName} ${selectedUser?.user.data.lastName}`}
+              {`${selectedUser?.user.firstName} ${selectedUser?.user.lastName}`}
               :
             </h3>
             <input

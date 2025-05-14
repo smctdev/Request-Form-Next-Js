@@ -103,38 +103,7 @@ const SetupBranchHead = (props: Props) => {
           `/view-branch-heads`
         );
 
-        const branchHeadList: BranchHead[] = response.data.data;
-
-        // Prepare array to hold promises for fetching user info
-        const branchHeadsWithData: any[] = [];
-
-        for (const branchHead of branchHeadList) {
-          // Fetch user info based on user_id (which is id in users table)
-          const userResponse = await api.get<Record>(
-            `/view-user/${branchHead.user_id}`
-          );
-
-          const userInfo: Record = userResponse.data;
-
-          // Fetch branches for each branch_id
-          const branchPromises = branchHead.branch_id.map(async (branchId) => {
-            const branchResponse = await api.get(`/view-branch/${branchId}`);
-            return branchResponse.data;
-          });
-
-          const branchInfos = await Promise.all(branchPromises);
-
-          // Combine branch head data with branch info and user info
-          const branchHeadWithData = {
-            ...branchHead,
-            branches: branchInfos,
-            user: userInfo,
-          };
-
-          branchHeadsWithData.push(branchHeadWithData);
-        }
-
-        setBranchHeadList(branchHeadsWithData);
+        setBranchHeadList(response.data.data);
         setFetchCompleted(true); // Indicate fetch completion
       } catch (error) {
         console.error("Error fetching approvers data:", error);
@@ -148,7 +117,7 @@ const SetupBranchHead = (props: Props) => {
   }, [user.id]);
 
   const filteredBranchHead = branchHeadList.filter((branchHead) =>
-    Object.values(branchHead).some((value) =>
+    Object.values(branchHead.user).some((value) =>
       String(value).toLowerCase().includes(filterTerm.toLowerCase())
     )
   );
@@ -166,35 +135,7 @@ const SetupBranchHead = (props: Props) => {
       const response = await api.get<{ data: BranchHead[] }>(
         `/view-branch-heads`
       );
-
-      const branchHeadList: BranchHead[] = response.data.data;
-
-      const branchHeadsWithData: any[] = [];
-
-      for (const branchHead of branchHeadList) {
-        const userResponse = await api.get<Record>(
-          `/view-user/${branchHead.user_id}`
-        );
-
-        const userInfo: Record = userResponse.data;
-
-        const branchPromises = branchHead.branch_id.map(async (branchId) => {
-          const branchResponse = await api.get(`/view-branch/${branchId}`);
-          return branchResponse.data;
-        });
-
-        const branchInfos = await Promise.all(branchPromises);
-
-        const branchHeadWithData = {
-          ...branchHead,
-          branches: branchInfos,
-          user: userInfo,
-        };
-
-        branchHeadsWithData.push(branchHeadWithData);
-      }
-
-      setBranchHeadList(branchHeadsWithData);
+      setBranchHeadList(response.data.data);
       setisLoading(false);
       setFetchCompleted(true);
     } catch (error) {
@@ -256,12 +197,12 @@ const SetupBranchHead = (props: Props) => {
   const getAssignedBranches = (row: Record) => {
     return (
       <div className="grid grid-cols-1 space-y-2 sm:grid-cols-2 sm:gap-2 sm:space-y-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
-        {row.branches.map((branchInfo, index) => (
+        {row.branches.map((branchInfo: any, index: any) => (
           <div
             className="bg-primary p-2 rounded-[12px] w-20 text-center "
             key={index}
           >
-            <ul className="text-white ">{branchInfo.data[0].branch_code}</ul>
+            <ul className="text-white ">{branchInfo.branch_code}</ul>
           </div>
         ))}
       </div>
@@ -296,10 +237,10 @@ const SetupBranchHead = (props: Props) => {
     {
       name: "Name",
       sortable: true,
-      selector: (row: Record) => {
+      selector: (row: any) => {
         const user = row.user;
-        const firstName = user?.data?.firstName ?? "";
-        const lastName = user?.data?.lastName ?? "";
+        const firstName = user?.firstName ?? "";
+        const lastName = user?.lastName ?? "";
         return `${firstName} ${lastName}`;
       },
     },
