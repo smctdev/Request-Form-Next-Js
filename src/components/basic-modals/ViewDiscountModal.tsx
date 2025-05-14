@@ -432,7 +432,7 @@ const ViewDiscountModal: React.FC<Props> = ({
 
     localStorage.setItem("printData", JSON.stringify(data));
     // Open a new window with PrintRefund component
-    const newWindow = window.open(`/print-discount`, "_blank");
+    const newWindow = window.open(`/print/discount`, "_blank");
 
     // Optional: Focus the new window
     if (newWindow) {

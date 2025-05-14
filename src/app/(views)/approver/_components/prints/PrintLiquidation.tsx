@@ -14,18 +14,24 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
   const [printData, setPrintData] = useState<any>(null);
 
   let logo;
-  if (printData?.user?.data?.branch.branch === "Strong Moto Centrum, Inc.") {
-    logo = <Image src={SMCTLogo} alt="SMCT Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Des Strong Motors, Inc.") {
-    logo = <Image src={DSMLogo} alt="DSM Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Des Appliance Plaza, Inc.") {
-    logo = <Image src={DAPLogo} alt="DAP Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Honda Des, Inc.") {
-    logo = <Image src={HDILogo} alt="HDI Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Head Office") {
+  if (printData?.user?.branch.branch === "Strong Moto Centrum, Inc.") {
+    logo = <Image width={100} height={100} src={SMCTLogo} alt="SMCT Logo" />;
+  } else if (printData?.user?.branch.branch === "Des Strong Motors, Inc.") {
+    logo = <Image width={100} height={100} src={DSMLogo} alt="DSM Logo" />;
+  } else if (printData?.user?.branch.branch === "Des Appliance Plaza, Inc.") {
+    logo = <Image width={100} height={100} src={DAPLogo} alt="DAP Logo" />;
+  } else if (printData?.user?.branch.branch === "Honda Des, Inc.") {
+    logo = <Image width={100} height={100} src={HDILogo} alt="HDI Logo" />;
+  } else if (printData?.user?.branch.branch === "Head Office") {
     logo = (
       <div className="flex items-center justify-center">
-        <Image src={HOLogo} alt="HO Logo" className="w-44" />
+        <Image
+          width={100}
+          height={100}
+          src={HOLogo}
+          alt="HO Logo"
+          className="w-44"
+        />
       </div>
     );
   } else {
@@ -145,15 +151,15 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
         <div className="mt-3">
           <p className="flex text-sm font-medium">
             Activity:{" "}
-            <p className="ml-2 font-normal underline">
+            <span className="ml-2 font-normal underline">
               {printData?.id.form_data[0].purpose}
-            </p>{" "}
+            </span>{" "}
           </p>
           <p className="flex text-sm font-medium">
             Date:{" "}
-            <p className="ml-2 font-normal underline">
+            <span className="ml-2 font-normal underline">
               {formatDate(printData?.id.created_at)}
-            </p>
+            </span>
           </p>
         </div>
         <div className="mt-2 mr-1">
@@ -161,21 +167,36 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
             <thead className="border border-black">
               <tr className="border border-black">
                 <th className="font-medium border border-black"></th>
-                <th colSpan={4} className="px-2 py-1 font-bold border border-black">
+                <th
+                  colSpan={4}
+                  className="px-2 py-1 font-bold border border-black"
+                >
                   TRANSPORTATION
                 </th>
-                <th colSpan={3} className="px-2 py-1 font-bold border border-black">
+                <th
+                  colSpan={3}
+                  className="px-2 py-1 font-bold border border-black"
+                >
                   HOTEL
                 </th>
-                <th colSpan={3} className="px-2 py-1 font-bold border border-black whitespace-nowrap">
+                <th
+                  colSpan={3}
+                  className="px-2 py-1 font-bold border border-black whitespace-nowrap"
+                >
                   PER DIEM OTHER RELATED EXPENSES
                 </th>
                 <th className="font-medium border border-black"></th>
               </tr>
               <tr className="border border-black">
-                <th className="px-2 py-1 font-semibold border border-black">Date</th>
-                <th className="px-2 py-1 font-semibold border border-black">From</th>
-                <th className="px-2 py-1 font-semibold border border-black">To</th>
+                <th className="px-2 py-1 font-semibold border border-black">
+                  Date
+                </th>
+                <th className="px-2 py-1 font-semibold border border-black">
+                  From
+                </th>
+                <th className="px-2 py-1 font-semibold border border-black">
+                  To
+                </th>
                 <th className="px-2 py-1 font-semibold border border-black whitespace-nowrap">
                   Type of Transportation
                 </th>
@@ -213,15 +234,21 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                       <td className="px-2 border border-black  whitespace-nowrap">
                         {formatDate(item.liquidationDate)}
                       </td>
-                      <td className="px-2 text-center border border-black">{item.from}</td>
-                      <td className="px-2 text-center border border-black">{item.to}</td>
+                      <td className="px-2 text-center border border-black">
+                        {item.from}
+                      </td>
+                      <td className="px-2 text-center border border-black">
+                        {item.to}
+                      </td>
                       <td className="px-2 text-center border border-black">
                         {item.transportation}
                       </td>
                       <td className="px-2 text-center border border-black">
                         {item.transportationAmount}
                       </td>
-                      <td className="px-2 text-center border border-black">{item.hotel}</td>
+                      <td className="px-2 text-center border border-black">
+                        {item.hotel}
+                      </td>
                       <td className="px-2 text-center border border-black">
                         {item.hotelAddress}
                       </td>
@@ -307,8 +334,8 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                     NAME OF EMPLOYEE
                   </td>
                   <td className="px-2 py-1 text-xs font-normal border border-black">
-                    {printData?.user.data.lastName},{" "}
-                    {printData?.user.data.firstName}
+                    {printData?.user.lastName},{" "}
+                    {printData?.user.firstName}
                   </td>
                 </tr>
                 <tr>
@@ -317,7 +344,9 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                   </td>
                   <td className="h-20 px-2 py-1 text-xs font-medium border border-black">
                     <Image
-                      src={printData?.user.data.signature}
+                      width={100}
+                      height={100}
+                      src={printData?.user.signature}
                       className="h-16"
                       alt="Signature"
                     />
@@ -328,7 +357,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                     EMPLOYEE NO.
                   </td>
                   <td className="px-2 py-1 text-xs font-normal border border-black">
-                    {printData?.user.data.employee_id}
+                    {printData?.user.employee_id}
                   </td>
                 </tr>
               </tbody>
@@ -341,20 +370,21 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
             <div className="flex-grow mb-4">
               <h3 className="mb-2 text-sm font-normal">Requested By:</h3>
               <div className="flex flex-wrap justify-start">
-              <div className="relative flex flex-col items-center justify-center pt-3 mr-10">
-                <Image
+                <div className="relative flex flex-col items-center justify-center pt-3 mr-10">
+                  <Image
                     className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
-                  src={printData?.id?.requested_signature}
-                  alt="avatar"
-                  width={120}
-                />
-                <p className="relative z-10 text-xs font-medium text-center underline">
-                  {printData?.id?.requested_by}
-                </p>
-                <p className="text-xs font-light text-center">
-                  {printData?.id?.requested_position}
-                </p>
-              </div>
+                    src={printData?.id?.requested_signature}
+                    alt="avatar"
+                    width={120}
+                    height={120}
+                  />
+                  <p className="relative z-10 text-xs font-medium text-center underline">
+                    {printData?.id?.requested_by}
+                  </p>
+                  <p className="text-xs font-light text-center">
+                    {printData?.id?.requested_position}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -373,6 +403,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                         src={approver.signature}
                         alt=""
                         width={120}
+                        height={120}
                       />
                     )}
                     <p className="relative z-10 text-xs font-medium text-center underline">
@@ -401,6 +432,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                         src={approver.signature}
                         alt=""
                         width={120}
+                        height={120}
                       />
                     )}
                     <p className="relative z-10 text-xs font-medium text-center underline">

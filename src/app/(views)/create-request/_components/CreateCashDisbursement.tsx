@@ -67,7 +67,7 @@ const CreateCashDisbursement = (props: Props) => {
   const [showAddCustomModal, setShowAddCustomModal] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState("");
+  const [selectedCurrency, setSelectedCurrency] = useState("PHP");
   const { user } = useAuth();
 
   useEffect(() => {

@@ -142,7 +142,7 @@ const CreateRefund = (props: Props) => {
     }[]
   >([
     {
-      quantity: "",
+      quantity: "1",
       description: "",
       unitCost: "",
       totalAmount: "",
@@ -327,7 +327,7 @@ const CreateRefund = (props: Props) => {
     setItems([
       ...items,
       {
-        quantity: "",
+        quantity: "1",
         description: "",
         unitCost: "",
         totalAmount: "",
