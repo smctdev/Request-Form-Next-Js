@@ -472,7 +472,7 @@ const CreateDiscount = (props: Props) => {
           <ClipLoader color="#007bff" />
         </div>
       )}
-      <h1 className="text-primary text-[32px] font-bold inline-block">
+      {/* <h1 className="text-primary text-[32px] font-bold inline-block">
         Create Request
       </h1>
       <select
@@ -491,7 +491,7 @@ const CreateDiscount = (props: Props) => {
             {item.title}
           </option>
         ))}
-      </select>
+      </select> */}
       <div className="bg-white w-full   mb-5 rounded-[12px] flex flex-col">
         <div className="border-b flex justify-between flex-col px-[30px] md:flex-row ">
           <div>

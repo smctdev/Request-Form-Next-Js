@@ -376,7 +376,7 @@ const CreateCashDisbursement = (props: Props) => {
           <ClipLoader color="#007bff" />
         </div>
       )}
-      <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
+      {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
       <select
         className="w-2/5 lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 border-black rounded-xl mb-2"
         value={selectedRequestType}
@@ -393,7 +393,7 @@ const CreateCashDisbursement = (props: Props) => {
             {item.title}
           </option>
         ))}
-      </select>
+      </select> */}
       <div className="bg-white w-full mb-5 rounded-[12px] flex flex-col">
         <div className="border-b flex justify-between flex-col px-[30px] md:flex-row ">
           <div>

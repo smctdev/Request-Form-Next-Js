@@ -490,7 +490,7 @@ const CreateLiquidation = (props: Props) => {
           <ClipLoader color="#007bff" />
         </div>
       )}
-      <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
+      {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
 
       <select
         className="w-2/5 lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 border-black rounded-xl mb-2"
@@ -508,7 +508,7 @@ const CreateLiquidation = (props: Props) => {
             {item.title}
           </option>
         ))}
-      </select>
+      </select> */}
       <div className="bg-white w-full mb-5 rounded-[12px] flex flex-col">
         <div className="border-b flex justify-between flex-col px-[30px] md:flex-row ">
           <div>
@@ -887,123 +887,131 @@ const CreateLiquidation = (props: Props) => {
             <div className="grid grid-cols-1 overflow-x-auto lg:grid-cols-2 md:gap-2">
               <div>
                 <table className="w-full mt-10 border border-black">
-                  <tr>
-                    <td className={`${tableStyle}`}>
-                      <p className="pl-2 pr-20 font-semibold ">TOTAL EXPENSE</p>
-                    </td>
-                    <td className={`${tableStyle}`}>
-                      <p className="font-semibold ">₱ {totalExpense}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={`${tableStyle}`}>
-                      <p className="pl-2 pr-20 font-semibold ">CASH ADVANCE</p>
-                    </td>
-                    <td className={`${tableStyle} `}>
-                      ₱&nbsp;
-                      <input
-                        type="number"
-                        value={cashAdvance}
-                        onChange={(e) => setCashAdvance(e.target.value)}
-                        className="font-bold bg-white focus:outline-0"
-                      />
-                      {errors.cashAdvance && (
-                        <p className="text-red-500">
-                          {errors.cashAdvance.message}
+                  <tbody>
+                    <tr>
+                      <td className={`${tableStyle}`}>
+                        <p className="pl-2 pr-20 font-semibold ">
+                          TOTAL EXPENSE
                         </p>
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={`${tableStyle}`}>
-                      {parseFloat(shortLabel) > 0 ? (
-                        <p className="pl-2 font-semibold">Excess</p>
-                      ) : parseFloat(shortLabel) === 0 ? (
-                        <p className="pl-2 font-semibold"></p>
-                      ) : (
-                        <p className="pl-2 font-semibold">Short</p>
-                      )}
-                    </td>
-                    <td className={`${tableStyle}`}>
-                      <p className="font-semibold ">₱ {short}</p>
-                    </td>
-                  </tr>
+                      </td>
+                      <td className={`${tableStyle}`}>
+                        <p className="font-semibold ">₱ {totalExpense}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={`${tableStyle}`}>
+                        <p className="pl-2 pr-20 font-semibold ">
+                          CASH ADVANCE
+                        </p>
+                      </td>
+                      <td className={`${tableStyle} `}>
+                        ₱&nbsp;
+                        <input
+                          type="number"
+                          value={cashAdvance}
+                          onChange={(e) => setCashAdvance(e.target.value)}
+                          className="font-bold bg-white focus:outline-0"
+                        />
+                        {errors.cashAdvance && (
+                          <p className="text-red-500">
+                            {errors.cashAdvance.message}
+                          </p>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={`${tableStyle}`}>
+                        {parseFloat(shortLabel) > 0 ? (
+                          <p className="pl-2 font-semibold">Excess</p>
+                        ) : parseFloat(shortLabel) === 0 ? (
+                          <p className="pl-2 font-semibold"></p>
+                        ) : (
+                          <p className="pl-2 font-semibold">Short</p>
+                        )}
+                      </td>
+                      <td className={`${tableStyle}`}>
+                        <p className="font-semibold ">₱ {short}</p>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
               <div>
                 <table className="w-full mt-10 border border-black">
-                  <tr>
-                    <td className={`${tableStyle}`}>
-                      <p className="pl-2 pr-20 font-semibold ">
-                        NAME OF EMPLOYEE
-                      </p>
-                    </td>
-                    <td className={`${tableStyle}`}>
-                      <p className="font-semibold ">{user.name}</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={`${tableStyle} h-20`}>
-                      <p className="pl-2 font-semibold ">SIGNATURE</p>
-                    </td>
-                    <td className={`${tableStyle} h-10`}>
-                      <div className="flex items-center justify-center overflow-hidden">
-                        <div className="relative">
-                          <Image
-                            width={100}
-                            height={100}
-                            src={user.signature}
-                            className="h-32"
-                            alt="signature"
-                            draggable="false"
-                            onContextMenu={(e) => e.preventDefault()}
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div
-                              className="text-gray-950 opacity-30"
-                              style={{
-                                backgroundImage:
-                                  "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.3) 20px, rgba(255, 255, 255, 0.3) 100px)",
-                                backgroundSize: "400px 400px",
-                                width: "100%",
-                                height: "100%",
-                                fontSize: "1.2em",
-                                transform: "rotate(-12deg)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                whiteSpace: "nowrap",
-                              }}
-                            >
-                              SMCT Group of Companies SMCT Group of Companies{" "}
-                              <br />
-                              SMCT Group of Companies SMCT Group of Companies{" "}
-                              <br />
-                              SMCT Group of Companies SMCT Group of Companies{" "}
-                              <br />
-                              SMCT Group of Companies SMCT Group of Companies{" "}
-                              <br />
-                              SMCT Group of Companies SMCT Group of Companies{" "}
-                              <br /> SMCT Group of Companies SMCT Group of
-                              Companies
-                              <br />
-                              SMCT Group of Companies SMCT Group of Companies
-                              <br /> SMCT Group of Companies SMCT Group of
-                              Companies
+                  <tbody>
+                    <tr>
+                      <td className={`${tableStyle}`}>
+                        <p className="pl-2 pr-20 font-semibold ">
+                          NAME OF EMPLOYEE
+                        </p>
+                      </td>
+                      <td className={`${tableStyle}`}>
+                        <p className="font-semibold ">{user.name}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={`${tableStyle} h-20`}>
+                        <p className="pl-2 font-semibold ">SIGNATURE</p>
+                      </td>
+                      <td className={`${tableStyle} h-10`}>
+                        <div className="flex items-center justify-center overflow-hidden">
+                          <div className="relative">
+                            <Image
+                              width={100}
+                              height={100}
+                              src={user.signature}
+                              className="h-32"
+                              alt="signature"
+                              draggable="false"
+                              onContextMenu={(e) => e.preventDefault()}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                              <div
+                                className="text-gray-950 opacity-30"
+                                style={{
+                                  backgroundImage:
+                                    "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.3) 20px, rgba(255, 255, 255, 0.3) 100px)",
+                                  backgroundSize: "400px 400px",
+                                  width: "100%",
+                                  height: "100%",
+                                  fontSize: "1.2em",
+                                  transform: "rotate(-12deg)",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
+                                SMCT Group of Companies SMCT Group of Companies{" "}
+                                <br />
+                                SMCT Group of Companies SMCT Group of Companies{" "}
+                                <br />
+                                SMCT Group of Companies SMCT Group of Companies{" "}
+                                <br />
+                                SMCT Group of Companies SMCT Group of Companies{" "}
+                                <br />
+                                SMCT Group of Companies SMCT Group of Companies{" "}
+                                <br /> SMCT Group of Companies SMCT Group of
+                                Companies
+                                <br />
+                                SMCT Group of Companies SMCT Group of Companies
+                                <br /> SMCT Group of Companies SMCT Group of
+                                Companies
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={`${tableStyle}`}>
-                      <p className="pl-2 font-semibold ">EMPLOYEE NO.</p>
-                    </td>
-                    <td className={`${tableStyle}`}>
-                      <p className="font-semibold ">{user.employee_id}</p>
-                    </td>
-                  </tr>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={`${tableStyle}`}>
+                        <p className="pl-2 font-semibold ">EMPLOYEE NO.</p>
+                      </td>
+                      <td className={`${tableStyle}`}>
+                        <p className="font-semibold ">{user.employee_id}</p>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>

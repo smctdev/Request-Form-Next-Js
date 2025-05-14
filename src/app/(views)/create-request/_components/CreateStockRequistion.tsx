@@ -5,29 +5,18 @@ export const dynamic = "force-dynamic";
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ClipLoader from "react-spinners/ClipLoader";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import RequestType from "@/constants/RequestType";
-import RequestSuccessModal from "@/components/basic-modals/RequestSuccessModal";
 import AddCustomModal from "@/components/basic-modals/AddCustomModal";
+import RequestSuccessModal from "@/components/basic-modals/RequestSuccessModal";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
-
-type Props = {};
-
-type CustomApprover = {
-  id: number;
-  name: string;
-  approvers: {
-    noted_by: { name: string }[];
-    approved_by: { name: string }[];
-  };
-};
 
 interface Approver {
   id: number;
@@ -37,15 +26,16 @@ interface Approver {
 }
 
 const schema = z.object({
+  purpose: z.string(),
   approver_list_id: z.number(),
   approver: z.string(),
-  supplier: z.string(),
-  address: z.string(),
+  attachment: z.array(z.any()).optional(),
   items: z.array(
     z.object({
       quantity: z.string(),
       description: z.string(),
       unitCost: z.string(),
+      totalAmount: z.string(),
       remarks: z.string().optional(),
     })
   ),
@@ -53,36 +43,24 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const inputStyle =
-  "w-full   border-2 border-black rounded-[12px] bg-white  autofill-input";
-const itemDiv = "flex flex-col  ";
+type Props = {};
+
 const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white";
 const tableStyle = "border border-black p-2 border-collapse";
 const inputStyle2 =
   "w-full   rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";
 
-const CreatePurchaseOrder = (props: Props) => {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
+const CreateStockRequistion = (props: Props) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [formData, setFormData] = useState<any>(null);
-  const [file, setFile] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<
-    Record<string, string>
-  >({});
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [file, setFile] = useState<any[]>([]);
   const [notedBy, setNotedBy] = useState<Approver[]>([]);
-  const [approvedBy, setApprovedBy] = useState<Approver[]>([]);
-  const [initialNotedBy, setInitialNotedBy] = useState<Approver[]>([]);
-  const [initialApprovedBy, setInitialApprovedBy] = useState<Approver[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {
-    formState: { errors: formErrors },
-  } = useForm<FormData>();
-  const [selectedRequestType, setSelectedRequestType] = useState(
-    "/create-request/purchase-order-requisition-slip"
-  );
+  const [approvedBy, setApprovedBy] = useState<Approver[]>([]);
   const [isHovering, setIsHovering] = useState(false);
   const { user } = useAuth();
 
@@ -127,9 +105,22 @@ const CreatePurchaseOrder = (props: Props) => {
   };
 
   useEffect(() => {
-    setInitialNotedBy(notedBy);
-    setInitialApprovedBy(approvedBy);
-  }, [notedBy, approvedBy]);
+    if (user.noted_bies.length > 0 || user.approved_bies.length > 0) {
+      setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+      setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
+    }
+  }, [user.noted_bies, user.approved_bies]);
+
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+  const router = useRouter();
+
   const [items, setItems] = useState<
     {
       quantity: string;
@@ -148,20 +139,18 @@ const CreatePurchaseOrder = (props: Props) => {
     },
   ]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  // Function to close the confirmation modal
+  const handleCloseConfirmationModal = () => {
+    setShowConfirmationModal(false);
+  };
 
-  useEffect(() => {
-    if (user.noted_bies.length > 0 || user.approved_bies.length > 0) {
-      setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
-      setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
-    }
-  }, [user.noted_bies, user.approved_bies]);
+  // Function to handle form submission with confirmation
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     try {
       if (approvedBy.length === 0) {
         Swal.fire({
@@ -171,10 +160,11 @@ const CreatePurchaseOrder = (props: Props) => {
           confirmButtonText: "Close",
           confirmButtonColor: "#007bff",
         });
+        // alert("Please select an approver.");
         setLoading(false); // Stop loading state
         return; // Prevent form submission
       }
-      // Check if any item fields are empty
+
       if (
         items.some((item) =>
           Object.entries(item)
@@ -183,7 +173,7 @@ const CreatePurchaseOrder = (props: Props) => {
         )
       ) {
         console.error("Item fields cannot be empty");
-        // Display error message to the user or handle it accordingly
+        setLoading(false); // Stop loading state
         return;
       }
 
@@ -197,9 +187,10 @@ const CreatePurchaseOrder = (props: Props) => {
       const formData = new FormData();
 
       // Append each file to FormData
-      file.forEach((file) => {
-        formData.append("attachment[]", file); // Use "attachment[]" to handle multiple files
+      file.forEach((f) => {
+        formData.append("attachment[]", f);
       });
+
       const notedByIds = Array.isArray(notedBy)
         ? notedBy.map((person) => person.id)
         : [];
@@ -208,17 +199,15 @@ const CreatePurchaseOrder = (props: Props) => {
         : [];
       formData.append("noted_by", JSON.stringify(notedByIds));
       formData.append("approved_by", JSON.stringify(approvedByIds));
-      formData.append("form_type", "Purchase Order Requisition Slip");
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
-
+      formData.append("form_type", "Stock Requisition Slip");
       formData.append(
         "form_data",
         JSON.stringify([
           {
+            purpose: data.purpose,
             branch: user.branch_code,
-            supplier: data.supplier,
-            address: data.address,
             grand_total: grandTotal.toFixed(2),
             items: items.map((item) => ({
               quantity: item.quantity,
@@ -231,30 +220,16 @@ const CreatePurchaseOrder = (props: Props) => {
         ])
       );
 
+      // Display confirmation modal
       setShowConfirmationModal(true);
-      setLoading(false);
-      // Log formData content
-
       setFormData(formData);
     } catch (error) {
-      console.error("An error occurred while submitting the request:", error);
-      setLoading(false);
+      console.error("An error occurred while preparing the request:", error);
     } finally {
+      setLoading(false);
     }
   };
 
-  const calculateGrandTotal = () => {
-    let grandTotal = 0;
-    items.forEach((item) => {
-      if (item.totalAmount) {
-        grandTotal += parseFloat(item.totalAmount);
-      }
-    });
-    return grandTotal.toLocaleString("en-US", { minimumFractionDigits: 2 });
-  };
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   const openAddCustomModal = () => {
     setIsModalOpen(true);
   };
@@ -265,8 +240,8 @@ const CreatePurchaseOrder = (props: Props) => {
   };
 
   const handleConfirmSubmit = async () => {
-    // Close the confirmation modal
     setShowConfirmationModal(false);
+
     if (!approvedBy) {
       Swal.fire({
         icon: "error",
@@ -278,26 +253,18 @@ const CreatePurchaseOrder = (props: Props) => {
       return; // Prevent form submission
     }
 
-    setLoading(true);
     try {
-      // Perform the actual form submission
-      const response = await api.post(
-        `/create-request`,
-        formData // Use the formData stored in state
-      );
-      setLoading(false);
+      setLoading(true);
+      const response = await api.post(`/create-request`, formData);
+
       setShowSuccessModal(true);
-      setValidationErrors(response.data.message);
       setFormSubmitted(true);
+      setLoading(false);
     } catch (error) {
       console.error("An error occurred while submitting the request:", error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCloseConfirmationModal = () => {
-    setShowConfirmationModal(false);
   };
 
   const handleCloseSuccessModal = () => {
@@ -328,6 +295,16 @@ const CreatePurchaseOrder = (props: Props) => {
         }
       });
     }
+  };
+
+  const calculateGrandTotal = () => {
+    let grandTotal = 0;
+    items.forEach((item) => {
+      if (item.totalAmount) {
+        grandTotal += parseFloat(item.totalAmount);
+      }
+    });
+    return grandTotal.toLocaleString("en-US", { minimumFractionDigits: 2 });
   };
 
   const handleAddItem = () => {
@@ -361,6 +338,7 @@ const CreatePurchaseOrder = (props: Props) => {
         updatedItems[index].totalAmount = "";
       }
     }
+
     setItems(updatedItems);
   };
 
@@ -373,10 +351,8 @@ const CreatePurchaseOrder = (props: Props) => {
       textarea.style.height = `${Math.max(textarea.scrollHeight, 100)}px`; // Set to scroll height or minimum 100px
     }
   };
-  
   const isEditableApprover =
     user.noted_bies.length > 0 || user.approved_bies.length > 0;
-
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
       {loading && (
@@ -384,14 +360,13 @@ const CreatePurchaseOrder = (props: Props) => {
           <ClipLoader color="#007bff" />
         </div>
       )}
-      <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
+      {/* <h1 className="text-primary dark:text-primaryD text-[32px] font-bold">
+        Create Request
+      </h1>
+
       <select
-        className="w-2/5 lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 border-black rounded-xl mb-2"
-        value={selectedRequestType}
-        onChange={(e) => {
-          setSelectedRequestType(e.target.value);
-          router.replace(e.target.value);
-        }}
+        className="w-2/5  lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 border-black rounded-xl mb-2"
+        onChange={(e) => router.replace(e.target.value)}
       >
         <option value="" disabled>
           Type of request
@@ -401,18 +376,19 @@ const CreatePurchaseOrder = (props: Props) => {
             {item.title}
           </option>
         ))}
-      </select>
-      <div className="bg-white w-full mb-5 rounded-[12px] flex flex-col">
+      </select> */}
+
+      <div className="bg-white w-full  mb-5 rounded-[12px] flex flex-col ">
         <div className="border-b flex justify-between flex-col px-[30px] md:flex-row ">
           <div>
             <h1 className="flex py-4 mr-2 text-3xl font-bold text-left text-primary">
               <span className="mr-2 text-3xl underline decoration-2 underline-offset-8">
-                Purchase
+                Stock
               </span>{" "}
-              Order Requisition Slip
+              Requisition
             </h1>
           </div>
-          <div className="my-2 ">
+          <div className="my-2">
             <button
               onClick={openAddCustomModal}
               className="p-2 text-white rounded bg-primary"
@@ -421,31 +397,85 @@ const CreatePurchaseOrder = (props: Props) => {
             </button>
           </div>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="px-[35px] mt-4 ">
-            <div>
-              <div className="grid flex-row justify-start grid-cols-1 mt-2 space-y-2 sm:grid-cols-2 md:grid-cols-4 sm:mt-0 sm:space-y-0 sm:gap-4 lg:gap-0 lg:space-x-4">
-                <div className={`${itemDiv}`}>
-                  <p className="font-semibold">Supplier Name</p>
-                  <textarea
-                    {...register("supplier", { required: true })}
-                    className={`${inputStyle} h-[44px] p-1`}
-                  />
-
-                  {errors.supplier && formSubmitted && (
-                    <p className="text-red-500">Supplier is required</p>
-                  )}
+        <div className="px-[35px] mt-4">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col justify-between sm:flex-row">
+              <div className="">
+                <p className="font-bold">Purpose:</p>
+                <div className="flex flex-col mt-2 space-y-2 ">
+                  <div className="inline-flex items-center">
+                    <label
+                      className="relative flex items-center cursor-pointer"
+                      htmlFor="repair_maintenance"
+                    >
+                      <input
+                        type="radio"
+                        id="repair_maintenance"
+                        value="Repair & Maintenance"
+                        className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        {...register("purpose")}
+                      />
+                      <span
+                        className="absolute bg-blue-800 w-3.5 h-3.5 rounded-full opacity-0 ml-0.5 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                        style={{ pointerEvents: "none" }} // Prevent span from blocking click events
+                      ></span>
+                    </label>
+                    <label
+                      className="ml-2 cursor-pointer"
+                      htmlFor="repair_maintenance"
+                    >
+                      Repair & Maintenance
+                    </label>
+                  </div>
+                  <div className="inline-flex items-center">
+                    <label
+                      className="relative flex items-center cursor-pointer"
+                      htmlFor="repair_maintenance"
+                    >
+                      <input
+                        type="radio"
+                        id="repo_recon"
+                        value="Repo. Recon"
+                        className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        {...register("purpose", { required: true })}
+                      />
+                      <span
+                        className="absolute bg-blue-800 w-3.5 h-3.5 rounded-full opacity-0 ml-0.5 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                        style={{ pointerEvents: "none" }} // Prevent span from blocking click events
+                      ></span>
+                    </label>
+                    <label className="ml-2 cursor-pointer" htmlFor="repo_recon">
+                      Repo. Recon
+                    </label>
+                  </div>
+                  <div className="inline-flex items-center">
+                    <label
+                      className="relative flex items-center cursor-pointer"
+                      htmlFor="repair_maintenance"
+                    >
+                      <input
+                        type="radio"
+                        id="office_service_used"
+                        value="Office/Service Used"
+                        className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        {...register("purpose", { required: true })}
+                      />
+                      <span
+                        className="absolute bg-blue-800 w-3.5 h-3.5 rounded-full opacity-0 ml-0.5 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                        style={{ pointerEvents: "none" }} // Prevent span from blocking click events
+                      ></span>
+                    </label>
+                    <label
+                      className="ml-2 cursor-pointer"
+                      htmlFor="office_service_used"
+                    >
+                      Office/Service Used
+                    </label>
+                  </div>
                 </div>
-                <div className={`${itemDiv}`}>
-                  <p className="font-semibold">Supplier Address</p>
-                  <textarea
-                    {...register("address", { required: true })}
-                    className={`${inputStyle} h-[44px] p-1`}
-                  />
-                  {errors.address && formSubmitted && (
-                    <p className="text-red-500">Address is required</p>
-                  )}
-                </div>
+                {errors.purpose && formSubmitted && (
+                  <p className="text-red-500">Purpose is required</p>
+                )}
               </div>
             </div>
 
@@ -730,6 +760,7 @@ const CreatePurchaseOrder = (props: Props) => {
                 Add Item
               </span>
             </div>
+            {errorMessage && <p className="text-red-600">{errorMessage}</p>}
             <div className="flex flex-col justify-between md:flex-row">
               <div className="w-full max-w-md p-4">
                 <p className="mb-3 font-semibold">Upload attachment:</p>
@@ -778,8 +809,8 @@ const CreatePurchaseOrder = (props: Props) => {
                       {fileItem.type.startsWith("image/") ? (
                         // Display image preview if file is an image
                         <Image
-                          width={100}
-                          height={100}
+                          width={0}
+                          height={0}
                           src={URL.createObjectURL(fileItem)}
                           alt={fileItem.name}
                           className="object-cover w-full h-20 rounded-md"
@@ -788,8 +819,8 @@ const CreatePurchaseOrder = (props: Props) => {
                         // Display document icon if file is not an image
                         <div className="flex items-center justify-center w-full h-20 bg-gray-100 rounded-md">
                           <Image
-                            width={100}
-                            height={100}
+                            width={0}
+                            height={0}
                             src="https://cdn-icons-png.flaticon.com/512/3396/3396255.png"
                             alt=""
                           />
@@ -818,6 +849,7 @@ const CreatePurchaseOrder = (props: Props) => {
                 ))}
               </div>
             </div>
+
             <div className="mt-10 mb-4 ml-5">
               <h3 className="mb-3 font-bold">Noted By:</h3>
               <ul className="flex flex-wrap gap-6">
@@ -858,8 +890,6 @@ const CreatePurchaseOrder = (props: Props) => {
                 </p>
               ) : (
                 <ul className="flex flex-wrap gap-6">
-                  {" "}
-                  {/* Use gap instead of space-x */}
                   {approvedBy.map((user, index) => (
                     <li
                       className="relative flex flex-col items-center justify-center text-center"
@@ -881,7 +911,7 @@ const CreatePurchaseOrder = (props: Props) => {
                 </ul>
               )}
             </div>
-            <div className="flex justify-center w-full pb-10 mt-20 space-x-3">
+            <div className="flex justify-center pb-10 mt-20 space-x-3">
               <button
                 className={`bg-[#0275d8] hover:bg-[#6fbcff] ${buttonStyle}`}
                 type="submit"
@@ -893,30 +923,31 @@ const CreatePurchaseOrder = (props: Props) => {
                 </span>
               </button>
             </div>
-          </div>
-          {showConfirmationModal && (
-            <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-              <div className="p-4 bg-white rounded-md">
-                <p>Are you sure you want to submit the request?</p>
-                <div className="flex justify-end mt-4">
-                  <button
-                    className="px-4 py-2 mr-2 font-bold text-gray-800 bg-gray-300 rounded hover:bg-gray-400"
-                    onClick={handleCloseConfirmationModal}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="px-4 py-2 font-bold text-white rounded bg-primary hover:bg-primary-dark"
-                    onClick={handleConfirmSubmit}
-                  >
-                    Confirm
-                  </button>
+            {showConfirmationModal && (
+              <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
+                <div className="p-4 bg-white rounded-md">
+                  <p>Are you sure you want to submit the request?</p>
+                  <div className="flex justify-end mt-4">
+                    <button
+                      className="px-4 py-2 mr-2 font-bold text-gray-800 bg-gray-300 rounded hover:bg-gray-400"
+                      onClick={handleCloseConfirmationModal}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="px-4 py-2 font-bold text-white rounded bg-primary hover:bg-primary-dark"
+                      onClick={handleConfirmSubmit}
+                    >
+                      Confirm
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </form>
+            )}
+          </form>
+        </div>
       </div>
+
       {showSuccessModal && (
         <RequestSuccessModal onClose={handleCloseSuccessModal} />
       )}
@@ -934,4 +965,4 @@ const CreatePurchaseOrder = (props: Props) => {
   );
 };
 
-export default authenticatedPage(CreatePurchaseOrder);
+export default authenticatedPage(CreateStockRequistion);

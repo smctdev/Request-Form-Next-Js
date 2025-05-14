@@ -299,7 +299,7 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
             Request products and services
           </p>
           <div className="flex flex-row gap-2">
-            <Link href="/create-request/stock-requisition">
+            <Link href="/create-request">
               <button className="bg-[#FF947D] text-[15px] w-full lg:h-[57px] h-[40px] rounded-[12px] font-semibold px-3 cursor-pointer">
                 Create a Request
               </button>

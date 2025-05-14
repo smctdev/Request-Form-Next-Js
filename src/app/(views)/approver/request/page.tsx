@@ -478,7 +478,7 @@ const RequestApprover = (props: Props) => {
 
   return (
     <div className="w-full px-10 pt-4 pb-10 bg-graybg dark:bg-blackbg h-lvh">
-      <Link href="/create-request/stock-requisition">
+      <Link href="/create-request">
         <button className="bg-primary text-white rounded-[12px] mb-2 w-[120px] sm:w-[151px] h-[34px] z-10 cursor-pointer">
           Send Request
         </button>
