@@ -33,9 +33,8 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
-        protocol: "https",
-        hostname: "requestserver.smctgroup",
-        port: "8004",
+        protocol: "https", // Use https to match your .env
+        hostname: "requestserver.smctgroup", // No port needed if it's default 443 for https
         pathname: "/storage/**",
       },
     ],
