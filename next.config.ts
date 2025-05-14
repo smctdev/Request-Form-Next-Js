@@ -2,8 +2,6 @@ import type { NextConfig } from "next";
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const nextConfig: NextConfig = {
-  output: "export", // ⬅️ Add this to disable all SSR (static export)
-
   webpack: (config) => {
     if (process.env.NODE_ENV === "production") {
       config.plugins.push(
@@ -15,7 +13,6 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
-
   images: {
     remotePatterns: [
       {
