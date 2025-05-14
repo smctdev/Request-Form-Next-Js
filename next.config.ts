@@ -43,6 +43,7 @@ const nextConfig: NextConfig = {
         pathname: "/storage/**",
       },
     ],
+    domains: ["requestserver.smctgroup.ph"],
   },
 };
 

@@ -118,8 +118,6 @@ const SetupAreaManager = (props: Props) => {
     fetchApproverData();
   }, [user.id]);
 
-  console.log(areaManagerList);
-
   const filteredAreaManager = areaManagerList.filter((areamanager: any) =>
     Object.values(areamanager.user).some((value) =>
       String(value).toLowerCase().includes(filterTerm.toLowerCase())

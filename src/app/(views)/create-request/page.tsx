@@ -12,7 +12,6 @@ import CreateDiscount from "./_components/CreateDiscount";
 
 export default function CreateRequest() {
   const [selected, setSelected] = useState("/create-request/stock-requisition");
-  console.log(selected);
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
       <h1 className="text-primary dark:text-primaryD text-[32px] font-bold">
