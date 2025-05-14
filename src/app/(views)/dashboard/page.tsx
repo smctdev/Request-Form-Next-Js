@@ -240,7 +240,7 @@ const Dashboard: React.FC = () => {
           {isAdmin ||
             (!isLoading && (
               <div>
-                <Link href="/create-request/stock-requisition">
+                <Link href="/create-request">
                   <button className="bg-[#FF947D] !text-[15px] w-full lg:h-[57px] h-[40px] rounded-[12px] font-semibold cursor-pointer">
                     Create a Request
                   </button>

@@ -53,7 +53,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             title: "Create Request",
             submenu: false,
             icon: DocumentPlusIcon,
-            path: "/create-request/stock-requisition",
+            path: "/create-request",
           },
           {
             title: "Process Request",
@@ -132,7 +132,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             title: "Create Request",
             submenu: false,
             icon: DocumentPlusIcon,
-            path: "/create-request/stock-requisition",
+            path: "/create-request",
           },
           { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
         ];
