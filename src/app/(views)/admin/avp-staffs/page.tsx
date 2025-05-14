@@ -238,7 +238,7 @@ const SetupAVP = (props: Props) => {
         <ul className="flex flex-col md:flex-row md:flex-wrap">
           {row.branches.map((branch, index) => (
             <li
-              className="p-2 mx-2 my-2 text-white transition-all duration-300 ease-in-out rounded-lg bg-pink hover:bg-pink-700"
+              className="p-2 mx-2 my-2 text-white transition-all duration-300 ease-in-out rounded-lg bg-pink-400 hover:bg-pink-700"
               key={index}
             >
               {branch}

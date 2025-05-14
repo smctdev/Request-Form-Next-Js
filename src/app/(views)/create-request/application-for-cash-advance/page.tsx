@@ -1000,7 +1000,7 @@ const CreateApplicationCash = (props: Props) => {
                   <div className="flex flex-row items-center gap-2 mt-2">
                     {tableData.length > 1 && (
                       <span
-                        className={`${buttonStyle} bg-pink flex items-center justify-center cursor-pointer hover:bg-white hover:border-4 hover:border-pink hover:text-pink`}
+                        className={`${buttonStyle} bg-pink-400 flex items-center justify-center cursor-pointer hover:bg-white hover:border-4 hover:border-pink hover:text-pink`}
                         onClick={handleRemoveItem}
                       >
                         <MinusCircleIcon

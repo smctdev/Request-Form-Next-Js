@@ -32,7 +32,7 @@ const ViewUserModal: React.FC<ViewUserModalProps> = ({
     return null;
   }
   return (
-    <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50">
+    <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50">
       <div className="p-6 w-4/5 md:w-2/5 relative bg-primary flex justify-center mx-4 rounded-t-[12px] shadow-lg">
         <h2 className="text-center text-xl md:text-[32px] font-semibold text-white">
           User Information
@@ -43,7 +43,7 @@ const ViewUserModal: React.FC<ViewUserModalProps> = ({
         />
       </div>
 
-      <div className="bg-white w-4/5 md:w-2/5 rounded-b-[12px] shadow-xl px-10 py-6">
+      <div className="bg-white w-4/5 md:w-2/5 h-3/4 rounded-b-[12px] shadow-xl px-10 py-6 overflow-y-auto">
         {user && (
           <div className="flex flex-col items-center gap-8">
             {/* Profile Picture Section */}
@@ -53,7 +53,7 @@ const ViewUserModal: React.FC<ViewUserModalProps> = ({
                 height={100}
                 src={
                   user.profile_picture
-                    ? `${process.env.REACT_APP_URL_STORAGE}/${user.profile_picture}`
+                    ? `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${user.profile_picture}`
                     : Avatar
                 } // Default image if no profile image exists
                 alt="Profile"

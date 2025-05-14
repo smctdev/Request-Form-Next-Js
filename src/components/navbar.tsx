@@ -337,7 +337,7 @@ const Navbar = ({
     };
 
   return (
-    <div className={`nav-container ${darkMode ? "dark" : "white"}`}>
+    <div className={`nav-container ${darkMode ? "dark" : "white"} sticky top-0 z-50`}>
       {/* Toggle light and dark mode */}
       <nav className={`${flexBetween} bg-white dark:bg-blackD`}>
         <div className={`h-[67px] flex items-center bg-white dark:bg-blackD`}>

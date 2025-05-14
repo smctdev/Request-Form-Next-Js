@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
         pathname: "/storage/**",
       },
       {
+        protocol: "http",
+        hostname: "localhost",
+        port: "5002",
+        pathname: "/storage/**",
+      },
+      {
         protocol: "https",
         hostname: "cdn-icons-png.flaticon.com",
         pathname: "/**",

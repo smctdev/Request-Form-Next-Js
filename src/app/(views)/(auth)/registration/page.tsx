@@ -584,8 +584,8 @@ const Registration = () => {
       <div className="items-center justify-center hidden w-1/2 lg:block">
         <Image
           className="object-cover w-full h-screen"
-          width={100}
-          height={100}
+          width={0}
+          height={0}
           src={Slice}
           alt=""
         />

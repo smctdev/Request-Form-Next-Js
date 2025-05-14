@@ -18,7 +18,7 @@ const SuccessModal = ({
 
   return (
     showSuccessModal && (
-      <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 ">
+      <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50 ">
         <div className="relative flex flex-col items-center justify-center w-1/6 bg-white rounded-md ">
           <FontAwesomeIcon
             icon={faCircleCheck}

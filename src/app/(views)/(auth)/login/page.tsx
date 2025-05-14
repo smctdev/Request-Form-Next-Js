@@ -141,7 +141,7 @@ const Login = () => {
                 </p>
               )}
               <div className="flex justify-center">
-                <Link href="/forgotpassword">
+                <Link href="/forgot-password">
                   <p className=" font-medium lg:text-base text-xs mt-[12px]  cursor-pointer">
                     Forgot Password
                   </p>
@@ -179,8 +179,8 @@ const Login = () => {
       </div>
       <div className="items-center justify-center hidden w-1/2 lg:block">
         <Image
-          height={100}
-          width={100}
+          height={0}
+          width={0}
           className="object-cover w-full h-screen"
           src={Slice}
           alt="photo"

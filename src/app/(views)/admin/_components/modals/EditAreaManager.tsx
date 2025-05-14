@@ -187,7 +187,7 @@ const EditAreaManager = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50">
+    <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50">
       <div className="p-4 w-10/12 sm:w-1/3 relative bg-primary flex justify-center mx-20 border-b rounded-t-[12px]">
         <h2 className="text-center text-xl md:text-[32px] font-bold h-full text-white">
           Edit Area Manager
@@ -206,7 +206,7 @@ const EditAreaManager = ({
           <div className="bg-white flex-col w-10/12 sm:w-full  rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex space-x-2">
             <h3 className="p-4 text-lg font-bold">
               Branches fors{" "}
-              {`${selectedUser?.user.data.firstName} ${selectedUser?.user.data.lastName}`}
+              {`${selectedUser?.user.firstName} ${selectedUser?.user.lastName}`}
               :
             </h3>
             <input

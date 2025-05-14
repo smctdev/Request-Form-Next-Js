@@ -105,38 +105,7 @@ const SetupAreaManager = (props: Props) => {
           `/view-area-managers`
         );
 
-        const areaManagerList: AreaManager[] = response.data.data;
-
-        // Prepare array to hold promises for fetching user info
-        const areaManagersWithData: any[] = [];
-
-        for (const areaManager of areaManagerList) {
-          // Fetch user info based on user_id (which is id in users table)
-          const userResponse = await api.get<Record>(
-            `/view-user/${areaManager.user_id}`
-          );
-
-          const userInfo: Record = userResponse.data;
-
-          // Fetch branches for each branch_id
-          const branchPromises = areaManager.branch_id.map(async (branchId) => {
-            const branchResponse = await api.get(`/view-branch/${branchId}`);
-            return branchResponse.data;
-          });
-
-          const branchInfos = await Promise.all(branchPromises);
-
-          // Combine area manager data with branch info and user info
-          const areaManagerWithData = {
-            ...areaManager,
-            branches: branchInfos,
-            user: userInfo,
-          };
-
-          areaManagersWithData.push(areaManagerWithData);
-        }
-
-        setAreaManagerList(areaManagersWithData);
+        setAreaManagerList(response.data.data);
         setFetchCompleted(true); // Indicate fetch completion
       } catch (error) {
         console.error("Error fetching approvers data:", error);
@@ -149,8 +118,10 @@ const SetupAreaManager = (props: Props) => {
     fetchApproverData();
   }, [user.id]);
 
-  const filteredAreaManager = areaManagerList.filter((areamanager) =>
-    Object.values(areamanager).some((value) =>
+  console.log(areaManagerList);
+
+  const filteredAreaManager = areaManagerList.filter((areamanager: any) =>
+    Object.values(areamanager.user).some((value) =>
       String(value).toLowerCase().includes(filterTerm.toLowerCase())
     )
   );
@@ -168,34 +139,7 @@ const SetupAreaManager = (props: Props) => {
         `/view-area-managers`
       );
 
-      const areaManagerList: AreaManager[] = response.data.data;
-
-      const areaManagersWithData: any[] = [];
-
-      for (const areaManager of areaManagerList) {
-        const userResponse = await api.get<Record>(
-          `/view-user/${areaManager.user_id}`
-        );
-
-        const userInfo: Record = userResponse.data;
-
-        const branchPromises = areaManager.branch_id.map(async (branchId) => {
-          const branchResponse = await api.get(`/view-branch/${branchId}`);
-          return branchResponse.data;
-        });
-
-        const branchInfos = await Promise.all(branchPromises);
-
-        const areaManagerWithData = {
-          ...areaManager,
-          branches: branchInfos,
-          user: userInfo,
-        };
-
-        areaManagersWithData.push(areaManagerWithData);
-      }
-
-      setAreaManagerList(areaManagersWithData);
+      setAreaManagerList(response.data.data);
       setisLoading(false);
       setFetchCompleted(true);
     } catch (error) {
@@ -257,12 +201,12 @@ const SetupAreaManager = (props: Props) => {
   const getAssignedBranches = (row: Record) => {
     return (
       <div className="grid grid-cols-1 space-y-2 sm:grid-cols-2 sm:gap-2 sm:space-y-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
-        {row.branches.map((branchInfo, index) => (
+        {row.branches.map((branchInfo: any, index: any) => (
           <div
             className="bg-primary p-2 rounded-[12px] w-20 text-center "
             key={index}
           >
-            <ul className="text-white ">{branchInfo.data[0].branch_code}</ul>
+            <ul className="text-white ">{branchInfo.branch_code}</ul>
           </div>
         ))}
       </div>
@@ -297,10 +241,10 @@ const SetupAreaManager = (props: Props) => {
     {
       name: "Name",
       sortable: true,
-      selector: (row: Record) => {
+      selector: (row: any) => {
         const user = row.user;
-        const firstName = user?.data?.firstName ?? "";
-        const lastName = user?.data?.lastName ?? "";
+        const firstName = user?.firstName ?? "";
+        const lastName = user?.lastName ?? "";
         return `${firstName} ${lastName}`;
       },
     },
