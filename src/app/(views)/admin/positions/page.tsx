@@ -163,7 +163,7 @@ const SetupPosition: React.FC = () => {
     <div className="w-full h-full px-4 pt-4 bg-graybg dark:bg-blackbg sm:px-10 md:px-10 lg:px-30 xl:px-30">
       <div className="w-full h-auto rounded-lg drop-shadow-lg md:mr-4">
         <div className="flex flex-col w-full overflow-x-auto bg-white rounded-lg">
-          <h1 className="pl-4 sm:pl-[30px] text-[24px] text-left py-4 text-primary font-bold mr-2 underline decoration-2 underline-offset-8">
+          <h1 className="pl-4 sm:pl-[30px] !text-[24px] text-left py-4 text-primary font-bold mr-2 underline decoration-2 underline-offset-8">
             Position
           </h1>
           <div className="flex items-end justify-end mx-2 bg-white">
