@@ -368,7 +368,6 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
     const file = e.target.files?.[0] || null;
     setNewProfilePic(file); // Store the selected file in state
   };
-  console.log(profilePictureUrl);
   return (
     <div className="w-full h-full px-4 py-4 bg-graybg dark:bg-blackbg md:px-10 lg:px-30 ">
       <div className="bg-white rounded-[12px] flex flex-col w-full px-4 md:px-8 lg:px-10 xl:px-12 py-[50px]">
