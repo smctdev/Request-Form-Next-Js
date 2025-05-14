@@ -15,22 +15,24 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
   const [printData, setPrintData] = useState<any>(null);
 
   let logo;
-  if (printData?.user?.data?.branch.branch === "Strong Moto Centrum, Inc.") {
-    logo = <Image src={SMCTLogo} alt="SMCT Logo" />;
-  } else if (
-    printData?.user?.data?.branch.branch === "Des Strong Motors, Inc."
-  ) {
-    logo = <Image src={DSMLogo} alt="DSM Logo" />;
-  } else if (
-    printData?.user?.data?.branch.branch === "Des Appliance Plaza, Inc."
-  ) {
-    logo = <Image src={DAPLogo} alt="DAP Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Honda Des, Inc.") {
-    logo = <Image src={HDILogo} alt="HDI Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Head Office") {
+  if (printData?.user?.branch.branch === "Strong Moto Centrum, Inc.") {
+    logo = <Image width={100} height={100} src={SMCTLogo} alt="SMCT Logo" />;
+  } else if (printData?.user?.branch.branch === "Des Strong Motors, Inc.") {
+    logo = <Image width={100} height={100} src={DSMLogo} alt="DSM Logo" />;
+  } else if (printData?.user?.branch.branch === "Des Appliance Plaza, Inc.") {
+    logo = <Image width={100} height={100} src={DAPLogo} alt="DAP Logo" />;
+  } else if (printData?.user?.branch.branch === "Honda Des, Inc.") {
+    logo = <Image width={100} height={100} src={HDILogo} alt="HDI Logo" />;
+  } else if (printData?.user?.branch.branch === "Head Office") {
     logo = (
       <div className="flex items-center justify-center">
-        <Image src={HOLogo} alt="HO Logo" className="w-44" />
+        <Image
+          width={100}
+          height={100}
+          src={HOLogo}
+          alt="HO Logo"
+          className="w-44"
+        />
       </div>
     );
   } else {
@@ -156,8 +158,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
             <h3 className="mb-3 text-sm font-normal indent-10">Payee:</h3>
             <div className="ml-6 text-center">
               <span className=" inline-block border-b border-black w-[200px] text-sm font-medium text-center">
-                {printData?.user?.data?.firstName}{" "}
-                {printData?.user?.data?.lastName}
+                {printData?.user?.firstName} {printData?.user?.lastName}
               </span>
             </div>
           </div>
@@ -165,14 +166,14 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
             <div className="relative ml-6 ">
               <Image
                 className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none -top-1 left-1/2"
-                src={printData?.user?.data?.signature}
+                src={printData?.user?.signature}
                 alt=""
                 width={100}
+                height={100}
               />
               <div className="border-b w-[200px] border-black text-center">
                 <span className="text-sm font-medium text-center ">
-                  {printData?.user?.data?.firstName}{" "}
-                  {printData?.user?.data?.lastName}
+                  {printData?.user?.firstName} {printData?.user?.lastName}
                 </span>
               </div>
 
@@ -197,6 +198,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                       src={approver.signature}
                       alt=""
                       width={120}
+                      height={120}
                     />
                   )}
                   <div className=" border-b w-[200px] border-black">
@@ -225,6 +227,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                       src={approver.signature}
                       alt=""
                       width={120}
+                      height={120}
                     />
                   )}
                   <div className="border-b w-[200px] border-black">
@@ -280,6 +283,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                       src={approver.signature}
                       alt=""
                       width={120}
+                      height={120}
                     />
                   )}
                   <div className="border-b w-[200px] border-black">
@@ -308,6 +312,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                       src={approver.signature}
                       alt=""
                       width={120}
+                      height={120}
                     />
                   )}
                   <div className="border-b w-[200px] border-black">
@@ -477,6 +482,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                     src={printData?.id?.requested_signature}
                     alt="avatar"
                     width={120}
+                    height={120}
                   />
                   <p className="relative z-10 text-xs font-medium text-center underline">
                     {printData?.id?.requested_by}
@@ -503,6 +509,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                         src={approver.signature}
                         alt="avatar"
                         width={120}
+                        height={120}
                       />
                     )}
                     <p className="relative z-10 text-xs font-medium text-center underline">
@@ -531,6 +538,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                         src={approver.signature}
                         alt=""
                         width={120}
+                        height={120}
                       />
                     )}
                     <p className="relative z-10 text-xs font-medium text-center underline">

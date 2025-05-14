@@ -12,18 +12,18 @@ type PrintRefundProps = {
 const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
   const [printData, setPrintData] = useState<any>(null);
   let logo;
-  if (printData?.user?.data?.branch.branch === "Strong Moto Centrum, Inc.") {
-    logo = <Image src={SMCTLogo} alt="SMCT Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Des Strong Motors, Inc.") {
-    logo = <Image src={DSMLogo} alt="DSM Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Des Appliance Plaza, Inc.") {
-    logo = <Image src={DAPLogo} alt="DAP Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Honda Des, Inc.") {
-    logo = <Image src={HDILogo} alt="HDI Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Head Office") {
+  if (printData?.user?.branch.branch === "Strong Moto Centrum, Inc.") {
+    logo = <Image width={100} height={100} src={SMCTLogo} alt="SMCT Logo" />;
+  } else if (printData?.user?.branch.branch === "Des Strong Motors, Inc.") {
+    logo = <Image width={100} height={100} src={DSMLogo} alt="DSM Logo" />;
+  } else if (printData?.user?.branch.branch === "Des Appliance Plaza, Inc.") {
+    logo = <Image width={100} height={100} src={DAPLogo} alt="DAP Logo" />;
+  } else if (printData?.user?.branch.branch === "Honda Des, Inc.") {
+    logo = <Image width={100} height={100} src={HDILogo} alt="HDI Logo" />;
+  } else if (printData?.user?.branch.branch === "Head Office") {
     logo = (
       <div className="flex items-center justify-center">
-        <Image src={HOLogo} alt="HO Logo" className="w-44" />
+        <Image width={100} height={100} src={HOLogo} alt="HO Logo" className="w-44" />
       </div>
     );
   } else {
@@ -100,9 +100,9 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
         <div className="flex justify-end pr-3">
           <p className="flex text-xs font-medium">
             Date:{" "}
-            <p className="ml-2 text-xs font-normal underline">
+            <span className="ml-2 text-xs font-normal underline">
               {formatDate(printData?.id.created_at)}
-            </p>
+            </span>
           </p>
         </div>
         <div className="flex flex-col items-center justify-center">
@@ -217,20 +217,21 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
             <div className="flex-grow mb-4">
               <h3 className="mb-2 text-sm font-normal">Requested By:</h3>
               <div className="flex flex-wrap justify-start">
-              <div className="relative flex flex-col items-center justify-center pt-3 mr-10">
-                <Image
-                  className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
-                  src={printData?.id?.requested_signature}
-                  alt="avatar"
-                  width={120}
-                />
-                <p className="relative z-10 text-xs font-medium text-center underline">
-                  {printData?.id?.requested_by}
-                </p>
-                <p className="text-xs font-light text-center">
-                  {printData?.id?.requested_position}
-                </p>
-              </div>
+                <div className="relative flex flex-col items-center justify-center pt-3 mr-10">
+                  <Image
+                    className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
+                    src={printData?.id?.requested_signature}
+                    alt="avatar"
+                    width={120}
+                    height={120}
+                  />
+                  <p className="relative z-10 text-xs font-medium text-center underline">
+                    {printData?.id?.requested_by}
+                  </p>
+                  <p className="text-xs font-light text-center">
+                    {printData?.id?.requested_position}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -249,6 +250,7 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
                         src={approver.signature}
                         alt=""
                         width={120}
+                        height={120}
                       />
                     )}
                     <p className="relative z-10 text-xs font-medium text-center underline">
@@ -277,6 +279,7 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
                         src={approver.signature}
                         alt=""
                         width={120}
+                        height={120}
                       />
                     )}
                     <p className="relative z-10 text-xs font-medium text-center underline">

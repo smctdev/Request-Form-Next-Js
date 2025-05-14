@@ -17,22 +17,18 @@ const currencySymbols: { [key: string]: string } = {
 const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
   const [printData, setPrintData] = useState<any>(null);
   let logo;
-  if (printData?.user?.data?.branch.branch === "Strong Moto Centrum, Inc.") {
-    logo = <Image src={SMCTLogo} alt="SMCT Logo" />;
-  } else if (
-    printData?.user?.data?.branch.branch === "Des Strong Motors, Inc."
-  ) {
-    logo = <Image src={DSMLogo} alt="DSM Logo" />;
-  } else if (
-    printData?.user?.data?.branch.branch === "Des Appliance Plaza, Inc."
-  ) {
-    logo = <Image src={DAPLogo} alt="DAP Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Honda Des, Inc.") {
-    logo = <Image src={HDILogo} alt="HDI Logo" />;
-  } else if (printData?.user?.data?.branch.branch === "Head Office") {
+  if (printData?.user?.branch.branch === "Strong Moto Centrum, Inc.") {
+    logo = <Image width={100} height={100} src={SMCTLogo} alt="SMCT Logo" />;
+  } else if (printData?.user?.branch.branch === "Des Strong Motors, Inc.") {
+    logo = <Image width={100} height={100} src={DSMLogo} alt="DSM Logo" />;
+  } else if (printData?.user?.branch.branch === "Des Appliance Plaza, Inc.") {
+    logo = <Image width={100} height={100} src={DAPLogo} alt="DAP Logo" />;
+  } else if (printData?.user?.branch.branch === "Honda Des, Inc.") {
+    logo = <Image width={100} height={100} src={HDILogo} alt="HDI Logo" />;
+  } else if (printData?.user?.branch.branch === "Head Office") {
     logo = (
       <div className="flex items-center justify-center">
-        <Image src={HOLogo} alt="HO Logo" className="w-44" />
+        <Image width={100} height={100} src={HOLogo} alt="HO Logo" className="w-44" />
       </div>
     );
   } else {
@@ -59,7 +55,10 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
   };
 
   const getCurrencySymbol = (currencyCode: string): string => {
-    return currencySymbols[currencyCode as keyof typeof currencySymbols] || currencyCode;
+    return (
+      currencySymbols[currencyCode as keyof typeof currencySymbols] ||
+      currencyCode
+    );
   };
 
   useEffect(() => {
@@ -96,7 +95,7 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
   }, [printData]);
 
   if (!printData) return <div>Loading...</div>;
-  
+
   const tableStyle = "border-b border-black text-sm font-normal";
   return (
     <div className="text-black bg-white h-lvh ">
@@ -115,9 +114,9 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
         <div className="flex justify-end pr-3">
           <p className="flex text-sm font-medium">
             Date:{" "}
-            <p className="ml-2 text-sm font-normal underline">
+            <span className="ml-2 text-sm font-normal underline">
               {formatDate(printData?.id.created_at)}
-            </p>
+            </span>
           </p>
         </div>
         <div className="flex flex-col items-center justify-center">
@@ -176,7 +175,8 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
                 </td>
                 <td></td>
                 <td className="pt-2 text-sm font-medium text-center">
-                  {getCurrencySymbol(printData.id?.currency)} {printData?.id.form_data[0].grand_total}
+                  {getCurrencySymbol(printData.id?.currency)}{" "}
+                  {printData?.id.form_data[0].grand_total}
                 </td>
                 <td></td>
               </tr>
@@ -196,6 +196,7 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
                     src={printData?.id?.requested_signature}
                     alt="avatar"
                     width={120}
+                    height={120}
                   />
                   <p className="relative z-10 text-xs font-medium text-center underline">
                     {printData?.id?.requested_by}
@@ -222,6 +223,7 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
                         src={approver.signature}
                         alt=""
                         width={120}
+                        height={120}
                       />
                     )}
                     <p className="relative z-10 text-xs font-medium text-center underline">
@@ -250,6 +252,7 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
                         src={approver.signature}
                         alt=""
                         width={120}
+                        height={120}
                       />
                     )}
                     <p className="relative z-10 text-xs font-medium text-center underline">
