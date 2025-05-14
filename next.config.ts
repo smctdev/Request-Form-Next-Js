@@ -36,7 +36,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "requestserver.smctgroup",
         port: "8004",
-        pathname: "/request-form-files/**",
+        pathname: "/storage/**",
       },
     ],
   },
