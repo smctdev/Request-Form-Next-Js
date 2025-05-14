@@ -20,7 +20,7 @@ RUN pnpm add -D daisyui && pnpm install
 COPY . .
 
 # Rebuild (optional if DaisyUI is used in build)
-#RUN pnpm run build
+RUN pnpm run build
 
 # Expose the port
 EXPOSE 8003
