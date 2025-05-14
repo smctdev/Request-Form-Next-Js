@@ -26,4 +26,4 @@ RUN pnpm run build
 EXPOSE 8003
 
 # Start the app
-CMD ["pnpm", "dev", "-p", "8003"]
+CMD ["pnpm", "start", "-p", "8003"]
