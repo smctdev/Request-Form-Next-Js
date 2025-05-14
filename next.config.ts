@@ -35,7 +35,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "requestserver.smctgroup",
-        pathname: "/storage/**", // Or "/**" if you serve images outside /storage
+        pathname: "/request-form-files/**",
       },
     ],
   },
