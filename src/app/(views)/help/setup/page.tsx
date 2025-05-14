@@ -44,7 +44,7 @@ const HelpSetup = (props: Props) => {
         </div>
         <p className="font-bold">{currentTitle}</p>
         <div className="mt-10">
-          <h2 className="text-primary  text-[24px] font-bold">Other Video</h2>
+          <h2 className="text-primary  !text-[24px] font-bold">Other Video</h2>
           <ul>
             {videoOptions.map((option, index) => (
               <li key={index} className="mb-2">
