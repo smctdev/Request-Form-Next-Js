@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
-    domains: ["requestserver.smctgroup"],
+    domains: ["requestserver.smctgroup.ph"],
   },
 };
 
