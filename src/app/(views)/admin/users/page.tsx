@@ -205,8 +205,12 @@ const SetupUser = (props: Props) => {
     setShowDeletedSuccessModal(false);
   };
 
-  const viewModalShow = (row: Record) => {
-    setSelectedUser(row);
+  const viewModalShow = (row: any) => {
+    setSelectedUser({
+      ...row,
+      branch_code: row.branch.branch_code,
+      branch: row.branch.branch_name,
+    });
     setViewModalIsOpen(true);
   };
 
@@ -302,10 +306,7 @@ const SetupUser = (props: Props) => {
     {
       name: "Branch code",
       sortable: true,
-      selector: (row: Record) => {
-        const branchId = parseInt(row.branch_code, 10);
-        return branchMap.get(branchId) || "Unknown";
-      },
+      selector: (row: any) => row.branch.branch_code,
     },
     {
       name: "Email",

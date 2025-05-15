@@ -231,10 +231,7 @@ const SetupApprover = (props: Props) => {
     {
       name: "Assigned Branches ",
       sortable: true,
-      selector: (row: Record) => {
-        const branchId = parseInt(row.branch_code, 10);
-        return branchMap.get(branchId) || "Unknown";
-      },
+      selector: (row: any) => row.branch.branch_code,
     },
     {
       name: "Action",
