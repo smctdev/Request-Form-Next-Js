@@ -24,7 +24,7 @@ export default function PrintTitle() {
 
   setTimeout(() => {
     setIsLoading(false);
-  }, 2000);
+  }, 1000);
 
   if (isLoading) return <Preloader />;
 

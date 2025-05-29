@@ -9,31 +9,43 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import guestPage from "@/lib/guestPage";
+import { api } from "@/lib/api";
+import { feedbackData } from "@/constants/form-data";
+import { FeedbackData } from "@/types/form-data";
 
 const Home = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    department: "",
-    service: "",
-    message: "",
-  });
-
+  const [formData, setFormData] = useState<FeedbackData>(feedbackData);
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<any>(null);
+  const [successMessage, setSuccessMessage] = useState<any>(null);
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
+  const handleChange = (title: string) => (e: any) => {
+    const { value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [title]: value,
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    setSubmitted(true);
+    setIsLoading(true);
+    try {
+      const response = await api.post("/send-feedback", formData);
+
+      if (response.status === 201) {
+        setFormData(feedbackData);
+        setSubmitted(true);
+        setError(null);
+        setSuccessMessage(response.data);
+      }
+    } catch (error: any) {
+      console.error("Error sending feedback:", error);
+      setError(error?.response?.data);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -53,12 +65,12 @@ const Home = () => {
         {/* Hero Section */}
         <section className="py-16 text-white bg-gradient-to-r from-primary to-blue-800">
           <div className="container px-4 mx-auto text-center">
-            <h1 className="mb-4 text-4xl font-bold md:text-5xl">
-              Request Our Services
+            <h1 className="mb-4 font-bold md:!text-5xl">
+              Help Us Improve the System
             </h1>
             <p className="max-w-2xl mx-auto text-xl">
-              Complete the form below to get in touch with SMCT Group of
-              Companies. Our team will respond promptly.
+              Please feel free to send us your feedback about the system so we
+              can continue to improve and better meet your needs.
             </p>
           </div>
         </section>
@@ -66,7 +78,7 @@ const Home = () => {
         {/* Main Content */}
         <main className="container flex-grow px-4 py-12 mx-auto">
           {submitted ? (
-            <div className="max-w-2xl p-8 mx-auto overflow-hidden text-center bg-white shadow-md rounded-xl">
+            <div className="max-w-fit p-8 mx-auto overflow-hidden text-center bg-white shadow-md rounded-xl">
               <div className="flex items-center justify-center w-20 h-20 mx-auto mb-6 rounded-full bg-secondary">
                 <svg
                   className="w-10 h-10 text-primary"
@@ -82,105 +94,163 @@ const Home = () => {
                   ></path>
                 </svg>
               </div>
-              <h2 className="mb-4 text-2xl font-bold text-primary">
+              <h2 className="mb-4 !text-2xl font-bold text-primary">
                 Thank You!
               </h2>
-              <p className="mb-6 text-gray-600">
-                Your request has been submitted successfully. Our team will
-                contact you within 24 hours.
+              <p className="text-gray-700 font-bold !text-xl">
+                {successMessage?.feedback_code}
               </p>
+              <p className="mb-6 text-gray-600">{successMessage?.message}</p>
               <button
                 onClick={() => setSubmitted(false)}
                 className="btn btn-primary"
               >
-                Submit Another Request
+                Submit Another Feedback
               </button>
             </div>
           ) : (
             <div className="flex flex-col gap-8 md:flex-row">
               <div className="p-8 overflow-hidden bg-white shadow-md md:w-1/2 rounded-xl">
                 <h2 className="mb-6 !text-2xl font-bold text-primary">
-                  Request Form
+                  Help Make the System Better
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="form-control">
+                  <div>
                     <label className="label">
                       <span className="label-text">Full Name</span>
                     </label>
                     <Input
                       type="text"
                       value={formData.name}
-                      onChange={handleChange}
+                      onChange={handleChange("name")}
                       placeholder="Full Name"
                     />
+                    {error?.name && (
+                      <small className="text-red-500 !text-sm">
+                        {error?.name[0]}
+                      </small>
+                    )}
                   </div>
 
-                  <div className="form-control">
+                  <div>
                     <label className="label">
                       <span className="label-text">Email Address</span>
                     </label>
                     <Input
                       type="email"
                       value={formData.email}
-                      onChange={handleChange}
+                      onChange={handleChange("email")}
                       placeholder="Email Address"
                     />
+                    {error?.email && (
+                      <small className="text-red-500 !text-sm">
+                        {error?.email[0]}
+                      </small>
+                    )}
                   </div>
 
-                  <div className="form-control">
+                  <div>
                     <label className="label">
                       <span className="label-text">Phone Number</span>
                     </label>
                     <Input
                       type="number"
                       value={formData.phone}
-                      onChange={handleChange}
+                      onChange={handleChange("phone")}
                       placeholder="Phone Number"
                     />
+                    {error?.phone && (
+                      <small className="text-red-500 !text-sm">
+                        {error?.phone[0]}
+                      </small>
+                    )}
                   </div>
 
-                  <div className="form-control">
+                  <div>
                     <label className="label">
                       <span className="label-text">Department Name</span>
                     </label>
                     <Input
                       type="text"
                       value={formData.department}
-                      onChange={handleChange}
+                      onChange={handleChange("department")}
                       placeholder="Department Name"
                     />
+                    {error?.department && (
+                      <small className="text-red-500 !text-sm">
+                        {error?.department[0]}
+                      </small>
+                    )}
                   </div>
 
-                  <div className="form-control">
+                  <div>
                     <label className="label">
-                      <span className="label-text">Service Needed</span>
+                      <span className="label-text">Select a Opinion</span>
                     </label>
-                    <Select value={formData.service} onChange={handleChange}>
-                      <option value="" disabled>
-                        Select a service
-                      </option>
-                      <option value="consulting">Business Consulting</option>
-                      <option value="construction">Construction</option>
-                      <option value="logistics">Logistics</option>
-                      <option value="technology">Technology Solutions</option>
-                      <option value="other">Other</option>
-                    </Select>
+                    <div className="space-y-2">
+                      <Select
+                        value={formData.opinion}
+                        onChange={handleChange("opinion")}
+                      >
+                        <option value="" disabled>
+                          Select a opinion
+                        </option>
+                        <option value="Report a Bug">Report a Bug</option>
+                        <option value="Improve the User Interface">
+                          Improve the User Interface
+                        </option>
+                        <option value="Improve Performance">
+                          Improve Performance
+                        </option>
+                        <option value="Request a Feature">
+                          Request a Feature
+                        </option>
+                        <option value="other">Other Suggestions</option>
+                      </Select>
+                      {error?.opinion && (
+                        <small className="text-red-500 !text-sm">
+                          {error?.opinion[0]}
+                        </small>
+                      )}
+                      <Input
+                        type={formData.opinion === "other" ? "text" : "hidden"}
+                        placeholder="Other Suggestions"
+                        value={formData.other_opinion}
+                        onChange={handleChange("other_opinion")}
+                      />
+                      {error?.other_opinion && (
+                        <small className="text-red-500 !text-sm">
+                          {error?.other_opinion[0]}
+                        </small>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="form-control">
+                  <div>
                     <label className="label">
                       <span className="label-text">Message</span>
                     </label>
                     <Textarea
                       value={formData.message}
-                      onChange={handleChange}
+                      onChange={handleChange("message")}
                       placeholder="Tell us about your experience..."
                     />
+                    {error?.message && (
+                      <small className="text-red-500 !text-sm">
+                        {error?.message[0]}
+                      </small>
+                    )}
                   </div>
 
                   <div className="pt-4 form-control">
-                    <button type="submit" className="w-full btn btn-primary">
-                      Submit Request
+                    <button
+                      type="submit"
+                      className={`${
+                        isLoading && "!bg-blue-300 cursor-not-allowed"
+                      } w-full btn btn-primary`}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Submitting..." : "Submit Feedback"}
                     </button>
                   </div>
                 </form>
@@ -294,7 +364,7 @@ const Home = () => {
                           d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                         ></path>
                       </svg>
-                      <span>+1 (123) 456-7890</span>
+                      <span>(+63) 912 3456 789</span>
                     </div>
                     <div className="flex items-center">
                       <svg
@@ -310,7 +380,7 @@ const Home = () => {
                           d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                         ></path>
                       </svg>
-                      <span>info@smctgroup.com</span>
+                      <span>it@strongmotocentrum.com</span>
                     </div>
                     <div className="flex items-center">
                       <svg
@@ -332,9 +402,7 @@ const Home = () => {
                           d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                         ></path>
                       </svg>
-                      <span>
-                        123 Business Ave, Suite 500, New York, NY 10001
-                      </span>
+                      <span>J.A Clarin Cogon St., Tagbilaran City</span>
                     </div>
                   </div>
                 </div>
