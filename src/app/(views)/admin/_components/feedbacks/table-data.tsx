@@ -14,7 +14,7 @@ export default function TableData({ item }: { item: FeedbackType }) {
       <td className="p-2">
         {item.opinion === "other" ? item.other_opinion : item.opinion}
       </td>
-      <td className="p-2">{item.message}</td>
+      <td className="p-2 whitespace-pre-wrap">{item.message}</td>
       <td className="p-2">
         <p>{formatDate(item.created_at, "MMM dd, yyyy h:mm a")}</p>
         <p className="text-gray-500 !text-sm">
