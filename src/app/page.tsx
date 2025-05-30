@@ -118,13 +118,15 @@ const Home = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label className="label">
-                      <span className="label-text">Full Name</span>
+                      <span className="label-text">
+                        Full Name <span className="text-red-500">*</span>
+                      </span>
                     </label>
                     <Input
                       type="text"
                       value={formData.name}
                       onChange={handleChange("name")}
-                      placeholder="Full Name"
+                      placeholder="Full Name (e.g. Juan Dela Cruz)"
                     />
                     {error?.name && (
                       <small className="text-red-500 !text-sm">
@@ -135,7 +137,9 @@ const Home = () => {
 
                   <div>
                     <label className="label">
-                      <span className="label-text">Email Address</span>
+                      <span className="label-text">
+                        Email Address <span className="text-red-500">*</span>
+                      </span>
                     </label>
                     <Input
                       type="email"
@@ -152,13 +156,15 @@ const Home = () => {
 
                   <div>
                     <label className="label">
-                      <span className="label-text">Phone Number</span>
+                      <span className="label-text">
+                        Phone Number (optional)
+                      </span>
                     </label>
                     <Input
                       type="number"
                       value={formData.phone}
                       onChange={handleChange("phone")}
-                      placeholder="Phone Number"
+                      placeholder="Phone Number (optional)"
                     />
                     {error?.phone && (
                       <small className="text-red-500 !text-sm">
@@ -169,7 +175,9 @@ const Home = () => {
 
                   <div>
                     <label className="label">
-                      <span className="label-text">Department Name</span>
+                      <span className="label-text">
+                        Department Name <span className="text-red-500">*</span>
+                      </span>
                     </label>
                     <Input
                       type="text"
@@ -186,7 +194,9 @@ const Home = () => {
 
                   <div>
                     <label className="label">
-                      <span className="label-text">Select a Opinion</span>
+                      <span className="label-text">
+                        Select a Opinion <span className="text-red-500">*</span>
+                      </span>
                     </label>
                     <div className="space-y-2">
                       <Select
@@ -196,7 +206,9 @@ const Home = () => {
                         <option value="" disabled>
                           Select a opinion
                         </option>
-                        <option value="Report a Bug">Report a Bug</option>
+                        <option value="Report a Bug">
+                          Report a Bug <span className="text-red-500">*</span>
+                        </option>
                         <option value="Improve the User Interface">
                           Improve the User Interface
                         </option>
@@ -206,7 +218,9 @@ const Home = () => {
                         <option value="Request a Feature">
                           Request a Feature
                         </option>
-                        <option value="other">Other Suggestions</option>
+                        <option value="other">
+                          Other Opinion <span className="text-red-500">*</span>
+                        </option>
                       </Select>
                       {error?.opinion && (
                         <small className="text-red-500 !text-sm">
@@ -215,7 +229,7 @@ const Home = () => {
                       )}
                       <Input
                         type={formData.opinion === "other" ? "text" : "hidden"}
-                        placeholder="Other Suggestions"
+                        placeholder="Other Opinion"
                         value={formData.other_opinion}
                         onChange={handleChange("other_opinion")}
                       />
@@ -229,7 +243,9 @@ const Home = () => {
 
                   <div>
                     <label className="label">
-                      <span className="label-text">Message</span>
+                      <span className="label-text">
+                        Message <span className="text-red-500">*</span>
+                      </span>
                     </label>
                     <Textarea
                       value={formData.message}
