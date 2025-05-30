@@ -23,6 +23,7 @@ interface Record {
   id: number;
   user_id: number;
   branch_id: number[];
+  firstName: string;
   branches: {
     message: string;
     data: {
@@ -33,7 +34,6 @@ interface Record {
       updated_at: string;
     }[];
   }[];
-  user: UserObject;
 }
 
 interface BranchHead {
@@ -85,6 +85,7 @@ const SetupBranchHead = (props: Props) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Record | null>(null);
   const [branchHeadList, setBranchHeadList] = useState<Record[]>([]);
+  const [branches, setBranches] = useState([]);
   const [filterTerm, setFilterTerm] = useState("");
   const [isLoading, setisLoading] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -99,11 +100,10 @@ const SetupBranchHead = (props: Props) => {
       }
       try {
         // Fetch branch heads
-        const response = await api.get<{ data: BranchHead[] }>(
-          `/view-branch-heads`
-        );
+        const response = await api.get(`/view-branch-heads`);
 
         setBranchHeadList(response.data.data);
+        setBranches(response.data.branches);
         setFetchCompleted(true); // Indicate fetch completion
       } catch (error) {
         console.error("Error fetching approvers data:", error);
@@ -116,10 +116,8 @@ const SetupBranchHead = (props: Props) => {
     fetchApproverData();
   }, [user.id]);
 
-  const filteredBranchHead = branchHeadList.filter((branchHead) =>
-    Object.values(branchHead.user).some((value) =>
-      String(value).toLowerCase().includes(filterTerm.toLowerCase())
-    )
+  const filteredBranchHead = branchHeadList?.filter((branchHead) =>
+    String(branchHead).toLowerCase().includes(filterTerm.toLowerCase())
   );
 
   const refreshData = async () => {
@@ -132,9 +130,7 @@ const SetupBranchHead = (props: Props) => {
     try {
       setisLoading(true);
 
-      const response = await api.get<{ data: BranchHead[] }>(
-        `/view-branch-heads`
-      );
+      const response = await api.get(`/view-branch-heads`);
       setBranchHeadList(response.data.data);
       setisLoading(false);
       setFetchCompleted(true);
@@ -194,10 +190,10 @@ const SetupBranchHead = (props: Props) => {
   const closeDeleteSuccessModal = () => {
     setShowDeletedSuccessModal(false);
   };
-  const getAssignedBranches = (row: Record) => {
+  const getAssignedBranches = (branches: any) => {
     return (
-      <div className="grid grid-cols-1 space-y-2 sm:grid-cols-2 sm:gap-2 sm:space-y-0 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
-        {row.branches.map((branchInfo: any, index: any) => (
+      <div className="flex gap-2 flex-wrap">
+        {branches.map((branchInfo: any, index: any) => (
           <div
             className="bg-primary p-2 rounded-[12px] w-20 text-center "
             key={index}
@@ -247,7 +243,7 @@ const SetupBranchHead = (props: Props) => {
     {
       name: "Assigned Branches",
       sortable: true,
-      cell: (row: Record) => getAssignedBranches(row),
+      cell: (row: Record) => getAssignedBranches(row.branches),
     },
     {
       name: "Action",
@@ -336,7 +332,7 @@ const SetupBranchHead = (props: Props) => {
               // progressPending={isLoading}
               // progressComponent={<p>Loading...</p>}
               noDataComponent={
-                filteredBranchHead.length === 0 ? (
+                filteredBranchHead?.length === 0 ? (
                   <p className="flex flex-col items-center justify-center h-64">
                     {filterTerm
                       ? "No " + `"${filterTerm}"` + " found"

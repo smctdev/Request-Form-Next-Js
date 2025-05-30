@@ -4,15 +4,17 @@ import { api } from "@/lib/api";
 import ClipLoader from "react-spinners/ClipLoader";
 
 type User = {
-  id: number;
-  name: string;
-  firstname: string;
-  lastname: string;
-  branch_code: string;
-  email: string;
-  role: string;
-  contact: string;
-  position: string;
+  user: {
+    id: number;
+    name: string;
+    firstname: string;
+    lastname: string;
+    branch_code: string;
+    email: string;
+    role: string;
+    contact: string;
+    position: string;
+  };
 };
 
 type Branch = {
@@ -35,8 +37,8 @@ const AddBranchHeadModal = ({
   refreshData: () => void;
 }) => {
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [users, setUsers] = useState<any>([]);
+  const [selectedUser, setSelectedUser] = useState<any>(null);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [selectedBranches, setSelectedBranches] = useState<number[]>([]);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
@@ -47,19 +49,18 @@ const AddBranchHeadModal = ({
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await api.get(`/view-users`);
+        const response = await api.get(`/get-all-branch-heads`);
+        console.log(response.data.data);
 
         const transformedData = response.data.data
-          .filter(
-            (item: User) => item.position.trim() === "Branch Supervisor/Manager"
-          )
-          .map((item: User) => ({
-            id: item.id,
-            name: `${item.firstname} ${item.lastname}`,
-            branch_code: item.branch_code,
-            email: item.email,
-            role: item.role.trim(),
-            position: item.position,
+          .filter((item: any) => item.user.position.trim() === "Branch Manager")
+          .map((item: any) => ({
+            id: item.user.id,
+            name: item.user.fullName,
+            branch_code: item.user.branch_code,
+            email: item.user.email,
+            role: item.user.role.trim(),
+            position: item.user.position,
           }));
 
         setUsers(transformedData);
@@ -78,7 +79,7 @@ const AddBranchHeadModal = ({
   useEffect(() => {
     const fetchBranches = async () => {
       try {
-        const response = await api.get(`/view-branch`);
+        const response = await api.get(`/view-branch/${selectedUser.id}/view-branch-not-in-branch-head`);
 
         setBranches(response.data.data);
       } catch (error) {
@@ -160,7 +161,7 @@ const AddBranchHeadModal = ({
         </h2>
         <XMarkIcon
           className="absolute text-black cursor-pointer size-6 right-3"
-          onClick={closeModal}
+          onClick={handleCancel}
         />
       </div>
       <div className="relative w-10/12 overflow-y-auto bg-white sm:w-1/3 x-20 h-2/3">
@@ -251,7 +252,7 @@ const AddBranchHeadModal = ({
                           </tr>
                         </>
                       ) : (
-                        users.map((user) => (
+                        users.map((user: any) => (
                           <tr
                             key={user.id}
                             className={`cursor-pointer hover:bg-gray-200  ${
