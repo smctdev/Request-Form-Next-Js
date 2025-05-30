@@ -12,7 +12,7 @@ export default function guestPage(WrappedComponent: any) {
       return <Preloader />;
     }
 
-    if (user.length !== 0 || isAuthenticated) {
+    if (!isLoading && (user.length !== 0 || isAuthenticated)) {
       if (user.role === "approver") {
         router.push("/approver/dashboard");
       } else {

@@ -506,31 +506,8 @@ const Registration = () => {
                 )}
               </div>
             </div>
-
-            <div className={`${fieldStyle}`}>
-              <div className="flex flex-col w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Signature</h1>
-                <SignatureCanvas
-                  penColor="black"
-                  ref={(ref) => setSignature(ref)}
-                  canvasProps={{
-                    className: "sigCanvas border border-black h-36 w-full",
-                  }}
-                />
-                {signatureEmpty && (
-                  <span className="text-xs text-red-500">
-                    Please provide a signature.
-                  </span>
-                )}
-                <button
-                  onClick={(e) => handleClear(e)}
-                  type="button"
-                  className="p-1 mt-2 bg-gray-300 rounded-lg cursor-pointer"
-                >
-                  Clear
-                </button>
-              </div>
-              <div className="w-full mb-4 md:w-1/2">
+            <div>
+              <div className="w-full mb-4">
                 <h1 className={`${headerStyle}`}>Employee ID</h1>
                 <input
                   type="text"
@@ -546,6 +523,30 @@ const Registration = () => {
                     </span>
                   )}
                 </div>
+              </div>
+            </div>
+            <div>
+              <div className="flex flex-col w-full mb-4">
+                <h1 className={`${headerStyle}`}>Signature</h1>
+                <SignatureCanvas
+                  penColor="black"
+                  ref={(ref) => setSignature(ref)}
+                  canvasProps={{
+                    className: "sigCanvas border border-black h-96 w-full",
+                  }}
+                />
+                {signatureEmpty && (
+                  <span className="text-xs text-red-500">
+                    Please provide a signature.
+                  </span>
+                )}
+                <button
+                  onClick={(e) => handleClear(e)}
+                  type="button"
+                  className="p-1 mt-2 bg-gray-300 rounded-lg cursor-pointer"
+                >
+                  Clear
+                </button>
               </div>
             </div>
             <div className="flex items-center justify-center">
