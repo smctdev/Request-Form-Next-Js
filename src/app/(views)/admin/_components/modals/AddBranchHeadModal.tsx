@@ -47,11 +47,11 @@ const AddBranchHeadModal = ({
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await api.get(`/view-users`);
+        const response = await api.get(`/view-branch-heads`);
 
         const transformedData = response.data.data
           .filter(
-            (item: User) => item.position.trim() === "Branch Supervisor/Manager"
+            (item: User) => item.position.trim() === "Branch Manager"
           )
           .map((item: User) => ({
             id: item.id,
