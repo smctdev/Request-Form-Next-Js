@@ -27,7 +27,7 @@ import {
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
-import authenticatedPage from "@/lib/authenticatedPage";
+import approverPage from "@/lib/approverPage";
 
 type Props = {};
 
@@ -523,4 +523,4 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
   );
 };
 
-export default authenticatedPage(ApproverDashboard);
+export default approverPage(ApproverDashboard);

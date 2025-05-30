@@ -14,7 +14,7 @@ export default function NotFound() {
   }, []);
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center bg-gradient-to-br from-primary to-secondary">
+      <div className="flex flex-col items-center justify-center fixed top-0  bottom-0 left-0 inset-1 right-0 min-h-screen p-4 text-center bg-gradient-to-br from-primary to-secondary">
         {isMounted && (
           <div className="absolute inset-0 overflow-hidden">
             {[...Array(30)].map((_, i) => (

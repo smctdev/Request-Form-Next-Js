@@ -26,6 +26,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isApprover, setIsApprover] = useState<boolean>(false);
   const [isRefresh, setIsRefresh] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,6 +41,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setIsAuthenticated(true);
         if (response.data.data.role === "Admin") {
           setIsAdmin(true);
+        }
+        if (response.data.data.role === "approver") {
+          setIsApprover(true);
         }
       }
     } catch (error) {
@@ -106,6 +110,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       const response = await logoutApi();
       if (response.status === 204) {
         setIsAdmin(false);
+        setIsApprover(false);
         setIsAuthenticated(false);
         setUser([]);
         setIsLoading(true);
@@ -134,6 +139,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setError,
         errors,
         isAdmin,
+        isApprover,
         fetchUserProfile,
         setIsRefresh,
       }}

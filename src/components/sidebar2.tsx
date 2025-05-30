@@ -16,6 +16,7 @@ import {
   SwatchIcon,
   UserPlusIcon,
   BriefcaseIcon,
+  StarIcon,
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,7 +32,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   const pathname = usePathname(); // Get current location
   const [notificationReceived, setnotificationReceived] = useState(false);
   const [pendingCounts, setPendingCounts] = useState(0);
-  const { user, logout } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const { isRefresh } = useNotification();
 
   const navItems: NavItem[] =
@@ -112,6 +113,12 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             submenu: false,
             icon: SwatchIcon,
             path: "/admin/branch-heads",
+          },
+          {
+            title: "Feedbacks",
+            submenu: false,
+            icon: StarIcon,
+            path: "/admin/feedbacks",
           },
           { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
         ]
@@ -214,6 +221,9 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   const pStyle2 = "font text-lg px-2 rounded-lg";
   const iconStyle = "size-[32px] group-hover:text-primary";
   const activeClass = "bg-[#D2E6F7] text-primary"; // Change to your preferred active color
+
+  if (!isAuthenticated) return null;
+
   return (
     <div className={`bg-white h-full`}>
       <div className={`bg-white ${open ? "w-60" : "w-20"} h-full`}>
