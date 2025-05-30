@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import axios from "axios";
 import BeatLoader from "react-spinners/BeatLoader";
 import EditStockModalSuccess from "./EditStockModalSuccess";
 import { PencilIcon } from "@heroicons/react/24/solid";
@@ -10,6 +9,7 @@ import PrintLiquidation from "@/app/(views)/approver/_components/prints/PrintLiq
 import { Approver } from "@/types/approverTypes";
 import AddCustomModal from "./AddCustomModal";
 import { useAuth } from "@/context/AuthContext";
+import { api } from "@/lib/api";
 
 type Props = {
   closeModal: () => void;
@@ -49,6 +49,11 @@ type Record = {
     signature: string;
     status: string;
   }[];
+  user: {
+    branch: {
+      branch_code: string;
+    };
+  };
 };
 
 type FormData = {
@@ -121,8 +126,6 @@ const ViewLiquidationModal: React.FC<Props> = ({
     (string | number)[]
   >([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [branchList, setBranchList] = useState<any[]>([]);
-  const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
     (user) => user.status === "Disapproved"
   );
@@ -138,34 +141,8 @@ const ViewLiquidationModal: React.FC<Props> = ({
   const longPressTimeout = useRef<number | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchBranchData = async () => {
-      try {
-        const response = await axios.get(`/view-branch`);
-        const branches = response.data.data;
-
-        // Create a mapping of id to branch_name
-        const branchMapping = new Map<number, string>(
-          branches.map((branch: { id: number; branch_code: string }) => [
-            branch.id,
-            branch.branch_code,
-          ])
-        );
-
-        setBranchList(branches);
-        setBranchMap(branchMapping);
-      } catch (error) {
-        console.error("Error fetching branch data:", error);
-      }
-    };
-
-    fetchBranchData();
-  }, []);
   // Get branch ID from record
   const branchId = parseInt(record.form_data[0].branch, 10);
-  // Get branch name or default to "Unknown"
-  const branchName = branchMap.get(branchId) || "Unknown";
 
   useEffect(() => {
     setNotedBy(editableRecord.noted_by);
@@ -374,10 +351,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
         formData.append("removed_attachments[]", String(path));
       });
 
-      const response = await axios.post(
-        `/update-request/${record.id}`,
-        formData
-      );
+      const response = await api.post(`/update-request/${record.id}`, formData);
 
       setLoading(false);
       setIsEditing(false);
@@ -390,6 +364,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
           error.message ||
           "Failed to update stock requisition."
       );
+      console.error(error);
     }
   };
 
@@ -602,7 +577,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
             <div className="flex w-1/2 ">
               <h1 className="flex items-center">Branch: </h1>
               <p className="w-full pl-1 font-bold bg-white rounded-md ">
-                {branchName}
+                {record?.user?.branch?.branch_code}
               </p>
             </div>
           </div>
@@ -879,142 +854,148 @@ const ViewLiquidationModal: React.FC<Props> = ({
           <div className="grid w-full grid-cols-1 lg:grid-cols-2 md:gap-2">
             <div>
               <table className="w-full mt-10 border border-black">
-                <tr>
-                  <td className={`${tableStyle}`}>
-                    <p className="pl-2 pr-20 font-semibold ">TOTAL EXPENSE</p>
-                  </td>
-                  <td className={`${inputStyles} font-bold`}>
-                    {isEditing
-                      ? calculateTotalExpense()
-                      : parseFloat(
-                          editableRecord.form_data[0].totalExpense
-                        ).toFixed(2)}
-                  </td>
-                </tr>
-                <tr>
-                  <td className={`${tableStyle}`}>
-                    <p className="pl-2 pr-20 font-semibold ">CASH ADVANCE</p>
-                  </td>
-                  <td className={`${inputStyle} font-bold text-right`}>
-                    {isEditing ? (
-                      <input
-                        type="number"
-                        value={newCashAdvance}
-                        onChange={(e) =>
-                          setNewCashAdvance(
-                            e.target.value === "" ? "0" : e.target.value
-                          )
-                        }
-                        className="w-full font-bold text-right bg-white"
-                        readOnly={!isEditing}
-                      />
-                    ) : (
-                      parseFloat(
-                        editableRecord.form_data[0].cashAdvance
-                      ).toFixed(2)
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className={`${tableStyle}`}>
-                    <p className="pl-2 font-semibold ">SHORT</p>
-                  </td>
-                  <td className={`${inputStyles} font-bold`}>
-                    ₱
-                    {isEditing
-                      ? calculateShort(
-                          parseFloat(editableRecord.form_data[0].totalExpense),
-                          parseFloat(newCashAdvance)
-                        ) === "NaN"
-                        ? "0.00"
-                        : calculateShort(
+                <tbody>
+                  <tr>
+                    <td className={`${tableStyle}`}>
+                      <p className="pl-2 pr-20 font-semibold ">TOTAL EXPENSE</p>
+                    </td>
+                    <td className={`${inputStyles} font-bold`}>
+                      {isEditing
+                        ? calculateTotalExpense()
+                        : parseFloat(
+                            editableRecord.form_data[0].totalExpense
+                          ).toFixed(2)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={`${tableStyle}`}>
+                      <p className="pl-2 pr-20 font-semibold ">CASH ADVANCE</p>
+                    </td>
+                    <td className={`${inputStyle} font-bold text-right`}>
+                      {isEditing ? (
+                        <input
+                          type="number"
+                          value={newCashAdvance}
+                          onChange={(e) =>
+                            setNewCashAdvance(
+                              e.target.value === "" ? "0" : e.target.value
+                            )
+                          }
+                          className="w-full font-bold text-right bg-white"
+                          readOnly={!isEditing}
+                        />
+                      ) : (
+                        parseFloat(
+                          editableRecord.form_data[0].cashAdvance
+                        ).toFixed(2)
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={`${tableStyle}`}>
+                      <p className="pl-2 font-semibold ">SHORT</p>
+                    </td>
+                    <td className={`${inputStyles} font-bold`}>
+                      ₱
+                      {isEditing
+                        ? calculateShort(
                             parseFloat(
                               editableRecord.form_data[0].totalExpense
                             ),
                             parseFloat(newCashAdvance)
-                          )
-                      : parseFloat(editableRecord.form_data[0].short).toFixed(
-                          2
-                        )}
-                  </td>
-                </tr>
+                          ) === "NaN"
+                          ? "0.00"
+                          : calculateShort(
+                              parseFloat(
+                                editableRecord.form_data[0].totalExpense
+                              ),
+                              parseFloat(newCashAdvance)
+                            )
+                        : parseFloat(editableRecord.form_data[0].short).toFixed(
+                            2
+                          )}
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
             <div>
               <table className="w-full mt-10 mb-10 border border-black">
-                <tr>
-                  <td className={`${input2Style} `}>
-                    <p className="pl-2 pr-20 font-semibold ">
-                      NAME OF EMPLOYEE
-                    </p>
-                  </td>
-                  <td className={`${tableStyle} font-bold`}>
-                    {record.form_data[0].name}
-                  </td>
-                </tr>
-                <tr>
-                  <td className={`${input2Style} h-20 `}>
-                    <p className="pl-2 font-semibold ">SIGNATURE</p>
-                  </td>
-                  <td className={`${tableStyle} h-10`}>
-                    <div className="flex items-center justify-center overflow-hidden">
-                      <div className="relative">
-                        <Image
-                          width={100}
-                          height={100}
-                          src={record.form_data[0].signature}
-                          alt="signature"
-                          draggable="false"
-                          className="h-24"
-                          onContextMenu={(e) => e.preventDefault()}
-                          style={{ filter: "blur(1px)" }}
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                          <div
-                            className="text-gray-950 opacity-30"
-                            style={{
-                              backgroundImage:
-                                "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.3) 20px, rgba(255, 255, 255, 0.3) 100px)",
-                              backgroundSize: "400px 400px",
-                              width: "100%",
-                              height: "100%",
-                              fontSize: "1.2em",
-                              transform: "rotate(-12deg)",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            SMCT Group of Companies SMCT Group of Companies{" "}
-                            <br />
-                            SMCT Group of Companies SMCT Group of Companies{" "}
-                            <br />
-                            SMCT Group of Companies SMCT Group of Companies{" "}
-                            <br />
-                            SMCT Group of Companies SMCT Group of Companies{" "}
-                            <br />
-                            SMCT Group of Companies SMCT Group of Companies{" "}
-                            <br /> SMCT Group of Companies SMCT Group of
-                            Companies
-                            <br />
-                            SMCT Group of Companies SMCT Group of Companies
-                            <br /> SMCT Group of Companies SMCT Group of
-                            Companies
+                <tbody>
+                  <tr>
+                    <td className={`${input2Style} `}>
+                      <p className="pl-2 pr-20 font-semibold ">
+                        NAME OF EMPLOYEE
+                      </p>
+                    </td>
+                    <td className={`${tableStyle} font-bold`}>
+                      {record.form_data[0].name}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={`${input2Style} h-20 `}>
+                      <p className="pl-2 font-semibold ">SIGNATURE</p>
+                    </td>
+                    <td className={`${tableStyle} h-10`}>
+                      <div className="flex items-center justify-center overflow-hidden">
+                        <div className="relative">
+                          <Image
+                            width={100}
+                            height={100}
+                            src={record.form_data[0].signature}
+                            alt="signature"
+                            draggable="false"
+                            className="h-24"
+                            onContextMenu={(e) => e.preventDefault()}
+                            style={{ filter: "blur(1px)" }}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div
+                              className="text-gray-950 opacity-30"
+                              style={{
+                                backgroundImage:
+                                  "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.3) 20px, rgba(255, 255, 255, 0.3) 100px)",
+                                backgroundSize: "400px 400px",
+                                width: "100%",
+                                height: "100%",
+                                fontSize: "1.2em",
+                                transform: "rotate(-12deg)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
+                              SMCT Group of Companies SMCT Group of Companies{" "}
+                              <br />
+                              SMCT Group of Companies SMCT Group of Companies{" "}
+                              <br />
+                              SMCT Group of Companies SMCT Group of Companies{" "}
+                              <br />
+                              SMCT Group of Companies SMCT Group of Companies{" "}
+                              <br />
+                              SMCT Group of Companies SMCT Group of Companies{" "}
+                              <br /> SMCT Group of Companies SMCT Group of
+                              Companies
+                              <br />
+                              SMCT Group of Companies SMCT Group of Companies
+                              <br /> SMCT Group of Companies SMCT Group of
+                              Companies
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className={`${input2Style} `}>
-                    <p className="pl-2 font-semibold">EMPLOYEE NO.</p>
-                  </td>
-                  <td className={`${tableStyle}`}>
-                    {record.form_data[0].employeeID}
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={`${input2Style} `}>
+                      <p className="pl-2 font-semibold">EMPLOYEE NO.</p>
+                    </td>
+                    <td className={`${tableStyle}`}>
+                      {record.form_data[0].employeeID}
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>

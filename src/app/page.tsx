@@ -10,9 +10,9 @@ import guestPage from "@/lib/guestPage";
 import { api } from "@/lib/api";
 import { feedbackData } from "@/constants/form-data";
 import { FeedbackData } from "@/types/form-data";
-import ContactInfo from "./components/contact-info";
-import WhySmct from "./components/why-smct";
-import Faqs from "./components/faqs";
+import Faqs from "./_components/faqs";
+import WhySmct from "./_components/why-smct";
+import ContactInfo from "./_components/contact-info";
 
 const Home = () => {
   const [formData, setFormData] = useState<FeedbackData>(feedbackData);
