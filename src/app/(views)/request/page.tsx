@@ -68,6 +68,11 @@ type Record = {
   grandTotal: string;
   approvers_id: number;
   attachment: string;
+  user: {
+    branch: {
+      branch_code: string;
+    };
+  };
 };
 
 type MyFormData = {

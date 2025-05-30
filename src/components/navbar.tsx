@@ -69,6 +69,11 @@ type Record = {
   requested_signature: string;
   requested_position: string;
   completed_status: string;
+  user: {
+    branch: {
+      branch_code: string;
+    };
+  };
 };
 
 interface Approver {
