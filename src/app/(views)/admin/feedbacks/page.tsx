@@ -16,6 +16,10 @@ function Feedbacks() {
   const [pagination, setPagination] = useState<PaginationType>(paginationData);
 
   useEffect(() => {
+    setPagination((pagination) => ({
+      ...pagination,
+      loading: true,
+    }));
     const fetchAllFeedbacks = async () => {
       try {
         const response = await api.get("/feedbacks", {
@@ -25,16 +29,21 @@ function Feedbacks() {
           },
         });
         setFeedbacks(response.data.data);
-        setPagination({
+        setPagination((pagination) => ({
+          ...pagination,
           current_page: response.data.current_page,
           last_page: response.data.last_page,
           total: response.data.total,
           per_page: response.data.per_page,
-        });
+        }));
       } catch (error) {
         console.error(error);
       } finally {
         setIsLoading(false);
+        setPagination((pagination) => ({
+          ...pagination,
+          loading: false,
+        }));
       }
     };
     fetchAllFeedbacks();
@@ -119,12 +128,13 @@ function Feedbacks() {
           >
             <button
               type="button"
-              onClick={() =>
+              onClick={() => {
+                if (pagination?.loading) return null;
                 setPagination((pagination) => ({
                   ...pagination,
                   current_page: pagination?.current_page - 1,
-                }))
-              }
+                }));
+              }}
               className="join-item btn !bg-gray-200 !border !border-gray-300"
               disabled={isFirstPage}
             >
@@ -135,12 +145,13 @@ function Feedbacks() {
             </button>
             <button
               type="button"
-              onClick={() =>
+              onClick={() => {
+                if (pagination?.loading) return null;
                 setPagination((pagination) => ({
                   ...pagination,
                   current_page: pagination?.current_page + 1,
-                }))
-              }
+                }));
+              }}
               className="join-item btn !bg-gray-200 !border !border-gray-300"
               disabled={isLastPage}
             >

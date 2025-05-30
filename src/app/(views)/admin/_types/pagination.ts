@@ -3,4 +3,5 @@ export interface PaginationType {
   last_page: number;
   total: number;
   per_page: number;
+  loading: boolean;
 }
