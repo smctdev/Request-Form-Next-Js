@@ -55,6 +55,7 @@ function Feedbacks() {
     "Email",
     "Phone",
     "Department",
+    "Opinion",
     "Message",
     "Date Submitted",
   ];
@@ -87,7 +88,7 @@ function Feedbacks() {
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="text-center p-5 font-bold">
+                <td colSpan={8} className="text-center p-5 font-bold">
                   No feedbacks found
                 </td>
               </tr>
