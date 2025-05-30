@@ -134,7 +134,7 @@ const EditUserModal = ({
       setEmail(selectedUser.email || "");
       setUsername(selectedUser.username || "");
       setContact(selectedUser.contact || "");
-      setEditedBranch(selectedUser.branch || "");
+      setEditedBranch(selectedUser.branch.branch || "");
       setEditedBranchCode(selectedUser.branch_code);
       setEditedBranchName(selectedUser.branch_name || "");
       setEditedRole(selectedUser.role || "");

@@ -15,8 +15,8 @@ import ApproverLiquidation from "../_components/modals/ApproverLiquidation";
 import ApproverRefund from "../_components/modals/ApproverRefund";
 import ApproverPurchase from "../_components/modals/ApproverPurchase";
 import { useAuth } from "@/context/AuthContext";
-import authenticatedPage from "@/lib/authenticatedPage";
 import { useNotification } from "@/context/NotificationContext";
+import approverPage from "@/lib/approverPage";
 type Props = {};
 
 type Record = {
@@ -608,4 +608,4 @@ const RequestApprover = (props: Props) => {
   );
 };
 
-export default authenticatedPage(RequestApprover);
+export default approverPage(RequestApprover);

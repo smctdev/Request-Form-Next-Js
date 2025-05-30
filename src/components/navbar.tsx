@@ -188,7 +188,7 @@ const Navbar = ({
   const [selectedRecordRequest, setSelectedRecordRequest] =
     useState<Record | null>(null);
   const [requests, setRequests] = useState<Record[]>([]);
-  const { user, isLoading, logout } = useAuth();
+  const { user, isLoading, logout, isAuthenticated } = useAuth();
   const router = useRouter();
   const {
     notifications,
@@ -336,8 +336,14 @@ const Navbar = ({
       markAsReadNotification(notifId);
     };
 
+  if (!isAuthenticated) return null;
+
   return (
-    <div className={`nav-container ${darkMode ? "dark" : "white"} sticky top-0 z-50`}>
+    <div
+      className={`nav-container ${
+        darkMode ? "dark" : "white"
+      } sticky top-0 z-50`}
+    >
       {/* Toggle light and dark mode */}
       <nav className={`${flexBetween} bg-white dark:bg-blackD`}>
         <div className={`h-[67px] flex items-center bg-white dark:bg-blackD`}>
@@ -571,7 +577,8 @@ const Navbar = ({
                                 >
                                   {title}
                                 </p>
-                                {notif.data.request_reference === "approver" && (
+                                {notif.data.request_reference ===
+                                  "approver" && (
                                   <p>
                                     <span className="font-bold">From:</span>{" "}
                                     <span className="font-semibold">
