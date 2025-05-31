@@ -691,19 +691,21 @@ const ViewDiscountModal: React.FC<Props> = ({
                           </td>
                         </tr>
                       ))
-                    : editableRecord.form_data[0].items.map((item: any, index: any) => (
-                        <tr key={index}>
-                          <td className={tableCellStyle}>{item.brand}</td>
-                          <td className={tableCellStyle}>{item.model}</td>
-                          <td className={tableCellStyle}>{item.unit}</td>
-                          <td className={tableCellStyle}>{item.partno}</td>
-                          <td className={tableCellStyle}>{item.labor}</td>
-                          <td className={tableCellStyle}>{item.spotcash}</td>
-                          <td className={tableCellStyle}>
-                            {item.discountedPrice}
-                          </td>
-                        </tr>
-                      ))}
+                    : editableRecord.form_data[0].items.map(
+                        (item: any, index: any) => (
+                          <tr key={index}>
+                            <td className={tableCellStyle}>{item.brand}</td>
+                            <td className={tableCellStyle}>{item.model}</td>
+                            <td className={tableCellStyle}>{item.unit}</td>
+                            <td className={tableCellStyle}>{item.partno}</td>
+                            <td className={tableCellStyle}>{item.labor}</td>
+                            <td className={tableCellStyle}>{item.spotcash}</td>
+                            <td className={tableCellStyle}>
+                              {item.discountedPrice}
+                            </td>
+                          </tr>
+                        )
+                      )}
                 </tbody>
                 <tfoot className="bg-gray-100">
                   <tr>
@@ -986,14 +988,13 @@ const ViewDiscountModal: React.FC<Props> = ({
                           />
 
                           {!isEditing ? (
-                            <div className="px-3 py-1 mt-2 text-xs text-center text-white rounded-lg bg-primary">
-                              <button
-                                onClick={() => handleViewImage(fileItem)}
-                                className="text-xs"
-                              >
-                                View
-                              </button>
-                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleViewImage(fileItem)}
+                              className="px-3 py-1 mt-2 text-xs text-center w-full text-white rounded-lg bg-primary cursor-pointer"
+                            >
+                              View
+                            </button>
                           ) : (
                             <p key={index} className="text-center">
                               <button
@@ -1112,8 +1113,8 @@ const ViewDiscountModal: React.FC<Props> = ({
                         onTouchStart={handleLongPressStart}
                       >
                         <Image
-                          width={100}
-                          height={100}
+                          width={400}
+                          height={400}
                           src={currentImage || ""}
                           alt="Viewed"
                           className="object-contain w-full max-h-screen transform"

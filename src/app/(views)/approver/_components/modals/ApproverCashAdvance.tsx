@@ -1139,14 +1139,13 @@ const ApproverCashAdvance: React.FC<Props> = ({
                             className="object-cover w-full h-20 rounded-md"
                           />
 
-                          <div className="px-3 py-1 mt-2 text-xs text-center text-white rounded-lg bg-primary">
-                            <button
-                              onClick={() => handleViewImage(fileItem)}
-                              className="text-xs"
-                            >
-                              View
-                            </button>
-                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleViewImage(fileItem)}
+                            className="px-3 py-1 mt-2 text-xs text-center w-full text-white rounded-lg bg-primary cursor-pointer"
+                          >
+                            View
+                          </button>
                         </>
                       ) : (
                         // Display document icon if file is not an image
@@ -1203,8 +1202,8 @@ const ApproverCashAdvance: React.FC<Props> = ({
                         onTouchStart={handleLongPressStart}
                       >
                         <Image
-                          width={100}
-                          height={100}
+                          width={400}
+                          height={400}
                           src={currentImage || ""}
                           alt="Viewed"
                           className="object-contain w-full max-h-screen transform"
