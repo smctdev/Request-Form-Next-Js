@@ -1,10 +1,10 @@
 import Preloader from "@/components/loaders/PreLoader";
-import Unauthenticated from "@/components/not-authenticated";
-import Unauthorized from "@/components/not-authorized";
+import Unauthenticated from "@/components/NotAuthenticated";
+import Unauthorized from "@/components/NotAuthorized";
 import { useAuth } from "@/context/AuthContext";
 
 export default function adminPage(WrappedComponent: any) {
-  return (props: any) => {
+  function AdminPageComponent(props: any) {
     const { user, isLoading, isAdmin, isAuthenticated } = useAuth();
 
     if (isLoading) {
@@ -20,5 +20,7 @@ export default function adminPage(WrappedComponent: any) {
     }
 
     return <WrappedComponent {...props} />;
-  };
+  }
+
+  return AdminPageComponent;
 }

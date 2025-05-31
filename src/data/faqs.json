@@ -12,23 +12,23 @@
     "answer": "Yes, you can submit multiple requests at the same time. However, each request will go through its own individual approval process. Approval must be granted for each request separately."
   },
   {
-    "question": "How can I request faster?",
-    "answer": "Fill in only required fields, use autofill where available, prepare needed info in advance, and use Tab to navigate quickly."
+    "question": "Can I edit a request after submitting it?",
+    "answer": "Yes, you can edit a request if it is still pending or has been rejected. Once a request is approved, it can no longer be modified."
   },
   {
-    "question": "Can I edit a request after submitting it?",
-    "answer": "No. Please contact your admin if you need to cancel or update a request after submission."
+    "question": "Can I cancel a request?",
+    "answer": "Yes, you can cancel a request if it is still pending. Once a request is approved, it can no longer be cancelled. Please note that once a request is cancelled, it cannot be re-submitted."
   },
   {
     "question": "What if I selected the wrong request type?",
-    "answer": "Go back to the menu and choose the correct form. Input may reset, so switch carefully."
+    "answer": "You can’t change the request type after submission because each type has different fields and requirements. If you selected the wrong type, the best solution is to delete the incorrect request and create a new one with the correct type."
   },
   {
     "question": "Who will review my request?",
-    "answer": "Requests are routed to the appropriate department or manager based on the type you selected."
+    "answer": "Only the approvers you selected during the request submission can review and take action on your request."
   },
   {
     "question": "How will I know if my request is approved?",
-    "answer": "You will receive a notification or email. You can also check request status on your dashboard."
+    "answer": "You can track the approval status by checking the statuses of each selected approver. Once all of your selected approvers have approved the request, it will be marked as approved."
   }
 ]

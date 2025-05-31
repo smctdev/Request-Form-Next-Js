@@ -36,7 +36,7 @@ export default function NavbarHome() {
   };
 
   return (
-    <div className="relative">
+    <div className="sticky top-0 z-50">
       <nav className="text-white shadow-lg bg-primary">
         <div className="container flex items-center justify-between px-4 py-4 mx-auto">
           <div className="flex items-center space-x-2">
