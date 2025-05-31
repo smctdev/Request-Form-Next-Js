@@ -53,7 +53,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setUser([]);
     } finally {
       setIsLoading(false);
-      setIsLogin(false);
     }
   };
 
@@ -144,6 +143,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         fetchUserProfile,
         setIsRefresh,
         isLogin,
+        setIsLogin,
       }}
     >
       {children}

@@ -8,16 +8,28 @@ import {
   FaSignInAlt,
   FaUserShield,
 } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 export default function Unauthorized() {
   const { logout, user } = useAuth();
   const router = useRouter();
 
   const handleSwitchAccount = () => {
-    logout(router);
+    Swal.fire({
+      title: "Are you sure you want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout(router);
+      }
+    });
   };
   return (
-    <>
+    <div className="relative w-screen h-screen">
       <div className="fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col min-h-screen bg-gradient-to-br from-error via-base-100 to-error">
         <main className="flex items-center justify-center flex-grow p-4">
           <div className="w-full max-w-3xl">
@@ -116,6 +128,6 @@ export default function Unauthorized() {
           </div>
         </main>
       </div>
-    </>
+    </div>
   );
 }

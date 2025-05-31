@@ -5,7 +5,7 @@ import { FaLock, FaSignInAlt, FaUserPlus } from "react-icons/fa";
 export default function Unauthenticated() {
   const router = useRouter();
   return (
-    <>
+    <div className="relative w-screen h-screen">
       <div className="fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center p-4 text-center bg-gradient-to-br from-gray-100 to-gray-500">
         <div className="card w-full max-w-lg bg-base-100 shadow-2xl border border-base-300 transform transition-all hover:scale-[1.01] duration-300">
           <div className="p-8 card-body md:p-10">
@@ -47,6 +47,6 @@ export default function Unauthenticated() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
