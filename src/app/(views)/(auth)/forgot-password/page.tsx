@@ -57,13 +57,13 @@ const ForgotPassword: React.FC = () => {
     <div className="flex flex-row">
       <div className="relative flex items-center justify-center w-full p-8 bg-center bg-cover lg:w-1/2">
         <Image
-          width={100}
-          height={100}
+          width={0}
+          height={0}
           className="absolute inset-0 z-0 object-cover w-full h-screen lg:hidden"
           src={building}
           alt="photo"
         />
-        <div className="lg:max-w-[481px] md:max-w-sm max-w-xs w-full lg:mt-0  mt-20 bg-white bg-opacity-90 p-8 rounded-lg z-10 lg:m-0 m-10 relative ">
+        <div className="lg:max-w-[481px] md:max-w-[450px] w-full lg:mt-0  mt-20 bg-white bg-opacity-90 p-8 rounded-lg z-10 lg:m-0 m-10 relative ">
           <Link href="/login">
             <div className="block lg:hidden">
               <XCircleIcon className="absolute mb-2 text-black cursor-pointer size-8 right-4 top-4" />
@@ -72,7 +72,7 @@ const ForgotPassword: React.FC = () => {
           <h1 className="p-4 mt-4 text-2xl font-semibold text-center">
             Forgot your password?
           </h1>
-          <p className="p-4 text-center">
+          <p className="p-4 text-center text-primary font-bold !text-xl">
             We'll email you a secure link to reset the password for your account
           </p>
           <div className="px-6">
@@ -82,23 +82,27 @@ const ForgotPassword: React.FC = () => {
               value={email}
               placeholder="Enter your email address"
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full lg:max-w-[417px] lg:h-[56px] md:h-10  p-2 bg-gray-300 rounded-lg"
+              className="w-full lg:max-w-[417px] h-[45px] p-2 bg-gray-300 rounded-lg"
             />
             {error && <p className="mt-2 text-red-500">{error}</p>}
           </div>
           <div className="px-6 pt-4">
             <button
+              type="button"
               disabled={loading}
               onClick={handleResetPassword}
               className={`${
                 loading ? "bg-blue-400 cursor-not-allowed" : ""
-              } bg-primary hover:bg-blue-500 text-white py-2 px-4 rounded-lg w-full lg:max-w-[417px] lg:h-[56px]  md:h-10`}
+              } bg-primary hover:bg-blue-500 text-white py-2 px-4 rounded-lg w-full lg:max-w-[417px] h-[45px] cursor-pointer`}
             >
               {loading ? "Sending..." : "Send Link"}
             </button>
             <Link href="/login">
-              <button className="bg-gray-600 border-2 hover:bg-gray-700 text-white my-2 py-4.5 px-4 rounded-lg w-full lg:max-w-[417px] lg:h-[56px] md:h-10">
-                <p className="-mt-1.7">Cancel</p>
+              <button
+                type="button"
+                className="flex items-center justify-center cursor-pointer bg-gray-600 border-2 hover:bg-gray-700 text-white my-2 py-4.5 px-4 rounded-lg w-full lg:max-w-[417px] h-[45px]"
+              >
+                <span>Cancel</span>
               </button>
             </Link>
             <Link href="/registration">

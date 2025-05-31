@@ -133,7 +133,16 @@ const Login = () => {
                     onChange={() => setShowPassword(!showPassword)}
                   />
                 </label>
-                <span className="ml-2 label-text">Show password</span>
+                <div className="group relative">
+                  <button
+                    type="button"
+                    className="ml-2 label-text cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    Show password
+                  </button>
+                  <span className="absolute transition-all duration-500 ease-in-out w-0 opacity-0 group-hover:opacity-100 group-hover:w-full border-0 border-t border-blue-400 left-0 bottom-0 ml-2"></span>
+                </div>
               </div>
               {errors.password && (
                 <p className="text-xs text-red-500">
