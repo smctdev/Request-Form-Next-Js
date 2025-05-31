@@ -26,6 +26,7 @@ import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { NavItem, SidebarProps } from "@/types/sidebarTypes";
 import { useNotification } from "@/context/NotificationContext";
+import Swal from "sweetalert2";
 
 const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   const router = useRouter();
@@ -212,7 +213,18 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   useEffect(() => {}, []);
 
   const handleLogout = () => {
-    logout(router);
+    Swal.fire({
+      title: "Are you sure you want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout(router);
+      }
+    });
   };
 
   const listStyle =
