@@ -52,19 +52,19 @@ const Login = () => {
   };
 
   const inputStyle =
-    "w-full lg:max-w-[417px] lg:h-[56px] md:h-10 p-2 bg-gray-300 rounded-lg text-black focus:outline-none focus:ring-1 focus:ring-primary";
+    "w-full lg:max-w-[417px] h-[45px] p-2 bg-gray-300 rounded-lg text-black focus:outline-none focus:ring-1 focus:ring-primary";
   return (
     <div className="flex flex-row bg-[#FFFFFF] text-black">
       <div className="relative flex items-center justify-center w-full p-8 bg-center bg-cover lg:w-1/2">
         <Image
           className="absolute inset-0 z-0 object-cover w-full h-screen lg:hidden"
-          width={100}
-          height={100}
+          width={0}
+          height={0}
           src={building}
           alt="photo"
         />
 
-        <div className="lg:max-w-[481px] bg-white md:max-w-sm max-w-xs w-full lg:mt-0  mt-20  bg-opacity-90 p-8 rounded-lg z-10 lg:m-0 m-10 ">
+        <div className="lg:max-w-[481px] bg-white md:max-w-[430px] w-full lg:mt-0 mt-20  bg-opacity-90 p-8 rounded-lg z-10 lg:m-0 m-10 ">
           <h1 className="text-primary font-bold lg:!text-[32px] md:!text-2xl mb-6 text-left lg:mt-0 ">
             <Link href="/" className="transition hover:text-[#38bdf1]">
               <ArrowLeftCircleIcon className="inline w-18 h-18" />
@@ -150,7 +150,7 @@ const Login = () => {
             </div>
             <div className="relative flex items-center justify-center">
               <button
-                className="cursor-pointer bg-primary text-white px-4 rounded-lg w-full lg:max-w-[417px] lg:h-[56px] h-10"
+                className="cursor-pointer bg-primary text-white px-4 rounded-lg w-full lg:max-w-[417px] lg:h-[45px] h-10"
                 type="submit"
                 disabled={loading || !!errors.email || !!errors.password}
               >

@@ -34,7 +34,7 @@ const Home = () => {
           />
         ) : (
           <div className="flex flex-col gap-8 md:flex-row">
-            <div className="space-y-8 w-1/2">
+            <div className="space-y-8 md:w-1/2">
               <Form
                 setSubmitted={setSubmitted}
                 setSuccessMessage={setSuccessMessage}
