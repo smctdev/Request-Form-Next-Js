@@ -1,6 +1,6 @@
 import Preloader from "@/components/loaders/PreLoader";
-import Unauthenticated from "@/components/not-authenticated";
-import Unauthorized from "@/components/not-authorized";
+import Unauthenticated from "@/components/NotAuthenticated";
+import Unauthorized from "@/components/NotAuthorized";
 import { useAuth } from "@/context/AuthContext";
 
 export default function approverPage(WrappedComponent: any) {

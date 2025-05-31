@@ -230,333 +230,335 @@ const Registration = () => {
   };
   return (
     <div className="flex flex-col lg:flex-row items-center justify-center text-black bg-[#FFFFFF]">
-      <div className="flex items-center justify-center w-full p-8 lg:w-1/2">
+      <div className="flex h-screen justify-center w-full lg:w-1/2">
         <Image
-          height={100}
-          width={100}
+          height={0}
+          width={0}
           className="absolute inset-0 z-0 hidden object-cover w-full h-screen md:block lg:hidden"
           src={building}
           alt=""
         />
-        <div className="z-10 w-full p-4 m-10 mt-20 bg-white rounded-lg lg:p-8 lg:mt-0 lg:m-0">
+        <div className="z-10 w-full p-4 m-10 bg-white rounded-lg lg:p-8 lg:mt-0 lg:m-0">
           <h1 className="text-primary font-bold lg:!text-[32px] md:!text-2xl mb-6 text-left">
             ACCOUNT REGISTRATION
           </h1>
           <form onSubmit={handleSubmit(submitData, () => setLoading(false))}>
-            <div className={`${fieldStyle}`}>
-              <div className="w-full mb-4 md:w-1/2 ">
-                <h1 className={`${headerStyle}`}>First Name</h1>
-                <input
-                  type="text"
-                  {...register("firstName")}
-                  placeholder="Enter first name"
-                  className={`${inputStyle}`}
-                />
-                <div>
-                  {errors.firstName && (
-                    <span className="text-xs text-red-500">
-                      {" "}
-                      {errors.firstName.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Last Name</h1>
-                <input
-                  type="text"
-                  {...register("lastName")}
-                  placeholder="Enter last name"
-                  className={`${inputStyle}`}
-                />
-                {errors.lastName && (
-                  <p className="text-xs text-red-500">
-                    {" "}
-                    {errors.lastName.message}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className={`${fieldStyle}`}>
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Username</h1>
-                <input
-                  type="text"
-                  {...register("userName")}
-                  placeholder="Enter username"
-                  className={`${inputStyle}`}
-                />
-                <div>
-                  {errors.userName && (
-                    <span className="text-xs text-red-500">
-                      {" "}
-                      {errors.userName.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Email</h1>
-                <input
-                  type="text"
-                  {...register("email")}
-                  placeholder="Enter email"
-                  className={`${inputStyle}`}
-                />
-                <div>
-                  {errors.email && (
-                    <span className="text-xs text-red-500">
-                      {" "}
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className={`${fieldStyle}`}>
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Password</h1>
-                <div className="relative flex items-center justify-center w-full ">
+            <div className="max-h-[calc(100vh-200px)] overflow-y-auto">
+              <div className={`${fieldStyle}`}>
+                <div className="w-full mb-4 md:w-1/2 ">
+                  <h1 className={`${headerStyle}`}>First Name</h1>
                   <input
-                    type={showPassword ? "text" : "password"}
-                    {...register("password")}
-                    placeholder="Enter password"
+                    type="text"
+                    {...register("firstName")}
+                    placeholder="Enter first name"
                     className={`${inputStyle}`}
                   />
-                  {showPassword ? (
-                    <EyeSlashIcon
-                      className="size-[24px] absolute right-3 cursor-pointer "
-                      onClick={() => setShowPassword(!showPassword)}
-                    />
-                  ) : (
-                    <EyeIcon
-                      className="size-[24px] absolute right-3 cursor-pointer "
-                      onClick={() => setShowPassword(!showPassword)}
-                    />
-                  )}
-                </div>
-                <div>
-                  {errors.password && (
-                    <span className="text-xs text-red-500">
-                      {" "}
-                      {errors.password.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Confirm Password</h1>
-                <div className="relative flex items-center justify-center w-full ">
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    {...register("confirmPassword")}
-                    placeholder="Confirm password"
-                    className={`${inputStyle}`}
-                  />
-                  {showConfirmPassword ? (
-                    <EyeSlashIcon
-                      className="size-[24px] absolute right-3 cursor-pointer "
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    />
-                  ) : (
-                    <EyeIcon
-                      className="size-[24px] absolute right-3 cursor-pointer "
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    />
-                  )}
-                </div>
-                <div>
-                  {errors.confirmPassword && (
-                    <span className="text-xs text-red-500">
-                      {" "}
-                      {errors.confirmPassword.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className={`${fieldStyle}`}>
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Contact</h1>
-                <input
-                  type="text"
-                  {...register("contact")}
-                  placeholder="Enter contact number"
-                  className={`${inputStyle}`}
-                />
-                <div>
-                  {errors.contact && (
-                    <span className="text-xs text-red-500">
-                      {" "}
-                      {errors.contact.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Position</h1>
-                <div className="relative">
-                  <Controller
-                    name="position"
-                    control={control}
-                    render={({ field }) => (
-                      <select
-                        {...field}
-                        className="w-full lg:h-[56px] md:h-10 p-2 bg-gray-300 rounded-lg"
-                      >
-                        <option value="" hidden>
-                          Select Position
-                        </option>
-                        <option value="" disabled>
-                          Select Position
-                        </option>
-                        {roleOptions.length === 0 ? (
-                          <option disabled>No position added yet</option>
-                        ) : (
-                          roleOptions.map((option, index) => (
-                            <option value={option.value} key={index}>
-                              {option.label}
-                            </option>
-                          ))
-                        )}
-                      </select>
-                    )}
-                  />
-
-                  {positionError && (
-                    <div className="flex items-start justify-start text-red-500">
-                      {positionError}
-                    </div>
-                  )}
                   <div>
-                    {errors.position && (
+                    {errors.firstName && (
                       <span className="text-xs text-red-500">
-                        {errors.position.message}
+                        {" "}
+                        {errors.firstName.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Last Name</h1>
+                  <input
+                    type="text"
+                    {...register("lastName")}
+                    placeholder="Enter last name"
+                    className={`${inputStyle}`}
+                  />
+                  {errors.lastName && (
+                    <p className="text-xs text-red-500">
+                      {" "}
+                      {errors.lastName.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className={`${fieldStyle}`}>
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Username</h1>
+                  <input
+                    type="text"
+                    {...register("userName")}
+                    placeholder="Enter username"
+                    className={`${inputStyle}`}
+                  />
+                  <div>
+                    {errors.userName && (
+                      <span className="text-xs text-red-500">
+                        {" "}
+                        {errors.userName.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Email</h1>
+                  <input
+                    type="text"
+                    {...register("email")}
+                    placeholder="Enter email"
+                    className={`${inputStyle}`}
+                  />
+                  <div>
+                    {errors.email && (
+                      <span className="text-xs text-red-500">
+                        {" "}
+                        {errors.email.message}
                       </span>
                     )}
                   </div>
                 </div>
               </div>
-            </div>
-            <div className={`${fieldStyle}`}>
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Branch Code</h1>
-                <div className="relative">
+              <div className={`${fieldStyle}`}>
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Password</h1>
+                  <div className="relative flex items-center justify-center w-full ">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      {...register("password")}
+                      placeholder="Enter password"
+                      className={`${inputStyle}`}
+                    />
+                    {showPassword ? (
+                      <EyeSlashIcon
+                        className="size-[24px] absolute right-3 cursor-pointer "
+                        onClick={() => setShowPassword(!showPassword)}
+                      />
+                    ) : (
+                      <EyeIcon
+                        className="size-[24px] absolute right-3 cursor-pointer "
+                        onClick={() => setShowPassword(!showPassword)}
+                      />
+                    )}
+                  </div>
+                  <div>
+                    {errors.password && (
+                      <span className="text-xs text-red-500">
+                        {" "}
+                        {errors.password.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Confirm Password</h1>
+                  <div className="relative flex items-center justify-center w-full ">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      {...register("confirmPassword")}
+                      placeholder="Confirm password"
+                      className={`${inputStyle}`}
+                    />
+                    {showConfirmPassword ? (
+                      <EyeSlashIcon
+                        className="size-[24px] absolute right-3 cursor-pointer "
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      />
+                    ) : (
+                      <EyeIcon
+                        className="size-[24px] absolute right-3 cursor-pointer "
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      />
+                    )}
+                  </div>
+                  <div>
+                    {errors.confirmPassword && (
+                      <span className="text-xs text-red-500">
+                        {" "}
+                        {errors.confirmPassword.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className={`${fieldStyle}`}>
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Contact</h1>
+                  <input
+                    type="text"
+                    {...register("contact")}
+                    placeholder="Enter contact number"
+                    className={`${inputStyle}`}
+                  />
+                  <div>
+                    {errors.contact && (
+                      <span className="text-xs text-red-500">
+                        {" "}
+                        {errors.contact.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Position</h1>
+                  <div className="relative">
+                    <Controller
+                      name="position"
+                      control={control}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className="w-full lg:h-[56px] md:h-10 p-2 bg-gray-300 rounded-lg"
+                        >
+                          <option value="" hidden>
+                            Select Position
+                          </option>
+                          <option value="" disabled>
+                            Select Position
+                          </option>
+                          {roleOptions.length === 0 ? (
+                            <option disabled>No position added yet</option>
+                          ) : (
+                            roleOptions.map((option, index) => (
+                              <option value={option.value} key={index}>
+                                {option.label}
+                              </option>
+                            ))
+                          )}
+                        </select>
+                      )}
+                    />
+
+                    {positionError && (
+                      <div className="flex items-start justify-start text-red-500">
+                        {positionError}
+                      </div>
+                    )}
+                    <div>
+                      {errors.position && (
+                        <span className="text-xs text-red-500">
+                          {errors.position.message}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={`${fieldStyle}`}>
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Branch Code</h1>
+                  <div className="relative">
+                    <Controller
+                      name="branchCode"
+                      control={control}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className="w-full p-2 lg:h-[56px] md:h-10 bg-gray-300 rounded-lg"
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleBranchCodeChange(Number(e.target.value));
+                          }}
+                        >
+                          <option value="" hidden>
+                            Select branch
+                          </option>
+                          <option value="" disabled>
+                            Select branch
+                          </option>
+                          {branchList.length > 0 ? (
+                            branchList.map((branch) => (
+                              <option key={branch.id} value={branch.id}>
+                                {branch.branch_code}
+                              </option>
+                            ))
+                          ) : (
+                            <option value="" disabled>
+                              No branch codes available
+                            </option>
+                          )}
+                        </select>
+                      )}
+                    />
+                    {errors.branchCode && (
+                      <span className="text-xs text-red-500">
+                        {errors.branchCode.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="w-full mb-4 md:w-1/2">
+                  <h1 className={`${headerStyle}`}>Branch</h1>
                   <Controller
-                    name="branchCode"
+                    name="branch"
                     control={control}
                     render={({ field }) => (
-                      <select
+                      <input
                         {...field}
-                        className="w-full p-2 lg:h-[56px] md:h-10 bg-gray-300 rounded-lg"
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleBranchCodeChange(Number(e.target.value));
-                        }}
-                      >
-                        <option value="" hidden>
-                          Select branch
-                        </option>
-                        <option value="" disabled>
-                          Select branch
-                        </option>
-                        {branchList.length > 0 ? (
-                          branchList.map((branch) => (
-                            <option key={branch.id} value={branch.id}>
-                              {branch.branch_code}
-                            </option>
-                          ))
-                        ) : (
-                          <option value="" disabled>
-                            No branch codes available
-                          </option>
-                        )}
-                      </select>
+                        readOnly
+                        className="w-full lg:h-[56px] md:h-10 p-2 bg-gray-300 rounded-lg"
+                      />
                     )}
                   />
-                  {errors.branchCode && (
+                  {errors.branch && (
                     <span className="text-xs text-red-500">
-                      {errors.branchCode.message}
+                      {errors.branch.message}
                     </span>
                   )}
                 </div>
               </div>
-              <div className="w-full mb-4 md:w-1/2">
-                <h1 className={`${headerStyle}`}>Branch</h1>
-                <Controller
-                  name="branch"
-                  control={control}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      readOnly
-                      className="w-full lg:h-[56px] md:h-10 p-2 bg-gray-300 rounded-lg"
-                    />
-                  )}
-                />
-                {errors.branch && (
-                  <span className="text-xs text-red-500">
-                    {errors.branch.message}
-                  </span>
-                )}
+              <div>
+                <div className="w-full mb-4">
+                  <h1 className={`${headerStyle}`}>Employee ID</h1>
+                  <input
+                    type="text"
+                    {...register("employee_id")}
+                    placeholder="Enter your employee ID"
+                    className={`${inputStyle}`}
+                  />
+                  <div>
+                    {errors.employee_id && (
+                      <span className="text-xs text-red-500">
+                        {" "}
+                        {errors.employee_id.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="w-full mb-4">
-                <h1 className={`${headerStyle}`}>Employee ID</h1>
-                <input
-                  type="text"
-                  {...register("employee_id")}
-                  placeholder="Enter your employee ID"
-                  className={`${inputStyle}`}
-                />
-                <div>
-                  {errors.employee_id && (
+              <div>
+                <div className="flex flex-col w-full mb-4">
+                  <h1 className={`${headerStyle}`}>Signature</h1>
+                  <SignatureCanvas
+                    penColor="black"
+                    ref={(ref) => setSignature(ref)}
+                    canvasProps={{
+                      className: "sigCanvas border border-black h-96 w-full",
+                    }}
+                  />
+                  {signatureEmpty && (
                     <span className="text-xs text-red-500">
-                      {" "}
-                      {errors.employee_id.message}
+                      Please provide a signature.
                     </span>
                   )}
+                  <button
+                    onClick={(e) => handleClear(e)}
+                    type="button"
+                    className="p-1 mt-2 bg-gray-300 rounded-lg cursor-pointer"
+                  >
+                    Clear
+                  </button>
                 </div>
               </div>
-            </div>
-            <div>
-              <div className="flex flex-col w-full mb-4">
-                <h1 className={`${headerStyle}`}>Signature</h1>
-                <SignatureCanvas
-                  penColor="black"
-                  ref={(ref) => setSignature(ref)}
-                  canvasProps={{
-                    className: "sigCanvas border border-black h-96 w-full",
-                  }}
-                />
-                {signatureEmpty && (
-                  <span className="text-xs text-red-500">
-                    Please provide a signature.
-                  </span>
+              <div className="flex items-center justify-center">
+                {Array.isArray(errorMessage) && errorMessage.length > 0 && (
+                  <div className="text-xs text-red-500">
+                    {errorMessage.map((message, index) => (
+                      <p key={index}>{message}</p>
+                    ))}
+                  </div>
                 )}
-                <button
-                  onClick={(e) => handleClear(e)}
-                  type="button"
-                  className="p-1 mt-2 bg-gray-300 rounded-lg cursor-pointer"
-                >
-                  Clear
-                </button>
               </div>
-            </div>
-            <div className="flex items-center justify-center">
-              {Array.isArray(errorMessage) && errorMessage.length > 0 && (
-                <div className="text-xs text-red-500">
-                  {errorMessage.map((message, index) => (
-                    <p key={index}>{message}</p>
-                  ))}
-                </div>
-              )}
             </div>
 
             <div className="relative flex items-center justify-center">

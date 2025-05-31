@@ -1,10 +1,10 @@
 import Preloader from "@/components/loaders/PreLoader";
-import Unauthenticated from "@/components/not-authenticated";
-import Unauthorized from "@/components/not-authorized";
+import Unauthenticated from "@/components/NotAuthenticated";
+import Unauthorized from "@/components/NotAuthorized";
 import { useAuth } from "@/context/AuthContext";
 
 export default function authenticatedPage(WrappedComponent: any) {
-  return (props: any) => {
+  function AuthenticatedPageComponent(props: any) {
     const { user, isLoading, isAuthenticated } = useAuth();
 
     if (isLoading) {
@@ -16,5 +16,7 @@ export default function authenticatedPage(WrappedComponent: any) {
     }
 
     return <WrappedComponent {...props} />;
-  };
+  }
+
+  return AuthenticatedPageComponent;
 }

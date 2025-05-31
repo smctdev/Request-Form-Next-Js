@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { FeedbackType } from "../_types/Feedback";
 import { feedbacksData } from "../_constants/feedback";
 import { api } from "@/lib/api";
-import TableData from "../_components/feedbacks/table-data";
-import TableLoader from "../_components/loaders/table-loader";
+import TableData from "../_components/feedbacks/TableData";
+import TableLoader from "../_components/loaders/TableLoader";
 import { PaginationType } from "../_types/pagination";
 import { paginationData } from "../_constants/pagination";
 

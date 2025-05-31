@@ -38,12 +38,22 @@ export default function Faqs() {
               </svg>
             </div>
             <div className="flex flex-col">
-              <p className="cursor-pointer" onClick={handleOpenAnswer(index)}>
+              <p
+                className="cursor-pointer flex gap-2 items-center"
+                onClick={handleOpenAnswer(index)}
+              >
+                <span
+                  className={`!font-bold !text-xl transition-all duration-300 ease-in-out ${
+                    openAnswer[index] ? "rotate-90" : "rotate-0"
+                  }`}
+                >
+                  &gt;
+                </span>
                 <span
                   className={`!text-lg ${
                     openAnswer[index]
-                      ? "text-gray-700 font-bold"
-                      : "text-gray-500 font-semibold"
+                      ? "text-gray-700 font-bold hover:text-gray-800"
+                      : "text-gray-500 font-semibold hover:text-gray-600"
                   }`}
                 >
                   {faq.question}
@@ -52,7 +62,7 @@ export default function Faqs() {
               {openAnswer && openAnswer[index] && (
                 <p>
                   <span className="text-gray-700 whitespace-pre-line">
-                    -{faq.answer}
+                    <span className="font-bold">&gt;</span> {faq.answer}
                   </span>
                 </p>
               )}

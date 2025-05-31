@@ -28,12 +28,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isApprover, setIsApprover] = useState<boolean>(false);
   const [isRefresh, setIsRefresh] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
     fetchUserProfile();
   }, [isRefresh]);
 
   const fetchUserProfile = async () => {
+    setIsLoading(true);
     try {
       const response = await fetchProfile();
       if (response.status === 200) {
@@ -51,6 +53,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setUser([]);
     } finally {
       setIsLoading(false);
+      setIsLogin(false);
     }
   };
 
@@ -63,9 +66,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         } else {
           router.push("/dashboard");
         }
-
-        setIsLoading(true);
-        setIsAuthenticated(true);
+        setIsLogin(true);
         fetchUserProfile();
         setError("");
       }
@@ -142,6 +143,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         isApprover,
         fetchUserProfile,
         setIsRefresh,
+        isLogin,
       }}
     >
       {children}
