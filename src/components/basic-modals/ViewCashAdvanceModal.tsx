@@ -1176,14 +1176,13 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                           />
 
                           {!isEditing ? (
-                            <div className="px-3 py-1 mt-2 text-xs text-center text-white rounded-lg bg-primary">
-                              <button
-                                onClick={() => handleViewImage(fileItem)}
-                                className="text-xs"
-                              >
-                                View
-                              </button>
-                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleViewImage(fileItem)}
+                              className="px-3 py-1 mt-2 text-xs text-center w-full text-white rounded-lg bg-primary cursor-pointer"
+                            >
+                              View
+                            </button>
                           ) : (
                             <p key={index} className="text-center">
                               <button
@@ -1304,8 +1303,8 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                         <Image
                           src={currentImage || ""}
                           alt="Viewed"
-                          width={100}
-                          height={100}
+                          width={400}
+                          height={400}
                           className="object-contain w-full max-h-screen transform"
                           style={{
                             transform: `scale(${zoom}) translate(${position.x}px, ${position.y}px)`,

@@ -48,7 +48,7 @@ const schema = z
 const fieldStyle = "flex flex-col md:flex-row gap-4";
 const headerStyle = "lg:text-lg text-base mb-2";
 const inputStyle =
-  "w-full  lg:h-[56px] md:h-10  p-2 bg-gray-300 rounded-lg  autofill-input text-black";
+  "w-full h-[45px] p-2 bg-gray-300 rounded-lg  autofill-input text-black";
 
 const Registration = () => {
   const router = useRouter();
@@ -234,7 +234,7 @@ const Registration = () => {
         <Image
           height={0}
           width={0}
-          className="absolute inset-0 z-0 hidden object-cover w-full h-screen md:block lg:hidden"
+          className="absolute inset-0 z-0 object-cover w-full h-screen md:block lg:hidden"
           src={building}
           alt=""
         />
@@ -408,7 +408,7 @@ const Registration = () => {
                       render={({ field }) => (
                         <select
                           {...field}
-                          className="w-full lg:h-[56px] md:h-10 p-2 bg-gray-300 rounded-lg"
+                          className="w-full h-[45px] p-2 bg-gray-300 rounded-lg"
                         >
                           <option value="" hidden>
                             Select Position
@@ -454,7 +454,7 @@ const Registration = () => {
                       render={({ field }) => (
                         <select
                           {...field}
-                          className="w-full p-2 lg:h-[56px] md:h-10 bg-gray-300 rounded-lg"
+                          className="w-full p-2 h-[45px] bg-gray-300 rounded-lg"
                           onChange={(e) => {
                             field.onChange(e);
                             handleBranchCodeChange(Number(e.target.value));
@@ -496,7 +496,7 @@ const Registration = () => {
                       <input
                         {...field}
                         readOnly
-                        className="w-full lg:h-[56px] md:h-10 p-2 bg-gray-300 rounded-lg"
+                        className="w-full h-[45px] p-2 bg-gray-300 rounded-lg"
                       />
                     )}
                   />
@@ -563,7 +563,7 @@ const Registration = () => {
 
             <div className="relative flex items-center justify-center">
               <button
-                className="cursor-pointer bg-primary text-white px-4 rounded-lg w-full lg:h-[56px] h-10"
+                className="cursor-pointer bg-primary text-white px-4 rounded-lg w-full lg:h-[45px] h-10"
                 type="submit"
                 onClick={() => setLoading(!loading)}
               >
