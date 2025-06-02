@@ -1,6 +1,6 @@
 "use client";
 
-import NavbarHome from "@/components/NavbarHome";
+import NavbarHome from "@/components/layouts/NavbarHome";
 import guestPage from "@/lib/guestPage";
 import Faqs from "./_components/faqs";
 import WhySmct from "./_components/WhyRequestOnline";

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Slice from "../../../../../public/assets/Slice.png";
-import building from "../../../../../public/assets/building.jpg";
+import Slice from "@/assets/Slice.png";
+import building from "@/assets/building.jpg";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import Swal from "sweetalert2";
 import guestPage from "@/lib/guestPage";

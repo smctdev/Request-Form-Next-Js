@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "../../public/assets/logo.png";
+import Logo from "@/assets/logo.png";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";

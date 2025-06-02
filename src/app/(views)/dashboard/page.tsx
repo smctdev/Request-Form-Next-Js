@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Man from "../../../../public/assets/manComputer.svg";
+import Man from "@/assets/manComputer.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClockRotateLeft,

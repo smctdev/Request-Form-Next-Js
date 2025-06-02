@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import BeatLoader from "react-spinners/BeatLoader";
-import Avatar from "../../../../../../public/assets/avatar.png";
-import SMCTLogo from "../../../../../../public/assets/SMCT.png";
-import DSMLogo from "../../../../../../public/assets/DSM.jpg";
-import DAPLogo from "../../../../../../public/assets/DAP.jpg";
-import HDILogo from "../../../../../../public/assets/HDI.jpg";
+import Avatar from "@/assets/avatar.png";
+import SMCTLogo from "@/assets/SMCT.png";
+import DSMLogo from "@/assets/DSM.jpg";
+import DAPLogo from "@/assets/DAP.jpg";
+import HDILogo from "@/assets/HDI.jpg";
 import ApproveSuccessModal from "../ui/ApproveSuccessModal";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

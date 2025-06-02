@@ -1,7 +1,7 @@
 "use client";
 
-import Navbar from "@/components/navbar";
-import Sidebar2 from "@/components/sidebar2";
+import Navbar from "@/components/layouts/navbar";
+import Sidebar2 from "@/components/layouts/sidebar2";
 import { useAuth } from "@/context/AuthContext";
 import { usePathname } from "next/navigation";
 import { useState } from "react";

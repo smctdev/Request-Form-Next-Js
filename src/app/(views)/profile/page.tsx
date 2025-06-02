@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import Avatar2 from "../../../../public/assets/avatar.png";
+import Avatar2 from "@/assets/avatar.png";
 import ClipLoader from "react-spinners/ClipLoader";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

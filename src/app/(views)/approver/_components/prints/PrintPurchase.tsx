@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import SMCTLogo from "../../../../../../public/assets/SMCT.png";
-import DSMLogo from "../../../../../../public/assets/DSM.jpg";
-import DAPLogo from "../../../../../../public/assets/DAP.jpg";
-import HDILogo from "../../../../../../public/assets/HDI.jpg";
-import HOLogo from "../../../../../../public/assets/logo.png";
+import SMCTLogo from "@/assets/SMCT.png";
+import DSMLogo from "@/assets/DSM.jpg";
+import DAPLogo from "@/assets/DAP.jpg";
+import HDILogo from "@/assets/HDI.jpg";
+import HOLogo from "@/assets/logo.png";
 import Image from "next/image";
 
 type PrintRefundProps = {
