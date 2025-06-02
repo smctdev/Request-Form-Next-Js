@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./app.css";
 import { AuthProvider } from "../context/AuthContext";
-import BaseContent from "@/app/BaseContent";
+import BaseContent from "@/components/layouts/BaseContent";
 import { NotificationProvider } from "@/context/NotificationContext";
 
 const geistSans = Geist({
@@ -17,7 +17,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SMCT Request Form",
+  title: {
+    default: "SMCT Group of Companies Request Form | Home",
+    template: "SMCT Group of Companies Request Form | %s",
+  },
   description: "SMCT Group of Companies Request Form",
 };
 

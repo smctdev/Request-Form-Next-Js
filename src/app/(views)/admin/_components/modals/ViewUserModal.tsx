@@ -1,6 +1,6 @@
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import Avatar from "../../../../../../public/assets/avatar.png";
+import Avatar from "@/assets/avatar.png";
 import { format } from "date-fns";
 import Image from "next/image";
 

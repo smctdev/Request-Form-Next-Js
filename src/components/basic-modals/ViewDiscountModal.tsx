@@ -3,7 +3,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import EditStockModalSuccess from "./EditStockModalSuccess";
 import BeatLoader from "react-spinners/BeatLoader";
-import Avatar from "../../../public/assets/avatar.png";
+import Avatar from "@/assets/avatar.png";
 import Image from "next/image";
 import AddCustomModal from "./AddCustomModal";
 import { Approver } from "@/types/approverTypes";

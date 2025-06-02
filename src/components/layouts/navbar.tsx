@@ -12,7 +12,7 @@ import {
   EnvelopeOpenIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import Avatar from "../../public/assets/avatar.png";
+import Avatar from "@/assets/avatar.png";
 import { format } from "date-fns";
 import { useSpring, animated } from "@react-spring/web";
 import Swal from "sweetalert2";
@@ -32,13 +32,13 @@ import ApproverCashDisbursement from "@/app/(views)/approver/_components/modals/
 import ApproverCashAdvance from "@/app/(views)/approver/_components/modals/ApproverCashAdvance";
 import ApproverLiquidation from "@/app/(views)/approver/_components/modals/ApproverLiquidation";
 import ApproverRefund from "@/app/(views)/approver/_components/modals/ApproverRefund";
-import ViewStockModal from "./basic-modals/ViewStockModal";
-import ViewDiscountModal from "./basic-modals/ViewDiscountModal";
-import ViewPurchaseModal from "./basic-modals/ViewPurchaseModal";
-import ViewCashDisbursementModal from "./basic-modals/ViewCashDisbursementModal";
-import ViewCashAdvanceModal from "./basic-modals/ViewCashAdvanceModal";
-import ViewLiquidationModal from "./basic-modals/ViewLiquidationModal";
-import ViewRequestModal from "./basic-modals/ViewRequestModal";
+import ViewStockModal from "../basic-modals/ViewStockModal";
+import ViewDiscountModal from "../basic-modals/ViewDiscountModal";
+import ViewPurchaseModal from "../basic-modals/ViewPurchaseModal";
+import ViewCashDisbursementModal from "../basic-modals/ViewCashDisbursementModal";
+import ViewCashAdvanceModal from "../basic-modals/ViewCashAdvanceModal";
+import ViewLiquidationModal from "../basic-modals/ViewLiquidationModal";
+import ViewRequestModal from "../basic-modals/ViewRequestModal";
 
 type Record = {
   approved_attachment: string;

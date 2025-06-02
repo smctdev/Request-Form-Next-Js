@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Stock Requisition",
+    "path": "/create-request/stock-requisition"
+  },
+  {
+    "title": "Purchase Order Requisition Slip",
+    "path": "/create-request/purchase-order-requisition-slip"
+  },
+  {
+    "title": "Cash/Card Disbursement Requisition Slip",
+    "path": "/create-request/cash-or-card-disbursement-requisition-slip"
+  },
+  {
+    "title": "Application For Cash Advance",
+    "path": "/create-request/application-for-cash-advance"
+  },
+  {
+    "title": "Liquidation of Actual Expense",
+    "path": "/create-request/liquidation-of-actual-expense"
+  },
+  {
+    "title": "Request for Refund",
+    "path": "/create-request/request-for-refund"
+  },
+  {
+    "title": "Discount Request",
+    "path": "/create-request/discount-request"
+  }
+]

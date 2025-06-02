@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Logo from "../../public/assets/logo.png";
+import Logo from "@/assets/logo.png";
 import {
   ChartBarIcon,
   EnvelopeIcon,

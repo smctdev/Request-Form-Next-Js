@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Slice from "../../../../../public/assets/Slice.png";
-import building from "../../../../../public/assets/building.jpg";
+import Slice from "@/assets/Slice.png";
+import building from "@/assets/building.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
