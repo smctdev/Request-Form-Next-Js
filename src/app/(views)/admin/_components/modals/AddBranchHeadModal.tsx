@@ -50,7 +50,6 @@ const AddBranchHeadModal = ({
     const fetchUsers = async () => {
       try {
         const response = await api.get(`/get-all-branch-heads`);
-        console.log(response.data.data);
 
         const transformedData = response.data.data
           .filter((item: any) => item.user.position.trim() === "Branch Manager")

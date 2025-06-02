@@ -23,8 +23,6 @@ export default function CreateRequestBase({ title }: { title: string }) {
     router.replace(`/create-request?title=${title}`);
   }, [selected, router]);
 
-  console.log(selected);
-
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
       <h1 className="text-primary dark:text-primaryD text-[32px] font-bold">
