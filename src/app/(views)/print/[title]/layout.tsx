@@ -2,12 +2,12 @@ import { ucfirst } from "@/utils/ucfirst";
 import { Metadata } from "next";
 import { ReactNode } from "react";
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { title: string };
-}): Metadata {
-  const { title } = params;
+  params: Promise<{ title: string }>;
+}): Promise<Metadata> {
+  const { title } = await params;
   return {
     title: `Print | ${ucfirst(title)}`,
     description: "SMCT Group of Companies Request Form print page.",
