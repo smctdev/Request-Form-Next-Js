@@ -441,10 +441,11 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             </div>
 
             {newProfilePic && (
-              <div className="bg-primary text-white w-full h-[48px] rounded-[12px] mt-4 flex items-center justify-center">
+              <div className="bg-primary text-white w-full h-[48px] rounded-[12px] mt-4 flex items-center justify-center cursor-pointer">
                 <button
+                  type="button"
                   disabled={loadingChange}
-                  className="text-white"
+                  className="text-white cursor-pointer"
                   onClick={onSubmit}
                 >
                   {loadingChange ? "Uploading..." : "Upload Profile Picture"}
@@ -519,8 +520,9 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             </div>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             <button
+              type="button"
               disabled={!currentPassword || loading}
-              className={`text-white bg-primary flex justify-center items-center rounded-[12px] w-full h-[50px] mt-4 ${
+              className={`text-white bg-primary flex justify-center cursor-pointer items-center rounded-[12px] w-full h-[50px] mt-4 ${
                 !currentPassword && "cursor-not-allowed"
               }`}
               onClick={handleChangePassword}
@@ -588,14 +590,16 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             {user?.signature === null && (
               <div className="flex mt-2">
                 <button
+                  type="button"
                   onClick={(e) => handleClear(e)}
-                  className="p-1 mr-2 bg-gray-300 rounded-lg"
+                  className="p-1 mr-2 bg-gray-300 rounded-lg cursor-pointer"
                 >
                   Clear
                 </button>
                 <button
+                  type="button"
                   onClick={handleSaveSignature}
-                  className={`bg-primary text-white p-2 rounded-lg flex items-center ${
+                  className={`bg-primary text-white p-2 rounded-lg flex cursor-pointer items-center ${
                     signatureLoading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   disabled={signatureLoading}
@@ -631,7 +635,8 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             </div>
             <div className="flex items-center justify-center w-full p-4 rounded-b-lg bg-graybg">
               <button
-                className=" bg-primary p-2 w-1/2 rounded-[12px] text-white font-extrabold"
+                type="button"
+                className=" bg-primary p-2 w-1/2 rounded-[12px] text-white font-extrabold cursor-pointer"
                 onClick={closeSuccessModal}
               >
                 OKAY
@@ -657,7 +662,8 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             </div>
             <div className="flex items-center justify-center w-full p-4 rounded-b-lg bg-graybg">
               <button
-                className=" bg-primary p-2 w-1/2 rounded-[12px] text-white font-extrabold"
+                type="button"
+                className=" bg-primary p-2 w-1/2 rounded-[12px] text-white font-extrabold cursor-pointer"
                 onClick={closeSignatureSuccess}
               >
                 OKAY
