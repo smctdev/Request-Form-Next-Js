@@ -1463,7 +1463,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
               <div>
                 <button
                   type="button"
-                  className="items-center h-10 p-2 text-white bg-primary rounded-xl cursor-pointer"
+                  className="items-center h-10 p-2 text-white bg-primary rounded-xl cursor-pointer hover:bg-blue-600"
                   onClick={handleSaveChanges}
                 >
                   {loading ? (
