@@ -2,33 +2,32 @@
 
 import adminPage from "@/lib/adminPage";
 import { useEffect, useState } from "react";
-import { FeedbackType } from "../_types/Feedback";
-import { feedbacksData } from "../_constants/feedback";
 import { api } from "@/lib/api";
-import TableData from "../_components/feedbacks/TableData";
+import TableData from "../_components/request-access/TableData";
 import TableLoader from "../_components/loaders/TableLoader";
 import { PaginationType } from "../_types/pagination";
 import { paginationData } from "../_constants/pagination";
 
-function Feedbacks() {
-  const [feedbacks, setFeedbacks] = useState<FeedbackType[]>(feedbacksData);
+function RequestAccess() {
+  const [requestAccess, setRequestAccess] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pagination, setPagination] = useState<PaginationType>(paginationData);
+  const [isRefresh, setIsRefresh] = useState<boolean>(false);
 
   useEffect(() => {
     setPagination((pagination) => ({
       ...pagination,
       loading: true,
     }));
-    const fetchAllFeedbacks = async () => {
+    const fetchAllRequestAccess = async () => {
       try {
-        const response = await api.get("/feedbacks", {
+        const response = await api.get("/employee-request-access", {
           params: {
             page: pagination?.current_page,
             per_page: pagination?.per_page,
           },
         });
-        setFeedbacks(response.data.data);
+        setRequestAccess(response.data.data);
         setPagination((pagination) => ({
           ...pagination,
           current_page: response.data.current_page,
@@ -46,18 +45,17 @@ function Feedbacks() {
         }));
       }
     };
-    fetchAllFeedbacks();
-  }, [pagination?.current_page, pagination?.per_page]);
+    fetchAllRequestAccess();
+  }, [pagination?.current_page, pagination?.per_page, isRefresh]);
 
   const tableHead = [
     "ID/Code",
-    "Name",
-    "Email",
-    "Phone",
-    "Department",
-    "Opinion",
+    "Type",
+    "Employee Name",
     "Message",
+    "Status",
     "Date Submitted",
+    "Action",
   ];
 
   const isFirstPage = pagination?.current_page === 1;
@@ -66,7 +64,7 @@ function Feedbacks() {
 
   return (
     <div className="bg-graybg min-h-screen pt-8 px-6 pb-20">
-      <h2 className="!text-4xl font-bold text-blue-400 mb-6">Feedbacks</h2>
+      <h2 className="!text-4xl font-bold text-blue-400 mb-6">RequestAccess</h2>
 
       <div className="bg-white rounded-xl shadow-md overflow-x-auto">
         <table className="min-w-full table-auto text-sm text-left text-gray-700">
@@ -81,15 +79,19 @@ function Feedbacks() {
           </thead>
           <tbody className="divide-y divide-gray-200">
             {isLoading ? (
-              <TableLoader colSpan={8} />
-            ) : feedbacks.length > 0 ? (
-              feedbacks?.map((item: FeedbackType, index: number) => (
-                <TableData key={index} item={item} />
+              <TableLoader colSpan={7} />
+            ) : requestAccess.length > 0 ? (
+              requestAccess?.map((item: any, index: number) => (
+                <TableData
+                  key={index}
+                  item={item}
+                  setIsRefresh={setIsRefresh}
+                />
               ))
             ) : (
               <tr>
                 <td colSpan={8} className="text-center p-5 font-bold">
-                  No feedbacks found
+                  No request access found
                 </td>
               </tr>
             )}
@@ -167,4 +169,4 @@ function Feedbacks() {
   );
 }
 
-export default adminPage(Feedbacks);
+export default adminPage(RequestAccess);

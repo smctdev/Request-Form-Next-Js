@@ -55,7 +55,7 @@ type Props = {};
 
 const inputStyle =
   "w-full h-full bg-white px-2 py-1 bg-white  autofill-input focus:outline-0";
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white";
+const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 
 const CreateRefund = (props: Props) => {
   const [selectedRequestType, setSelectedRequestType] = useState(

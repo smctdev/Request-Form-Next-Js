@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 
 export default function approverPage(WrappedComponent: any) {
-  return (props: any) => {
+  function ApproverPageComponent(props: any) {
     const { user, isLoading, isApprover, isAuthenticated, setIsLogin } =
       useAuth();
 
@@ -26,5 +26,7 @@ export default function approverPage(WrappedComponent: any) {
     }
 
     return <WrappedComponent {...props} />;
-  };
+  }
+
+  return ApproverPageComponent;
 }

@@ -9,7 +9,6 @@ import {
   DocumentPlusIcon,
   UserGroupIcon,
   BookOpenIcon,
-  ArrowLeftStartOnRectangleIcon,
   UserIcon,
   BuildingOfficeIcon,
   MapIcon,
@@ -17,6 +16,7 @@ import {
   UserPlusIcon,
   BriefcaseIcon,
   StarIcon,
+  LockClosedIcon,
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
@@ -120,6 +120,12 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             submenu: false,
             icon: StarIcon,
             path: "/admin/feedbacks",
+          },
+          {
+            title: "Request Access",
+            submenu: false,
+            icon: LockClosedIcon,
+            path: "/admin/request-access",
           },
           { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
         ]
@@ -262,7 +268,9 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
               <Link href={item.path} key={item.title}>
                 <li
                   className={`${listStyle} ${
-                    pathname === item.path ? activeClass : ""
+                    pathname.startsWith(item.path.split("?")[0])
+                      ? activeClass
+                      : ""
                   } ${!open ? "justify-center" : "hover:bg-[#E7F1F9]"}`}
                 >
                   <div

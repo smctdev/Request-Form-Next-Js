@@ -607,7 +607,7 @@ const Request = (props: Props) => {
   return (
     <div className="w-full px-10 pt-4 bg-graybg dark:bg-blackbg h-lvh md:px-10 lg:px-30">
       <Link href="/create-request?title=Stock%20Requisition">
-        <button className="cursor-pointer bg-primary text-white rounded-[12px] mb-2 w-[120px] sm:w-[151px] h-[34px] z-10">
+        <button className="cursor-pointer bg-primary hover:bg-blue-600 text-white rounded-[12px] mb-2 w-[120px] sm:w-[151px] h-[34px] z-10">
           Create a Request
         </button>
       </Link>

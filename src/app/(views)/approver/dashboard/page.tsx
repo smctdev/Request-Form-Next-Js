@@ -300,12 +300,12 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
           </p>
           <div className="flex flex-row gap-2">
             <Link href="/create-request?title=Stock%20Requisition">
-              <button className="bg-[#FF947D] text-[15px] w-full lg:h-[57px] h-[40px] rounded-[12px] font-semibold px-3 cursor-pointer">
+              <button className="bg-[#FF947D] hover:bg-[#ff957dd6] text-[15px] w-full lg:h-[57px] h-[40px] rounded-[12px] font-semibold px-3 cursor-pointer">
                 Create a Request
               </button>
             </Link>
             <Link href="/approver/request">
-              <button className="bg-[#FF947D] text-[15px] w-full lg:h-[57px] h-[40px] rounded-[12px] font-semibold px-3 cursor-pointer">
+              <button className="bg-[#FF947D] hover:bg-[#ff957dd6] text-[15px] w-full lg:h-[57px] h-[40px] rounded-[12px] font-semibold px-3 cursor-pointer">
                 Process Request
               </button>
             </Link>
