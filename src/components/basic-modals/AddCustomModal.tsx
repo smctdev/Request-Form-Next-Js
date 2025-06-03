@@ -356,7 +356,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-2 py-2 font-medium text-white bg-gray-500 rounded hover:bg-gray-400"
+              className="px-2 py-2 font-medium text-white bg-gray-500 rounded cursor-pointer hover:bg-gray-400"
             >
               Cancel
             </button>
