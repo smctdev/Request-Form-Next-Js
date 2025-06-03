@@ -481,7 +481,8 @@ const ViewStockModal: React.FC<Props> = ({
           {!fetchingApprovers && !isFetchingApprovers && (
             <>
               <button
-                className="p-1 px-2 text-white bg-blue-600 rounded-md"
+                type="button"
+                className="p-1 px-2 text-white bg-blue-600 rounded-md cursor-pointer"
                 onClick={handlePrint}
               >
                 Print
@@ -937,8 +938,9 @@ const ViewStockModal: React.FC<Props> = ({
               <div className="mt-4">
                 <p className="mb-3 font-semibold">Attachments:</p>
                 <button
+                  type="button"
                   onClick={() => setNewAttachments([])}
-                  className="px-3 py-1 text-xs text-white bg-red-700 rounded-lg hover:bg-red-500"
+                  className="px-3 py-1 text-xs text-white bg-red-700 rounded-lg hover:bg-red-500 cursor-pointer"
                 >
                   Remove All
                 </button>
@@ -974,8 +976,9 @@ const ViewStockModal: React.FC<Props> = ({
                           ) : (
                             <p key={index} className="text-center">
                               <button
+                                type="button"
                                 onClick={() => handleRemoveAttachment(index)}
-                                className="px-3 py-1 mt-2 text-xs text-white bg-red-500 rounded-lg"
+                                className="px-3 py-1 mt-2 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                               >
                                 Remove
                               </button>
@@ -1007,8 +1010,9 @@ const ViewStockModal: React.FC<Props> = ({
                             ) : (
                               <p key={index} className="text-center">
                                 <button
+                                  type="button"
                                   onClick={() => handleRemoveAttachment(index)}
-                                  className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg"
+                                  className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                                 >
                                   Remove
                                 </button>
@@ -1051,8 +1055,9 @@ const ViewStockModal: React.FC<Props> = ({
                       <div className="mt-2">
                         <p key={fileItem.name} className="text-center">
                           <button
+                            type="button"
                             onClick={() => handleRemoveImage(fileItem.name)}
-                            className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg"
+                            className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                           >
                             Remove
                           </button>
@@ -1102,28 +1107,32 @@ const ViewStockModal: React.FC<Props> = ({
 
                       <div className="fixed flex w-10 h-10 gap-8 text-4xl text-white rounded-full right-48 top-4">
                         <button
+                          type="button"
                           onClick={resetZoom}
-                          className="w-10 h-10 text-lg text-white"
+                          className="w-10 h-10 text-lg text-white cursor-pointer"
                         >
                           Reset
                         </button>
                         <button
+                          type="button"
                           onClick={zoomOut}
-                          className="w-10 h-10 text-4xl text-white"
+                          className="w-10 h-10 text-4xl text-white cursor-pointer"
                         >
                           -
                         </button>
                         <button
+                          type="button"
                           onClick={zoomIn}
-                          className="w-10 h-10 text-4xl text-white"
+                          className="w-10 h-10 text-4xl text-white cursor-pointer"
                         >
                           +
                         </button>
                       </div>
 
                       <button
+                        type="button"
                         onClick={closeImgModal}
-                        className="fixed w-10 h-10 text-4xl text-white right-4 top-4"
+                        className="fixed w-10 h-10 text-4xl text-white right-4 top-4 cursor-pointer"
                       >
                         &times;
                       </button>
@@ -1241,7 +1250,8 @@ const ViewStockModal: React.FC<Props> = ({
             {isEditing ? (
               <div>
                 <button
-                  className="items-center h-10 p-2 text-white bg-primary rounded-xl"
+                  type="button"
+                  className="items-center h-10 p-2 text-white bg-primary rounded-xl cursor-pointer"
                   onClick={handleSaveChanges}
                 >
                   {loading ? (
@@ -1251,7 +1261,8 @@ const ViewStockModal: React.FC<Props> = ({
                   )}
                 </button>
                 <button
-                  className="p-2 ml-2 text-white bg-red-600 rounded-xl"
+                  type="button"
+                  className="p-2 ml-2 text-white bg-red-600 rounded-xl cursor-pointer"
                   onClick={handleCancelEdit}
                 >
                   Cancel
@@ -1263,7 +1274,8 @@ const ViewStockModal: React.FC<Props> = ({
               (editableRecord.status === "Pending" ||
                 editableRecord.status === "Disapproved") && (
                 <button
-                  className="flex p-2 ml-2 text-white bg-blue-500 rounded-xl"
+                  type="button"
+                  className="flex p-2 ml-2 text-white bg-blue-500 rounded-xl cursor-pointer"
                   onClick={handleEdit}
                 >
                   <PencilIcon className="w-6 h-6 mr-2" />
