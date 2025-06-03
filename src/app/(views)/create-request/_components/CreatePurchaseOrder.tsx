@@ -900,13 +900,15 @@ const CreatePurchaseOrder = (props: Props) => {
                 <p>Are you sure you want to submit the request?</p>
                 <div className="flex justify-end mt-4">
                   <button
-                    className="px-4 py-2 mr-2 font-bold text-gray-800 bg-gray-300 rounded hover:bg-gray-400"
+                    type="button"
+                    className="px-4 py-2 mr-2 font-bold text-gray-800 bg-gray-300 cursor-pointer rounded hover:bg-gray-400"
                     onClick={handleCloseConfirmationModal}
                   >
                     Cancel
                   </button>
                   <button
-                    className="px-4 py-2 font-bold text-white rounded bg-primary hover:bg-primary-dark"
+                    type="button"
+                    className="px-4 py-2 font-bold text-white rounded bg-primary  cursor-pointer hover:bg-primary-dark"
                     onClick={handleConfirmSubmit}
                   >
                     Confirm
