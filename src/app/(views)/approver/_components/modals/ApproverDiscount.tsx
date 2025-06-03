@@ -1197,7 +1197,7 @@ const ApproverDiscount: React.FC<Props> = ({
               </button>
               <button
                 type="button"
-                className="w-1/2 p-2 text-white bg-red-600 rounded-xl cursor-pointer hover:bg-red-400"
+                className="w-1/2 p-2 text-white bg-red-600 rounded-xl cursor-pointer hover:bg-red-800"
                 onClick={handleDisapprove}
               >
                 {loading ? (
