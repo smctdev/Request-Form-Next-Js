@@ -522,7 +522,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             <button
               type="button"
               disabled={!currentPassword || loading}
-              className={`text-white bg-primary flex justify-center cursor-pointer items-center rounded-[12px] w-full h-[50px] mt-4 ${
+              className={`text-white bg-primary flex justify-center items-center rounded-[12px] w-full h-[50px] mt-4 ${
                 !currentPassword && "cursor-not-allowed"
               }`}
               onClick={handleChangePassword}
@@ -599,7 +599,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                 <button
                   type="button"
                   onClick={handleSaveSignature}
-                  className={`bg-primary text-white p-2 rounded-lg flex cursor-pointer items-center ${
+                  className={`bg-primary text-white p-2 rounded-lg flex items-center ${
                     signatureLoading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   disabled={signatureLoading}
