@@ -421,9 +421,9 @@ const CreateCashDisbursement = (props: Props) => {
           </div>
 
           <div className="my-3 ">
-            <button
+            <button type="button"
               onClick={openAddCustomModal}
-              className="p-2 text-white rounded bg-primary"
+              className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
             >
               {isEditableApprover ? "Edit Approver" : "Add Approver"}
             </button>

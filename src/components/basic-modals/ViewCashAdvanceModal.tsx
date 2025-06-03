@@ -919,9 +919,9 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
           </div>
           {isEditing && (
             <div className="my-2">
-              <button
+              <button type="button"
                 onClick={openAddCustomModal}
-                className="p-2 text-white rounded bg-primary"
+                className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
               >
                 Edit Approver
               </button>
