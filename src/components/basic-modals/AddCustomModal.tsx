@@ -332,14 +332,14 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-2 py-2 font-medium text-white bg-gray-500 rounded hover:bg-gray-400"
+              className="px-2 py-2 font-medium text-white bg-gray-500 rounded cursor-pointer hover:bg-gray-400"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={handleNext}
-              className="px-2 py-2 font-medium text-white bg-blue-300 rounded hover:bg-blue-400"
+              className="px-2 py-2 font-medium text-white bg-blue-300 rounded cursor-pointer hover:bg-blue-400"
             >
               Next
             </button>
@@ -349,7 +349,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <button
               type="button"
               onClick={handleNext}
-              className="px-2 py-2 font-medium text-white bg-gray-600 rounded hover:bg-gray-700"
+              className="px-2 py-2 font-medium text-white bg-gray-600 rounded cursor-pointer hover:bg-gray-700"
             >
               Back
             </button>
@@ -363,7 +363,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <button
               type="button"
               onClick={handleResetSelection}
-              className="px-2 py-2 font-medium text-gray-800 bg-gray-300 rounded hover:bg-gray-400"
+              className="px-2 py-2 font-medium text-gray-800 bg-gray-300 rounded cursor-pointer hover:bg-gray-400"
             >
               Reset
             </button>
@@ -371,7 +371,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
               type="button"
               onClick={handleAddCustomRequest}
               disabled={isLoading}
-              className="px-2 py-2 font-medium text-white rounded bg-primary hover:bg-blue-400 hover:bg-primary-dark "
+              className="px-2 py-2 font-medium text-white rounded bg-primary cursor-pointer hover:bg-blue-400 hover:bg-primary-dark "
             >
               {isLoading ? "Saving..." : "Save"}
             </button>
