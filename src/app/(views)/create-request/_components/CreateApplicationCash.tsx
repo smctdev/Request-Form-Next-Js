@@ -732,7 +732,7 @@ const CreateApplicationCash = (props: Props) => {
                                   type="text"
                                   value={item.day}
                                   readOnly
-                                  className={`cursor-not-allowed ${tableInput}`}
+                                  className={`!cursor-not-allowed ${tableInput}`}
                                 />
                               </td>
                               <td

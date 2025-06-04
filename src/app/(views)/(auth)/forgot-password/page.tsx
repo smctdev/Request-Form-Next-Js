@@ -92,7 +92,7 @@ const ForgotPassword: React.FC = () => {
               disabled={loading}
               onClick={handleResetPassword}
               className={`${
-                loading ? "bg-blue-400 cursor-not-allowed" : ""
+                loading ? "bg-blue-400 !cursor-not-allowed" : ""
               } bg-primary hover:bg-blue-500 text-white py-2 px-4 rounded-lg w-full lg:max-w-[417px] h-[45px] cursor-pointer`}
             >
               {loading ? "Sending..." : "Send Link"}

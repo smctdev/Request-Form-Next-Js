@@ -170,7 +170,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
           <button
             type="submit"
             className={`${
-              isLoading && "!bg-blue-300 cursor-not-allowed"
+              isLoading && "!bg-blue-300 !cursor-not-allowed"
             } w-full btn btn-primary`}
             disabled={isLoading}
           >

@@ -18,7 +18,7 @@ const RequestAccessPage = () => {
 
   return (
     <div className="p-10">
-      <div className="border border-gray-300 bg-white rounded-md">
+      <div className="mt-5">
         <div className="flex flex-col items-center justify-center h-[calc(100vh-200px)] space-y-5">
           {requestAccess && !isFormOpen ? (
             <RequestAccessCard
@@ -28,12 +28,6 @@ const RequestAccessPage = () => {
             />
           ) : (
             <>
-              <h1 className="!text-3xl font-bold text-gray-900">
-                Request Access
-              </h1>
-              <p className="mt-4 text-gray-600">
-                Please fill out the form below to request access to our service.
-              </p>
               <RequestAccess
                 updateProfile={updateProfile}
                 handleRequestAgain={handleRequestAgain}

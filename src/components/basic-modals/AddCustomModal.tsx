@@ -245,7 +245,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
                       <input
                         type="checkbox"
                         className={`h-5 w-5 mr-2 ${
-                          isDisabled ? "cursor-not-allowed" : "cursor-pointer"
+                          isDisabled ? "!cursor-not-allowed" : "cursor-pointer"
                         }`}
                         id={`noted_by_${approver.id}`}
                         checked={isNoted}
@@ -298,7 +298,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
                       <input
                         type="checkbox"
                         className={`h-5 w-5 mr-2 ${
-                          isDisabled ? "cursor-not-allowed" : "cursor-pointer"
+                          isDisabled ? "!cursor-not-allowed" : "cursor-pointer"
                         }`}
                         id={`approved_by_${approver.id}`}
                         checked={isApproved}

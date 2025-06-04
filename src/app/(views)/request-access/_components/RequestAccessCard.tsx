@@ -71,10 +71,11 @@ export default function RequestAccessCard({
 
   return (
     <>
-      <div className="w-fit shadow rounded-lg">
+      <div className="max-w-lg shadow rounded-lg">
         <div className="p-5 bg-blue-500 rounded-t-lg">
           <p className="text-center text-white font-bold !text-2xl">
-            Your latest request for access.
+            Your latest request for access. Please wait until the administrator
+            approves your request.
           </p>
         </div>
         <hr className="border-gray-300 border-t" />
