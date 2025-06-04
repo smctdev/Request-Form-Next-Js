@@ -37,6 +37,7 @@ const RequestAccessPage = () => {
               <RequestAccess
                 updateProfile={updateProfile}
                 handleRequestAgain={handleRequestAgain}
+                user={user}
               />
             </>
           )}

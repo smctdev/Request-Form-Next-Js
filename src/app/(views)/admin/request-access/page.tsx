@@ -1,52 +1,49 @@
 "use client";
 
 import adminPage from "@/lib/adminPage";
-import { useEffect, useState } from "react";
-import { api } from "@/lib/api";
+import { useEffect } from "react";
 import TableData from "../_components/request-access/TableData";
 import TableLoader from "../_components/loaders/TableLoader";
-import { PaginationType } from "../_types/pagination";
-import { paginationData } from "../_constants/pagination";
+import echo from "@/hooks/echo";
+import { useAuth } from "@/context/AuthContext";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import useFetch from "../_hooks/useFetch";
+import Pagination from "../_components/ui/Pagination";
 
 function RequestAccess() {
-  const [requestAccess, setRequestAccess] = useState<any>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [pagination, setPagination] = useState<PaginationType>(paginationData);
-  const [isRefresh, setIsRefresh] = useState<boolean>(false);
+  const { user } = useAuth();
+  const {
+    data: requestAccess,
+    setData: setRequestAccess,
+    isLoading,
+    searchTerm,
+    handleSearch,
+    setIsRefresh,
+    pagination,
+    setPagination,
+  } = useFetch({ url: "/employee-request-access" });
 
   useEffect(() => {
-    setPagination((pagination) => ({
-      ...pagination,
-      loading: true,
-    }));
-    const fetchAllRequestAccess = async () => {
-      try {
-        const response = await api.get("/employee-request-access", {
-          params: {
-            page: pagination?.current_page,
-            per_page: pagination?.per_page,
-          },
-        });
-        setRequestAccess(response.data.data);
-        setPagination((pagination) => ({
-          ...pagination,
-          current_page: response.data.current_page,
-          last_page: response.data.last_page,
-          total: response.data.total,
-          per_page: response.data.per_page,
-        }));
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-        setPagination((pagination) => ({
-          ...pagination,
-          loading: false,
-        }));
-      }
+    if (!user.id || !echo) return;
+
+    const channel = echo
+      .private(`request-access.${user.id}`)
+      .listen("RequestAccessEvent", (event: any) => {
+        if (!searchTerm) {
+          const { requestAccess } = event;
+
+          setRequestAccess((prevRequestAccess: any) => [
+            requestAccess,
+            ...prevRequestAccess,
+          ]);
+        }
+      });
+
+    return () => {
+      channel.stopListening("RequestAccessEvent");
+      echo.leaveChannel(`private-request-access.${user.id}`);
     };
-    fetchAllRequestAccess();
-  }, [pagination?.current_page, pagination?.per_page, isRefresh]);
+  }, [echo, user.id, searchTerm]);
 
   const tableHead = [
     "ID/Code",
@@ -58,14 +55,19 @@ function RequestAccess() {
     "Action",
   ];
 
-  const isFirstPage = pagination?.current_page === 1;
-  const isLastPage = pagination?.current_page === pagination?.last_page;
-  const isPaginationShown = !isFirstPage || !isLastPage;
-
   return (
     <div className="bg-graybg min-h-screen pt-8 px-6 pb-20">
       <h2 className="!text-4xl font-bold text-blue-400 mb-6">RequestAccess</h2>
 
+      <div className="my-4 relative">
+        <input
+          type="search"
+          placeholder="Search..."
+          onChange={handleSearch()}
+          className="bg-white border border-gray-300 text-gray-600 text-sm rounded-lg focus:ring-blue-500 focus:outline-none focus:border-blue-500 block w-1/6 py-2.5 pr-2.5 pl-10"
+        />
+        <FaMagnifyingGlass className="absolute top-0 left-0 mt-3.5 ml-3 text-gray-400" />
+      </div>
       <div className="bg-white rounded-xl shadow-md overflow-x-auto">
         <table className="min-w-full table-auto text-sm text-left text-gray-700">
           <thead className="bg-gray-100 text-xs uppercase text-gray-600">
@@ -97,73 +99,11 @@ function RequestAccess() {
             )}
           </tbody>
         </table>
-        <div className={`flex justify-between ${isLoading && "hidden"}`}>
-          {pagination?.total > 10 && (
-            <div className="p-2 flex gap-1 items-center">
-              <span className="text-gray-600 font-bold">Show: </span>
-              <select
-                className="select select-bordered w-full max-w-xs bg-gray-200"
-                value={pagination?.per_page}
-                onChange={(e) =>
-                  setPagination((pagination) => ({
-                    ...pagination,
-                    per_page: parseInt(e.target.value),
-                  }))
-                }
-              >
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="50">50</option>
-                <option value="70">70</option>
-                <option value="80">80</option>
-                <option value="90">90</option>
-                <option value="100">100</option>
-                <option value="150">150</option>
-                <option value="200">200</option>
-                <option value="250">250</option>
-                <option value="500">500</option>
-              </select>
-            </div>
-          )}
-          <div
-            className={`join !bg-transparent !my-2 p-2 ${
-              (isLoading || !isPaginationShown) && "hidden"
-            }`}
-          >
-            <button
-              type="button"
-              onClick={() => {
-                if (pagination?.loading) return null;
-                setPagination((pagination) => ({
-                  ...pagination,
-                  current_page: pagination?.current_page - 1,
-                }));
-              }}
-              className="join-item btn !bg-gray-200 !border !border-gray-300"
-              disabled={isFirstPage}
-            >
-              «
-            </button>
-            <button className="join-item btn !bg-gray-200 !border !border-gray-300">
-              Page {pagination?.current_page} of {pagination?.last_page}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (pagination?.loading) return null;
-                setPagination((pagination) => ({
-                  ...pagination,
-                  current_page: pagination?.current_page + 1,
-                }));
-              }}
-              className="join-item btn !bg-gray-200 !border !border-gray-300"
-              disabled={isLastPage}
-            >
-              »
-            </button>
-          </div>
-        </div>
+        <Pagination
+          isLoading={isLoading}
+          pagination={pagination}
+          setPagination={setPagination}
+        />
       </div>
     </div>
   );
