@@ -36,7 +36,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const channel = echo
       .private(`request-access.${user.id}`)
       .listen("RequestAccessEvent", (event: any) => {
-        updateProfile();
+        const { requestAccess } = event;
+        setUser(requestAccess.user);
+        if (requestAccess.user.role === "Admin") {
+          setIsAdmin(true);
+        }
+        if (requestAccess.user.role === "approver") {
+          setIsApprover(true);
+        }
       });
 
     return () => {
@@ -75,6 +82,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await fetchProfile();
       setUser(response.data.data);
+      if (response.data.data.role === "Admin") {
+        setIsAdmin(true);
+      }
+      if (response.data.data.role === "approver") {
+        setIsApprover(true);
+      }
     } catch (error) {
       console.error(error);
       setUser([]);
