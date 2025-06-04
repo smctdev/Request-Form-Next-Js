@@ -501,7 +501,8 @@ const ApproverLiquidation: React.FC<Props> = ({
         {!fetchingApprovers && !isFetchingApprovers && (
           <>
             <button
-              className="p-1 px-2 text-white bg-blue-600 rounded-md"
+              type="button"
+              className="p-1 px-2 text-white bg-blue-600 rounded-md cursor-pointer hover:bg-blue-400"
               onClick={handlePrint}
             >
               Print
@@ -1401,7 +1402,8 @@ const ApproverLiquidation: React.FC<Props> = ({
           {record.status === "Pending" && (
             <div className="flex items-center justify-between w-full space-x-2">
               <button
-                className="items-center w-1/2 h-10 p-2 text-white bg-primary rounded-xl"
+                type="button"
+                className="items-center w-1/2 h-10 p-2 text-white bg-primary rounded-xl cursor-pointer hover:bg-blue-600"
                 onClick={handleApprove}
               >
                 {approveLoading ? (
@@ -1411,7 +1413,8 @@ const ApproverLiquidation: React.FC<Props> = ({
                 )}
               </button>
               <button
-                className="w-1/2 p-2 text-white bg-red-600 rounded-xl"
+                type="button"
+                className="w-1/2 p-2 text-white bg-red-600 rounded-xl cursor-pointer hover:bg-red-800"
                 onClick={handleDisapprove}
               >
                 {loading ? (

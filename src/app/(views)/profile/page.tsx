@@ -669,7 +669,8 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             </div>
             <div className="flex items-center justify-center w-full p-4 rounded-b-lg bg-graybg">
               <button
-                className=" bg-primary p-2 w-1/2 rounded-[12px] text-white font-extrabold"
+                type="button"
+                className=" bg-primary p-2 w-1/2 rounded-[12px] text-white font-extrabold cursor-pointer"
                 onClick={closeSuccessModal}
               >
                 OKAY
