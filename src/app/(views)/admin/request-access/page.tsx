@@ -7,12 +7,35 @@ import TableData from "../_components/request-access/TableData";
 import TableLoader from "../_components/loaders/TableLoader";
 import { PaginationType } from "../_types/pagination";
 import { paginationData } from "../_constants/pagination";
+import echo from "@/hooks/echo";
+import { useAuth } from "@/context/AuthContext";
 
 function RequestAccess() {
   const [requestAccess, setRequestAccess] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pagination, setPagination] = useState<PaginationType>(paginationData);
   const [isRefresh, setIsRefresh] = useState<boolean>(false);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user.id || !echo) return;
+
+    const channel = echo
+      .private(`request-access.${user.id}`)
+      .listen("RequestAccessEvent", (event: any) => {
+        const { requestAccess } = event;
+
+        setRequestAccess((prevRequestAccess: any) => [
+          requestAccess,
+          ...prevRequestAccess,
+        ]);
+      });
+
+    return () => {
+      channel.stopListening("RequestAccessEvent");
+      echo.leaveChannel(`private-request-access.${user.id}`);
+    };
+  }, [echo, user.id]);
 
   useEffect(() => {
     setPagination((pagination) => ({

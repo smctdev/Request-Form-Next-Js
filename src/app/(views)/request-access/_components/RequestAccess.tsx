@@ -44,7 +44,6 @@ export default function RequestAccess({
     setIsLoading(true);
     try {
       const response = await api.post("/request-access", formInput);
-      console.log(response);
       if (response.status === 201) {
         handleSwal({
           response: `${response.data.message}. (${response.data.code})`,

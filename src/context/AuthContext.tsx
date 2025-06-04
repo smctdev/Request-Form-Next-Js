@@ -14,6 +14,7 @@ import {
   logout as logoutApi,
 } from "@/lib/sanctum";
 import Swal from "sweetalert2";
+import echo from "@/hooks/echo";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -28,6 +29,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isApprover, setIsApprover] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!user.id || !echo) return;
+
+    const channel = echo
+      .private(`request-access.${user.id}`)
+      .listen("RequestAccessEvent", (event: any) => {
+        const { requestAccess } = event;
+
+        setUser(requestAccess.user);
+      });
+
+    return () => {
+      channel.stopListening("RequestAccessEvent");
+      echo.leaveChannel(`private-request-access.${user.id}`);
+    };
+  }, [echo, user.id]);
 
   useEffect(() => {
     fetchUserProfile();
