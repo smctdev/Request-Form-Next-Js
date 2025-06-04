@@ -64,7 +64,7 @@ function RequestAccess() {
 
   return (
     <div className="bg-graybg min-h-screen pt-8 px-6 pb-20">
-      <h2 className="!text-4xl font-bold text-blue-400 mb-6">RequestAccess</h2>
+      <h2 className="!text-4xl font-bold text-blue-400 mb-6">Request Access</h2>
 
       <div className="my-4 relative">
         <input
