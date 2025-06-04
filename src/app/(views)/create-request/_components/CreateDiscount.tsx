@@ -77,7 +77,7 @@ const inputStyle2 =
   "w-full   rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";
 const tableInput =
   "w-full h-full bg-white px-2 py-1 bg-white  autofill-input focus:outline-0";
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white";
+const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 
 const CreateDiscount = (props: Props) => {
   const [formData, setFormData] = useState<any>(null);

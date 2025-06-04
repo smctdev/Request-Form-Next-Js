@@ -14,6 +14,7 @@ import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { FaCamera } from "react-icons/fa";
 
 interface Branch {
   branch: string;
@@ -61,7 +62,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
   const [signatureLoading, setSignatureLoading] = useState(false);
   const [signatureSuccess, setSignatureSuccess] = useState(false);
   const [loadingChange, setLoading] = useState(false);
-  const { fetchUserProfile, user, isLoading, setIsRefresh } = useAuth();
+  const { fetchUserProfile, user, isLoading, updateProfile } = useAuth();
 
   const router = useRouter();
 
@@ -333,7 +334,6 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
   };
   const handleSaveSignature = async () => {
     setSignatureLoading(true);
-    setIsRefresh(true)
     try {
       // Send the data URL to the backend API
 
@@ -351,6 +351,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
         if (response.status === 200) {
           setSignatureSuccess(true);
           setSignatureError("");
+          updateProfile();
         }
       } else {
         setSignatureLoading(false);
@@ -360,7 +361,6 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
       console.error("Error saving signature:", error); // Log any errors
     } finally {
       setSignatureLoading(false);
-      setIsRefresh(false)
     }
   };
 
@@ -369,255 +369,289 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
     setNewProfilePic(file); // Store the selected file in state
   };
   return (
-    <div className="w-full h-full px-4 py-4 bg-graybg dark:bg-blackbg md:px-10 lg:px-30 ">
-      <div className="bg-white rounded-[12px] flex flex-col w-full px-4 md:px-8 lg:px-10 xl:px-12 py-[50px]">
-        <div className="rounded-[12px] flex flex-col lg:flex-row items-center justify-center">
-          <div className="flex flex-col items-start w-full px-4 text-left md:px-10">
-            <div className="flex flex-col items-center lg:flex-row md:items-start">
-              <Image
-                width={180}
-                height={180}
-                alt="profile"
-                src={profilePictureUrl}
-                className="rounded-full w-[180px] h-[180px] border-4 border-blue-600"
-              />
-              <div className="flex flex-col mt-4 ml-2">
-                <h1 className="!text-lg font-bold md:!text-xl lg:!text-2xl">
-                  {user.firstName} {user.lastName}
-                </h1>
-                <div onClick={handleImageClick}>
-                  <p className="cursor-pointer text-primary">
-                    Upload new picture
-                  </p>
+    <div className="min-h-screen bg-gray-200 p-4 md:p-8 lg:p-12">
+      <div className="bg-white rounded-box shadow-lg p-4 md:p-8 w-full max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="avatar relative">
+                <div className="w-40 rounded-full ring ring-primary ring-offset-gray-100 ring-offset-2">
+                  <Image
+                    width={160}
+                    height={160}
+                    alt="profile"
+                    src={profilePictureUrl}
+                    className="rounded-full"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleImageClick}
+                  className="absolute bottom-2 right-2 btn btn-circle btn-sm btn-primary"
+                >
+                  <FaCamera className="!text-lg" />
                   <input
                     type="file"
                     ref={inputRef}
                     className="hidden"
                     onChange={handleProfilePicUpload}
                   />
-                </div>
-                <p className="italic font-semibold text-black">
+                </button>
+              </div>
+              <div className="text-center md:text-left">
+                <h1 className="!text-2xl md:text-3xl font-bold">
+                  {user.firstName} {user.lastName}
+                </h1>
+                <p className="!text-lg italic font-semibold text-gray-600">
                   {user.position}
                 </p>
               </div>
             </div>
+
             {profileError && (
-              <span className="text-red-500">{profileError}</span>
+              <div className="alert alert-error">
+                <span>{profileError}</span>
+              </div>
             )}
-            <h1 className="my-5 text-lg font-semibold md:text-xl lg:text-2xl">
-              User Information
-            </h1>
-            <div className="grid w-full grid-cols-1 gap-4 lg:gap-6">
-              <div className="flex flex-col">
-                <p className="text-gray-400">Email</p>
-                <p className="p-2 font-medium border rounded-md">
-                  {user.email}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-gray-400">Branch</p>
-                <p className="p-2 font-medium border rounded-md">
-                  {user.branch_code}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-gray-400">Contact</p>
-                <p className="p-2 font-medium border rounded-md">
-                  {user.contact}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-gray-400">Username</p>
-                <p className="p-2 font-medium border rounded-md">
-                  {user.userName}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-gray-400">Branch</p>
-                <p className="p-2 font-medium border rounded-md">
-                  {user.branch?.branch}
-                </p>
+
+            <div className="space-y-6">
+              <h2 className="!text-2xl font-bold text-gray-800">
+                User Information
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col space-y-1">
+                  <span className="text-sm font-medium text-gray-500">
+                    Email
+                  </span>
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
+                    <p className="text-gray-800 font-medium">{user.email}</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col space-y-1">
+                  <span className="text-sm font-medium text-gray-500">
+                    Branch Code
+                  </span>
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
+                    <p className="text-gray-800 font-medium">
+                      {user.branch_code}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col space-y-1">
+                  <span className="text-sm font-medium text-gray-500">
+                    Contact
+                  </span>
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
+                    <p className="text-gray-800 font-medium">{user.contact}</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col space-y-1">
+                  <span className="text-sm font-medium text-gray-500">
+                    Username
+                  </span>
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
+                    <p className="text-gray-800 font-medium">{user.userName}</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col space-y-1">
+                  <span className="text-sm font-medium text-gray-500">
+                    Branch Name
+                  </span>
+                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
+                    <p className="text-gray-800 font-medium">
+                      {user.branch?.branch}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
             {newProfilePic && (
-              <div className="bg-primary text-white w-full h-[48px] rounded-[12px] mt-4 flex items-center justify-center cursor-pointer">
-                <button
-                  type="button"
-                  disabled={loadingChange}
-                  className="text-white cursor-pointer"
-                  onClick={onSubmit}
-                >
-                  {loadingChange ? "Uploading..." : "Upload Profile Picture"}
-                </button>
-              </div>
+              <button
+                className={`btn btn-primary w-full mt-4 ${
+                  loadingChange ? "loading" : ""
+                }`}
+                disabled={loadingChange}
+                onClick={onSubmit}
+              >
+                {loadingChange ? "Uploading..." : "Upload Profile Picture"}
+              </button>
             )}
           </div>
 
-          <div className="w-full mt-4 md:mt-0 md:px-10 ">
-            <h1 className="my-5 text-lg font-semibold md:text-xl lg:text-2xl">
-              Change Password
-            </h1>
-            <p className="mt-2 text-gray-400">Enter your current password</p>
-            <div className="relative flex items-center justify-center w-full">
-              <input
-                type={showCurrent ? "text" : "password"}
-                className="w-full h-10 p-2 bg-gray-300 rounded-lg"
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                value={currentPassword}
-              />
-              {showCurrent ? (
-                <EyeSlashIcon
-                  className="size-[24px] absolute right-3 cursor-pointer"
-                  onClick={() => setShowCurrent(!showCurrent)}
-                />
-              ) : (
-                <EyeIcon
-                  className="size-[24px] absolute right-3 cursor-pointer"
-                  onClick={() => setShowCurrent(!showCurrent)}
-                />
-              )}
-            </div>
-            <p className="mt-2 text-gray-400">Enter your new password</p>
-            <div className="relative flex items-center justify-center w-full">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="w-full h-10 p-2 bg-gray-300 rounded-lg"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
-              {showPassword ? (
-                <EyeSlashIcon
-                  className="size-[24px] absolute right-3 cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              ) : (
-                <EyeIcon
-                  className="size-[24px] absolute right-3 cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                />
-              )}
-            </div>
-            <p className="mt-2 text-gray-400">Confirm password</p>
-            <div className="relative flex items-center justify-center w-full">
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                className="w-full h-10 p-2 bg-gray-300 rounded-lg"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-              />
-              {showConfirmPassword ? (
-                <EyeSlashIcon
-                  className="size-[24px] absolute right-3 cursor-pointer"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                />
-              ) : (
-                <EyeIcon
-                  className="size-[24px] absolute right-3 cursor-pointer"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                />
-              )}
-            </div>
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-            <button
-              type="button"
-              disabled={!currentPassword || loading}
-              className={`text-white bg-primary flex justify-center items-center rounded-[12px] w-full h-[50px] mt-4 ${
-                !currentPassword && "cursor-not-allowed"
-              }`}
-              onClick={handleChangePassword}
-            >
-              {loading ? <PropogateLoader color="#FFFF" /> : "Change Password"}
-            </button>
-          </div>
+          <div className="space-y-8">
+            <div className="card bg-gray-100 shadow">
+              <div className="card-body">
+                <h2 className="card-title !text-lg">Change Password</h2>
 
-          <div className="flex flex-col w-full mb-4 md:w-1/2">
-            <h1 className="mb-2 text-base lg:text-lg">Signature</h1>
-            {user?.signature ? (
-              <div className="flex items-center justify-center overflow-hidden">
-                <div className="relative overflow-hidden">
-                  <Image
-                    width={100}
-                    height={100}
-                    src={user.signature || ""}
-                    className="w-full border border-black sigCanvas h-28"
-                    alt="signature"
-                    draggable="false"
-                    onContextMenu={(e) => e.preventDefault()}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div
-                      className="text-gray-950 opacity-30"
-                      style={{
-                        backgroundImage:
-                          "repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.3) 20px, rgba(255, 255, 255, 0.3) 100px)",
-                        backgroundSize: "400px 400px",
-                        width: "100%",
-                        height: "100%",
-                        fontSize: "1.2em",
-                        transform: "rotate(-12deg)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        whiteSpace: "nowrap",
-                      }}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Current Password</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showCurrent ? "text" : "password"}
+                      className="input input-bordered w-full bg-gray-100"
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      value={currentPassword}
+                      placeholder="Enter your current password"
+                    />
+                    <button
+                      className="absolute right-3 top-3"
+                      onClick={() => setShowCurrent(!showCurrent)}
                     >
-                      SMCT Group of Companies SMCT Group of Companies <br />
-                      SMCT Group of Companies SMCT Group of Companies <br />
-                      SMCT Group of Companies SMCT Group of Companies <br />
-                      SMCT Group of Companies SMCT Group of Companies <br />
-                      SMCT Group of Companies SMCT Group of Companies <br />{" "}
-                      SMCT Group of Companies SMCT Group of Companies
-                      <br />
-                      SMCT Group of Companies SMCT Group of Companies
-                      <br /> SMCT Group of Companies SMCT Group of Companies
-                    </div>
+                      {showCurrent ? (
+                        <EyeSlashIcon className="size-5" />
+                      ) : (
+                        <EyeIcon className="size-5" />
+                      )}
+                    </button>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <SignatureCanvas
-                penColor="black"
-                ref={(ref) => setSignature(ref)}
-                canvasProps={{
-                  className: "sigCanvas border border-black h-20 w-full",
-                }}
-              />
-            )}
-            {signatureError && (
-              <span className="text-xs text-red-500">{signatureError}</span>
-            )}
-            {user?.signature === null && (
-              <div className="flex mt-2">
-                <button
-                  type="button"
-                  onClick={(e) => handleClear(e)}
-                  className="p-1 mr-2 bg-gray-300 rounded-lg cursor-pointer"
-                >
-                  Clear
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSaveSignature}
-                  className={`bg-primary text-white p-2 rounded-lg flex items-center ${
-                    signatureLoading ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                  disabled={signatureLoading}
-                >
-                  {signatureLoading ? (
-                    <ClipLoader
-                      color="#ffffff" // Adjust the color to match your design
-                      size={24} // Adjust the size if needed
-                      className="mr-2"
+
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">New Password</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      className="input input-bordered w-full bg-gray-100"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Enter your new password"
                     />
-                  ) : null}
-                  {signatureLoading ? "Saving..." : "Save"}
-                </button>
+                    <button
+                      className="absolute right-3 top-3"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeSlashIcon className="size-5" />
+                      ) : (
+                        <EyeIcon className="size-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Confirm Password</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      className="input input-bordered w-full bg-gray-100"
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      placeholder="Confirm your new password"
+                    />
+                    <button
+                      className="absolute right-3 top-3"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    >
+                      {showConfirmPassword ? (
+                        <EyeSlashIcon className="size-5" />
+                      ) : (
+                        <EyeIcon className="size-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {errorMessage && (
+                  <div className="alert alert-error mt-2">
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+
+                <div className="card-actions justify-end mt-4">
+                  <button
+                    className={`p-2 rounded-md bg-primary text-white hover:bg-blue-500 w-full ${
+                      loading || !currentPassword
+                        ? "!cursor-not-allowed bg-blue-300"
+                        : ""
+                    }`}
+                    disabled={!currentPassword || loading}
+                    onClick={handleChangePassword}
+                  >
+                    {loading ? "Changing..." : "Change Password"}
+                  </button>
+                </div>
               </div>
-            )}
+            </div>
+
+            <div className="card bg-gray-100 shadow">
+              <div className="card-body">
+                <h2 className="card-title !text-lg">Signature</h2>
+
+                {user?.signature ? (
+                  <div className="relative border rounded-box overflow-hidden">
+                    <Image
+                      width={300}
+                      height={150}
+                      src={user.signature || ""}
+                      className="w-full h-48 object-contain bg-gray-100"
+                      alt="signature"
+                      draggable="false"
+                      onContextMenu={(e) => e.preventDefault()}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="text-gray-400 opacity-30 rotate-[-12deg] text-xl font-bold whitespace-nowrap">
+                        SMCT Group of Companies • SMCT Group of Companies • SMCT
+                        Group of Companies
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <SignatureCanvas
+                      penColor="black"
+                      ref={(ref) => setSignature(ref)}
+                      canvasProps={{
+                        className:
+                          "sigCanvas border rounded-box w-full h-48 bg-white",
+                      }}
+                    />
+                    <div className="flex gap-2 mt-4">
+                      <button
+                        type="button"
+                        onClick={(e) => handleClear(e)}
+                        className="p-2 bg-gray-500 text-white hover:bg-gray-400 rounded-md"
+                      >
+                        Clear
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleSaveSignature}
+                        className={`p-2 bg-blue-500 text-white hover:bg-blue-400 rounded-md ${
+                          signatureLoading ? "loading" : ""
+                        }`}
+                        disabled={signatureLoading}
+                      >
+                        {signatureLoading ? "Saving..." : "Save"}
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {signatureError && (
+                  <div className="alert alert-error mt-2">
+                    <span>{signatureError}</span>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
       {showSuccessModal && (
         <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50 ">
           <div className="relative flex flex-col items-center justify-center w-1/4 bg-white rounded-md ">
@@ -662,8 +696,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             </div>
             <div className="flex items-center justify-center w-full p-4 rounded-b-lg bg-graybg">
               <button
-                type="button"
-                className=" bg-primary p-2 w-1/2 rounded-[12px] text-white font-extrabold cursor-pointer"
+                className=" bg-primary p-2 w-1/2 rounded-[12px] text-white font-extrabold hover:bg-blue-400"
                 onClick={closeSignatureSuccess}
               >
                 OKAY

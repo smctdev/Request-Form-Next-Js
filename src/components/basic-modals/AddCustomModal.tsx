@@ -245,7 +245,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
                       <input
                         type="checkbox"
                         className={`h-5 w-5 mr-2 ${
-                          isDisabled ? "cursor-not-allowed" : ""
+                          isDisabled ? "cursor-not-allowed" : "cursor-pointer"
                         }`}
                         id={`noted_by_${approver.id}`}
                         checked={isNoted}
@@ -298,7 +298,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
                       <input
                         type="checkbox"
                         className={`h-5 w-5 mr-2 ${
-                          isDisabled ? "cursor-not-allowed" : ""
+                          isDisabled ? "cursor-not-allowed" : "cursor-pointer"
                         }`}
                         id={`approved_by_${approver.id}`}
                         checked={isApproved}
@@ -327,56 +327,49 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <div className="mt-4 text-red-500">{errorMessage}</div>
           )}
         </div>
-        {!isNext ? (
-          <div className="flex justify-end gap-2 p-4 bg-gray-100 rounded-b-lg md:flex-row">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="px-2 py-2 font-medium text-white bg-gray-500 rounded cursor-pointer hover:bg-gray-400"
-            >
-              Cancel
-            </button>
+        <div className="flex flex-col justify-end gap-2 p-4 bg-gray-100 rounded-b-lg md:flex-row">
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="px-2 py-2 font-medium text-white bg-gray-500 rounded hover:bg-gray-400 cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleResetSelection}
+            className="px-2 py-2 font-medium text-gray-800 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer"
+          >
+            Reset
+          </button>
+          {!isNext ? (
             <button
               type="button"
               onClick={handleNext}
-              className="px-2 py-2 font-medium text-white bg-blue-300 rounded cursor-pointer hover:bg-blue-400"
+              className="px-2 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-600 cursor-pointer"
             >
               Next
             </button>
-          </div>
-        ) : (
-          <div className="flex flex-col justify-end gap-2 p-4 bg-gray-100 rounded-b-lg md:flex-row">
-            <button
-              type="button"
-              onClick={handleNext}
-              className="px-2 py-2 font-medium text-white bg-gray-600 rounded cursor-pointer hover:bg-gray-700"
-            >
-              Back
-            </button>
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="px-2 py-2 font-medium text-white bg-gray-500 rounded cursor-pointer hover:bg-gray-400"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={handleResetSelection}
-              className="px-2 py-2 font-medium text-gray-800 bg-gray-300 rounded cursor-pointer hover:bg-gray-400"
-            >
-              Reset
-            </button>
-            <button
-              type="button"
-              onClick={handleAddCustomRequest}
-              disabled={isLoading}
-              className="px-2 py-2 font-medium text-white rounded bg-primary cursor-pointer hover:bg-blue-400 hover:bg-primary-dark "
-            >
-              {isLoading ? "Saving..." : "Save"}
-            </button>
-          </div>
-        )}
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={handleNext}
+                className="px-2 py-2 font-medium text-white bg-gray-600 rounded hover:bg-gray-700 cursor-pointer"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                onClick={handleAddCustomRequest}
+                disabled={isLoading}
+                className="px-2 py-2 font-medium text-white rounded bg-primary hover:bg-blue-400 hover:bg-primary-dark cursor-pointer"
+              >
+                {isLoading ? "Saving..." : "Save"}
+              </button>
+            </>
+          )}
+        </div>
       </div>
       {loading && (
         <div className="absolute flex items-center justify-center w-full h-full bg-black/50">

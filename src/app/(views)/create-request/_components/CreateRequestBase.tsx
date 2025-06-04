@@ -32,7 +32,7 @@ export default function CreateRequestBase({ title }: { title: string }) {
       <select
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
-        className="w-2/5  lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 border-black rounded-xl mb-2"
+        className="w-2/5  lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 border-black rounded-xl mb-2 cursor-pointer"
       >
         <option value="" disabled>
           Type of request

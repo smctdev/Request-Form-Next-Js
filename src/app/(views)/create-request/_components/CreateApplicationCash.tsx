@@ -102,7 +102,7 @@ const inputStyle2 =
 const tableInput =
   "w-full h-full bg-white px-2 py-1 bg-white  autofill-input focus:outline-0";
 const itemDiv = "flex flex-col ";
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white";
+const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 
 const CreateApplicationCash = (props: Props) => {
   const [totalBoatFare, setTotalBoatFare] = useState(0);

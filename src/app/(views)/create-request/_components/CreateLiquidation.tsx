@@ -89,7 +89,7 @@ const tableInput =
   "w-full h-full bg-white px-2 py-1 focus:outline-0  autofill-input";
 const itemDiv = "flex flex-col  w-3/4";
 
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white";
+const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 const CreateLiquidation = (props: Props) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);

@@ -56,7 +56,7 @@ type FormData = z.infer<typeof schema>;
 const inputStyle =
   "w-full   border-2 border-black rounded-[12px] bg-white  autofill-input";
 const itemDiv = "flex flex-col  ";
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white";
+const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 const tableStyle = "border border-black p-2 border-collapse";
 const inputStyle2 =
   "w-full   rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";

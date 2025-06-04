@@ -27,12 +27,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isApprover, setIsApprover] = useState<boolean>(false);
-  const [isRefresh, setIsRefresh] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
     fetchUserProfile();
-  }, [isRefresh]);
+  }, []);
 
   const fetchUserProfile = async () => {
     setIsLoading(true);
@@ -53,6 +52,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setUser([]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const updateProfile = async () => {
+    try {
+      const response = await fetchProfile();
+      setUser(response.data.data);
+    } catch (error) {
+      console.error(error);
+      setUser([]);
     }
   };
 
@@ -141,9 +150,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         isAdmin,
         isApprover,
         fetchUserProfile,
-        setIsRefresh,
         isLogin,
         setIsLogin,
+        updateProfile,
       }}
     >
       {children}

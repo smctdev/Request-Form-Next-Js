@@ -45,7 +45,7 @@ type FormData = z.infer<typeof schema>;
 
 type Props = {};
 
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white";
+const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 const tableStyle = "border border-black p-2 border-collapse";
 const inputStyle2 =
   "w-full   rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";
