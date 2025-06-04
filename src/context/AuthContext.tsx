@@ -36,7 +36,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const channel = echo
       .private(`request-access.${user.id}`)
       .listen("RequestAccessEvent", (event: any) => {
-        updateProfile();
+        const { requestAccess } = event;
+        if (requestAccess.user.id === user.id) {
+          updateProfile();
+        }
       });
 
     return () => {
