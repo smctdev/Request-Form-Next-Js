@@ -434,7 +434,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                   </span>
                   <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
                     <p className="text-gray-800 font-medium">
-                      {user.branch_code}
+                      {user.branch.branch_code}
                     </p>
                   </div>
                 </div>
