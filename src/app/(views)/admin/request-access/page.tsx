@@ -29,14 +29,21 @@ function RequestAccess() {
     const channel = echo
       .private(`request-access.${user.id}`)
       .listen("RequestAccessEvent", (event: any) => {
-        if (!searchTerm) {
-          const { requestAccess } = event;
+        if (searchTerm) return;
+        const { requestAccess, is_delete } = event;
 
+        if (is_delete) {
           setRequestAccess((prevRequestAccess: any) => [
-            requestAccess,
-            ...prevRequestAccess,
+            ...prevRequestAccess.filter(
+              (item: any) => item.id !== requestAccess.id
+            ),
           ]);
+          return;
         }
+        setRequestAccess((prevRequestAccess: any) => [
+          requestAccess,
+          ...prevRequestAccess,
+        ]);
       });
 
     return () => {

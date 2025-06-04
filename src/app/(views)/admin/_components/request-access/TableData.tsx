@@ -1,8 +1,9 @@
 import { api } from "@/lib/api";
-import { formatDate, formatDistanceToNowStrict } from "date-fns";
+import { formatDate } from "date-fns";
 import { FaCheck } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import { timeFormat } from "../../_utils/timeFormat";
 
 export default function TableData({ item, setIsRefresh }: any) {
   const handleUpdate = (title: string) => () => {
@@ -96,9 +97,7 @@ export default function TableData({ item, setIsRefresh }: any) {
       </td>
       <td className="px-6 py-4">
         <p>{formatDate(item.created_at, "MMM dd, yyyy h:mm a")}</p>
-        <p className="text-gray-500 !text-sm">
-          {formatDistanceToNowStrict(item.created_at, { addSuffix: true })}
-        </p>
+        <p className="text-gray-500 !text-sm">{timeFormat(item.created_at)}</p>
       </td>
       <td className="px-6 py-4">
         {item.status !== "pending" ? (
