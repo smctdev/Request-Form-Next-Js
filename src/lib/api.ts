@@ -38,10 +38,15 @@ api.interceptors.response.use(
         icon: "error",
         title: "Ops!",
         text: "Unauthorized or session expired. Please login again.",
-        confirmButtonText: "Close",
-        confirmButtonColor: "#dc3545",
-      }).then(() => {
-        window.location.href = "/login";
+        cancelButtonText: "Close",
+        showCancelButton: true,
+        cancelButtonColor: "#dc3545",
+        confirmButtonText: "Back to login",
+        confirmButtonColor: "#007bff",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/login";
+        }
         isAlertShown = false;
       });
     }
