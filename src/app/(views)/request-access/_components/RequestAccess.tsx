@@ -132,8 +132,11 @@ export default function RequestAccess({
 
         <div className="pt-2 space-y-1">
           <button
-            className="bg-blue-500 p-2 rounded text-white w-full hover:bg-blue-400 flex items-center justify-center gap-1"
+            className={`bg-blue-500 p-2 rounded text-white w-full hover:bg-blue-400 flex items-center justify-center gap-1 ${
+              isLoading && "!cursor-not-allowed"
+            }`}
             type="submit"
+            disabled={isLoading}
           >
             {isLoading ? (
               <>
