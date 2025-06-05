@@ -11,14 +11,14 @@ const BaseContent = ({ children }: any) => {
   const { user } = useAuth();
   const pathname = usePathname();
 
-  if (
+  const isGuest =
     pathname === "/login" ||
     pathname === "/registration" ||
     pathname === "/" ||
     pathname === "/forgot-password" ||
-    pathname.startsWith("/print")
-  )
-    return <>{children}</>;
+    pathname.startsWith("/print");
+
+  if (isGuest) return <>{children}</>;
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);

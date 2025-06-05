@@ -10,6 +10,7 @@ import CreateLiquidation from "../_components/CreateLiquidation";
 import CreateRefund from "../_components/CreateRefund";
 import CreateDiscount from "../_components/CreateDiscount";
 import { useRouter } from "next/navigation";
+import { createRequestSelect } from "@/constants/createRequestSelect";
 
 export default function CreateRequestBase({ title }: { title: string }) {
   const path = requestTypes.find((item) => item.title === title)?.path;
@@ -44,20 +45,19 @@ export default function CreateRequestBase({ title }: { title: string }) {
         ))}
       </select>
 
-      {selected === "/create-request/stock-requisition" ? (
+      {selected === createRequestSelect.SR ? (
         <CreateStockRequistion />
-      ) : selected === "/create-request/purchase-order-requisition-slip" ? (
+      ) : selected === createRequestSelect.PORS ? (
         <CreatePurchaseOrder />
-      ) : selected ===
-        "/create-request/cash-or-card-disbursement-requisition-slip" ? (
+      ) : selected === createRequestSelect.COCDRS ? (
         <CreateCashDisbursement />
-      ) : selected === "/create-request/application-for-cash-advance" ? (
+      ) : selected === createRequestSelect.AFCA ? (
         <CreateApplicationCash />
-      ) : selected === "/create-request/liquidation-of-actual-expense" ? (
+      ) : selected === createRequestSelect.LOAE ? (
         <CreateLiquidation />
-      ) : selected === "/create-request/request-for-refund" ? (
+      ) : selected === createRequestSelect.RFR ? (
         <CreateRefund />
-      ) : selected === "/create-request/discount-request" ? (
+      ) : selected === createRequestSelect.DR ? (
         <CreateDiscount />
       ) : null}
     </div>

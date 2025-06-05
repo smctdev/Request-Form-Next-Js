@@ -1,4 +1,6 @@
+import { pathsToPrevent } from "@/constants/paths";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -11,11 +13,37 @@ const api = axios.create({
   },
 });
 
+let isAlertShown = false;
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    const pathname = window.location.pathname;
+
+    const isExpiredOrUnauthorized = pathsToPrevent.some((path) =>
+      pathname.startsWith(path)
+    );
+
     if (error.code === "ECONNABORTED") {
       console.error("Timeout error");
+    }
+
+    if (
+      error.response.status === 401 &&
+      isExpiredOrUnauthorized &&
+      !isAlertShown
+    ) {
+      isAlertShown = true;
+      Swal.fire({
+        icon: "error",
+        title: "Ops!",
+        text: "Unauthorized or session expired. Please login again.",
+        confirmButtonText: "Close",
+        confirmButtonColor: "#dc3545",
+      }).then(() => {
+        window.location.href = "/login";
+        isAlertShown = false;
+      });
     }
     return Promise.reject(error);
   }
