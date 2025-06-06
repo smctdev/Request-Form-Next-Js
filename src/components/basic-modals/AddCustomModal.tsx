@@ -37,7 +37,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
     approvedByIds: [],
   });
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, updateProfile } = useAuth();
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -99,11 +99,26 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
-  const handleResetSelection = () => {
-    setNotedBy([]);
-    setApprovedBy([]);
-    setIsNext(false);
+
+  const handleResetSelection = async () => {
+    if (notedBy.length === 0 && approvedBy.length === 0) return;
+    try {
+      const response = await api.post("/reset-approved-noted-by");
+      if (response.status === 201) {
+        setNotedBy([]);
+        setApprovedBy([]);
+        setIsNext(false);
+        updateProfile();
+        setIds({
+          notedByIds: [],
+          approvedByIds: [],
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   const toggleNotedBy = (approver: Approver) => {
     const isApproved = approvedBy.some((a) => a.id === approver.id);
     setNotedBy((prevNotedBy) =>
@@ -156,6 +171,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
       return;
     }
     setIsLoading(true);
+    handleResetSelection();
     try {
       const response = await api.post("/save-approved-noted-by", {
         notedByIds: ids.notedByIds,
@@ -164,13 +180,17 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
 
       if (response.status === 204) {
         handleAddCustomData(notedBy, approvedBy);
-
+        updateProfile();
         setNotedBy([]);
         setApprovedBy([]);
         setSearchTerm("");
         setErrorMessage("");
         setIsNext(false);
         closeModal();
+        setIds({
+          notedByIds: [],
+          approvedByIds: [],
+        });
         Swal.fire({
           icon: "success",
           title: "Success",

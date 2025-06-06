@@ -17,6 +17,7 @@ import RequestSuccessModal from "@/components/basic-modals/RequestSuccessModal";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { formatFileSize } from "@/utils/formatFileSize";
 
 interface Approver {
   id: number;
@@ -45,7 +46,8 @@ type FormData = z.infer<typeof schema>;
 
 type Props = {};
 
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
+const buttonStyle =
+  "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 const tableStyle = "border border-black p-2 border-collapse";
 const inputStyle2 =
   "w-full   rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";
@@ -91,24 +93,9 @@ const CreateStockRequistion = (props: Props) => {
     );
   };
 
-  const formatFileSize = (sizeInBytes: any) => {
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    let size = sizeInBytes;
-    let unitIndex = 0;
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    return `${size.toFixed(1)} ${units[unitIndex]}`;
-  };
-
   useEffect(() => {
-    if (user.noted_bies.length > 0 || user.approved_bies.length > 0) {
-      setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
-      setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
-    }
+    setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+    setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
   }, [user.noted_bies, user.approved_bies]);
 
   const [validationErrors, setValidationErrors] = useState<
@@ -389,7 +376,8 @@ const CreateStockRequistion = (props: Props) => {
             </h1>
           </div>
           <div className="my-2">
-            <button type="button"
+            <button
+              type="button"
               onClick={openAddCustomModal}
               className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
             >

@@ -111,7 +111,7 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
       setLoading(true);
       // Fetch total requests sent
       api
-        .get(`/total-request-sent/${user.id}`)
+        .get(`/total-request-sent/${user.id}/my-request-total`)
 
         .then((response) => {
           setTotalRequestsSent(response.data.totalRequestSent);
@@ -134,7 +134,7 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
 
   const fetchData = async () => {
     try {
-      const response = await api.get(`/request-forms/for-approval/${user.id}`);
+      const response = await api.get(`/request-forms/for-approval/${user.id}/for-approval-requests`);
 
       const requests: Request[] = response.data.request_forms || []; // Use the defined type
 

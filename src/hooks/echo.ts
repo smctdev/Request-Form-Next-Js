@@ -12,21 +12,21 @@ const pusherClient = new Pusher(process.env.NEXT_PUBLIC_REVERB_APP_KEY!, {
   enabledTransports: ["ws", "wss"],
   authEndpoint: `${process.env.NEXT_PUBLIC_API_BASE_URL}/broadcasting/auth`,
   authorizer: (channel: any) => {
+    async function authorize(socketId: any, callback: any) {
+      try {
+        const response = await api.post("/broadcasting/auth", {
+          socket_id: socketId,
+          channel_name: channel.name,
+        });
+        callback(false, response.data);
+      } catch (error: any) {
+        console.error("Broadcast auth error:", error);
+        callback(true, error);
+      }
+    }
+
     return {
-      authorize: async (socketId: any, callback: any) => {
-        await getCsrfToken();
-        api
-          .post("/broadcasting/auth", {
-            socket_id: socketId,
-            channel_name: channel.name,
-          })
-          .then((response) => {
-            callback(false, response.data);
-          })
-          .catch((error) => {
-            callback(true, error);
-          });
-      },
+      authorize,
     };
   },
   disableStats: true,

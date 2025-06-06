@@ -235,7 +235,7 @@ const RequestApprover = (props: Props) => {
       const fetchRequests = async () => {
         try {
           const response = await api.get(
-            `/request-forms/for-approval/${user.id}`
+            `/request-forms/for-approval/${user.id}/for-approval-requests`
           );
           setRequests(response.data.request_forms);
         } catch (error) {
@@ -458,7 +458,7 @@ const RequestApprover = (props: Props) => {
   const refreshData = () => {
     if (user.id) {
       api
-        .get(`/request-forms/for-approval/${user.id}`)
+        .get(`/request-forms/for-approval/${user.id}/for-approval-requests`)
         .then((response) => {
           setRequests(response.data.request_forms);
         })

@@ -137,7 +137,7 @@ const Dashboard: React.FC = () => {
       // Fetch total requests sent
 
       api
-        .get(`/total-request-sent/${user.id}`)
+        .get(`/total-request-sent/${user.id}/my-request-total`)
         .then((response) => {
           setTotalRequestsSent(response.data.totalRequestSent);
           setTotalCompletedRequests(response.data.totalCompletedRequest);

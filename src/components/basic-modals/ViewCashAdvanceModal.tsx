@@ -10,6 +10,7 @@ import AddCustomModal from "./AddCustomModal";
 import { Approver } from "@/types/approverTypes";
 import { useAuth } from "@/context/AuthContext";
 import PrintCash from "@/app/(views)/approver/_components/prints/PrintCash";
+import ZoomableImage from "../ZoomableImage";
 
 type Props = {
   closeModal: () => void;
@@ -131,12 +132,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
     (user) => user.status === "Disapproved"
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(null);
-  const [zoom, setZoom] = useState(1);
-  const [dragging, setDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-  const longPressTimeout = useRef<number | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const { user } = useAuth();
 
@@ -479,44 +475,6 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
   const closeImgModal = () => {
     setIsImgModalOpen(false);
     setCurrentImage(null);
-  };
-
-  const zoomIn = () => setZoom((prevZoom) => Math.min(prevZoom + 0.2, 3));
-  const zoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1));
-  const resetZoom = () => {
-    setZoom(1);
-    setPosition({ x: 0, y: 0 });
-  };
-
-  const handleLongPressStart = (e: any) => {
-    if (zoom > 1) {
-      const startX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
-      const startY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
-      setStartPosition({ x: startX - position.x, y: startY - position.y });
-
-      longPressTimeout.current = window.setTimeout(() => {
-        setDragging(true);
-      }, 500) as unknown as number;
-    }
-  };
-
-  const handleLongPressEnd = () => {
-    if (longPressTimeout.current !== null) {
-      clearTimeout(longPressTimeout.current);
-    }
-    setDragging(false);
-  };
-
-  const handleMouseMove = (e: any) => {
-    if (dragging) {
-      const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-      const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-
-      setPosition({
-        x: clientX - startPosition.x,
-        y: clientY - startPosition.y,
-      });
-    }
   };
 
   return (
@@ -920,7 +878,8 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
           </div>
           {isEditing && (
             <div className="my-2">
-              <button type="button"
+              <button
+                type="button"
                 onClick={openAddCustomModal}
                 className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
               >
@@ -1280,77 +1239,10 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                 ))}
               </div>
               {isImgModalOpen && (
-                <div
-                  className="fixed inset-0 z-50 flex items-center justify-center w-full bg-black bg-opacity-75"
-                  onClick={closeImgModal}
-                >
-                  <div className={zoom > 1 ? "w-4/5" : ""}>
-                    <div
-                      className="relative rounded-lg"
-                      onClick={(e) => e.stopPropagation()}
-                      onMouseMove={handleMouseMove}
-                      onMouseUp={handleLongPressEnd}
-                      onTouchMove={handleMouseMove}
-                      onTouchEnd={handleLongPressEnd}
-                    >
-                      <div
-                        className="overflow-hidden"
-                        style={{
-                          cursor: dragging
-                            ? "grabbing"
-                            : zoom > 1
-                            ? "grab"
-                            : "default",
-                        }}
-                        onMouseDown={handleLongPressStart}
-                        onTouchStart={handleLongPressStart}
-                      >
-                        <Image
-                          src={currentImage || ""}
-                          alt="Viewed"
-                          width={400}
-                          height={400}
-                          className="object-contain w-full max-h-screen transform"
-                          style={{
-                            transform: `scale(${zoom}) translate(${position.x}px, ${position.y}px)`,
-                          }}
-                        />
-                      </div>
-
-                      <div className="fixed flex w-10 h-10 gap-8 text-4xl text-white rounded-full right-48 top-4">
-                        <button
-                          type="button"
-                          onClick={resetZoom}
-                          className="w-10 h-10 text-lg text-white cursor-pointer"
-                        >
-                          Reset
-                        </button>
-                        <button
-                          type="button"
-                          onClick={zoomOut}
-                          className="w-10 h-10 text-4xl text-white cursor-pointer"
-                        >
-                          -
-                        </button>
-                        <button
-                          type="button"
-                          onClick={zoomIn}
-                          className="w-10 h-10 text-4xl text-white cursor-pointer"
-                        >
-                          +
-                        </button>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={closeImgModal}
-                        className="fixed w-10 h-10 text-4xl text-white right-4 top-4 cursor-pointer"
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <ZoomableImage
+                  closeImgModal={closeImgModal}
+                  currentImage={currentImage}
+                />
               )}
             </div>
             {/* <div>

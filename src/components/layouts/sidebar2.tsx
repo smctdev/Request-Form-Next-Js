@@ -33,7 +33,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   const pathname = usePathname(); // Get current location
   const [notificationReceived, setnotificationReceived] = useState(false);
   const [pendingCounts, setPendingCounts] = useState(0);
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, isApprover } = useAuth();
   const { isRefresh } = useNotification();
 
   const navItems: NavItem[] =
@@ -163,24 +163,19 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   }, []);
 
   useEffect(() => {
-    if (!user?.id) return;
-
-    const fetchRequests = async () => {
+    if (!isApprover) return;
+    const fetchPendingsCount = async () => {
       try {
-        const response = await api.get(
-          `request-forms/for-approval/${user?.id}`
-        );
-        const filtered = response.data.request_forms.filter(
-          (request: any) => request.status === "Pending"
-        );
-        setPendingCounts(filtered.length);
+        const response = await api.get("/for-approval-pendings-count");
+
+        setPendingCounts(response?.data);
       } catch (error) {
-        console.error("Error fetching requests data:", error);
+        console.error(error);
       }
     };
 
-    fetchRequests();
-  }, [notificationReceived, user?.id, isRefresh]);
+    fetchPendingsCount();
+  }, [notificationReceived, isRefresh, isApprover]);
 
   useEffect(() => {
     if (!echo || user?.id) return;

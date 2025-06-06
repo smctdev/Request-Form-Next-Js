@@ -17,6 +17,7 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { formatFileSize } from "@/utils/formatFileSize";
 
 interface Approver {
   id: number;
@@ -159,10 +160,8 @@ const CreateApplicationCash = (props: Props) => {
   ]);
 
   useEffect(() => {
-    if (user.noted_bies.length > 0 || user.approved_bies.length > 0) {
-      setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
-      setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
-    }
+     setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+     setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
   }, [user.noted_bies, user.approved_bies]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,19 +189,6 @@ const CreateApplicationCash = (props: Props) => {
     setFile((prevImages) =>
       prevImages.filter((image) => image.name !== imageName)
     );
-  };
-
-  const formatFileSize = (sizeInBytes: any) => {
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    let size = sizeInBytes;
-    let unitIndex = 0;
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    return `${size.toFixed(1)} ${units[unitIndex]}`;
   };
 
   useEffect(() => {

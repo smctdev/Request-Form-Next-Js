@@ -17,6 +17,7 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { formatFileSize } from "@/utils/formatFileSize";
 
 type CustomApprover = {
   id: number;
@@ -55,7 +56,8 @@ type Props = {};
 
 const inputStyle =
   "w-full h-full bg-white px-2 py-1 bg-white  autofill-input focus:outline-0";
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
+const buttonStyle =
+  "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 
 const CreateRefund = (props: Props) => {
   const [selectedRequestType, setSelectedRequestType] = useState(
@@ -103,19 +105,6 @@ const CreateRefund = (props: Props) => {
     setIsHovering(false);
   };
 
-  const formatFileSize = (sizeInBytes: any) => {
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    let size = sizeInBytes;
-    let unitIndex = 0;
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    return `${size.toFixed(1)} ${units[unitIndex]}`;
-  };
-
   const handleRemoveImage = (imageName: string) => {
     setFile((prevImages) =>
       prevImages.filter((image) => image.name !== imageName)
@@ -127,10 +116,8 @@ const CreateRefund = (props: Props) => {
     setInitialApprovedBy(approvedBy);
   }, [notedBy, approvedBy]);
   useEffect(() => {
-    if (user.noted_bies.length > 0 || user.approved_bies.length > 0) {
-      setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
-      setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
-    }
+    setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+    setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
   }, [user.noted_bies, user.approved_bies]);
   const [items, setItems] = useState<
     {
@@ -367,7 +354,7 @@ const CreateRefund = (props: Props) => {
       textarea.style.height = `${Math.max(textarea.scrollHeight, 100)}px`; // Set to scroll height or minimum 100px
     }
   };
-  
+
   const isEditableApprover =
     user.noted_bies.length > 0 || user.approved_bies.length > 0;
 
@@ -410,7 +397,8 @@ const CreateRefund = (props: Props) => {
             </h1>
           </div>
           <div className="my-2">
-            <button type="button"
+            <button
+              type="button"
               onClick={openAddCustomModal}
               className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
             >

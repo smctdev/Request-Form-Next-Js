@@ -10,6 +10,7 @@ import Image from "next/image";
 import PrintPurchase from "@/app/(views)/approver/_components/prints/PrintPurchase";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import ZoomableImage from "../ZoomableImage";
 
 type Props = {
   closeModal: () => void;
@@ -115,12 +116,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
     (user) => user.status === "Disapproved"
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(null);
-  const [zoom, setZoom] = useState(1);
-  const [dragging, setDragging] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-  const longPressTimeout = useRef<number | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [isHovering, setIsHovering] = useState(false);
   const { user } = useAuth();
 
@@ -427,44 +423,6 @@ const ViewPurchaseModal: React.FC<Props> = ({
     setCurrentImage(null);
   };
 
-  const zoomIn = () => setZoom((prevZoom) => Math.min(prevZoom + 0.2, 3));
-  const zoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1));
-  const resetZoom = () => {
-    setZoom(1);
-    setPosition({ x: 0, y: 0 });
-  };
-
-  const handleLongPressStart = (e: any) => {
-    if (zoom > 1) {
-      const startX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
-      const startY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
-      setStartPosition({ x: startX - position.x, y: startY - position.y });
-
-      longPressTimeout.current = window.setTimeout(() => {
-        setDragging(true);
-      }, 500) as unknown as number;
-    }
-  };
-
-  const handleLongPressEnd = () => {
-    if (longPressTimeout.current !== null) {
-      clearTimeout(longPressTimeout.current);
-    }
-    setDragging(false);
-  };
-
-  const handleMouseMove = (e: any) => {
-    if (dragging) {
-      const clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
-      const clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
-
-      setPosition({
-        x: clientX - startPosition.x,
-        y: clientY - startPosition.y,
-      });
-    }
-  };
-
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
       <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black rounded-t-lg shadow-lg md:mx-0 md:w-1/2 space-y-auto h-3/4">
@@ -706,7 +664,8 @@ const ViewPurchaseModal: React.FC<Props> = ({
           </div>
           {isEditing && (
             <div className="my-2">
-              <button type="button"
+              <button
+                type="button"
                 onClick={openAddCustomModal}
                 className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
               >
@@ -1067,77 +1026,10 @@ const ViewPurchaseModal: React.FC<Props> = ({
                 ))}
               </div>
               {isImgModalOpen && (
-                <div
-                  className="fixed inset-0 z-50 flex items-center justify-center w-full bg-black bg-opacity-75"
-                  onClick={closeImgModal}
-                >
-                  <div className={zoom > 1 ? "w-4/5" : ""}>
-                    <div
-                      className="relative rounded-lg"
-                      onClick={(e) => e.stopPropagation()}
-                      onMouseMove={handleMouseMove}
-                      onMouseUp={handleLongPressEnd}
-                      onTouchMove={handleMouseMove}
-                      onTouchEnd={handleLongPressEnd}
-                    >
-                      <div
-                        className="overflow-hidden"
-                        style={{
-                          cursor: dragging
-                            ? "grabbing"
-                            : zoom > 1
-                            ? "grab"
-                            : "default",
-                        }}
-                        onMouseDown={handleLongPressStart}
-                        onTouchStart={handleLongPressStart}
-                      >
-                        <Image
-                          width={400}
-                          height={400}
-                          src={currentImage || ""}
-                          alt="Viewed"
-                          className="object-contain w-full max-h-screen transform"
-                          style={{
-                            transform: `scale(${zoom}) translate(${position.x}px, ${position.y}px)`,
-                          }}
-                        />
-                      </div>
-
-                      <div className="fixed flex w-10 h-10 gap-8 text-4xl text-white rounded-full right-48 top-4">
-                        <button
-                          type="button"
-                          onClick={resetZoom}
-                          className="w-10 h-10 text-lg text-white cursor-pointer"
-                        >
-                          Reset
-                        </button>
-                        <button
-                          type="button"
-                          onClick={zoomOut}
-                          className="w-10 h-10 text-4xl text-white cursor-pointer"
-                        >
-                          -
-                        </button>
-                        <button
-                          type="button"
-                          onClick={zoomIn}
-                          className="w-10 h-10 text-4xl text-white cursor-pointer"
-                        >
-                          +
-                        </button>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={closeImgModal}
-                        className="fixed w-10 h-10 text-4xl text-white right-4 top-4 cursor-pointer"
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <ZoomableImage
+                  closeImgModal={closeImgModal}
+                  currentImage={currentImage}
+                />
               )}
             </div>
             {/* <div>
@@ -1261,7 +1153,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
                 </button>
                 <button
                   type="button"
-                  className="p-2 ml-2 text-white bg-red-600 rounded-xl cursor-pointer" 
+                  className="p-2 ml-2 text-white bg-red-600 rounded-xl cursor-pointer"
                   onClick={handleCancelEdit}
                 >
                   Cancel

@@ -15,6 +15,7 @@ import PrintLiquidation from "../prints/PrintLiquidation";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { useNotification } from "@/context/NotificationContext";
+import { formatFileSize } from "@/utils/formatFileSize";
 
 type Props = {
   closeModal: () => void;
@@ -474,19 +475,6 @@ const ApproverLiquidation: React.FC<Props> = ({
     setFile((prevImages) =>
       prevImages.filter((image) => image.name !== imageName)
     );
-  };
-
-  const formatFileSize = (sizeInBytes: any) => {
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    let size = sizeInBytes;
-    let unitIndex = 0;
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    return `${size.toFixed(1)} ${units[unitIndex]}`;
   };
 
   return (
@@ -1070,7 +1058,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                   className="fixed inset-0 z-50 flex items-center justify-center w-full bg-black/75"
                   onClick={closeImgModal}
                 >
-                  <div className={zoom > 1 ? "w-4/5" : ""}>
+                  <div className={zoom > 1 ? "w-full" : ""}>
                     <div
                       className="relative rounded-lg"
                       onClick={(e) => e.stopPropagation()}

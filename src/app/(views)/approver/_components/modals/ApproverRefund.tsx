@@ -15,6 +15,7 @@ import PrintRefund from "../prints/PrintRefund";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { useNotification } from "@/context/NotificationContext";
+import { formatFileSize } from "@/utils/formatFileSize";
 
 type Props = {
   closeModal: () => void;
@@ -490,19 +491,6 @@ const ApproverRefund: React.FC<Props> = ({
     );
   };
 
-  const formatFileSize = (sizeInBytes: any) => {
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    let size = sizeInBytes;
-    let unitIndex = 0;
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    return `${size.toFixed(1)} ${units[unitIndex]}`;
-  };
-
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
       <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black rounded-t-lg shadow-lg md:mx-0 md:w-1/2 space-y-auto h-3/4">
@@ -935,7 +923,7 @@ const ApproverRefund: React.FC<Props> = ({
                   className="fixed inset-0 z-50 flex items-center justify-center w-full bg-black/75"
                   onClick={closeImgModal}
                 >
-                  <div className={zoom > 1 ? "w-4/5" : ""}>
+                  <div className={zoom > 1 ? "w-full" : ""}>
                     <div
                       className="relative rounded-lg"
                       onClick={(e) => e.stopPropagation()}

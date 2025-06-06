@@ -15,6 +15,7 @@ import { api } from "@/lib/api";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { FaCamera } from "react-icons/fa";
+import fullnameAcronym from "@/utils/fullnameAcronym";
 
 interface Branch {
   branch: string;
@@ -376,13 +377,22 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="avatar relative">
                 <div className="w-40 rounded-full ring ring-primary ring-offset-gray-100 ring-offset-2">
-                  <Image
-                    width={160}
-                    height={160}
-                    alt="profile"
-                    src={profilePictureUrl}
-                    className="rounded-full"
-                  />
+                  {user?.profile_picture ? (
+                    <Image
+                      width={160}
+                      height={160}
+                      alt="profile"
+                      src={profilePictureUrl}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    fullnameAcronym({
+                      fullName: user?.fullName,
+                      width: "w-40",
+                      height: "h-40",
+                      textSize: "!text-7xl",
+                    })
+                  )}
                 </div>
                 <button
                   type="button"

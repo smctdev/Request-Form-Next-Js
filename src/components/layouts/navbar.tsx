@@ -39,6 +39,7 @@ import ViewCashDisbursementModal from "../basic-modals/ViewCashDisbursementModal
 import ViewCashAdvanceModal from "../basic-modals/ViewCashAdvanceModal";
 import ViewLiquidationModal from "../basic-modals/ViewLiquidationModal";
 import ViewRequestModal from "../basic-modals/ViewRequestModal";
+import fullnameAcronym from "@/utils/fullnameAcronym";
 
 type Record = {
   approved_attachment: string;
@@ -266,7 +267,7 @@ const Navbar = ({
 
   const fetchNotifData = async (data: any) => {
     try {
-      const response = await api.get(`/request-forms/for-approval/${user.id}`);
+      const response = await api.get(`/request-forms/for-approval/${user.id}/for-approval-requests`);
       const request_forms = response.data.request_forms;
       request_forms.some((request: any) => {
         if (request.id === data) {
@@ -327,7 +328,7 @@ const Navbar = ({
   const refreshData = () => {
     if (user.id) {
       api
-        .get(`/request-forms/for-approval/${user.id}`)
+        .get(`/request-forms/for-approval/${user.id}/for-approval-requests`)
         .then((response) => {
           setRequests(response.data.request_forms);
         })
@@ -409,17 +410,26 @@ const Navbar = ({
               </div>
             ) : (
               <>
-                <Image
-                  alt="logo"
-                  className="hidden rounded-full cursor-pointer sm:block w-14 h-14"
-                  src={profilePictureUrl}
-                  height={45}
-                  width={45}
-                  onClick={toggleProfileDropdown}
-                />
+                {user?.profile_picture ? (
+                  <Image
+                    alt="logo"
+                    className="hidden rounded-full cursor-pointer sm:block w-14 h-14"
+                    src={profilePictureUrl}
+                    height={45}
+                    width={45}
+                    onClick={toggleProfileDropdown}
+                  />
+                ) : (
+                  fullnameAcronym({
+                    fullName: user?.fullName,
+                    height: "h-14",
+                    width: "w-14",
+                    textSize: "!text-2xl",
+                  })
+                )}
                 {/* USER NAME */}
                 <p
-                  className="pl-2 lg:text-[18px] text-[12px] text-black cursor-pointer"
+                  className="pl-2 lg:!text-[14px] !text-[11px] text-gray-600 font-bold cursor-pointer"
                   onClick={toggleProfileDropdown}
                 >
                   {user?.firstName} {user?.lastName}

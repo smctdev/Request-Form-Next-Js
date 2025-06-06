@@ -47,7 +47,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       const response = await api.put(
-        `/notifications/mark-all-as-read/${user?.id}`,
+        `/notifications/mark-all-as-read/${user?.id}/notification-read-all`,
         {}
       );
 
@@ -105,7 +105,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     const fetchNotifications = async () => {
       if (!user?.id) return;
       try {
-        const response = await api.get(`/notifications/${user?.id}/all`);
+        const response = await api.get(`/notifications/${user?.id}/notifications`);
         const notificationsData = response.data.unread_notification;
         setNotifications(notificationsData);
 
@@ -125,7 +125,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const markAsReadNotification = async (id: any) => {
     setIsRefresh(true);
     try {
-      await api.post(`/read-notification/${id}`);
+      await api.post(`/read-notification/${id}/notification-read`);
     } catch (error) {
       console.error(error);
     } finally {
