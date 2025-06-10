@@ -90,7 +90,8 @@ const tableInput =
   "w-full h-full bg-white px-2 py-1 focus:outline-0  autofill-input";
 const itemDiv = "flex flex-col  w-3/4";
 
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
+const buttonStyle =
+  "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 const CreateLiquidation = (props: Props) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -117,8 +118,8 @@ const CreateLiquidation = (props: Props) => {
   const { user } = useAuth();
 
   useEffect(() => {
-     setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
-     setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
+    setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+    setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
   }, [user.noted_bies, user.approved_bies]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -325,7 +326,7 @@ const CreateLiquidation = (props: Props) => {
           confirmButtonText: "Close",
           confirmButtonColor: "#007bff",
         });
-        setLoading(false); // Stop loading state
+
         return; // Prevent form submission
       }
 
@@ -439,6 +440,16 @@ const CreateLiquidation = (props: Props) => {
     }
 
     setLoading(true);
+
+    Swal.fire({
+      title: "Creating...",
+      text: "Please wait while we create your request.",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+    });
     try {
       // Perform the actual form submission
       const response = await api.post(
@@ -450,8 +461,18 @@ const CreateLiquidation = (props: Props) => {
       setFormSubmitted(true);
       setLoading(false);
       setTableData([]);
+      if (response.status === 201) {
+        Swal.close();
+      }
     } catch (error) {
       console.error("An error occurred while submitting the request:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "An unexpected error occurred. Please try again.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#dc3545",
+      });
     } finally {
       setLoading(false);
     }
@@ -471,11 +492,6 @@ const CreateLiquidation = (props: Props) => {
 
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
-          <ClipLoader color="#007bff" />
-        </div>
-      )}
       {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
 
       <select
@@ -506,7 +522,8 @@ const CreateLiquidation = (props: Props) => {
             </h1>
           </div>
           <div className="my-2 ">
-            <button type="button"
+            <button
+              type="button"
               onClick={openAddCustomModal}
               className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
             >

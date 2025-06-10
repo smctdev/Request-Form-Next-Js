@@ -155,7 +155,7 @@ const CreateRefund = (props: Props) => {
           confirmButtonText: "Close",
           confirmButtonColor: "#007bff",
         });
-        setLoading(false); // Stop loading state
+
         return; // Prevent form submission
       }
       // Check if any item fields are empty
@@ -250,6 +250,15 @@ const CreateRefund = (props: Props) => {
       return; // Prevent form submission
     }
 
+    Swal.fire({
+      title: "Creating...",
+      text: "Please wait while we create your request.",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+    });
     try {
       setLoading(true);
 
@@ -262,8 +271,18 @@ const CreateRefund = (props: Props) => {
       setShowSuccessModal(true);
       setFormSubmitted(true);
       setLoading(false);
+      if (response.status === 201) {
+        Swal.close();
+      }
     } catch (error) {
       console.error("An error occurred while submitting the request:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "An unexpected error occurred. Please try again.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#dc3545",
+      });
     } finally {
       setLoading(false);
     }
@@ -360,11 +379,6 @@ const CreateRefund = (props: Props) => {
 
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
-          <ClipLoader color="#007bff" />
-        </div>
-      )}
       {/* <h1 className="text-primary dark:text-primaryD text-[32px] font-bold">
         Create Request
       </h1>

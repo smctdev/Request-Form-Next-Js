@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DataTable from "react-data-table-component";
 import { api } from "@/lib/api";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
@@ -17,6 +17,7 @@ import ApproverPurchase from "../_components/modals/ApproverPurchase";
 import { useAuth } from "@/context/AuthContext";
 import { useNotification } from "@/context/NotificationContext";
 import approverPage from "@/lib/approverPage";
+import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 type Props = {};
 
 type Record = {
@@ -176,6 +177,10 @@ const RequestApprover = (props: Props) => {
   const [search, searchRequest] = useState("");
   const { user } = useAuth();
   const { isRefresh } = useNotification();
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(10);
+  const debounce = useRef<NodeJS.Timeout>(null);
 
   useEffect(() => {
     if (!user.id || !echo) return;
@@ -235,9 +240,17 @@ const RequestApprover = (props: Props) => {
       const fetchRequests = async () => {
         try {
           const response = await api.get(
-            `/request-forms/for-approval/${user.id}/for-approval-requests`
+            `/request-forms/for-approval/${user.id}/for-approval-requests`,
+            {
+              params: {
+                page: page,
+                per_page: perPage,
+                search: search,
+              },
+            }
           );
-          setRequests(response.data.request_forms);
+          setRequests(response.data.request_forms_paginated.data);
+          setTotalPages(response.data.request_forms_paginated.total);
         } catch (error) {
           console.error("Error fetching requests data:", error);
         } finally {
@@ -247,7 +260,7 @@ const RequestApprover = (props: Props) => {
 
       fetchRequests();
     }
-  }, [user.id, notificationReceived, isRefresh]);
+  }, [user.id, notificationReceived, isRefresh, page, perPage, search]);
 
   const NoDataComponent = () => (
     <div className="flex items-center justify-center h-64 text-gray-500">
@@ -298,7 +311,10 @@ const RequestApprover = (props: Props) => {
   };
 
   const handleSearchRequest = (event: React.ChangeEvent<HTMLInputElement>) => {
-    searchRequest(event.target.value.toLowerCase());
+    if (debounce.current) clearTimeout(debounce.current);
+    debounce.current = setTimeout(() => {
+      searchRequest(event.target.value.toLowerCase());
+    }, 500);
   };
 
   const filteredData = () => {
@@ -335,28 +351,28 @@ const RequestApprover = (props: Props) => {
         filteredRequests = requests;
     }
 
-    if (search.trim()) {
-      filteredRequests = filteredRequests.filter((item: Record) => {
-        const formattedDate = new Date(item.created_at).toLocaleDateString(
-          "en-US",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }
-        );
-        const branchId = parseInt(item?.form_data[0].branch, 10);
-        const branchCode = branchMap.get(branchId)?.toLowerCase();
+    // if (search.trim()) {
+    //   filteredRequests = filteredRequests.filter((item: Record) => {
+    //     const formattedDate = new Date(item.created_at).toLocaleDateString(
+    //       "en-US",
+    //       {
+    //         year: "numeric",
+    //         month: "long",
+    //         day: "numeric",
+    //       }
+    //     );
+    //     const branchId = parseInt(item?.form_data[0].branch, 10);
+    //     const branchCode = branchMap.get(branchId)?.toLowerCase();
 
-        return (
-          item.request_code.toLowerCase().includes(search.toLowerCase()) ||
-          item.form_type.toLowerCase().includes(search.toLowerCase()) ||
-          formattedDate.toLowerCase().includes(search) ||
-          branchCode?.includes(search.toLowerCase()) ||
-          item.status.toLowerCase().includes(search.toLowerCase())
-        );
-      });
-    }
+    //     return (
+    //       item.request_code.toLowerCase().includes(search.toLowerCase()) ||
+    //       item.form_type.toLowerCase().includes(search.toLowerCase()) ||
+    //       formattedDate.toLowerCase().includes(search) ||
+    //       branchCode?.includes(search.toLowerCase()) ||
+    //       item.status.toLowerCase().includes(search.toLowerCase())
+    //     );
+    //   });
+    // }
 
     return filteredRequests;
   };
@@ -476,6 +492,14 @@ const RequestApprover = (props: Props) => {
     "Unsuccessful Requests",
   ];
 
+  const handlePerRowsChange = (pageRow: number) => {
+    setPerPage(pageRow);
+  };
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
   return (
     <div className="w-full px-10 pt-4 pb-10 bg-graybg dark:bg-blackbg h-lvh">
       <Link href="/create-request?title=Stock%20Requisition">
@@ -513,7 +537,6 @@ const RequestApprover = (props: Props) => {
                   type="search"
                   placeholder="Search..."
                   className="w-full text-sm text-gray-600 bg-transparent outline-none focus:outline-none"
-                  value={search}
                   onChange={handleSearchRequest}
                 />
               </div>
@@ -534,9 +557,14 @@ const RequestApprover = (props: Props) => {
               noDataComponent={<NoDataComponent />}
               progressPending={loading}
               progressComponent={<LoadingSpinner />}
+              paginationServer
               pagination
               striped
               customStyles={tableCustomStyles}
+              onChangePage={handlePageChange}
+              onChangeRowsPerPage={handlePerRowsChange}
+              paginationTotalRows={totalPages}
+              paginationRowsPerPageOptions={paginationRowsPerPageOptions}
             />
           </div>
         </div>

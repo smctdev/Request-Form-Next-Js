@@ -148,7 +148,7 @@ const CreateStockRequistion = (props: Props) => {
           confirmButtonColor: "#007bff",
         });
         // alert("Please select an approver.");
-        setLoading(false); // Stop loading state
+
         return; // Prevent form submission
       }
 
@@ -160,7 +160,7 @@ const CreateStockRequistion = (props: Props) => {
         )
       ) {
         console.error("Item fields cannot be empty");
-        setLoading(false); // Stop loading state
+
         return;
       }
 
@@ -240,6 +240,15 @@ const CreateStockRequistion = (props: Props) => {
       return; // Prevent form submission
     }
 
+    Swal.fire({
+      title: "Creating...",
+      text: "Please wait while we create your request.",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+    });
     try {
       setLoading(true);
       const response = await api.post(`/create-request`, formData);
@@ -247,8 +256,18 @@ const CreateStockRequistion = (props: Props) => {
       setShowSuccessModal(true);
       setFormSubmitted(true);
       setLoading(false);
+      if (response.status === 201) {
+        Swal.close();
+      }
     } catch (error) {
       console.error("An error occurred while submitting the request:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "An unexpected error occurred. Please try again.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#dc3545",
+      });
     } finally {
       setLoading(false);
     }
@@ -342,11 +361,6 @@ const CreateStockRequistion = (props: Props) => {
     user.noted_bies.length > 0 || user.approved_bies.length > 0;
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
-          <ClipLoader color="#007bff" />
-        </div>
-      )}
       {/* <h1 className="text-primary dark:text-primaryD text-[32px] font-bold">
         Create Request
       </h1>

@@ -114,6 +114,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
           approvedByIds: [],
         });
       }
+      return response.status;
     } catch (error) {
       console.error(error);
     }
@@ -171,7 +172,11 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
       return;
     }
     setIsLoading(true);
-    handleResetSelection();
+
+    const status = await handleResetSelection();
+
+    if (status !== 201) return;
+
     try {
       const response = await api.post("/save-approved-noted-by", {
         notedByIds: ids.notedByIds,

@@ -57,7 +57,8 @@ type FormData = z.infer<typeof schema>;
 const inputStyle =
   "w-full   border-2 border-black rounded-[12px] bg-white  autofill-input";
 const itemDiv = "flex flex-col  ";
-const buttonStyle = "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
+const buttonStyle =
+  "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 const tableStyle = "border border-black p-2 border-collapse";
 const inputStyle2 =
   "w-full   rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";
@@ -143,8 +144,8 @@ const CreatePurchaseOrder = (props: Props) => {
   } = useForm<FormData>();
 
   useEffect(() => {
-     setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
-     setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
+    setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+    setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
   }, [user.noted_bies, user.approved_bies]);
 
   const onSubmit = async (data: any) => {
@@ -157,7 +158,7 @@ const CreatePurchaseOrder = (props: Props) => {
           confirmButtonText: "Close",
           confirmButtonColor: "#007bff",
         });
-        setLoading(false); // Stop loading state
+
         return; // Prevent form submission
       }
       // Check if any item fields are empty
@@ -265,6 +266,16 @@ const CreatePurchaseOrder = (props: Props) => {
     }
 
     setLoading(true);
+
+    Swal.fire({
+      title: "Creating...",
+      text: "Please wait while we create your request.",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+    });
     try {
       // Perform the actual form submission
       const response = await api.post(
@@ -275,8 +286,18 @@ const CreatePurchaseOrder = (props: Props) => {
       setShowSuccessModal(true);
       setValidationErrors(response.data.message);
       setFormSubmitted(true);
+      if (response.status === 201) {
+        Swal.close();
+      }
     } catch (error) {
       console.error("An error occurred while submitting the request:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "An unexpected error occurred. Please try again.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#dc3545",
+      });
     } finally {
       setLoading(false);
     }
@@ -359,17 +380,12 @@ const CreatePurchaseOrder = (props: Props) => {
       textarea.style.height = `${Math.max(textarea.scrollHeight, 100)}px`; // Set to scroll height or minimum 100px
     }
   };
-  
+
   const isEditableApprover =
     user.noted_bies.length > 0 || user.approved_bies.length > 0;
 
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
-      {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-500 bg-opacity-75">
-          <ClipLoader color="#007bff" />
-        </div>
-      )}
       {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
       <select
         className="w-2/5 lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 border-black rounded-xl mb-2"
@@ -399,7 +415,8 @@ const CreatePurchaseOrder = (props: Props) => {
             </h1>
           </div>
           <div className="my-2 ">
-            <button type="button"
+            <button
+              type="button"
               onClick={openAddCustomModal}
               className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
             >
