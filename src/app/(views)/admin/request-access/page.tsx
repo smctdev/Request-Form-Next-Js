@@ -2,13 +2,18 @@
 
 import adminPage from "@/lib/adminPage";
 import { useEffect } from "react";
-import TableData from "../_components/request-access/TableData";
 import TableLoader from "../_components/loaders/TableLoader";
 import echo from "@/hooks/echo";
 import { useAuth } from "@/context/AuthContext";
-import { FaMagnifyingGlass } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaX } from "react-icons/fa6";
 import useFetch from "../_hooks/useFetch";
-import Pagination from "../_components/ui/Pagination";
+import DataTable from "react-data-table-component";
+import Swal from "sweetalert2";
+import { api } from "@/lib/api";
+import { formatDate } from "date-fns";
+import { timeFormat } from "../_utils/timeFormat";
+import { FaCheck } from "react-icons/fa";
+import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 
 function RequestAccess() {
   const { user } = useAuth();
@@ -52,7 +57,7 @@ function RequestAccess() {
     };
   }, [echo, user.id, searchTerm]);
 
-  const tableHead = [
+  const tableHeads = [
     "ID/Code",
     "Type",
     "Employee Name",
@@ -61,6 +66,165 @@ function RequestAccess() {
     "Date Submitted",
     "Action",
   ];
+
+  const tableData = [
+    {
+      name: "ID/CODE",
+      cell: (row: any) => (
+        <span className="max-w-[180px] break-words font-bold text-gray-600">
+          {row.id}/{row.request_access_code}
+        </span>
+      ),
+      width: "150px",
+    },
+    {
+      name: "TYPE",
+      cell: (row: any) => (
+        <span className="capitalize">
+          {row.request_access_type.replace("_", " ")}
+        </span>
+      ),
+    },
+    {
+      name: "EMPLOYEE NAME",
+      cell: (row: any) => (
+        <span className="p-2 break-words font-bold text-gray-600">
+          {row.user?.firstName} {row.user?.lastName}
+        </span>
+      ),
+    },
+    {
+      name: "MESSAGE",
+      cell: (row: any) => (
+        <span className="whitespace-pre-wrap">{row.message}</span>
+      ),
+    },
+    {
+      name: "STATUS",
+      cell: (row: any) => (
+        <span
+          className={`${
+            row.status === "pending"
+              ? "bg-yellow-500"
+              : row.status === "approved"
+              ? "bg-green-500"
+              : "bg-red-500"
+          } px-2 rounded-4xl text-white uppercase font-bold !text-sm`}
+        >
+          {row.status}
+        </span>
+      ),
+    },
+    {
+      name: "DATE SUBMITTED",
+      cell: (row: any) => (
+        <div>
+          <p>{formatDate(row.created_at, "MMM dd, yyyy h:mm a")}</p>
+          <p className="text-gray-500 !text-sm">{timeFormat(row.created_at)}</p>
+        </div>
+      ),
+    },
+    {
+      name: "ACTION",
+      cell: (row: any) =>
+        row.status !== "pending" ? (
+          <>-</>
+        ) : (
+          <span className="flex gap-1">
+            <button
+              type="button"
+              onClick={handleUpdate("approved", row.id)}
+              className="p-2 bg-green-500 hover:bg-green-400 text-white rounded-full"
+            >
+              <FaCheck />
+            </button>
+            <button
+              type="button"
+              onClick={handleUpdate("declined", row.id)}
+              className="p-2 bg-red-500 hover:bg-red-400 text-white rounded-full"
+            >
+              <FaX />
+            </button>
+          </span>
+        ),
+      width: "150px",
+    },
+  ];
+
+  const handleUpdate = (title: string, id: number) => () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You want to update this request access to ${title}?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Loading...",
+          text: "Updating employee request access...",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+        setIsRefresh(true);
+        try {
+          const response = await api.patch(`/request-access/${id}/update`, {
+            status: title,
+          });
+          if (response.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: response.data,
+              confirmButtonText: "Close",
+              confirmButtonColor: "#007bff",
+            });
+          }
+        } catch (error: any) {
+          console.error(error);
+          if (error.response.status === 403) {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: error.response.data,
+              confirmButtonText: "Close",
+              confirmButtonColor: "#007bff",
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "An unexpected error occurred. Please try again later.",
+              confirmButtonText: "Close",
+              confirmButtonColor: "#007bff",
+            });
+          }
+        } finally {
+          setIsRefresh(false);
+        }
+      }
+    });
+  };
+
+  const handlePage = (page: number) => {
+    setPagination({
+      ...pagination,
+      current_page: page,
+    });
+  };
+
+  const handlePerpage = (perPage: number) => {
+    setPagination({
+      ...pagination,
+      per_page: perPage,
+    });
+  };
 
   return (
     <div className="bg-graybg min-h-screen pt-8 px-6 pb-20">
@@ -75,41 +239,21 @@ function RequestAccess() {
         />
         <FaMagnifyingGlass className="absolute top-0 left-0 mt-3.5 ml-3 text-gray-400" />
       </div>
-      <div className="bg-white rounded-xl shadow-md overflow-x-auto">
-        <table className="min-w-full table-auto text-sm text-left text-gray-700">
-          <thead className="bg-gray-100 text-xs uppercase text-gray-600">
-            <tr>
-              {tableHead.map((item: string, index: number) => (
-                <th key={index} className="px-6 py-4">
-                  {item}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {isLoading ? (
-              <TableLoader colSpan={7} />
-            ) : requestAccess.length > 0 ? (
-              requestAccess?.map((item: any, index: number) => (
-                <TableData
-                  key={index}
-                  item={item}
-                  setIsRefresh={setIsRefresh}
-                />
-              ))
-            ) : (
-              <tr>
-                <td colSpan={8} className="text-center p-5 font-bold">
-                  No request access found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <Pagination
-          isLoading={isLoading}
-          pagination={pagination}
-          setPagination={setPagination}
+      <div className="bg-white rounded-xl shadow-md">
+        <DataTable
+          columns={tableData}
+          data={requestAccess}
+          pagination
+          paginationServer
+          onChangePage={handlePage}
+          onChangeRowsPerPage={handlePerpage}
+          paginationTotalRows={pagination.total}
+          paginationRowsPerPageOptions={paginationRowsPerPageOptions}
+          paginationPerPage={pagination.per_page}
+          progressPending={isLoading}
+          progressComponent={
+            <TableLoader colSpan={7} tableHeads={tableHeads} />
+          }
         />
       </div>
     </div>

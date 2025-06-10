@@ -2,10 +2,11 @@
 
 import adminPage from "@/lib/adminPage";
 import { FeedbackType } from "../_types/Feedback";
-import TableData from "../_components/feedbacks/TableData";
 import TableLoader from "../_components/loaders/TableLoader";
 import useFetch from "../_hooks/useFetch";
-import Pagination from "../_components/ui/Pagination";
+import DataTable from "react-data-table-component";
+import { formatDate, formatDistanceToNowStrict } from "date-fns";
+import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 
 function Feedbacks() {
   const {
@@ -15,7 +16,7 @@ function Feedbacks() {
     setPagination,
   } = useFetch({ url: "/feedbacks" });
 
-  const tableHead = [
+  const tableHeads = [
     "ID/Code",
     "Name",
     "Email",
@@ -26,41 +27,88 @@ function Feedbacks() {
     "Date Submitted",
   ];
 
+  const tableData = [
+    {
+      name: "ID/CODE",
+      cell: (row: FeedbackType) => (
+        <span className="p-2 break-words font-bold text-gray-600">
+          {row.id}/{row.feedback_code}
+        </span>
+      ),
+      width: "150px",
+    },
+    {
+      name: "NAME",
+      selector: (row: FeedbackType) => row.name,
+    },
+    {
+      name: "EMAIL",
+      selector: (row: FeedbackType) => row.email,
+    },
+    {
+      name: "PHONE",
+      selector: (row: FeedbackType) => row.phone,
+    },
+    {
+      name: "DEPARTMENT",
+      selector: (row: FeedbackType) => row.department,
+    },
+    {
+      name: "OPINION",
+      selector: (row: FeedbackType) =>
+        row.opinion === "other" ? row.other_opinion : row.opinion,
+    },
+    {
+      name: "MESSAGE",
+      cell: (row: FeedbackType) => (
+        <span className="whitespace-pre-wrap">{row.message}</span>
+      ),
+    },
+    {
+      name: "DATE SUBMITTED",
+      cell: (row: FeedbackType) => (
+        <div>
+          <p>{formatDate(row.created_at, "MMM dd, yyyy h:mm a")}</p>
+          <p className="text-gray-500 !text-sm">
+            {formatDistanceToNowStrict(row.created_at, { addSuffix: true })}
+          </p>
+        </div>
+      ),
+    },
+  ];
+
+  const handlePageChange = (page: number) => {
+    setPagination({
+      ...pagination,
+      current_page: page,
+    });
+  };
+
+  const handleRowsPerPageChange = (perPage: number) => {
+    setPagination({
+      ...pagination,
+      per_page: perPage,
+    });
+  };
+
   return (
     <div className="bg-graybg min-h-screen pt-8 px-6 pb-20">
       <h2 className="!text-4xl font-bold text-blue-400 mb-6">Feedbacks</h2>
 
-      <div className="bg-white rounded-xl shadow-md overflow-x-auto">
-        <table className="min-w-full table-auto text-sm text-left text-gray-700">
-          <thead className="bg-gray-100 text-xs uppercase text-gray-600">
-            <tr>
-              {tableHead.map((item: string, index: number) => (
-                <th key={index} className="px-6 py-4">
-                  {item}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {isLoading ? (
-              <TableLoader colSpan={8} />
-            ) : feedbacks.length > 0 ? (
-              feedbacks?.map((item: FeedbackType, index: number) => (
-                <TableData key={index} item={item} />
-              ))
-            ) : (
-              <tr>
-                <td colSpan={8} className="text-center p-5 font-bold">
-                  No feedbacks found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <Pagination
-          pagination={pagination}
-          setPagination={setPagination}
-          isLoading={isLoading}
+      <div className="bg-white rounded-xl shadow-md">
+        <DataTable
+          columns={tableData}
+          data={feedbacks}
+          pagination
+          paginationServer
+          paginationRowsPerPageOptions={paginationRowsPerPageOptions}
+          paginationTotalRows={pagination.total}
+          onChangePage={handlePageChange}
+          onChangeRowsPerPage={handleRowsPerPageChange}
+          progressComponent={
+            <TableLoader colSpan={8} tableHeads={tableHeads} />
+          }
+          progressPending={isLoading}
         />
       </div>
     </div>
