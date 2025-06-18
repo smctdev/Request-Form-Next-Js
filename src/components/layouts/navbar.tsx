@@ -75,6 +75,7 @@ type Record = {
       branch_code: string;
     };
   };
+  approved_attachments: any;
 };
 
 interface Approver {
@@ -267,7 +268,9 @@ const Navbar = ({
 
   const fetchNotifData = async (data: any) => {
     try {
-      const response = await api.get(`/request-forms/for-approval/${user.id}/for-approval-requests`);
+      const response = await api.get(
+        `/request-forms/for-approval/${user.id}/for-approval-requests`
+      );
       const request_forms = response.data.request_forms;
       request_forms.some((request: any) => {
         if (request.id === data) {
