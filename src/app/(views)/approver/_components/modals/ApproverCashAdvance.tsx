@@ -16,6 +16,7 @@ import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { useNotification } from "@/context/NotificationContext";
 import { formatFileSize } from "@/utils/formatFileSize";
+import ZoomableImage from "@/components/ZoomableImage";
 
 type Props = {
   closeModal: () => void;
@@ -557,7 +558,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
         </div>
         {!isFetchingApprovers && (
           <>
-            <button 
+            <button
               type="button"
               className="p-1 px-2 text-white bg-blue-600 rounded-md cursor-pointer hover:bg-blue-400"
               onClick={handlePrint}
@@ -1165,76 +1166,10 @@ const ApproverCashAdvance: React.FC<Props> = ({
                 ))}
               </div>
               {isImgModalOpen && (
-                <div
-                  className="fixed inset-0 z-50 flex items-center justify-center w-full bg-black/75"
-                  onClick={closeImgModal}
-                >
-                  <div className={zoom > 1 ? "w-full" : ""}>
-                    <div
-                      className="relative rounded-lg"
-                      onClick={(e) => e.stopPropagation()}
-                      onMouseMove={handleMouseMove}
-                      onMouseUp={handleLongPressEnd}
-                      onTouchMove={handleMouseMove}
-                      onTouchEnd={handleLongPressEnd}
-                    >
-                      <div
-                        className="overflow-hidden"
-                        style={{
-                          cursor: dragging
-                            ? "grabbing"
-                            : zoom > 1
-                            ? "grab"
-                            : "default",
-                        }}
-                        onMouseDown={handleLongPressStart}
-                        onTouchStart={handleLongPressStart}
-                      >
-                        <Image
-                          width={400}
-                          height={400}
-                          src={currentImage || ""}
-                          alt="Viewed"
-                          className="object-contain w-full max-h-screen transform"
-                          style={{
-                            transform: `scale(${zoom}) translate(${positionImg.x}px, ${positionImg.y}px)`,
-                          }}
-                        />
-                      </div>
-
-                      <div className="fixed flex w-10 h-10 gap-8 text-4xl text-white rounded-full right-48 top-4">
-                        <button
-                          type="button"
-                          onClick={resetZoom}
-                          className="w-10 h-10 text-lg text-white cursor-pointer"
-                        >
-                          Reset
-                        </button>
-                        <button
-                          type="button"
-                          onClick={zoomOut}
-                          className="w-10 h-10 text-4xl text-white cursor-pointer"
-                        >
-                          -
-                        </button>
-                        <button
-                          type="button"
-                          onClick={zoomIn}
-                          className="w-10 h-10 text-4xl text-white cursor-pointer"
-                        >
-                          +
-                        </button>
-                      </div>
-
-                      <button
-                        onClick={closeImgModal}
-                        className="fixed w-10 h-10 text-4xl text-white right-4 top-4"
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <ZoomableImage
+                  closeImgModal={closeImgModal}
+                  currentImage={currentImage}
+                />
               )}
             </div>
             {/* <div>
