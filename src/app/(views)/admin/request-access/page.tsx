@@ -53,7 +53,6 @@ function RequestAccess() {
 
     return () => {
       channel.stopListening("RequestAccessEvent");
-      echo.leaveChannel(`private-request-access.${user.id}`);
     };
   }, [echo, user.id, searchTerm]);
 

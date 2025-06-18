@@ -44,7 +44,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
     return () => {
       channel.stopListening("RequestAccessEvent");
-      echo.leaveChannel(`private-request-access.${user.id}`);
     };
   }, [echo, user.id]);
 

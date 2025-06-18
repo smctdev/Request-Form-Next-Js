@@ -90,9 +90,9 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       });
 
     return () => {
-      echo.leave("IlluminateNotificationsEventsBroadcastNotificationCreated");
+      echo.leave(`private-App.Models.User.${user.id}`);
     };
-  }, [user?.id]);
+  }, [user?.id, echo]);
 
   useEffect(() => {
     if (notificationReceived) {
@@ -105,7 +105,9 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     const fetchNotifications = async () => {
       if (!user?.id) return;
       try {
-        const response = await api.get(`/notifications/${user?.id}/notifications`);
+        const response = await api.get(
+          `/notifications/${user?.id}/notifications`
+        );
         const notificationsData = response.data.unread_notification;
         setNotifications(notificationsData);
 

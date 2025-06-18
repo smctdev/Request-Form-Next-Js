@@ -201,9 +201,9 @@ const RequestApprover = (props: Props) => {
       });
 
     return () => {
-      echo.leave("IlluminateNotificationsEventsBroadcastNotificationCreated");
+      echo.leave(`private-App.Models.User.${user.id}`);
     };
-  }, [user.id]);
+  }, [user.id, echo]);
 
   useEffect(() => {
     if (notificationReceived) {

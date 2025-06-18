@@ -180,14 +180,14 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   useEffect(() => {
     if (!echo || user?.id) return;
 
-    echo
+    const channel = echo
       .private(`pendingCount.${user?.id}`)
       .listen("NotificationEvent", (e: any) => {
         setnotificationReceived(true);
       });
 
     return () => {
-      echo.leave(`pendingCount.${user?.id}`);
+      channel.stopListening("NotificationEvent");
     };
   }, [user]);
 
@@ -201,9 +201,9 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
       });
 
     return () => {
-      echo.leave("IlluminateNotificationsEventsBroadcastNotificationCreated");
+      echo.leave(`private-App.Models.User.${user.id}`);
     };
-  }, [user?.id]);
+  }, [user?.id, echo]);
 
   useEffect(() => {
     if (notificationReceived) {

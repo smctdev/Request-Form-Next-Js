@@ -263,7 +263,7 @@ const Request = (props: Props) => {
       });
 
     return () => {
-      echo.leave("IlluminateNotificationsEventsBroadcastNotificationCreated");
+      echo.leave(`private-App.Models.User.${user.id}`);
     };
   }, [echo, user.id]);
 
