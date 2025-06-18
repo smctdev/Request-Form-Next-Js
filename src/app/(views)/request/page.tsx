@@ -74,6 +74,7 @@ type Record = {
       branch_code: string;
     };
   };
+  approved_attachments: any;
 };
 
 type MyFormData = {

@@ -1313,13 +1313,23 @@ const ApproverCashAdvance: React.FC<Props> = ({
             {record.approved_attachment.length === 0 &&
             user.position === "Vice President" &&
             record.status === "Pending" ? (
-              <input
-                id="file"
-                type="file"
-                multiple
-                onChange={handleFileChange}
-                className="w-full mt-2"
-              />
+              <>
+                <input
+                  id="file"
+                  type="file"
+                  multiple
+                  onChange={handleFileChange}
+                  className="w-full mt-2"
+                  hidden
+                />
+                <button
+                  type="button"
+                  className="px-2 py-1 text-white bg-primary hover:bg-blue-400 rounded"
+                  onClick={() => document.getElementById("file")?.click()}
+                >
+                  Upload
+                </button>
+              </>
             ) : record.approved_attachment.length > 0 && attachment ? (
               <div className="flex gap-2 mt-2 overflow-x-auto">
                 {attachment.map((attachmentItem: any) => (
@@ -1331,7 +1341,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                       alt="Approved Attachment"
                       className="w-56 h-auto max-w-full rounded"
                     />
-                    <div className="absolute inset-0 flex items-center justify-center transition-opacity bg-black opacity-0 bg-opacity-70 group-hover:opacity-100">
+                    <div className="absolute inset-0 flex items-center justify-center transition-opacity bg-black/70 opacity-0 group-hover:opacity-100">
                       <div className="flex items-center justify-center gap-10">
                         <a
                           className="tooltip tooltip-info tooltip-top"

@@ -11,6 +11,7 @@ import PrintPurchase from "@/app/(views)/approver/_components/prints/PrintPurcha
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import ZoomableImage from "../ZoomableImage";
+import ApprovedAttachments from "../ApprovedAttachments";
 
 type Props = {
   closeModal: () => void;
@@ -1136,6 +1137,11 @@ const ViewPurchaseModal: React.FC<Props> = ({
               </>
             )}
           </div>
+
+          <ApprovedAttachments
+            record={record}
+            handleViewImage={handleViewImage}
+          />
 
           <div className="items-center md:absolute right-20 top-2">
             {isEditing ? (

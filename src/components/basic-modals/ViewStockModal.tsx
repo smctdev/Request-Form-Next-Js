@@ -11,6 +11,9 @@ import PrintStock from "@/app/(views)/approver/_components/prints/PrintStock";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import ZoomableImage from "../ZoomableImage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
+import ApprovedAttachments from "../ApprovedAttachments";
 
 type Props = {
   closeModal: () => void;
@@ -52,6 +55,7 @@ type Record = {
     signature: string;
     status: string;
   }[];
+  approved_attachments: any;
 };
 
 type FormData = {
@@ -1138,6 +1142,11 @@ const ViewStockModal: React.FC<Props> = ({
               </>
             )}
           </div>
+
+          <ApprovedAttachments
+            record={record}
+            handleViewImage={handleViewImage}
+          />
 
           <div className="items-center md:absolute right-20 top-2">
             {isEditing ? (

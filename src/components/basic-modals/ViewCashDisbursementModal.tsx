@@ -11,6 +11,7 @@ import AddCustomModal from "./AddCustomModal";
 import PrintCashDisbursement from "@/app/(views)/approver/_components/prints/PrintCashDisbursement";
 import { useAuth } from "@/context/AuthContext";
 import ZoomableImage from "../ZoomableImage";
+import ApprovedAttachments from "../ApprovedAttachments";
 type Props = {
   closeModal: () => void;
   record: Record;
@@ -1135,6 +1136,11 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
               </>
             )}
           </div>
+
+          <ApprovedAttachments
+            record={record}
+            handleViewImage={handleViewImage}
+          />
 
           <div className="flex items-center md:absolute right-20 top-2">
             {isEditing ? (

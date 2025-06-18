@@ -11,6 +11,7 @@ import { Approver } from "@/types/approverTypes";
 import { useAuth } from "@/context/AuthContext";
 import PrintCash from "@/app/(views)/approver/_components/prints/PrintCash";
 import ZoomableImage from "../ZoomableImage";
+import ApprovedAttachments from "../ApprovedAttachments";
 
 type Props = {
   closeModal: () => void;
@@ -1349,6 +1350,11 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
               </>
             )}
           </div>
+
+          <ApprovedAttachments
+            record={record}
+            handleViewImage={handleViewImage}
+          />
 
           <div className="items-center md:absolute right-20 top-2">
             {isEditing ? (
