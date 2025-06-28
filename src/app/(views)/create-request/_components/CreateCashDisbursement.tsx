@@ -401,7 +401,7 @@ const CreateCashDisbursement = (props: Props) => {
           <div>
             <h1 className="flex py-4 mr-2 text-3xl font-bold text-left text-primary">
               <span className="mr-2 text-3xl underline decoration-2 underline-offset-8">
-                Cash/Card
+                Cash
               </span>{" "}
               Disbursement Requisition Slip
             </h1>
