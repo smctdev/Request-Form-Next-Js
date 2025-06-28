@@ -24,7 +24,13 @@ const PrintPurchase: React.FC<PrintRefundProps> = ({ data }) => {
   } else if (printData?.user?.branch.branch === "Head Office") {
     logo = (
       <div className="flex items-center justify-center">
-        <Image width={100} height={100} src={HOLogo} alt="HO Logo" className="w-44" />
+        <Image
+          width={100}
+          height={100}
+          src={HOLogo}
+          alt="HO Logo"
+          className="w-44"
+        />
       </div>
     );
   } else {
@@ -98,7 +104,12 @@ const PrintPurchase: React.FC<PrintRefundProps> = ({ data }) => {
         `}
       </style>
       <div className="px-4 pt-2 border-2 border-black">
-        <div className="flex justify-end pr-3">
+        <div className="flex justify-between pr-3">
+          <p className="flex text-sm font-medium">
+            <span className="ml-2 text-sm font-normal underline">
+              {printData?.id?.request_code}
+            </span>
+          </p>
           <p className="flex text-sm font-medium">
             Date:{" "}
             <span className="ml-2 text-sm font-normal underline">
@@ -116,6 +127,16 @@ const PrintPurchase: React.FC<PrintRefundProps> = ({ data }) => {
               {printData?.requested_branch}
             </h1>
             <h1 className="text-sm font-semibold">BRANCH</h1>
+          </div>
+        </div>
+        <div className="py-5 space-y-3">
+          <div className="flex gap-3 items-center">
+            <p className="font-semibold text-lg">Supplier:</p>
+            <p className="border-b-1 w-1/3">{printData?.newSupplier}</p>
+          </div>
+          <div className="flex gap-3 items-center">
+            <p className="font-semibold text-lg">Address:</p>
+            <p className="border-b-1 w-1/3">{printData?.newAddress}</p>
           </div>
         </div>
         <div className="flex justify-center w-full mt-2">

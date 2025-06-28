@@ -362,6 +362,8 @@ const ApproverPurchase: React.FC<Props> = ({
       notedBy: notedBy,
       user: user,
       requested_branch: record?.branch,
+      newSupplier: newSupplier,
+      newAddress: newAddress,
     };
 
     localStorage.setItem("printData", JSON.stringify(data));

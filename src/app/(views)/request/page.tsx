@@ -405,8 +405,9 @@ const Request = (props: Props) => {
       searchRequest(event.target.value.toLowerCase());
     }, 500);
   };
+
   const filteredData = () => {
-    let filteredRequests;
+    let filteredRequests: any;
 
     switch (selected) {
       case 0:
@@ -458,7 +459,6 @@ const Request = (props: Props) => {
     //     );
     //   });
     // }
-
     return filteredRequests;
   };
 
@@ -506,7 +506,7 @@ const Request = (props: Props) => {
       api
         .get(`/view-request`)
         .then((response: any) => {
-          setRequests(response.data.data); // Assuming response.data.data contains your array of data
+          setRequests(response.data?.data?.data); // Assuming response.data.data contains your array of data
         })
         .catch((error: any) => {});
     }
@@ -675,14 +675,12 @@ const Request = (props: Props) => {
             <DataTable
               columns={columns}
               defaultSortAsc={false}
-              data={
-                filteredData()
-                  .map((item: Record) => ({
-                    ...item,
-                    date: new Date(item.date),
-                  }))
-                  .sort((a, b) => b.id - a.id) // Sorts by id in descending order
-              }
+              data={filteredData()
+                .map((item: Record) => ({
+                  ...item,
+                  date: new Date(item.date),
+                }))
+                .sort((a: any, b: any) => b.id - a.id)}
               noDataComponent={<NoDataComponent />}
               progressPending={loading}
               progressComponent={<LoadingSpinner />}
