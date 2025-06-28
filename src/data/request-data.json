@@ -8,7 +8,7 @@
     "path": "/create-request/purchase-order-requisition-slip"
   },
   {
-    "title": "Cash/Card Disbursement Requisition Slip",
+    "title": "Cash Disbursement Requisition Slip",
     "path": "/create-request/cash-or-card-disbursement-requisition-slip"
   },
   {
