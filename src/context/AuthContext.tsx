@@ -93,13 +93,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await loginApi(credentials);
       if (response.status === 200) {
+        fetchUserProfile();
         if (response.data.role === "approver") {
           router.push("/approver/dashboard");
         } else {
           router.push("/dashboard");
         }
         setIsLogin(true);
-        fetchUserProfile();
         setError("");
       }
     } catch (error: any) {
