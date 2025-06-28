@@ -396,6 +396,9 @@ const ViewPurchaseModal: React.FC<Props> = ({
       approvedBy: approvedBy,
       notedBy: notedBy,
       user: user,
+      requested_branch: record?.branch,
+      newSupplier: newSupplier,
+      newAddress: newAddress,
     };
 
     localStorage.setItem("printData", JSON.stringify(data));

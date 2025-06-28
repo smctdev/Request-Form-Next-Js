@@ -62,10 +62,7 @@ const PrintPurchase: React.FC<PrintRefundProps> = ({ data }) => {
       const parsedData = JSON.parse(storedData);
       setPrintData(parsedData);
     }
-
-    setTimeout(() => {
-      localStorage.removeItem("printData");
-    }, 1000);
+    localStorage.removeItem("printData");
   }, []);
 
   useEffect(() => {
