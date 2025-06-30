@@ -100,9 +100,10 @@ type Item = {
   perDiem: string;
 };
 
-const inputStyle = "border border-black text-[12px] font-bold p-2 h-14";
+const inputStyle =
+  "border border-black text-[12px] font-bold p-2 h-14 text-end";
 const tableStyle = "border border-black p-2";
-const tableCellStyle = `${inputStyle}  w-10`;
+const tableCellStyle = `${inputStyle} w-10`;
 const ApproverCashAdvance: React.FC<Props> = ({
   closeModal,
   record,
@@ -777,12 +778,14 @@ const ApproverCashAdvance: React.FC<Props> = ({
                                   {item.activity}
                                 </td>
                                 <td className={tableCellStyle}>{item.hotel}</td>
-                                <td className={tableCellStyle}>{item.rate}</td>
                                 <td className={tableCellStyle}>
-                                  {item.amount}
+                                  {item.rate || 0}
                                 </td>
                                 <td className={tableCellStyle}>
-                                  {item.perDiem}
+                                  {item.amount || 0}
+                                </td>
+                                <td className={tableCellStyle}>
+                                  {item.perDiem || 0}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.remarks}
@@ -824,7 +827,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                         />
                       ) : (
                         parseFloat(
-                          editableRecord.form_data[0].totalBoatFare
+                          editableRecord.form_data[0].totalBoatFare ?? 0
                         ).toFixed(2)
                       )}
                     </td>
@@ -844,7 +847,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                         />
                       ) : (
                         parseFloat(
-                          editableRecord.form_data[0].totalHotel
+                          editableRecord.form_data[0].totalHotel ?? 0
                         ).toFixed(2)
                       )}
                     </td>
@@ -877,7 +880,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                         />
                       ) : (
                         parseFloat(
-                          editableRecord.form_data[0].totalFare
+                          editableRecord.form_data[0].totalFare ?? 0
                         ).toFixed(2)
                       )}
                     </td>
@@ -899,7 +902,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                         />
                       ) : (
                         parseFloat(
-                          editableRecord.form_data[0].totalContingency
+                          editableRecord.form_data[0].totalContingency ?? 0
                         ).toFixed(2)
                       )}
                     </td>

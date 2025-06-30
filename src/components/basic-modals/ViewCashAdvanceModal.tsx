@@ -90,7 +90,7 @@ type Item = {
 };
 
 const headerStyle = "border border-black bg-[#8EC7F7] w-2/12 text-sm p-2";
-const inputStyle = "border border-black text-[12px] font-bold";
+const inputStyle = "border border-black text-[12px] font-bold text-end";
 const tableStyle = "border border-black px-1";
 const tableCellStyle = `${inputStyle} py-2 px-1 w-10 wrap-text  break-words`;
 const ViewCashAdvanceModal: React.FC<Props> = ({
@@ -445,11 +445,14 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
 
   const handlePrint = () => {
     // Construct the data object to be passed
+    console.log("adsfffsd", record);
     const data = {
       id: record,
       approvedBy: approvedBy,
       notedBy: notedBy,
       user: user,
+      department: record?.form_data[0]?.department,
+      position: record?.requested_position,
     };
 
     localStorage.setItem("printData", JSON.stringify(data));
