@@ -63,7 +63,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
   const [signatureLoading, setSignatureLoading] = useState(false);
   const [signatureSuccess, setSignatureSuccess] = useState(false);
   const [loadingChange, setLoading] = useState(false);
-  const { fetchUserProfile, user, isLoading, updateProfile } = useAuth();
+  const { user, isLoading, updateProfile } = useAuth();
 
   const router = useRouter();
 
@@ -256,7 +256,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
       );
 
       if (response.data.status) {
-        await fetchUserProfile();
+        await updateProfile();
       } else {
         throw new Error(
           response.data.message || "Failed to upload profile picture"
@@ -303,7 +303,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
         formData
       );
       if (response.status === 200) {
-        await fetchUserProfile();
+        await updateProfile();
         setSubmitting(false);
         setShowSuccessModal(true);
         setNewProfilePic(null);
@@ -377,7 +377,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="avatar relative">
                 <div className="w-40 rounded-full ring ring-primary ring-offset-gray-100 ring-offset-2">
-                  {user?.profile_picture ? (
+                  {user?.profile_picture || newProfilePic ? (
                     <Image
                       width={160}
                       height={160}
@@ -483,7 +483,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             {newProfilePic && (
               <button
                 className={`btn btn-primary w-full mt-4 ${
-                  loadingChange ? "loading" : ""
+                  loadingChange ? "!bg-blue-300 !text-white" : ""
                 }`}
                 disabled={loadingChange}
                 onClick={onSubmit}

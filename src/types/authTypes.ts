@@ -18,5 +18,5 @@ export type AuthContextType = {
   fetchUserProfile: () => Promise<void>;
   isLogin: boolean;
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
-  updateProfile: () => void;
+  updateProfile: () => Promise<void>;
 };
