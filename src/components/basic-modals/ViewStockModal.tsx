@@ -80,7 +80,7 @@ type Item = {
 
 const tableStyle2 = "bg-white p-2";
 const inputStyle = "border border-black text-[12px] font-bold p-2";
-const tableCellStyle = `${inputStyle} w-20`;
+const tableCellStyle = `${inputStyle} w-20 text-end`;
 
 const ViewStockModal: React.FC<Props> = ({
   closeModal,

@@ -86,7 +86,7 @@ type Item = {
 };
 
 const inputStyle = "border border-black bg text-[12px] font-bold p-2 h-14";
-const tableCellStyle = `${inputStyle} w-20`;
+const tableCellStyle = `${inputStyle} w-20 text-end`;
 
 const ApproverPurchase: React.FC<Props> = ({
   closeModal,
