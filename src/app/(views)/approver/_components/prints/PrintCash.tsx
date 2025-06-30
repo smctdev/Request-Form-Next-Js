@@ -6,6 +6,7 @@ import HDILogo from "@/assets/HDI.jpg";
 import HOLogo from "@/assets/logo.png";
 import { toWords } from "number-to-words";
 import Image from "next/image";
+import { format } from "date-fns";
 
 type PrintRefundProps = {
   data?: any;
@@ -132,6 +133,20 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
           Application for Cash Advance
         </h1>
         <div className="mx-10 mt-2 ">
+          <div className="mb-5 indent-8 space-y-2">
+            <p>
+              TO: <span className="border-b-2">{printData?.department}</span>
+            </p>
+            <p>
+              FROM: <span className="border-b-2">{printData?.position}</span>
+            </p>
+            <p>
+              DATE:{" "}
+              <span className="border-b-2">
+                {format(new Date(), "MMMM dd, yyyy")}
+              </span>
+            </p>
+          </div>
           <p className="text-sm font-normal indent-8">
             I hereby apply for cash advance in the amount of
             <span className="px-6 ml-2 border-b border-black">

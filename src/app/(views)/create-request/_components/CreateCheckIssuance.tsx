@@ -2,7 +2,7 @@
 
 export const dynamic = "force-dynamic";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
@@ -89,6 +89,9 @@ const CreateCheckIssuance = (props: Props) => {
   );
   const [isHovering, setIsHovering] = useState(false);
   const { user } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [banks, setBanks] = useState<{ name: string; address: string }[]>([]);
+  const bankDivRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -141,6 +144,7 @@ const CreateCheckIssuance = (props: Props) => {
 
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
@@ -149,6 +153,36 @@ const CreateCheckIssuance = (props: Props) => {
     setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
     setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
   }, [user.noted_bies, user.approved_bies]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        bankDivRef.current &&
+        !bankDivRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const response = await api.get("/banks");
+        setBanks(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSuppliers();
+  }, []);
 
   const onSubmit = async (data: any) => {
     try {
@@ -388,6 +422,15 @@ const CreateCheckIssuance = (props: Props) => {
   const isEditableApprover =
     user.noted_bies.length > 0 || user.approved_bies.length > 0;
 
+  const handleFocus = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleSetItem = (bankName: string) => () => {
+    setValue("bank", bankName);
+    setDropdownOpen(false);
+  };
+
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
       {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
@@ -446,10 +489,28 @@ const CreateCheckIssuance = (props: Props) => {
                   </div>
                   <div className={`${itemDiv}`}>
                     <p className="font-semibold">Bank</p>
-                    <textarea
-                      {...register("bank", { required: true })}
-                      className={`${inputStyle} h-[44px] p-1`}
-                    />
+                    <div className="relative" ref={bankDivRef}>
+                      <textarea
+                        {...register("bank", { required: true })}
+                        className={`${inputStyle} h-[44px] p-1`}
+                        onFocus={handleFocus}
+                      />
+                      {dropdownOpen && banks?.length > 0 && (
+                        <div className="absolute bg-white w-full max-h-[200px] overflow-y-auto border rounded border-gray-300">
+                          <ul>
+                            {banks?.map((bank, index) => (
+                              <li
+                                key={index}
+                                onClick={handleSetItem(bank?.name)}
+                                className="p-5 hover:bg-gray-300 rounded cursor-pointer"
+                              >
+                                {bank?.name}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                     {errors.bank && formSubmitted && (
                       <p className="text-red-500">Bank is required</p>
                     )}
