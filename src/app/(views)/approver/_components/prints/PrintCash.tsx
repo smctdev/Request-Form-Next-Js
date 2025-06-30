@@ -340,14 +340,14 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                   </p>
                 </div>
               ))}
-              <div className="relative flex flex-col items-center justify-center pt-4 mr-10">
+              {/* <div className="relative flex flex-col items-center justify-center pt-4 mr-10">
                 <div className="border-b w-[200px] border-black">
                   <p className="relative z-10 text-sm font-medium text-center">
                     Marilou D. Lumapas
                   </p>
                 </div>
                 <p className="text-xs font-light text-center">Vice President</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

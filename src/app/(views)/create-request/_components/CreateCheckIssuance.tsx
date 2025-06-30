@@ -43,7 +43,7 @@ const schema = z.object({
   payee: z.string(),
   bank: z.string(),
   account_no: z.string(),
-  swift_code: z.string(),
+  swift_code: z.string().optional(),
   items: z.array(
     z.object({
       quantity: z.string(),
@@ -243,7 +243,7 @@ const CreateCheckIssuance = (props: Props) => {
             payee: data.payee,
             bank: data.bank,
             account_no: data.account_no,
-            swift_code: data.swift_code,
+            swift_code: data?.swift_code || "",
             grand_total: grandTotal.toFixed(2),
             items: items.map((item) => ({
               quantity: item.quantity,
@@ -530,7 +530,7 @@ const CreateCheckIssuance = (props: Props) => {
                   <div className={`${itemDiv}`}>
                     <p className="font-semibold">Swift Code</p>
                     <textarea
-                      {...register("swift_code", { required: true })}
+                      {...register("swift_code", { required: false })}
                       className={`${inputStyle} h-[44px] p-1`}
                     />
                     {errors.bank && formSubmitted && (
