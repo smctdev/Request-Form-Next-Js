@@ -11,11 +11,11 @@ export default function fullnameAcronym({
       <div
         className={`flex items-center justify-center font-bold ${textSize} text-gray-600 ${height} ${width}`}
       >
-        {fullName.charAt(0).toUpperCase() +
+        {fullName?.charAt(0)?.toUpperCase() +
           fullName
-            .split(" ")
-            [fullName.split(" ").length - 1].charAt(0)
-            .toUpperCase()}
+            ?.split(" ")
+            [fullName.split(" ").length - 1]?.charAt(0)
+            ?.toUpperCase()}
       </div>
     </div>
   );

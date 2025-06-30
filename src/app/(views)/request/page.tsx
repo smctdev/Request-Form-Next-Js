@@ -17,6 +17,7 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
+import ViewCheckIssuanceModal from "@/components/basic-modals/ViewCheckIssuance";
 type Props = {};
 
 type Record = {
@@ -55,12 +56,15 @@ type Record = {
   }[];
   user_id: number;
   request_code: string;
-
   form_type: string;
   form_data: MyFormData[];
   date: Date;
   created_at: Date;
   branch: string;
+  payee?: string;
+  bank?: string;
+  account_no?: string;
+  swift_code?: string;
   status: string;
   purpose: string;
   totalBoatFare: string;
@@ -131,6 +135,10 @@ type MyFormData = {
   grand_total: string;
   supplier: string;
   address: string;
+  payee?: string;
+  bank?: string;
+  account_no?: string;
+  swift_code?: string;
   totalBoatFare: string;
   totalContingency: string;
   totalFare: string;
@@ -299,6 +307,7 @@ const Request = (props: Props) => {
   }, [user.id, notificationReceived, toDelete, page, perPage, search]);
 
   const handleView = (record: Record) => {
+    console.log(record);
     setSelectedRecord(record);
     setModalIsOpen(true);
   };
@@ -754,6 +763,15 @@ const Request = (props: Props) => {
         selectedRecord &&
         selectedRecord.form_type === "Refund Request" && (
           <ViewRequestModal
+            closeModal={closeModal}
+            record={{ ...selectedRecord, date: selectedRecord.date.toString() }}
+            refreshData={refreshData}
+          />
+        )}
+      {modalIsOpen &&
+        selectedRecord &&
+        selectedRecord.form_type === "Check Issuance Requisition Slip" && (
+          <ViewCheckIssuanceModal
             closeModal={closeModal}
             record={{ ...selectedRecord, date: selectedRecord.date.toString() }}
             refreshData={refreshData}

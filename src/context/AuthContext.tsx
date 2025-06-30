@@ -68,6 +68,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error) {
       console.error(error);
       setUser([]);
+      setIsAuthenticated(false);
+      setIsAdmin(false);
+      setIsApprover(false);
     } finally {
       setIsLoading(false);
     }
@@ -86,6 +89,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error) {
       console.error(error);
       setUser([]);
+      setIsAuthenticated(false);
+      setIsAdmin(false);
+      setIsApprover(false);
     }
   };
 
@@ -93,13 +99,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await loginApi(credentials);
       if (response.status === 200) {
+        setIsLogin(true);
         fetchUserProfile();
         if (response.data.role === "approver") {
           router.push("/approver/dashboard");
         } else {
           router.push("/dashboard");
         }
-        setIsLogin(true);
         setError("");
       }
     } catch (error: any) {
@@ -142,19 +148,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await logoutApi();
       if (response.status === 204) {
-        setIsAdmin(false);
-        setIsApprover(false);
-        setIsAuthenticated(false);
-        setUser([]);
-        setIsLoading(true);
+        fetchUserProfile();
         router.push("/login");
       }
     } catch (error) {
       console.error(error);
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
     }
   };
 
@@ -162,7 +160,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     <AuthContext.Provider
       value={{
         setIsAuthenticated,
-        setIsLoading,
         isAuthenticated,
         user,
         isLoading,

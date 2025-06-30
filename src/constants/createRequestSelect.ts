@@ -6,4 +6,5 @@ export const createRequestSelect = {
   LOAE: "/create-request/liquidation-of-actual-expense",
   RFR: "/create-request/request-for-refund",
   DR: "/create-request/discount-request",
+  CI: "/create-request/check-issuance-requisition-slip",
 };

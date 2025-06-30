@@ -18,6 +18,7 @@ import { Request } from "@/types/dashboardTypes";
 import { api } from "@/lib/api";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 
 const boxWhite =
   "bg-white w-full h-[190px] rounded-[15px] drop-shadow-lg relative";
@@ -31,7 +32,7 @@ const innerLogo =
 
 const Dashboard: React.FC = () => {
   const [requests, setRequests] = useState<Request[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [totalRequestsSent, setTotalRequestsSent] = useState<number | null>(
     null
   );
@@ -52,31 +53,10 @@ const Dashboard: React.FC = () => {
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const [dataLoading, setDataLoading] = useState(true);
   const { user, isLoading, isAdmin } = useAuth();
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchBranchData = async () => {
-      try {
-        const response = await api.get("/view-branch");
-        const branches = response.data.data;
-
-        // Create a mapping of id to branch_code
-        const branchMapping = new Map<number, string>(
-          branches.map((branch: { id: number; branch_code: string }) => [
-            branch.id,
-            branch.branch_code,
-          ])
-        );
-
-        setBranchList(branches);
-        setBranchMap(branchMapping);
-      } catch (error) {
-        console.error("Error fetching branch data:", error);
-      }
-    };
-
-    fetchBranchData();
-  }, []);
 
   const NoDataComponent = () => (
     <div className="flex items-center justify-center h-64 overflow-hidden text-gray-500">
@@ -113,46 +93,64 @@ const Dashboard: React.FC = () => {
   );
 
   useEffect(() => {
-    if (user.id) {
-      setLoading(true);
-      // Fetch requests data
-      api
-        .get("/view-request")
-        .then((response) => {
-          if (Array.isArray(response.data.data)) {
-            setRequests(response.data.data);
-            setLoading(false);
-          } else {
-            console.error("Unexpected data format:", response.data);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching requests data:", error);
-          setLoading(false);
-        })
-        .finally(() => {
-          setDataLoading(false);
-        });
+    if (!user.id) return;
 
-      // Fetch total requests sent
-
-      api
-        .get(`/total-request-sent/${user.id}/my-request-total`)
-        .then((response) => {
-          setTotalRequestsSent(response.data.totalRequestSent);
-          setTotalCompletedRequests(response.data.totalCompletedRequest);
-          setTotalPendingRequests(response.data.totalPendingRequest);
-          setTotalOngoingRequests(response.data.totalOngoingRequest);
-          setTotalDisapprovedRequests(response.data.totalDisapprovedRequest);
-        })
-        .catch((error) => {
-          console.error("Error fetching total requests sent:", error);
-        })
-        .finally(() => {
-          setDataLoading(false);
+    const fetchAllData = async () => {
+      try {
+        const recentRequestPromise = api.get("/view-request", {
+          params: {
+            page: page,
+            per_page: perPage,
+          },
         });
-    }
-  }, [user.id]);
+        const countsRequestPromise = api.get(
+          `/total-request-sent/${user.id}/my-request-total`
+        );
+        const branchDataPromise = api.get("/view-branch");
+
+        const [recentResponse, countsResponse, branchResponse] =
+          await Promise.all([
+            recentRequestPromise,
+            countsRequestPromise,
+            branchDataPromise,
+          ]);
+
+        // Requests
+        const recentData = recentResponse.data?.data?.data;
+        if (Array.isArray(recentData)) {
+          setRequests(recentData);
+        } else {
+          console.error("Unexpected recent data format:", recentResponse.data);
+        }
+
+        // Counts
+        const counts = countsResponse.data;
+        setTotalRequestsSent(counts.totalRequestSent);
+        setTotalCompletedRequests(counts.totalCompletedRequest);
+        setTotalPendingRequests(counts.totalPendingRequest);
+        setTotalOngoingRequests(counts.totalOngoingRequest);
+        setTotalDisapprovedRequests(counts.totalDisapprovedRequest);
+
+        // Branches
+        const branches = branchResponse.data?.data;
+        const branchMap = new Map<number, string>(
+          branches.map((branch: { id: number; branch_code: string }) => [
+            branch.id,
+            branch.branch_code,
+          ])
+        );
+        setBranchList(branches);
+        setBranchMap(branchMap);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setDataLoading(false);
+        setLoading(false);
+      }
+    };
+
+    fetchAllData();
+  }, [user.id, page, perPage]);
 
   const sortedRequests = requests.sort((a, b) => b.id - a.id);
 
@@ -224,6 +222,14 @@ const Dashboard: React.FC = () => {
       ),
     },
   ];
+
+  const handlePerRowsChange = async (newPerPage: number) => {
+    setPerPage(newPerPage);
+  };
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
   return (
     <div className="bg-gray-100 h-screen pt-[26px] px-[35px]">
       <div className="bg-primary w-full sm:w-full h-[210px] rounded-[12px] pl-[30px] flex flex-row justify-between items-center">
@@ -384,7 +390,11 @@ const Dashboard: React.FC = () => {
           Recent requests
         </h1>
         <p className="flex justify-end px-[25px] -mt-10 mb-1">
-          <button type="button" className="cursor-pointer" onClick={() => router.push("/request")}>
+          <button
+            type="button"
+            className="cursor-pointer"
+            onClick={() => router.push("/request")}
+          >
             <span className="bg-primary px-3 py-1 rounded-[12px] text-white">
               See all
             </span>
@@ -392,13 +402,19 @@ const Dashboard: React.FC = () => {
         </p>
         <div>
           <DataTable
-            className="data-table"
             columns={columns}
+            defaultSortAsc={false}
             data={latestRequests}
             noDataComponent={<NoDataComponent />}
             progressPending={loading}
             progressComponent={<LoadingSpinner />}
             pagination
+            paginationServer
+            striped
+            onChangePage={handlePageChange}
+            onChangeRowsPerPage={handlePerRowsChange}
+            paginationTotalRows={totalPages}
+            paginationRowsPerPageOptions={paginationRowsPerPageOptions}
           />
         </div>
       </div>

@@ -10,7 +10,7 @@ type PrintRefundProps = {
   data?: any;
 };
 
-const PrintPurchase: React.FC<PrintRefundProps> = ({ data }) => {
+const PrintCheckIssuace: React.FC<PrintRefundProps> = ({ data }) => {
   const [printData, setPrintData] = useState<any>(null); // State to hold print data
   let logo;
   if (printData?.user?.branch.branch === "Strong Moto Centrum, Inc.") {
@@ -119,7 +119,7 @@ const PrintPurchase: React.FC<PrintRefundProps> = ({ data }) => {
         <div className="flex flex-col items-center justify-center">
           <div className="justify-center w-1/2">{logo}</div>
           <h1 className="mt-2 text-sm font-semibold uppercase">
-            Purchase Order Requisition Slip
+            Check Issuance Requisition Slip
           </h1>
           <div className="flex flex-col items-center mt-2 font-bold">
             <h1 className="text-sm font-medium underline uppercase">
@@ -128,14 +128,22 @@ const PrintPurchase: React.FC<PrintRefundProps> = ({ data }) => {
             <h1 className="text-sm font-semibold">BRANCH</h1>
           </div>
         </div>
-        <div className="py-5 space-y-3">
+        <div className="py-5 space-y-2">
           <div className="flex gap-3 items-center">
-            <p className="font-semibold text-lg w-1/6">Supplier:</p>
-            <p className="border-b-1 w-full">{printData?.newSupplier}</p>
+            <p className="font-semibold text-lg w-1/6">Payee:</p>
+            <p className="border-b-1 w-full">{printData?.newPayee}</p>
           </div>
           <div className="flex gap-3 items-center">
-            <p className="font-semibold text-lg w-1/6">Address:</p>
-            <p className="border-b-1 w-full">{printData?.newAddress}</p>
+            <p className="font-semibold text-lg w-1/6">Bank:</p>
+            <p className="border-b-1 w-full">{printData?.newBank}</p>
+          </div>
+          <div className="flex gap-3 items-center">
+            <p className="font-semibold text-lg w-1/6">Account No:</p>
+            <p className="border-b-1 w-full">{printData?.newAccountNo}</p>
+          </div>
+          <div className="flex gap-3 items-center">
+            <p className="font-semibold text-lg w-1/6">Swift Code:</p>
+            <p className="border-b-1 w-full">{printData?.newSwiftCode}</p>
           </div>
         </div>
         <div className="flex justify-center w-full mt-2">
@@ -277,4 +285,4 @@ const PrintPurchase: React.FC<PrintRefundProps> = ({ data }) => {
   );
 };
 
-export default PrintPurchase;
+export default PrintCheckIssuace;

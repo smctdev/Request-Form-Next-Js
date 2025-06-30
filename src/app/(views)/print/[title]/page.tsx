@@ -11,6 +11,7 @@ import PrintRefund from "../../approver/_components/prints/PrintRefund";
 import PrintLiquidation from "../../approver/_components/prints/PrintLiquidation";
 import { useEffect, useState } from "react";
 import Preloader from "@/components/loaders/PreLoader";
+import PrintCheckIssuace from "../../approver/_components/prints/PrintCheckIssuance";
 
 export default function PrintTitle() {
   const { title } = useParams();
@@ -44,6 +45,8 @@ export default function PrintTitle() {
       return <PrintRefund />;
     case "liquidation":
       return <PrintLiquidation />;
+    case "check-issuance":
+      return <PrintCheckIssuace />;
     default:
       return <NotFound />;
   }

@@ -26,5 +26,9 @@
   {
     "title": "Discount Request",
     "path": "/create-request/discount-request"
+  },
+  {
+    "title": "Check Issuance Requisition Slip",
+    "path": "/create-request/check-issuance-requisition-slip"
   }
 ]

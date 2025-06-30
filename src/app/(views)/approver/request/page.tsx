@@ -18,6 +18,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useNotification } from "@/context/NotificationContext";
 import approverPage from "@/lib/approverPage";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
+import ApproverCheckIssuance from "../_components/modals/ApproverChecklssuance";
 type Props = {};
 
 type Record = {
@@ -627,6 +628,15 @@ const RequestApprover = (props: Props) => {
         selectedRecord &&
         selectedRecord.form_type === "Refund Request" && (
           <ApproverRefund
+            closeModal={closeModal}
+            record={{ ...selectedRecord, date: selectedRecord.date.toString() }}
+            refreshData={refreshData}
+          />
+        )}
+      {modalIsOpen &&
+        selectedRecord &&
+        selectedRecord.form_type === "Check Issuance Requisition Slip" && (
+          <ApproverCheckIssuance
             closeModal={closeModal}
             record={{ ...selectedRecord, date: selectedRecord.date.toString() }}
             refreshData={refreshData}

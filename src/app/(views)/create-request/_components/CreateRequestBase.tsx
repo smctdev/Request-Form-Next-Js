@@ -11,6 +11,7 @@ import CreateRefund from "../_components/CreateRefund";
 import CreateDiscount from "../_components/CreateDiscount";
 import { useRouter } from "next/navigation";
 import { createRequestSelect } from "@/constants/createRequestSelect";
+import CreateCheckIssuance from "./CreateCheckIssuance";
 
 export default function CreateRequestBase({ title }: { title: string }) {
   const path = requestTypes.find((item) => item.title === title)?.path;
@@ -59,6 +60,8 @@ export default function CreateRequestBase({ title }: { title: string }) {
         <CreateRefund />
       ) : selected === createRequestSelect.DR ? (
         <CreateDiscount />
+      ) : selected === createRequestSelect.CI ? (
+        <CreateCheckIssuance />
       ) : null}
     </div>
   );

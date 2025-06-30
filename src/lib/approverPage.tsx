@@ -6,10 +6,17 @@ import { useEffect } from "react";
 
 export default function approverPage(WrappedComponent: any) {
   function ApproverPageComponent(props: any) {
-    const { user, isLoading, isApprover, isAuthenticated, setIsLogin } =
-      useAuth();
+    const {
+      user,
+      isLoading,
+      isApprover,
+      isAuthenticated,
+      setIsLogin,
+      isLogin,
+    } = useAuth();
 
     useEffect(() => {
+      if (!isAuthenticated && !isLogin) return;
       setIsLogin(false);
     }, [isAuthenticated, user]);
 

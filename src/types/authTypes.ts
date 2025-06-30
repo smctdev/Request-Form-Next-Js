@@ -6,7 +6,6 @@ export type CredetialType = {
 export type AuthContextType = {
   user: any;
   isAuthenticated: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
   login: (credentials: CredetialType, router: any) => Promise<void>;

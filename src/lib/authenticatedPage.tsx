@@ -6,9 +6,10 @@ import { useEffect } from "react";
 
 export default function authenticatedPage(WrappedComponent: any) {
   function AuthenticatedPageComponent(props: any) {
-    const { user, isLoading, isAuthenticated, setIsLogin } = useAuth();
-
+    const { user, isLoading, isAuthenticated, setIsLogin, isLogin } = useAuth();
+    
     useEffect(() => {
+      if (!isAuthenticated && !isLogin) return;
       setIsLogin(false);
     }, [isAuthenticated, user]);
 
