@@ -2,7 +2,7 @@
 
 export const dynamic = "force-dynamic";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
@@ -79,6 +79,7 @@ const CreatePurchaseOrder = (props: Props) => {
   const [initialNotedBy, setInitialNotedBy] = useState<Approver[]>([]);
   const [initialApprovedBy, setInitialApprovedBy] = useState<Approver[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const supplierDivRef = useRef<HTMLDivElement>(null);
   const {
     formState: { errors: formErrors },
   } = useForm<FormData>();
@@ -87,6 +88,10 @@ const CreatePurchaseOrder = (props: Props) => {
   );
   const [isHovering, setIsHovering] = useState(false);
   const { user } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [suppliers, setSuppliers] = useState<
+    { name: string; address: string }[]
+  >([]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -116,6 +121,36 @@ const CreatePurchaseOrder = (props: Props) => {
   };
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        supplierDivRef.current &&
+        !supplierDivRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const response = await api.get("/suppliers");
+        setSuppliers(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchSuppliers();
+  }, []);
+
+  useEffect(() => {
     setInitialNotedBy(notedBy);
     setInitialApprovedBy(approvedBy);
   }, [notedBy, approvedBy]);
@@ -139,6 +174,7 @@ const CreatePurchaseOrder = (props: Props) => {
 
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
@@ -147,7 +183,6 @@ const CreatePurchaseOrder = (props: Props) => {
     setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
     setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
   }, [user.noted_bies, user.approved_bies]);
-
   const onSubmit = async (data: any) => {
     try {
       if (approvedBy.length === 0) {
@@ -384,6 +419,16 @@ const CreatePurchaseOrder = (props: Props) => {
   const isEditableApprover =
     user.noted_bies.length > 0 || user.approved_bies.length > 0;
 
+  const handleFocus = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleSetItem = (supplier: { name: string; address: string }) => () => {
+    setValue("supplier", supplier?.name);
+    setValue("address", supplier?.address);
+    setDropdownOpen(false);
+  };
+
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
       {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
@@ -430,10 +475,28 @@ const CreatePurchaseOrder = (props: Props) => {
               <div className="grid flex-row justify-start grid-cols-1 mt-2 space-y-2 sm:grid-cols-2 md:grid-cols-4 sm:mt-0 sm:space-y-0 sm:gap-4 lg:gap-0 lg:space-x-4">
                 <div className={`${itemDiv}`}>
                   <p className="font-semibold">Supplier Name</p>
-                  <textarea
-                    {...register("supplier", { required: true })}
-                    className={`${inputStyle} h-[44px] p-1`}
-                  />
+                  <div className="relative" ref={supplierDivRef}>
+                    <textarea
+                      {...register("supplier", { required: true })}
+                      className={`${inputStyle} h-[44px] p-1`}
+                      onFocus={handleFocus}
+                    />
+                    {dropdownOpen && suppliers?.length > 0 && (
+                      <div className="absolute bg-white w-full max-h-[200px] overflow-y-auto border rounded border-gray-300">
+                        <ul>
+                          {suppliers?.map((supplier, index) => (
+                            <li
+                              key={index}
+                              onClick={handleSetItem(supplier)}
+                              className="p-5 hover:bg-gray-300 rounded cursor-pointer"
+                            >
+                              {supplier?.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
 
                   {errors.supplier && formSubmitted && (
                     <p className="text-red-500">Supplier is required</p>

@@ -29,7 +29,7 @@ interface Approver {
 type Props = {};
 
 const schema = z.object({
-  department: z.string(),
+  // department: z.string(),
   cashAmount: z.string(),
   liquidationDate: z.string(),
   remarks: z.string(),
@@ -425,7 +425,7 @@ const CreateApplicationCash = (props: Props) => {
           {
             branch: user.branch_code,
             grand_total: grand_total,
-            department: data.department,
+            department: "Accounting Department",
             remarks: data.remarks,
             liquidationDate: data.liquidationDate,
             totalBoatFare: data.totalBoatFare,
@@ -629,7 +629,7 @@ const CreateApplicationCash = (props: Props) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="px-[35px] mt-4 ">
             <div className="grid justify-between gap-8 xl:grid-cols-4 md:grid-cols-2 ">
-              <div className={`${itemDiv}`}>
+              {/* <div className={`${itemDiv}`}>
                 <p className="font-semibold">Department</p>
                 <input
                   type="text"
@@ -639,7 +639,7 @@ const CreateApplicationCash = (props: Props) => {
                 {errors.department && formSubmitted && (
                   <p className="text-red-500">Department is required</p>
                 )}
-              </div>
+              </div> */}
               <div className={`${itemDiv}`}>
                 <p className="font-semibold">Liquidation Date</p>
                 <input

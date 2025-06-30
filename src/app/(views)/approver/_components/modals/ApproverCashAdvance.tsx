@@ -65,6 +65,7 @@ type FormData = {
     noted_by: { firstName: string; lastName: string }[];
     approved_by: { firstName: string; lastName: string }[];
   };
+  department?: string;
   purpose: string;
   items: Item[];
   branch: string;
@@ -466,7 +467,11 @@ const ApproverCashAdvance: React.FC<Props> = ({
       notedBy: notedBy,
       user: user,
       requested_branch: record?.branch,
+      department: record?.form_data[0]?.department,
+      position: record?.requested_position,
     };
+
+    console.log(record);
 
     localStorage.setItem("printData", JSON.stringify(data));
     // Open a new window with PrintRefund component
