@@ -858,11 +858,13 @@ const ApproverCashAdvance: React.FC<Props> = ({
                     </td>
                     <td className={`${inputStyle}`}>
                       {/* Display calculated total per diem */}
-                      {newData.reduce(
-                        (totalPerDiem, item) =>
-                          totalPerDiem + Number(item.perDiem),
-                        0
-                      )}
+                      {newData
+                        .reduce(
+                          (totalPerDiem, item) =>
+                            totalPerDiem + Number(item.perDiem),
+                          0
+                        )
+                        ?.toLocaleString("en-US", { minimumFractionDigits: 2 })}
                     </td>
                   </tr>
                   <tr>
