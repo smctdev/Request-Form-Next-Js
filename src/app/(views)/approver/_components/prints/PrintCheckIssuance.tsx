@@ -131,19 +131,19 @@ const PrintCheckIssuace: React.FC<PrintRefundProps> = ({ data }) => {
         <div className="py-5 space-y-2">
           <div className="flex gap-3 items-center">
             <p className="font-semibold text-lg w-1/6">Payee:</p>
-            <p className="border-b-1 w-full">{printData?.newPayee}</p>
+            <p className="border-b-1 w-1/2">{printData?.newPayee}</p>
           </div>
           <div className="flex gap-3 items-center">
             <p className="font-semibold text-lg w-1/6">Bank:</p>
-            <p className="border-b-1 w-full">{printData?.newBank}</p>
+            <p className="border-b-1 w-1/2">{printData?.newBank}</p>
           </div>
           <div className="flex gap-3 items-center">
             <p className="font-semibold text-lg w-1/6">Account No:</p>
-            <p className="border-b-1 w-full">{printData?.newAccountNo}</p>
+            <p className="border-b-1 w-1/2">{printData?.newAccountNo}</p>
           </div>
           <div className="flex gap-3 items-center">
             <p className="font-semibold text-lg w-1/6">Swift Code:</p>
-            <p className="border-b-1 w-full">{printData?.newSwiftCode}</p>
+            <p className="border-b-1 w-1/2">{printData?.newSwiftCode}</p>
           </div>
         </div>
         <div className="flex justify-center w-full mt-2">
