@@ -434,13 +434,13 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
             <tbody>
               <tr>
                 <td className="font-normal">BOAT FARE</td>
-                <td className="font-medium">
+                <td className="font-medium text-left">
                   {printData?.id.form_data[0].totalBoatFare}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">HOTEL</td>
-                <td className="font-medium">
+                <td className="font-medium text-left">
                   {/* Display calculated total hotel rate */}
                   {printData?.id.form_data[0].items.reduce(
                     (totalHotelRate: number, item: any) =>
@@ -451,7 +451,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
               </tr>
               <tr>
                 <td className="font-normal">PER DIEM</td>
-                <td className="font-medium">
+                <td className="font-medium text-left">
                   {/* Display calculated total per diem */}
                   {printData?.id.form_data[0].items.reduce(
                     (totalPerDiem: number, item: any) =>
@@ -462,13 +462,13 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
               </tr>
               <tr>
                 <td className="font-normal">FARE</td>
-                <td className="font-medium">
+                <td className="font-medium text-left">
                   {printData?.id.form_data[0].totalFare}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">CONTINGENCY</td>
-                <td className="font-medium">
+                <td className="font-medium text-left">
                   {printData?.id.form_data[0].totalContingency}
                 </td>
               </tr>
@@ -478,7 +478,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
               </tr>
               <tr>
                 <td className="font-normal">TOTAL</td>
-                <td className="font-medium">
+                <td className="font-medium text-left">
                   ₱ {printData?.id.form_data[0].grand_total}
                 </td>
               </tr>
