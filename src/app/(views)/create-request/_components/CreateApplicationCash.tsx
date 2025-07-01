@@ -905,7 +905,7 @@ const CreateApplicationCash = (props: Props) => {
                                 <input
                                   id={`rate-${index}`}
                                   type="number"
-                                  value={item.rate}
+                                  value={item.rate === "" ? "" : Number(item.rate).toFixed(2)}
                                   onChange={(e) =>
                                     handleChange(index, "rate", e.target.value)
                                   }
@@ -934,7 +934,7 @@ const CreateApplicationCash = (props: Props) => {
                                 <input
                                   id={`per_diem-${index}`}
                                   type="number"
-                                  value={item.perDiem}
+                                  value={item.perDiem === "" ? "" : Number(item.perDiem).toFixed(2)}
                                   onChange={(e) =>
                                     handleChange(
                                       index,
