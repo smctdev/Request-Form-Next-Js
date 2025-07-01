@@ -155,9 +155,9 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                 : "N/A"}
             </span>
             (₱ {printData?.id?.form_data?.[0]?.grand_total}) for the following
-            reasons:{" "}
+            reasons:
             <span className="px-6 border-b border-black">
-              {printData?.id.form_data[0].remarks}
+              {printData?.reason}
             </span>
             I promise to liquidate the said amount on or before{" "}
             <span className="px-6 border-b border-black">
@@ -395,9 +395,9 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                       <td className="font-normal">{item.to}</td>
                       <td className="font-normal">{item.activity}</td>
                       <td className="font-normal">{item.hotel}</td>
-                      <td className="font-normal">{item.rate}</td>
+                      <td className="font-normal">{Number(item.rate).toFixed(2)}</td>
                       <td className="font-normal">{item.amount}</td>
-                      <td className="font-normal">{item.perDiem}</td>
+                      <td className="font-normal">{Number(item.perDiem).toFixed(2)}</td>
                       <td className="font-normal">{item.remarks}</td>
                     </tr>
                   ))}
@@ -434,41 +434,41 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
             <tbody>
               <tr>
                 <td className="font-normal">BOAT FARE</td>
-                <td className="font-medium">
+                <td className="font-medium text-right">
                   {printData?.id.form_data[0].totalBoatFare}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">HOTEL</td>
-                <td className="font-medium">
+                <td className="font-medium text-right">
                   {/* Display calculated total hotel rate */}
                   {printData?.id.form_data[0].items.reduce(
                     (totalHotelRate: number, item: any) =>
                       totalHotelRate + Number(item.rate),
                     0
-                  )}
+                  ).toFixed(2)}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">PER DIEM</td>
-                <td className="font-medium">
+                <td className="font-medium text-right">
                   {/* Display calculated total per diem */}
                   {printData?.id.form_data[0].items.reduce(
                     (totalPerDiem: number, item: any) =>
                       totalPerDiem + Number(item.perDiem),
                     0
-                  )}
+                  ).toFixed(2)}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">FARE</td>
-                <td className="font-medium">
+                <td className="font-medium text-right">
                   {printData?.id.form_data[0].totalFare}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">CONTINGENCY</td>
-                <td className="font-medium">
+                <td className="font-medium text-right">
                   {printData?.id.form_data[0].totalContingency}
                 </td>
               </tr>
@@ -478,7 +478,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
               </tr>
               <tr>
                 <td className="font-normal">TOTAL</td>
-                <td className="font-medium">
+                <td className="font-medium text-right">
                   ₱ {printData?.id.form_data[0].grand_total}
                 </td>
               </tr>

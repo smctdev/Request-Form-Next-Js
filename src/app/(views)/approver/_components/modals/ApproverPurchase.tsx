@@ -557,7 +557,7 @@ const ApproverPurchase: React.FC<Props> = ({
                       <tr key={index}>
                         <td className={tableCellStyle}>{item.quantity}</td>
                         <td className={tableCellStyle}>{item.description}</td>
-                        <td className={tableCellStyle}>{item.unitCost}</td>
+                        <td className={tableCellStyle}>{Number(item.unitCost).toFixed(2)}</td>
                         <td className={tableCellStyle}>{item.totalAmount}</td>
                         <td className={tableCellStyle}>{item.remarks}</td>
                       </tr>

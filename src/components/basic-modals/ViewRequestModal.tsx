@@ -594,7 +594,7 @@ const ViewRequestModal: React.FC<Props> = ({
                               {item.description}
                             </td>
                             <td className={`${tableCellStyle} text-center`}>
-                              {item.unitCost}
+                              {Number(item.unitCost).toFixed(2)}
                             </td>
                             <td className={`${tableCellStyle} text-center`}>
                               {item.totalAmount}

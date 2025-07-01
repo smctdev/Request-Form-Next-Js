@@ -66,6 +66,7 @@ type FormData = {
     approved_by: { firstName: string; lastName: string }[];
   };
   department?: string;
+  reason?: string;
   purpose: string;
   items: Item[];
   branch: string;
@@ -469,6 +470,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
       user: user,
       requested_branch: record?.branch,
       department: record?.form_data[0]?.department,
+      reason: record?.form_data[0]?.reason,
       position: record?.requested_position,
     };
 
@@ -598,6 +600,9 @@ const ApproverCashAdvance: React.FC<Props> = ({
           <div className="flex items-center justify-between w-full">
             <p className="font-medium text-[14px]">
               Request ID: {record.request_code}
+            </p>
+            <p className="font-medium text-[14px]">
+              Reason for Cash Advance: {record?.form_data[0]?.reason}
             </p>
             <div className="flex w-auto ">
               <p>Date: </p>
@@ -779,13 +784,13 @@ const ApproverCashAdvance: React.FC<Props> = ({
                                 </td>
                                 <td className={tableCellStyle}>{item.hotel}</td>
                                 <td className={tableCellStyle}>
-                                  {item.rate || 0}
+                                  {Number(item.rate).toFixed(2) || 0}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.amount || 0}
                                 </td>
                                 <td className={tableCellStyle}>
-                                  {item.perDiem || 0}
+                                  {Number(item.perDiem).toFixed(2) || 0}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.remarks}

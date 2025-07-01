@@ -56,6 +56,7 @@ type FormData = {
   approvers_id: number;
   attachment: string;
   purpose: string;
+  reason: string;
   items: Item[];
   branch: string;
   date: string;
@@ -452,6 +453,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
       notedBy: notedBy,
       user: user,
       department: record?.form_data[0]?.department,
+      reason: record?.form_data[0]?.reason,
       position: record?.requested_position,
     };
 
@@ -558,6 +560,14 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
               </p>
             </div>
           </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-sm font-medium">Reason for Cash Advance:</h1>
+            <span className="pl-1 font-bold bg-white rounded-md">
+              {record?.form_data[0]?.reason}
+            </span>
+          </div>
+
+          
           <div className="flex">
             <div className="mr-5">
               <div className="w-full overflow-x-auto">
@@ -685,7 +695,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
                                 <input
-                                  type="text"
+                                  type="number"
                                   value={item.rate}
                                   onChange={(e) =>
                                     handleItemChange(
@@ -699,7 +709,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
                                 <input
-                                  type="text"
+                                  type="number"
                                   value={item.perDiem}
                                   onChange={(e) =>
                                     handleItemChange(
@@ -740,9 +750,9 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                   {item.activity}
                                 </td>
                                 <td className={tableCellStyle}>{item.hotel}</td>
-                                <td className={tableCellStyle}>{item.rate}</td>
+                                <td className={tableCellStyle}>{Number(item.rate).toFixed(2)}</td>
                                 <td className={tableCellStyle}>
-                                  {item.perDiem}
+                                 {Number(item.perDiem).toFixed(2)}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.remarks}
@@ -800,7 +810,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                           (totalHotelRate, item) =>
                             totalHotelRate + Number(item.rate),
                           0
-                        )}
+                        ).toFixed(2)}
                       </td>
                     </tr>
                     <tr>
@@ -813,7 +823,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                           (totalPerDiem, item) =>
                             totalPerDiem + Number(item.perDiem),
                           0
-                        )}
+                        ).toFixed(2)}
                       </td>
                     </tr>
                     <tr>
