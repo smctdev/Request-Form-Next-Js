@@ -146,7 +146,7 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.description}
                       </td>
                       <td className={`${tableStyle} font-normal text-sm`}>
-                        {item.unitCost}
+                        {Number(item.unitCost).toFixed(2)}
                       </td>
                       <td className={`${tableStyle} font-normal text-sm`}>
                         {item.totalAmount}

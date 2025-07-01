@@ -244,7 +244,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.transportation}
                       </td>
                       <td className="px-2 text-center border border-black">
-                        {item.transportationAmount}
+                        {Number(item.transportationAmount).toFixed(2)}
                       </td>
                       <td className="px-2 text-center border border-black">
                         {item.hotel}
@@ -253,16 +253,16 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.hotelAddress}
                       </td>
                       <td className="px-2 text-center border border-black">
-                        {item.hotelAmount}
+                        {Number(item.hotelAmount).toFixed(2)}
                       </td>
                       <td className="px-2 text-center border border-black">
-                        {item.perDiem}
+                        {Number(item.perDiem).toFixed(2)}
                       </td>
                       <td className="px-2 text-center border border-black">
                         {item.particulars}
                       </td>
                       <td className="px-2 text-center border border-black">
-                        {item.particularsAmount}
+                        {Number(item.particularsAmount).toFixed(2)}
                       </td>
                       <td className="px-2 text-center border border-black">
                         {item.grandTotal}

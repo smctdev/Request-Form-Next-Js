@@ -163,13 +163,13 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.partno}
                       </td>
                       <td className="px-1 text-xs font-normal text-center border border-black">
-                        {item.labor}
+                        {Number(item.labor).toFixed(2)}
                       </td>
                       <td className="px-1 text-xs font-normal text-center border border-black">
-                        {item.spotcash}
+                        {Number(item.spotcash).toFixed(2)}
                       </td>
                       <td className="px-1 text-xs font-normal text-center border border-black">
-                        {item.discountedPrice}
+                        {Number(item.discountedPrice).toFixed(2)}
                       </td>
                     </tr>
                   ))}

@@ -151,7 +151,7 @@ const PrintStock: React.FC<PrintRefundProps> = ({ data }) => {
                     <tr key={itemIndex} className="text-center">
                       <td className={`${tableStyle}`}>{item.quantity}</td>
                       <td className={`${tableStyle}`}>{item.description}</td>
-                      <td className={`${tableStyle}`}>{item.unitCost}</td>
+                      <td className={`${tableStyle}`}>{Number(item.unitCost).toFixed(2)}</td>
                       <td className={`${tableStyle}`}>{item.totalAmount}</td>
                       <td className={`${tableStyle}`}>{item.remarks}</td>
                     </tr>

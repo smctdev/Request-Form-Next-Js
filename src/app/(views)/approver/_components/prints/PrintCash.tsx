@@ -395,9 +395,9 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                       <td className="font-normal">{item.to}</td>
                       <td className="font-normal">{item.activity}</td>
                       <td className="font-normal">{item.hotel}</td>
-                      <td className="font-normal">{item.rate}</td>
+                      <td className="font-normal">{Number(item.rate).toFixed(2)}</td>
                       <td className="font-normal">{item.amount}</td>
-                      <td className="font-normal">{item.perDiem}</td>
+                      <td className="font-normal">{Number(item.perDiem).toFixed(2)}</td>
                       <td className="font-normal">{item.remarks}</td>
                     </tr>
                   ))}

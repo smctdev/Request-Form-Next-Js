@@ -562,10 +562,10 @@ const ApproverDiscount: React.FC<Props> = ({
                       <td className={`${tableInput}`}>{item.model}</td>
                       <td className={`${tableInput}`}>{item.unit}</td>
                       <td className={`${tableInput}`}>{item.partno}</td>
-                      <td className={`${tableInput}`}>{item.labor}</td>
-                      <td className={`${tableInput}`}>{item.spotcash}</td>
+                      <td className={`${tableInput}`}>{Number(item.labor).toFixed(2)}</td>
+                      <td className={`${tableInput}`}>{Number(item.spotcash).toFixed(2)}</td>
                       <td className={`${tableInput}`}>
-                        {item.discountedPrice}
+                        {Number(item.discountedPrice).toFixed(2)}
                       </td>
                     </tr>
                   ))}

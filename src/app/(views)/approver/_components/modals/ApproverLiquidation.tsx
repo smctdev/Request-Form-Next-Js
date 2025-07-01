@@ -626,7 +626,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                       <td
                         className={`${tableCellStyle} whitespace-normal break-words`}
                       >
-                        {item.transportationAmount}
+                        {Number(item.transportationAmount).toFixed(2)}
                       </td>
                       <td
                         className={`${tableCellStyle} whitespace-normal break-words`}
@@ -641,12 +641,12 @@ const ApproverLiquidation: React.FC<Props> = ({
                       <td
                         className={`${tableCellStyle} whitespace-normal break-words`}
                       >
-                        {item.hotelAmount}
+                        {Number(item.hotelAmount).toFixed(2)}
                       </td>
                       <td
                         className={`${tableCellStyle} whitespace-normal break-words`}
                       >
-                        {item.perDiem}
+                        {Number(item.perDiem).toFixed(2)}
                       </td>
                       <td
                         className={`${tableCellStyle} whitespace-normal break-words`}
@@ -656,7 +656,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                       <td
                         className={`${tableCellStyle}whitespace-normal break-words`}
                       >
-                        {item.particularsAmount}
+                        {Number(item.particularsAmount).toFixed(2)}
                       </td>
                       <td className={`${tableCellStyle}whitespace-nowrap`}>
                         {item.grandTotal}

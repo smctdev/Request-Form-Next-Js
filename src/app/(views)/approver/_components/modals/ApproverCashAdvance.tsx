@@ -784,13 +784,13 @@ const ApproverCashAdvance: React.FC<Props> = ({
                                 </td>
                                 <td className={tableCellStyle}>{item.hotel}</td>
                                 <td className={tableCellStyle}>
-                                  {item.rate || 0}
+                                  {Number(item.rate).toFixed(2) || 0}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.amount || 0}
                                 </td>
                                 <td className={tableCellStyle}>
-                                  {item.perDiem || 0}
+                                  {Number(item.perDiem).toFixed(2) || 0}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.remarks}
