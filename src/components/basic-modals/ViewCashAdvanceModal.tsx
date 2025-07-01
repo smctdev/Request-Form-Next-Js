@@ -12,6 +12,8 @@ import { useAuth } from "@/context/AuthContext";
 import PrintCash from "@/app/(views)/approver/_components/prints/PrintCash";
 import ZoomableImage from "../ZoomableImage";
 import ApprovedAttachments from "../ApprovedAttachments";
+import formattedDate from "@/utils/formattedDate";
+import formattedAmount from "@/utils/formattedAmount";
 
 type Props = {
   closeModal: () => void;
@@ -485,7 +487,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
 
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black shadow-lg md:mx-0 md:w-1/2 lg:w-2/3 space-y-auto h-4/5">
+      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black shadow-lg md:mx-0 md:w-11/12 lg:w-11/12 space-y-auto h-4/5">
         <div className="sticky flex justify-end cursor-pointer top-2">
           <XMarkIcon
             className="w-8 h-8 p-1 text-black bg-white rounded-full "
@@ -567,9 +569,8 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
             </span>
           </div>
 
-          
           <div className="flex">
-            <div className="mr-5">
+            <div className="mr-5 w-10/12">
               <div className="w-full overflow-x-auto">
                 <div className="w-full border-collapse">
                   <table className="w-full border border-collapse border-black lg:overflow-auto xl:table-fixed">
@@ -741,7 +742,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                             (item: any, index: any) => (
                               <tr key={index}>
                                 <td className={tableCellStyle}>
-                                  {formatDate2(item.cashDate)}
+                                  {formattedDate(item.cashDate)}
                                 </td>
                                 <td className={tableCellStyle}>{item.day}</td>
                                 <td className={tableCellStyle}>{item.from}</td>
@@ -750,9 +751,11 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                   {item.activity}
                                 </td>
                                 <td className={tableCellStyle}>{item.hotel}</td>
-                                <td className={tableCellStyle}>{Number(item.rate).toFixed(2)}</td>
                                 <td className={tableCellStyle}>
-                                 {Number(item.perDiem).toFixed(2)}
+                                  {formattedAmount(item.rate)}
+                                </td>
+                                <td className={tableCellStyle}>
+                                  {formattedAmount(item.perDiem)}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.remarks}
@@ -795,9 +798,9 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                             readOnly={!isEditing}
                           />
                         ) : (
-                          parseFloat(
+                          formattedAmount(
                             editableRecord.form_data[0].totalBoatFare
-                          ).toFixed(2)
+                          )
                         )}
                       </td>
                     </tr>
@@ -806,11 +809,13 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                         <p className="text-sm font-semibold">HOTEL</p>
                       </td>
                       <td className={`${inputStyle}`}>
-                        {newData.reduce(
-                          (totalHotelRate, item) =>
-                            totalHotelRate + Number(item.rate),
-                          0
-                        ).toFixed(2)}
+                        {formattedAmount(
+                          newData.reduce(
+                            (totalHotelRate, item) =>
+                              totalHotelRate + Number(item.rate),
+                            0
+                          )
+                        )}
                       </td>
                     </tr>
                     <tr>
@@ -819,11 +824,13 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                       </td>
                       <td className={`${inputStyle}`}>
                         {/* Display calculated total per diem */}
-                        {newData.reduce(
-                          (totalPerDiem, item) =>
-                            totalPerDiem + Number(item.perDiem),
-                          0
-                        ).toFixed(2)}
+                        {formattedAmount(
+                          newData.reduce(
+                            (totalPerDiem, item) =>
+                              totalPerDiem + Number(item.perDiem),
+                            0
+                          )
+                        )}
                       </td>
                     </tr>
                     <tr>
@@ -840,9 +847,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                             readOnly={!isEditing}
                           />
                         ) : (
-                          parseFloat(
-                            editableRecord.form_data[0].totalFare
-                          ).toFixed(2)
+                          formattedAmount(editableRecord.form_data[0].totalFare)
                         )}
                       </td>
                     </tr>
@@ -862,9 +867,9 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                             readOnly={!isEditing}
                           />
                         ) : (
-                          parseFloat(
+                          formattedAmount(
                             editableRecord.form_data[0].totalContingency
-                          ).toFixed(2)
+                          )
                         )}
                       </td>
                     </tr>
@@ -879,10 +884,11 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                       <td
                         className={`${tableStyle} whitespace-nowrap text-center font-bold`}
                       >
-                        ₱{" "}
-                        {isEditing
-                          ? calculateGrandTotal()
-                          : editableRecord.form_data[0].grand_total}
+                        {formattedAmount(
+                          isEditing
+                            ? calculateGrandTotal()
+                            : editableRecord.form_data[0].grand_total
+                        )}
                       </td>
                     </tr>
                   </tbody>
@@ -1394,8 +1400,8 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
             ) : (
               !fetchingApprovers &&
               !isFetchingApprovers &&
-               (editableRecord.status === "Pending" ||
-                editableRecord.status === "Disapproved")  && (
+              (editableRecord.status === "Pending" ||
+                editableRecord.status === "Disapproved") && (
                 <button
                   type="button"
                   className="flex p-2 ml-2 text-white bg-blue-500 rounded-xl cursor-pointer"
