@@ -560,14 +560,11 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
               </p>
             </div>
           </div>
-          <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
-            <div className="flex w-1/2">
-              <h1 className="flex items-center">Reason for CA: </h1>
+              <h1 className="flex items-center">Reason for Cash Advance: </h1>
               <span className="w-full pl-1 font-bold bg-white rounded-md ">
                 {record?.form_data[0]?.reason}
               </span>
-            </div>
-          </div>
+          
           <div className="flex">
             <div className="mr-5">
               <div className="w-full overflow-x-auto">
