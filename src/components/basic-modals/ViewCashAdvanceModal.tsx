@@ -56,6 +56,7 @@ type FormData = {
   approvers_id: number;
   attachment: string;
   purpose: string;
+  reason: string;
   items: Item[];
   branch: string;
   date: string;
@@ -452,6 +453,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
       notedBy: notedBy,
       user: user,
       department: record?.form_data[0]?.department,
+      reason: record?.form_data[0]?.reason,
       position: record?.requested_position,
     };
 
@@ -555,6 +557,13 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
               <h1 className="flex items-center">Branch: </h1>
               <p className="w-full pl-1 font-bold bg-white rounded-md ">
                 {branchName}
+              </p>
+            </div>
+
+            <div className="flex w-1/2 ">
+              <h1 className="flex items-center">Reason: </h1>
+              <p className="w-full pl-1 font-bold bg-white rounded-md ">
+                {record?.form_data[0]?.reason}
               </p>
             </div>
           </div>

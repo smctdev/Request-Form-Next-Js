@@ -66,6 +66,7 @@ type FormData = {
     approved_by: { firstName: string; lastName: string }[];
   };
   department?: string;
+  reason?: string;
   purpose: string;
   items: Item[];
   branch: string;
@@ -469,6 +470,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
       user: user,
       requested_branch: record?.branch,
       department: record?.form_data[0]?.department,
+      reason: record?.form_data[0]?.reason,
       position: record?.requested_position,
     };
 
@@ -598,6 +600,9 @@ const ApproverCashAdvance: React.FC<Props> = ({
           <div className="flex items-center justify-between w-full">
             <p className="font-medium text-[14px]">
               Request ID: {record.request_code}
+            </p>
+            <p className="font-medium text-[14px]">
+              Reason: {record?.form_data[0]?.reason}
             </p>
             <div className="flex w-auto ">
               <p>Date: </p>

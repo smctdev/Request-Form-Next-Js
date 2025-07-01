@@ -155,7 +155,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                 : "N/A"}
             </span>
             (₱ {printData?.id?.form_data?.[0]?.grand_total}) for the following
-            reasons:{" "}
+            reasons:{printData?.reason}
             <span className="px-6 border-b border-black">
               {printData?.id.form_data[0].remarks}
             </span>
