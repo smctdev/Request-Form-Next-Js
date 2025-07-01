@@ -7,6 +7,8 @@ import HOLogo from "@/assets/logo.png";
 import { toWords } from "number-to-words";
 import Image from "next/image";
 import { format } from "date-fns";
+import formattedDate from "@/utils/formattedDate";
+import formattedAmount from "@/utils/formattedAmount";
 
 type PrintRefundProps = {
   data?: any;
@@ -388,16 +390,22 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                   {formData.items.map((item: any, itemIndex: number) => (
                     <tr key={itemIndex}>
                       <td className="font-normal">
-                        {formatDate(item.cashDate)}
+                        {formattedDate(item.cashDate)}
                       </td>
                       <td className="font-normal">{item.day}</td>
                       <td className="font-normal">{item.from}</td>
                       <td className="font-normal">{item.to}</td>
                       <td className="font-normal">{item.activity}</td>
                       <td className="font-normal">{item.hotel}</td>
-                      <td className="font-normal">{Number(item.rate).toFixed(2)}</td>
-                      <td className="font-normal">{item.amount}</td>
-                      <td className="font-normal">{Number(item.perDiem).toFixed(2)}</td>
+                      <td className="font-normal">
+                        {formattedAmount(item.rate)}
+                      </td>
+                      <td className="font-normal">
+                        {formattedAmount(item.amount)}
+                      </td>
+                      <td className="font-normal">
+                        {formattedAmount(item.perDiem)}
+                      </td>
                       <td className="font-normal">{item.remarks}</td>
                     </tr>
                   ))}
@@ -434,42 +442,46 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
             <tbody>
               <tr>
                 <td className="font-normal">BOAT FARE</td>
-                <td className="font-medium text-right">
-                  {printData?.id.form_data[0].totalBoatFare}
+                <td className="font-medium text-end">
+                  {formattedAmount(printData?.id.form_data[0].totalBoatFare)}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">HOTEL</td>
-                <td className="font-medium text-right">
+                <td className="font-medium text-end">
                   {/* Display calculated total hotel rate */}
-                  {printData?.id.form_data[0].items.reduce(
-                    (totalHotelRate: number, item: any) =>
-                      totalHotelRate + Number(item.rate),
-                    0
-                  ).toFixed(2)}
+                  {formattedAmount(
+                    printData?.id.form_data[0].items.reduce(
+                      (totalHotelRate: number, item: any) =>
+                        totalHotelRate + Number(item.rate),
+                      0
+                    )
+                  )}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">PER DIEM</td>
-                <td className="font-medium text-right">
+                <td className="font-medium text-end">
                   {/* Display calculated total per diem */}
-                  {printData?.id.form_data[0].items.reduce(
-                    (totalPerDiem: number, item: any) =>
-                      totalPerDiem + Number(item.perDiem),
-                    0
-                  ).toFixed(2)}
+                  {formattedAmount(
+                    printData?.id.form_data[0].items.reduce(
+                      (totalPerDiem: number, item: any) =>
+                        totalPerDiem + Number(item.perDiem),
+                      0
+                    )
+                  )}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">FARE</td>
-                <td className="font-medium text-right">
-                  {printData?.id.form_data[0].totalFare}
+                <td className="font-medium text-end">
+                  {formattedAmount(printData?.id.form_data[0].totalFare)}
                 </td>
               </tr>
               <tr>
                 <td className="font-normal">CONTINGENCY</td>
-                <td className="font-medium text-right">
-                  {printData?.id.form_data[0].totalContingency}
+                <td className="font-medium text-end">
+                  {formattedAmount(printData?.id.form_data[0].totalContingency)}
                 </td>
               </tr>
               <tr>
@@ -478,8 +490,8 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
               </tr>
               <tr>
                 <td className="font-normal">TOTAL</td>
-                <td className="font-medium text-right">
-                  ₱ {printData?.id.form_data[0].grand_total}
+                <td className="font-medium text-end">
+                  {formattedAmount(printData?.id.form_data[0].grand_total)}
                 </td>
               </tr>
             </tbody>

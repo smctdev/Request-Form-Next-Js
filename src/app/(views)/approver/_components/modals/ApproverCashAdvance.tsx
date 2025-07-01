@@ -17,6 +17,8 @@ import { api } from "@/lib/api";
 import { useNotification } from "@/context/NotificationContext";
 import { formatFileSize } from "@/utils/formatFileSize";
 import ZoomableImage from "@/components/ZoomableImage";
+import formattedAmount from "@/utils/formattedAmount";
+import formattedDate from "@/utils/formattedDate";
 
 type Props = {
   closeModal: () => void;
@@ -560,7 +562,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
 
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black shadow-lg md:mx-0 md:w-1/2 lg:w-2/3 space-y-auto h-4/5">
+      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black shadow-lg md:mx-0 md:w-11/12 lg:w-11/12 space-y-auto h-4/5">
         <div className="sticky flex justify-end cursor-pointer top-2">
           <XMarkIcon className="w-6 h-6 text-black" onClick={closeModal} />
         </div>
@@ -773,7 +775,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                             (item, index) => (
                               <tr key={index}>
                                 <td className={tableCellStyle}>
-                                  {formatDate(item.cashDate)}
+                                  {formattedDate(item.cashDate)}
                                 </td>
                                 <td className={tableCellStyle}>{item.day}</td>
                                 <td className={tableCellStyle}>
@@ -784,13 +786,13 @@ const ApproverCashAdvance: React.FC<Props> = ({
                                 </td>
                                 <td className={tableCellStyle}>{item.hotel}</td>
                                 <td className={tableCellStyle}>
-                                  {Number(item.rate).toFixed(2) || 0}
+                                  {formattedAmount(item.rate) || 0}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.amount || 0}
                                 </td>
                                 <td className={tableCellStyle}>
-                                  {Number(item.perDiem).toFixed(2) || 0}
+                                  {formattedAmount(item.perDiem) || 0}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.remarks}
@@ -831,9 +833,9 @@ const ApproverCashAdvance: React.FC<Props> = ({
                           readOnly={!isEditing}
                         />
                       ) : (
-                        parseFloat(
+                        formattedAmount(
                           editableRecord.form_data[0].totalBoatFare ?? 0
-                        ).toFixed(2)
+                        )
                       )}
                     </td>
                   </tr>
@@ -851,9 +853,9 @@ const ApproverCashAdvance: React.FC<Props> = ({
                           readOnly={!isEditing}
                         />
                       ) : (
-                        parseFloat(
+                        formattedAmount(
                           editableRecord.form_data[0].totalHotel ?? 0
-                        ).toFixed(2)
+                        )
                       )}
                     </td>
                   </tr>
@@ -863,13 +865,13 @@ const ApproverCashAdvance: React.FC<Props> = ({
                     </td>
                     <td className={`${inputStyle}`}>
                       {/* Display calculated total per diem */}
-                      {newData
-                        .reduce(
+                      {formattedAmount(
+                        newData.reduce(
                           (totalPerDiem, item) =>
                             totalPerDiem + Number(item.perDiem),
                           0
                         )
-                        ?.toLocaleString("en-US", { minimumFractionDigits: 2 })}
+                      )}
                     </td>
                   </tr>
                   <tr>
@@ -886,9 +888,9 @@ const ApproverCashAdvance: React.FC<Props> = ({
                           readOnly={!isEditing}
                         />
                       ) : (
-                        parseFloat(
+                        formattedAmount(
                           editableRecord.form_data[0].totalFare ?? 0
-                        ).toFixed(2)
+                        )
                       )}
                     </td>
                   </tr>
@@ -908,9 +910,9 @@ const ApproverCashAdvance: React.FC<Props> = ({
                           readOnly={!isEditing}
                         />
                       ) : (
-                        parseFloat(
+                        formattedAmount(
                           editableRecord.form_data[0].totalContingency ?? 0
-                        ).toFixed(2)
+                        )
                       )}
                     </td>
                   </tr>
@@ -920,11 +922,12 @@ const ApproverCashAdvance: React.FC<Props> = ({
                   </tr>
                   <tr>
                     <td className={`${tableStyle} h-14 font-bold`}>TOTAL</td>
-                    <td className={`${tableStyle} text-center font-bold`}>
-                      ₱{" "}
-                      {isEditing
-                        ? calculateGrandTotal()
-                        : editableRecord.form_data[0].grand_total}
+                    <td className={`${tableStyle} text-end font-bold`}>
+                      {formattedAmount(
+                        isEditing
+                          ? calculateGrandTotal()
+                          : editableRecord.form_data[0].grand_total
+                      )}
                     </td>
                   </tr>
                 </tbody>
