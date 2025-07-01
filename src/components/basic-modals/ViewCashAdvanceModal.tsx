@@ -561,9 +561,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
             </div>
           </div>
               <h1 className="flex items-center">Reason for Cash Advance: </h1>
-              <span className="w-full pl-1 font-bold bg-white rounded-md ">
-                {record?.form_data[0]?.reason}
-              </span>
+                {record?.form_data[0]?.reason}  
           
           <div className="flex">
             <div className="mr-5">
