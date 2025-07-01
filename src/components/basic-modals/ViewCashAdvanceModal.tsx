@@ -559,9 +559,10 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                 {branchName}
               </p>
             </div>
-
-            <div className="flex w-1/2 ">
-              <h1 className="flex items-center">Reason: </h1>
+          </div>
+          <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
+          <div className="flex w-1/2 ">
+              <h1 className="flex items-center">Reason for Cash Advance: </h1>
               <p className="w-full pl-1 font-bold bg-white rounded-md ">
                 {record?.form_data[0]?.reason}
               </p>

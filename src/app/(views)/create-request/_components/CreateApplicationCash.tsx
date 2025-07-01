@@ -630,7 +630,7 @@ const CreateApplicationCash = (props: Props) => {
           <div className="px-[35px] mt-4 ">
             <div className="grid justify-between gap-8 xl:grid-cols-4 md:grid-cols-2 ">
               <div className={`${itemDiv}`}>
-                <p className="font-semibold">Department</p>
+                <p className="font-semibold">Reason for Cash Advance</p>
                 <input
                   type="text"
                   {...register("reason", { required: true })}

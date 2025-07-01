@@ -602,7 +602,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
               Request ID: {record.request_code}
             </p>
             <p className="font-medium text-[14px]">
-              Reason: {record?.form_data[0]?.reason}
+              Reason for Cash Advance: {record?.form_data[0]?.reason}
             </p>
             <div className="flex w-auto ">
               <p>Date: </p>
