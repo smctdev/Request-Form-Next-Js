@@ -446,7 +446,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                     (totalHotelRate: number, item: any) =>
                       totalHotelRate + Number(item.rate),
                     0
-                  )}
+                  ).toFixed(2)}
                 </td>
               </tr>
               <tr>
@@ -457,7 +457,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                     (totalPerDiem: number, item: any) =>
                       totalPerDiem + Number(item.perDiem),
                     0
-                  )}
+                  ).toFixed(2)}
                 </td>
               </tr>
               <tr>
