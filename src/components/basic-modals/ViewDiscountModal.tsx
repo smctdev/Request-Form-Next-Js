@@ -658,10 +658,10 @@ const ViewDiscountModal: React.FC<Props> = ({
                             <td className={tableCellStyle}>{item.model}</td>
                             <td className={tableCellStyle}>{item.unit}</td>
                             <td className={tableCellStyle}>{item.partno}</td>
-                            <td className={tableCellStyle}>{item.labor}</td>
-                            <td className={tableCellStyle}>{item.spotcash}</td>
+                            <td className={tableCellStyle}>{Number(item.labor).toFixed(2)}</td>
+                            <td className={tableCellStyle}>{Number(item.spotcash).toFixed(2)}</td>
                             <td className={tableCellStyle}>
-                              {item.discountedPrice}
+                              {Number(item.discountedPrice).toFixed(2)}
                             </td>
                           </tr>
                         )

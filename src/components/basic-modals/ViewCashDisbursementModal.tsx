@@ -635,7 +635,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                             >
                               {item.description}
                             </td>
-                            <td className={tableCellStyle}>{item.unitCost}</td>
+                            <td className={tableCellStyle}>{Number(item.unitCost).toFixed(2)}</td>
                             <td className={tableCellStyle}>
                               {item.totalAmount}
                             </td>
