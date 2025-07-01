@@ -695,7 +695,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
                                 <input
-                                  type="text"
+                                  type="number"
                                   value={item.rate === "" ? "" : Number(item.rate).toFixed(2)}
                                   onChange={(e) =>
                                     handleItemChange(
@@ -709,7 +709,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
                                 <input
-                                  type="text"
+                                  type="number"
                                   value={item.perDiem === "" ? "" : Number(item.perDiem).toFixed(2)}
                                   onChange={(e) =>
                                     handleItemChange(
