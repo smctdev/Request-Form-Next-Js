@@ -696,7 +696,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                               <td className="break-words border-2 border-black tableCellStyle">
                                 <input
                                   type="number"
-                                  value={item.rate === "" ? "" : Number(item.rate).toFixed(2)}
+                                  value={item.rate}
                                   onChange={(e) =>
                                     handleItemChange(
                                       index,
@@ -710,7 +710,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                               <td className="break-words border-2 border-black tableCellStyle">
                                 <input
                                   type="number"
-                                  value={item.perDiem === "" ? "" : Number(item.perDiem).toFixed(2)}
+                                  value={item.perDiem}
                                   onChange={(e) =>
                                     handleItemChange(
                                       index,
@@ -750,9 +750,9 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                   {item.activity}
                                 </td>
                                 <td className={tableCellStyle}>{item.hotel}</td>
-                                <td className={tableCellStyle}>{item.rate}</td>
+                                <td className={tableCellStyle}>{Number(item.rate).toFixed(2)}</td>
                                 <td className={tableCellStyle}>
-                                  {item.perDiem}
+                                 {Number(item.perDiem).toFixed(2)}
                                 </td>
                                 <td className={tableCellStyle}>
                                   {item.remarks}
