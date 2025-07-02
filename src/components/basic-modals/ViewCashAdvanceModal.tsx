@@ -574,7 +574,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-sm font-medium">Liquidation Date:</h1>
             <span className="pl-1 font-bold bg-white rounded-md">
-              {record?.form_data[0]?.liquidationDate}
+              {formatDate(record?.form_data[0]?.liquidationDate)}
             </span>
           </div>
 
