@@ -5,6 +5,7 @@ import DAPLogo from "@/assets/DAP.jpg";
 import HDILogo from "@/assets/HDI.jpg";
 import HOLogo from "@/assets/logo.png";
 import Image from "next/image";
+import formattedAmount from "@/utils/formattedAmount";
 
 type PrintRefundProps = {
   data?: any;
@@ -146,10 +147,10 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.description}
                       </td>
                       <td className={`${tableStyle} font-normal text-sm`}>
-                        {Number(item.unitCost).toFixed(2)}
+                        {formattedAmount(item.unitCost)}
                       </td>
                       <td className={`${tableStyle} font-normal text-sm`}>
-                        {item.totalAmount}
+                        {formattedAmount(item.totalAmount)}
                       </td>
                       <td className={`${tableStyle} font-normal text-sm`}>
                         {item.remarks}

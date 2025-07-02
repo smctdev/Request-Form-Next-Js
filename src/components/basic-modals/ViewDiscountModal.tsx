@@ -674,13 +674,13 @@ const ViewDiscountModal: React.FC<Props> = ({
                       Totals:
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
-                      {editableRecord.form_data[0].total_labor.toFixed(2)}
+                      {formattedAmount(editableRecord.form_data[0].total_labor)}
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
-                      {editableRecord.form_data[0].total_spotcash.toFixed(2)}
+                      {formattedAmount(editableRecord.form_data[0].total_spotcash)}
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
-                      {editableRecord.form_data[0].total_discount.toFixed(2)}
+                      {formattedAmount(editableRecord.form_data[0].total_discount)}
                     </td>
                   </tr>
                 </tfoot>

@@ -17,6 +17,7 @@ import { api } from "@/lib/api";
 import { useNotification } from "@/context/NotificationContext";
 import { formatFileSize } from "@/utils/formatFileSize";
 import ZoomableImage from "@/components/ZoomableImage";
+import formattedAmount from "@/utils/formattedAmount";
 
 type Props = {
   closeModal: () => void;
@@ -656,9 +657,9 @@ const ApproverCashDisbursement: React.FC<Props> = ({
                             <td className={tableCellStyle}>
                               {item.description}
                             </td>
-                            <td className={tableCellStyle}>{Number(item.unitCost).toFixed(2)}</td>
+                            <td className={tableCellStyle}>{formattedAmount(item.unitCost)}</td>
                             <td className={tableCellStyle}>
-                              {item.totalAmount}
+                              {formattedAmount(item.totalAmount)}
                             </td>
                             <td className={tableCellStyle}>{item.remarks}</td>
                           </tr>

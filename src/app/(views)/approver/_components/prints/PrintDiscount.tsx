@@ -5,6 +5,7 @@ import DAPLogo from "@/assets/DAP.jpg";
 import HDILogo from "@/assets/HDI.jpg";
 import HOLogo from "@/assets/logo.png";
 import Image from "next/image";
+import formattedAmount from "@/utils/formattedAmount";
 
 type PrintRefundProps = {
   data?: any;
@@ -163,13 +164,13 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.partno}
                       </td>
                       <td className="px-1 text-xs font-normal text-center border border-black">
-                        {Number(item.labor).toFixed(2)}
+                        {formattedAmount(item.labor)}
                       </td>
                       <td className="px-1 text-xs font-normal text-center border border-black">
-                        {Number(item.spotcash).toFixed(2)}
+                        {formattedAmount(item.spotcash)}
                       </td>
                       <td className="px-1 text-xs font-normal text-center border border-black">
-                        {Number(item.discountedPrice).toFixed(2)}
+                        {formattedAmount(item.discountedPrice)}
                       </td>
                     </tr>
                   ))}
@@ -198,13 +199,13 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
                   Total:
                 </td>
                 <td className="text-xs font-medium text-center border border-black">
-                  {printData?.id.form_data[0].total_labor.toFixed(2)}
+                  {formattedAmount(printData?.id.form_data[0].total_labor)}
                 </td>
                 <td className="text-xs font-medium text-center border border-black">
-                  {printData?.id.form_data[0].total_spotcash.toFixed(2)}
+                  {formattedAmount(printData?.id.form_data[0].total_spotcash)}
                 </td>
                 <td className="text-xs font-medium text-center border border-black">
-                  {printData?.id.form_data[0].total_discount.toFixed(2)}
+                  {formattedAmount(printData?.id.form_data[0].total_discount)}
                 </td>
               </tr>
             </tfoot>
