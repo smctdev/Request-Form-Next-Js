@@ -385,7 +385,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
       setErrorMessage(
         error.response?.data?.message ||
           error.message ||
-          "Failed to update CheckIssuance Modal."
+          "Failed to update Check Issuance Modal."
       );
     }
   };
@@ -477,7 +477,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
           <div className="flex items-center justify-between w-full">
             <div>
               <h1 className="font-semibold text-[18px]">
-                CheckIssuance Order Requisition Slip
+                Check Issuance Order Requisition Slip
               </h1>
             </div>
             <div className="flex w-auto ">
@@ -715,7 +715,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
             <input
               type="text"
               className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
-              value={`₱ ${editableRecord.form_data[0].grand_total}`}
+              value={formattedAmount(editableRecord.form_data[0].grand_total)}
               readOnly
             />
           </div>

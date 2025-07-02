@@ -190,7 +190,7 @@ const PrintCheckIssuace: React.FC<PrintRefundProps> = ({ data }) => {
                 </td>
                 <td></td>
                 <td className="pt-2 text-sm font-medium text-center">
-                  ₱ {printData?.id.form_data[0].grand_total}
+                  ₱ {formattedAmount(printData?.id.form_data[0].grand_total)}
                 </td>
                 <td></td>
               </tr>
