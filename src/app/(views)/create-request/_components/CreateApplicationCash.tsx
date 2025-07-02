@@ -637,7 +637,7 @@ const CreateApplicationCash = (props: Props) => {
                   className={`${inputStyle} h-[44px]`}
                 />
                 {errors.reason && formSubmitted && (
-                  <p className="text-red-500">Department is required</p>
+                  <p className="text-red-500">Reason for Cash Advance is required</p>
                 )}
               </div>
               <div className={`${itemDiv}`}>
