@@ -14,6 +14,7 @@ import ZoomableImage from "../ZoomableImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
 import ApprovedAttachments from "../ApprovedAttachments";
+import formattedAmount from "@/utils/formattedAmount";
 
 type Props = {
   closeModal: () => void;
@@ -642,9 +643,9 @@ const ViewStockModal: React.FC<Props> = ({
                             >
                               {item.description}
                             </td>
-                            <td className={tableCellStyle}>{Number(item.unitCost).toFixed(2)}</td>
+                            <td className={tableCellStyle}>{formattedAmount(item.unitCost)}</td>
                             <td className={tableCellStyle}>
-                              {item.totalAmount}
+                              {formattedAmount(item.totalAmount)}
                             </td>
                             <td
                               className={`${tableCellStyle} break-words whitespace-normal`}

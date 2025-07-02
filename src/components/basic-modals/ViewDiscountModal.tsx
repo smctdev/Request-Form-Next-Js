@@ -12,6 +12,7 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import ZoomableImage from "../ZoomableImage";
 import ApprovedAttachments from "../ApprovedAttachments";
+import formattedAmount from "@/utils/formattedAmount";
 
 type Props = {
   closeModal: () => void;
@@ -658,10 +659,10 @@ const ViewDiscountModal: React.FC<Props> = ({
                             <td className={tableCellStyle}>{item.model}</td>
                             <td className={tableCellStyle}>{item.unit}</td>
                             <td className={tableCellStyle}>{item.partno}</td>
-                            <td className={`${tableCellStyle} text-center`}>{Number(item.labor).toFixed(2)}</td>
-                            <td className={`${tableCellStyle} text-center`}>{Number(item.spotcash).toFixed(2)}</td>
+                            <td className={`${tableCellStyle} text-center`}>{formattedAmount(item.labor)}</td>
+                            <td className={`${tableCellStyle} text-center`}>{formattedAmount(item.spotcash)}</td>
                             <td className={`${tableCellStyle} text-center`}>
-                              {Number(item.discountedPrice).toFixed(2)}
+                              {formattedAmount(item.discountedPrice)}
                             </td>
                           </tr>
                         )
