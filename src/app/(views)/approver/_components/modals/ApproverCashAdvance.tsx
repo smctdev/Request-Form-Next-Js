@@ -69,7 +69,7 @@ type FormData = {
   };
   department?: string;
   reason?: string;
-  liquidationDate: string;
+  liquidationDate?: string;
   purpose: string;
   items: Item[];
   branch: string;
