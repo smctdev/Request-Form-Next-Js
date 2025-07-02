@@ -603,9 +603,6 @@ const ApproverCashAdvance: React.FC<Props> = ({
             <p className="font-medium text-[14px]">
               Request ID: {record.request_code}
             </p>
-            <p className="font-medium text-[14px]">
-              Reason for Cash Advance: {record?.form_data[0]?.reason}
-            </p>
             <div className="flex w-auto ">
               <p>Date: </p>
               <p className="pl-2 font-bold">{formatDate2(record.created_at)}</p>
@@ -630,6 +627,12 @@ const ApproverCashAdvance: React.FC<Props> = ({
               </p>
             </div>
           )}
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-sm font-medium">Reason for Cash Advance:</h1>
+            <span className="pl-1 font-bold bg-white rounded-md">
+              {record?.form_data[0]?.reason}
+            </span>
+          </div>
           <div className="flex w-full mt-2 space-x-2">
             <div className="w-[70%] overflow-x-auto">
               <div className="w-full border-collapse">
