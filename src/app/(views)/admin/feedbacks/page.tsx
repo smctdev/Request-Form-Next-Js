@@ -109,6 +109,7 @@ function Feedbacks() {
             <TableLoader colSpan={8} tableHeads={tableHeads} />
           }
           progressPending={isLoading}
+          persistTableHead
         />
       </div>
     </div>

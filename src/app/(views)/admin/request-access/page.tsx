@@ -253,6 +253,7 @@ function RequestAccess() {
           progressComponent={
             <TableLoader colSpan={7} tableHeads={tableHeads} />
           }
+          persistTableHead
         />
       </div>
     </div>
