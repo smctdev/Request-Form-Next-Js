@@ -92,6 +92,7 @@ const CreatePurchaseOrder = (props: Props) => {
   const [suppliers, setSuppliers] = useState<
     { name: string; address: string }[]
   >([]);
+  const [searchSupplier, setSearchSupplier] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -429,6 +430,16 @@ const CreatePurchaseOrder = (props: Props) => {
     setDropdownOpen(false);
   };
 
+  const handleChange = (e: any) => {
+    const value = e.target.value;
+
+    setSearchSupplier(value);
+  };
+
+  const filteredSuppliers = suppliers?.filter((supplier) =>
+    supplier?.name?.toLowerCase()?.includes(searchSupplier?.toLowerCase())
+  );
+
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
       {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
@@ -480,11 +491,12 @@ const CreatePurchaseOrder = (props: Props) => {
                       {...register("supplier", { required: true })}
                       className={`${inputStyle} h-[44px] p-1`}
                       onFocus={handleFocus}
+                      onChange={handleChange}
                     />
-                    {dropdownOpen && suppliers?.length > 0 && (
+                    {dropdownOpen && filteredSuppliers?.length > 0 && (
                       <div className="absolute bg-white w-full max-h-[200px] overflow-y-auto border rounded border-gray-300">
                         <ul>
-                          {suppliers?.map((supplier, index) => (
+                          {filteredSuppliers?.map((supplier, index) => (
                             <li
                               key={index}
                               onClick={handleSetItem(supplier)}
