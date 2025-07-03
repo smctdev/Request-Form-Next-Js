@@ -91,6 +91,7 @@ const CreateCheckIssuance = (props: Props) => {
   const { user } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [banks, setBanks] = useState<{ name: string; address: string }[]>([]);
+  const [searchBank, setSearchBank] = useState("");
   const bankDivRef = useRef<HTMLDivElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -431,6 +432,16 @@ const CreateCheckIssuance = (props: Props) => {
     setDropdownOpen(false);
   };
 
+  const handleChange = (e: any) => {
+    const value = e.target.value;
+
+    setSearchBank(value);
+  };
+
+  const filteredBanks = banks?.filter((bank: any) =>
+    bank?.name?.toLowerCase()?.includes(searchBank?.toLowerCase())
+  );
+
   return (
     <div className="bg-graybg dark:bg-blackbg h-full pt-[15px] px-[30px] pb-[15px]">
       {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
@@ -494,11 +505,12 @@ const CreateCheckIssuance = (props: Props) => {
                         {...register("bank", { required: true })}
                         className={`${inputStyle} h-[44px] p-1`}
                         onFocus={handleFocus}
+                        onChange={handleChange}
                       />
-                      {dropdownOpen && banks?.length > 0 && (
+                      {dropdownOpen && filteredBanks?.length > 0 && (
                         <div className="absolute bg-white w-full max-h-[200px] overflow-y-auto border rounded border-gray-300">
                           <ul>
-                            {banks?.map((bank, index) => (
+                            {filteredBanks?.map((bank, index) => (
                               <li
                                 key={index}
                                 onClick={handleSetItem(bank?.name)}
