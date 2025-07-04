@@ -14,6 +14,7 @@ import ZoomableImage from "../ZoomableImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faEye } from "@fortawesome/free-solid-svg-icons";
 import ApprovedAttachments from "../ApprovedAttachments";
+import Storage from "@/utils/storage";
 
 type Props = {
   closeModal: () => void;
@@ -696,7 +697,7 @@ const ViewStockModal: React.FC<Props> = ({
                         {user.signature && (
                           <div className="absolute -top-4">
                             <Image
-                              src={user.signature || ""}
+                              src={Storage(user.signature || "")}
                               alt="avatar"
                               width={120}
                               height={120}
@@ -755,7 +756,7 @@ const ViewStockModal: React.FC<Props> = ({
                                 user.status.split(" ")[0] === "Rejected")) && (
                               <div className="absolute -top-4">
                                 <Image
-                                  src={user.signature || ""}
+                                  src={Storage(user.signature || "")}
                                   alt="avatar"
                                   width={120}
                                   height={120}
@@ -820,7 +821,7 @@ const ViewStockModal: React.FC<Props> = ({
                               user.status.split(" ")[0] === "Rejected")) && (
                             <div className="absolute -top-4">
                               <Image
-                                src={user.signature || ""}
+                                src={Storage(user.signature || "")}
                                 alt="avatar"
                                 width={120}
                                 height={120}

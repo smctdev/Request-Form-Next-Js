@@ -97,7 +97,7 @@ const Login = () => {
 
           <form onSubmit={handleSubmit(submitData)}>
             <div className="mb-4">
-              <h1 className="mb-2 text-base lg:text-lg">Email</h1>
+              <h1 className="mb-2 text-base lg:text-lg">Email/Username</h1>
               <input
                 {...register("email", {
                   required: "Email is required",

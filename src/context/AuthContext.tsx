@@ -29,6 +29,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isApprover, setIsApprover] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isAudtitor, setIsAudtitor] = useState<boolean>(false);
 
   useEffect(() => {
     if (!user.id || !echo) return;
@@ -64,6 +65,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         if (response.data.data.role === "approver") {
           setIsApprover(true);
         }
+        if (response.data?.data?.position?.startsWith("Audit")) {
+          setIsAudtitor(true);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -71,6 +75,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsAuthenticated(false);
       setIsAdmin(false);
       setIsApprover(false);
+      setIsAudtitor(false);
     } finally {
       setIsLoading(false);
     }
@@ -86,11 +91,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       if (response.data.data.role === "approver") {
         setIsApprover(true);
       }
+      if (response.data?.data?.position?.startsWith("Audit")) {
+        setIsAudtitor(true);
+      }
     } catch (error) {
       console.error(error);
       setUser([]);
       setIsAuthenticated(false);
       setIsAdmin(false);
+      setIsAudtitor(false);
       setIsApprover(false);
     }
   };
@@ -174,6 +183,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         isLogin,
         setIsLogin,
         updateProfile,
+        isAudtitor,
+        setIsAudtitor,
       }}
     >
       {children}

@@ -15,6 +15,7 @@ import Link from "next/link";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import { api } from "@/lib/api";
 import guestPage from "@/lib/guestPage";
+import { dataURLtoFile } from "@/utils/dataUrlToFile";
 
 type UserCredentials = z.infer<typeof schema>;
 
@@ -53,7 +54,9 @@ const inputStyle =
 const Registration = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [signature, setSignature] = useState<SignatureCanvas | null>(null);
+  const [signature, setSignature] = useState<SignatureCanvas | null | any>(
+    null
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [signatureEmpty, setSignatureEmpty] = useState(false);
@@ -148,21 +151,24 @@ const Registration = () => {
 
       const signatureDataURL = signature?.toDataURL("image/png");
 
-      const response = await api.post("register", {
-        email: data.email,
-        password: data.password,
-        userName: data.userName,
-        firstName: capitalizeWords(data.firstName),
-        lastName: capitalizeWords(data.lastName),
-        contact: data.contact,
-        branch_code: data.branchCode,
-        position: data.position,
-        confirmPassword: data.password,
-        signature: signatureDataURL,
-        role: "User",
-        branch: data.branch,
-        employee_id: data.employee_id,
-      });
+      const signatureData = dataURLtoFile(signatureDataURL, `${data?.userName}.png`);
+
+      const formData = new FormData();
+      formData.append("email", data.email);
+      formData.append("password", data.password);
+      formData.append("userName", data.userName);
+      formData.append("firstName", capitalizeWords(data.firstName));
+      formData.append("lastName", capitalizeWords(data.lastName));
+      formData.append("contact", data.contact);
+      formData.append("branch_code", data.branchCode);
+      formData.append("position", data.position);
+      formData.append("confirmPassword", data.password);
+      formData.append("signature", signatureData);
+      formData.append("role", "User");
+      formData.append("branch", data.branch);
+      formData.append("employee_id", data.employee_id);
+
+      const response = await api.post("register", formData);
 
       setErrorMessage(response.data.errors);
       if (response.data.status) {
@@ -535,6 +541,11 @@ const Registration = () => {
                     canvasProps={{
                       className: "sigCanvas border border-black h-96 w-full",
                     }}
+                    velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
+                    minWidth={1.5} // Minimum stroke width
+                    maxWidth={2.5} // Maximum stroke width
+                    throttle={10} // Reduces points for smoother lines
+                    dotSize={1.5}
                   />
                   {signatureEmpty && (
                     <span className="text-xs text-red-500">

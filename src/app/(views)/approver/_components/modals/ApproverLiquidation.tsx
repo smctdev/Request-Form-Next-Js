@@ -881,7 +881,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                                 user.status.split(" ")[0] === "Rejected")) && (
                               <div className="absolute -top-4">
                                 <Image
-                                  src={user.signature || ""}
+                                  src={Storage(user.signature || "")}
                                   alt="avatar"
                                   width={120}
                                   height={120}
@@ -946,7 +946,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                               user.status.split(" ")[0] === "Rejected")) && (
                             <div className="absolute -top-4">
                               <Image
-                                src={user.signature || ""}
+                                src={Storage(user.signature || "")}
                                 alt="avatar"
                                 width={120}
                                 height={120}
