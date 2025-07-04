@@ -14,6 +14,7 @@ import ZoomableImage from "../ZoomableImage";
 import ApprovedAttachments from "../ApprovedAttachments";
 import formattedDate from "@/utils/formattedDate";
 import formattedAmount from "@/utils/formattedAmount";
+import Storage from "@/utils/storage";
 
 type Props = {
   closeModal: () => void;
@@ -932,7 +933,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                         {user.signature && (
                           <div className="absolute -top-4">
                             <Image
-                              src={user.signature || ""}
+                              src={Storage(user.signature || "")}
                               alt="avatar"
                               width={120}
                               height={120}
@@ -1056,7 +1057,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                               user.status.split(" ")[0] === "Rejected")) && (
                             <div className="absolute -top-4">
                               <Image
-                                src={user.signature || ""}
+                                src={Storage(user.signature || "")}
                                 alt="avatar"
                                 width={120}
                                 height={120}

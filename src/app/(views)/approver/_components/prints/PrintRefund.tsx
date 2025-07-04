@@ -25,7 +25,13 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
   } else if (printData?.user?.branch.branch === "Head Office") {
     logo = (
       <div className="flex items-center justify-center">
-        <Image width={100} height={100} src={HOLogo} alt="HO Logo" className="w-44" />
+        <Image
+          width={100}
+          height={100}
+          src={HOLogo}
+          alt="HO Logo"
+          className="w-44"
+        />
       </div>
     );
   } else {
@@ -173,7 +179,7 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
                 </td>
                 <td></td>
                 <td className="pt-2 text-sm font-medium text-center">
-                  ₱ {printData?.id.form_data[0].grand_total}
+                  {formattedAmount(printData?.id.form_data[0].grand_total)}
                 </td>
                 <td></td>
               </tr>

@@ -513,6 +513,7 @@ const SetupUser = (props: Props) => {
         closeModal={closeModal}
         openCompleteModal={openCompleteModal}
         entityType="User"
+        setModalIsOpen={setModalIsOpen}
       />
       <DeleteModal
         refreshData={refreshData}

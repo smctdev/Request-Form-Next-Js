@@ -607,12 +607,14 @@ const Request = (props: Props) => {
           >
             View
           </button>
-          <button
-            className="bg-accent text-white px-3 py-1 rounded-[16px] cursor-pointer"
-            onClick={() => handleDelete(row)}
-          >
-            Delete
-          </button>
+          {row.status === "Pending" && (
+            <button
+              className="bg-accent text-white px-3 py-1 rounded-[16px] cursor-pointer"
+              onClick={() => handleDelete(row)}
+            >
+              Delete
+            </button>
+          )}
         </div>
       ),
     },

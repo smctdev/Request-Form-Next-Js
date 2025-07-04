@@ -16,6 +16,7 @@ import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { FaCamera } from "react-icons/fa";
 import fullnameAcronym from "@/utils/fullnameAcronym";
+import Storage from "@/utils/storage";
 
 interface Branch {
   branch: string;
@@ -606,7 +607,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                     <Image
                       width={300}
                       height={150}
-                      src={user.signature || ""}
+                      src={Storage(user?.signature) || ""}
                       className="w-full h-48 object-contain bg-gray-100"
                       alt="signature"
                       draggable="false"
@@ -628,6 +629,11 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                         className:
                           "sigCanvas border rounded-box w-full h-48 bg-white",
                       }}
+                      velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
+                      minWidth={1.5} // Minimum stroke width
+                      maxWidth={2.5} // Maximum stroke width
+                      throttle={10} // Reduces points for smoother lines
+                      dotSize={1.5}
                     />
                     <div className="flex gap-2 mt-4">
                       <button

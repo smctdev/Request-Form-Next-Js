@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { api } from "@/lib/api";
+import BulkUpload from "../BulkUpload";
 
 type UserCredentials = z.infer<typeof schema>;
 const schema = z
@@ -40,12 +41,14 @@ const AddUserModal = ({
   openCompleteModal,
   entityType,
   refreshData,
+  setModalIsOpen,
 }: {
   modalIsOpen: boolean;
   closeModal: any;
   openCompleteModal: any;
   entityType: string;
   refreshData: () => void;
+  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -64,6 +67,7 @@ const AddUserModal = ({
   } = useForm<UserCredentials>({
     resolver: zodResolver(schema),
   });
+  const [isBulkUpload, setIsBulkUpload] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchBranchData = async () => {
@@ -161,6 +165,10 @@ const AddUserModal = ({
     submitData(data);
   };
 
+  const handleBulkUpload = () => {
+    setIsBulkUpload(!isBulkUpload);
+  };
+
   return (
     modalIsOpen && (
       <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50">
@@ -174,348 +182,362 @@ const AddUserModal = ({
           />
         </div>
         <div className="bg-white w-7/12 md:w-2/5 x-20 rounded-b-[12px] shadow-lg  overflow-y-auto  h-2/3">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div className="max-w-4xl p-6 mx-auto mt-2 bg-white rounded-lg">
-              {/* Form Fields */}
-              <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                {/* First Name */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    {...register("firstName")}
-                    placeholder="Enter first name"
-                    className="w-full mt-2 bg-white input input-bordered"
-                  />
-                  {errors.firstName && (
-                    <span className="text-xs text-red-500">
-                      {errors.firstName.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Last Name */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    {...register("lastName")}
-                    placeholder="Enter last name"
-                    className="w-full mt-2 bg-white input input-bordered"
-                  />
-                  {errors.lastName && (
-                    <span className="text-xs text-red-500">
-                      {errors.lastName.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Email Address */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Email Address
-                  </label>
-                  <input
-                    type="text"
-                    {...register("email")}
-                    placeholder="Enter email"
-                    className="w-full mt-2 bg-white input input-bordered"
-                  />
-                  {errors.email && (
-                    <span className="text-xs text-red-500">
-                      {errors.email.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Username */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    {...register("userName")}
-                    placeholder="Enter username"
-                    className="w-full mt-2 bg-white input input-bordered"
-                  />
-                  {errors.userName && (
-                    <span className="text-xs text-red-500">
-                      {errors.userName.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Contact Number */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Contact
-                  </label>
-                  <input
-                    type="text"
-                    {...register("contact")}
-                    placeholder="Enter contact number"
-                    className="w-full mt-2 bg-white input input-bordered"
-                  />
-                  {errors.contact && (
-                    <span className="text-xs text-red-500">
-                      {errors.contact.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Branch Code */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Branch Code
-                  </label>
-                  <Controller
-                    name="branchCode"
-                    control={control}
-                    render={({ field }) => (
-                      <select
-                        {...field}
-                        className="w-full mt-2 bg-white select select-bordered"
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleBranchCodeChange(Number(e.target.value));
-                        }}
-                      >
-                        <option value="" hidden>
-                          Select branch
-                        </option>
-                        <option value="" disabled>
-                          Select branch
-                        </option>
-                        {branchList.length > 0 ? (
-                          branchList.map((branch) => (
-                            <option key={branch.id} value={branch.id}>
-                              {branch.branch_code}
-                            </option>
-                          ))
-                        ) : (
-                          <option value="" disabled>
-                            No branch codes available
-                          </option>
-                        )}
-                      </select>
-                    )}
-                  />
-                  {errors.branchCode && (
-                    <span className="text-xs text-red-500">
-                      {errors.branchCode.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Branch */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Branch
-                  </label>
-                  <Controller
-                    name="branch"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        readOnly
-                        className="w-full mt-2 bg-white input input-bordered"
-                      />
-                    )}
-                  />
-                  {errors.branch && (
-                    <span className="text-xs text-red-500">
-                      {errors.branch.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Employee ID */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Employee ID
-                  </label>
-                  <input
-                    type="text"
-                    {...register("employee_id")}
-                    placeholder="Enter your employee ID"
-                    className="w-full mt-2 bg-white input input-bordered"
-                  />
-                  {errors.employee_id && (
-                    <span className="text-xs text-red-500">
-                      {errors.employee_id.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Role */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Role
-                  </label>
-                  <Controller
-                    name="role"
-                    control={control}
-                    render={({ field }) => (
-                      <select
-                        {...field}
-                        className="w-full mt-2 bg-white select select-bordered"
-                      >
-                        <option value="" hidden>
-                          Select Role
-                        </option>
-                        <option value="" disabled>
-                          Select Role
-                        </option>
-                        {positionOptions.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-                  />
-                  {errors.role && (
-                    <span className="text-xs text-red-500">
-                      {errors.role.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Position */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Position
-                  </label>
-                  <Controller
-                    name="position"
-                    control={control}
-                    render={({ field }) => (
-                      <select
-                        {...field}
-                        className="w-full mt-2 bg-white select select-bordered"
-                      >
-                        <option value="" hidden>
-                          Select Position
-                        </option>
-                        <option value="" disabled>
-                          Select Position
-                        </option>
-                        {roleOptions.map((option) => (
-                          <option key={option.value} value={option.value}>
-                            {option.label}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-                  />
-                  {errors.position && (
-                    <span className="text-xs text-red-500">
-                      {errors.position.message}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Password Section */}
-              <div>
-                <h3 className="mt-6 text-lg font-semibold text-gray-800">
-                  Password
-                </h3>
-                <div className="my-4 border-t"></div>
+          {isBulkUpload ? (
+            <BulkUpload
+              setIsBulkUpload={setIsBulkUpload}
+              setModalIsOpen={setModalIsOpen}
+              refreshData={refreshData}
+            />
+          ) : (
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="max-w-4xl p-6 mx-auto mt-2 bg-white rounded-lg">
+                {/* Form Fields */}
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                  {/* Password */}
+                  {/* First Name */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Enter Password
+                      First Name
                     </label>
-                    <div className="relative">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        {...register("password")}
-                        placeholder="Enter password"
-                        className="w-full mt-2 bg-white input input-bordered"
-                      />
-                      {showPassword ? (
-                        <EyeSlashIcon
-                          className="size-[24px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                          onClick={() => setShowPassword(!showPassword)}
-                        />
-                      ) : (
-                        <EyeIcon
-                          className="size-[24px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                          onClick={() => setShowPassword(!showPassword)}
-                        />
-                      )}
-                    </div>
-                    {errors.password && (
+                    <input
+                      type="text"
+                      {...register("firstName")}
+                      placeholder="Enter first name"
+                      className="w-full mt-2 bg-white input input-bordered"
+                    />
+                    {errors.firstName && (
                       <span className="text-xs text-red-500">
-                        {errors.password.message}
+                        {errors.firstName.message}
                       </span>
                     )}
                   </div>
 
-                  {/* Confirm Password */}
+                  {/* Last Name */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
-                      Confirm Password
+                      Last Name
                     </label>
-                    <div className="relative">
-                      <input
-                        type={showConfirmPassword ? "text" : "password"}
-                        {...register("confirmPassword")}
-                        placeholder="Confirm password"
-                        className="w-full mt-2 bg-white input input-bordered"
-                      />
-                      {showConfirmPassword ? (
-                        <EyeSlashIcon
-                          className="size-[24px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                          onClick={() =>
-                            setShowConfirmPassword(!showConfirmPassword)
-                          }
-                        />
-                      ) : (
-                        <EyeIcon
-                          className="size-[24px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                          onClick={() =>
-                            setShowConfirmPassword(!showConfirmPassword)
-                          }
+                    <input
+                      type="text"
+                      {...register("lastName")}
+                      placeholder="Enter last name"
+                      className="w-full mt-2 bg-white input input-bordered"
+                    />
+                    {errors.lastName && (
+                      <span className="text-xs text-red-500">
+                        {errors.lastName.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Email Address */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Email Address
+                    </label>
+                    <input
+                      type="text"
+                      {...register("email")}
+                      placeholder="Enter email"
+                      className="w-full mt-2 bg-white input input-bordered"
+                    />
+                    {errors.email && (
+                      <span className="text-xs text-red-500">
+                        {errors.email.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Username */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      {...register("userName")}
+                      placeholder="Enter username"
+                      className="w-full mt-2 bg-white input input-bordered"
+                    />
+                    {errors.userName && (
+                      <span className="text-xs text-red-500">
+                        {errors.userName.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Contact Number */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Contact
+                    </label>
+                    <input
+                      type="text"
+                      {...register("contact")}
+                      placeholder="Enter contact number"
+                      className="w-full mt-2 bg-white input input-bordered"
+                    />
+                    {errors.contact && (
+                      <span className="text-xs text-red-500">
+                        {errors.contact.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Branch Code */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Branch Code
+                    </label>
+                    <Controller
+                      name="branchCode"
+                      control={control}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className="w-full mt-2 bg-white select select-bordered"
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleBranchCodeChange(Number(e.target.value));
+                          }}
+                        >
+                          <option value="" hidden>
+                            Select branch
+                          </option>
+                          <option value="" disabled>
+                            Select branch
+                          </option>
+                          {branchList.length > 0 ? (
+                            branchList.map((branch) => (
+                              <option key={branch.id} value={branch.id}>
+                                {branch.branch_code}
+                              </option>
+                            ))
+                          ) : (
+                            <option value="" disabled>
+                              No branch codes available
+                            </option>
+                          )}
+                        </select>
+                      )}
+                    />
+                    {errors.branchCode && (
+                      <span className="text-xs text-red-500">
+                        {errors.branchCode.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Branch */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Branch
+                    </label>
+                    <Controller
+                      name="branch"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          readOnly
+                          className="w-full mt-2 bg-white input input-bordered"
                         />
                       )}
-                    </div>
-                    {errors.confirmPassword && (
+                    />
+                    {errors.branch && (
                       <span className="text-xs text-red-500">
-                        {errors.confirmPassword.message}
+                        {errors.branch.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Employee ID */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Employee ID
+                    </label>
+                    <input
+                      type="text"
+                      {...register("employee_id")}
+                      placeholder="Enter your employee ID"
+                      className="w-full mt-2 bg-white input input-bordered"
+                    />
+                    {errors.employee_id && (
+                      <span className="text-xs text-red-500">
+                        {errors.employee_id.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Role */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Role
+                    </label>
+                    <Controller
+                      name="role"
+                      control={control}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className="w-full mt-2 bg-white select select-bordered"
+                        >
+                          <option value="" hidden>
+                            Select Role
+                          </option>
+                          <option value="" disabled>
+                            Select Role
+                          </option>
+                          {positionOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    />
+                    {errors.role && (
+                      <span className="text-xs text-red-500">
+                        {errors.role.message}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Position */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Position
+                    </label>
+                    <Controller
+                      name="position"
+                      control={control}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className="w-full mt-2 bg-white select select-bordered"
+                        >
+                          <option value="" hidden>
+                            Select Position
+                          </option>
+                          <option value="" disabled>
+                            Select Position
+                          </option>
+                          {roleOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+                    />
+                    {errors.position && (
+                      <span className="text-xs text-red-500">
+                        {errors.position.message}
                       </span>
                     )}
                   </div>
                 </div>
-              </div>
 
-              {/* Form Actions */}
-              <div className="flex items-center justify-end gap-2 mt-8">
-                <button
-                  type="button"
-                  className="w-24 text-white bg-gray-500 border-gray-500 btn btn-secondary hover:bg-gray-600 hover:border-gray-600"
-                  onClick={() => closeModal()}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`btn btn-primary bg-primary border-primary hover:bg-blue-400 hover:border-blue-400 text-white hover:text-white w-1/3`}
-                >
-                  {loading ? "Submitting..." : "Add User"}
-                </button>
+                {/* Password Section */}
+                <div>
+                  <h3 className="mt-6 text-lg font-semibold text-gray-800">
+                    Password
+                  </h3>
+                  <div className="my-4 border-t"></div>
+                  <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                    {/* Password */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Enter Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          {...register("password")}
+                          placeholder="Enter password"
+                          className="w-full mt-2 bg-white input input-bordered"
+                        />
+                        {showPassword ? (
+                          <EyeSlashIcon
+                            className="size-[24px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                          />
+                        ) : (
+                          <EyeIcon
+                            className="size-[24px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            onClick={() => setShowPassword(!showPassword)}
+                          />
+                        )}
+                      </div>
+                      {errors.password && (
+                        <span className="text-xs text-red-500">
+                          {errors.password.message}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Confirm Password */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Confirm Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          {...register("confirmPassword")}
+                          placeholder="Confirm password"
+                          className="w-full mt-2 bg-white input input-bordered"
+                        />
+                        {showConfirmPassword ? (
+                          <EyeSlashIcon
+                            className="size-[24px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                          />
+                        ) : (
+                          <EyeIcon
+                            className="size-[24px] absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                          />
+                        )}
+                      </div>
+                      {errors.confirmPassword && (
+                        <span className="text-xs text-red-500">
+                          {errors.confirmPassword.message}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Form Actions */}
+                <div className="flex items-center justify-end gap-2 mt-8">
+                  <button
+                    onClick={handleBulkUpload}
+                    className="py-2 px-5 font-bold rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+                  >
+                    {isBulkUpload ? "Cancel Bulk Upload" : "Bulk Upload"}
+                  </button>
+                  <button
+                    type="button"
+                    className="w-24 text-white bg-gray-500 border-gray-500 btn btn-secondary hover:bg-gray-600 hover:border-gray-600"
+                    onClick={() => closeModal()}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`btn btn-primary bg-primary border-primary hover:bg-blue-400 hover:border-blue-400 text-white hover:text-white w-1/3`}
+                  >
+                    {loading ? "Submitting..." : "Add User"}
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          )}
         </div>
       </div>
     )
