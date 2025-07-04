@@ -16,7 +16,7 @@ const BaseContent = ({ children }: any) => {
   const [signature, setSignature] = useState<SignatureCanvas | null | any>(
     null
   );
-  const { user, isLoading, updateProfile } = useAuth();
+  const { user, isLoading, updateProfile, isAuthenticated } = useAuth();
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const pathname = usePathname();
 
@@ -68,7 +68,7 @@ const BaseContent = ({ children }: any) => {
   return (
     <>
       <Modal
-        isOpen={!isLoading && !user?.signature}
+        isOpen={!isLoading && !user?.signature && isAuthenticated}
         title="Setup Signature"
         handleSubmit={handleSubmitSignature}
         isLoading={isSubmit}
