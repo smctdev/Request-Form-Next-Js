@@ -1,5 +1,3 @@
-import { tr } from "date-fns/locale";
-
 export default function TableLoader({ colSpan, tableHeads }: any) {
   return (
     <table className="table">
@@ -11,7 +9,7 @@ export default function TableLoader({ colSpan, tableHeads }: any) {
               className="w-[80px] py-6 uppercase"
               style={{ color: "black", fontWeight: "500" }}
             >
-              {item}
+              {item?.name}
             </th>
           ))}
         </tr>

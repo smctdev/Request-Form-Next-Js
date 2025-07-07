@@ -19,6 +19,6 @@ export type AuthContextType = {
   isLogin: boolean;
   setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
   updateProfile: () => Promise<void>;
-  isAudtitor: boolean;
-  setIsAudtitor?: React.Dispatch<React.SetStateAction<boolean>>;
+  isAuditor: boolean;
+  setIsAuditor?: React.Dispatch<React.SetStateAction<boolean>>;
 };

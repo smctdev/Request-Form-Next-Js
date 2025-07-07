@@ -1,0 +1,169 @@
+"use client";
+
+import DataTable from "react-data-table-component";
+import auditorPage from "@/lib/auditorPage";
+import useFetch from "../admin/_hooks/useFetch";
+import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
+import { BiSearchAlt } from "react-icons/bi";
+import { format } from "date-fns";
+import { FILTER } from "@/constants/filters";
+import FilterReports from "@/components/filter-reports";
+
+const Reports = () => {
+  const {
+    isLoading,
+    data,
+    pagination,
+    handleSearch,
+    setSearchData,
+    setSearchTerm,
+    setPagination,
+    setFilter,
+    filter,
+    searchData,
+  } = useFetch({
+    url: "/request-reports",
+  });
+
+  const columns = [
+    {
+      name: "Request Code",
+      selector: (row: any) => row.request_code,
+      sortable: true,
+    },
+    {
+      name: "Requested By",
+      selector: (row: any) => row.user?.fullName,
+      sortable: true,
+    },
+    {
+      name: "Request Type",
+      selector: (row: any) => row.form_type,
+      sortable: true,
+    },
+    {
+      name: "Date",
+      selector: (row: any) => format(row.created_at, "MMMM d, yyyy hh:mm a"),
+      sortable: true,
+    },
+    {
+      name: "Branch",
+      selector: (row: any) => row?.branch_code?.branch_code,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row: any) => row.status,
+      sortable: true,
+      cell: (row: any) => (
+        <span className={`badge ${getStatusBadgeClass(row.status)}`}>
+          {row.status}
+        </span>
+      ),
+    },
+    {
+      name: "Actions",
+      cell: (row: any) => (
+        <button className="btn btn-xs btn-primary">View Details</button>
+      ),
+    },
+  ];
+
+  const getStatusBadgeClass = (status: any) => {
+    switch (status) {
+      case "Completed":
+        return "badge-primary !text-sm";
+      case "Pending":
+        return "badge-warning !text-sm";
+      case "Approved":
+        return "badge-success !text-sm";
+      case "Rejected":
+        return "badge-error !text-sm";
+      case "Disapproved":
+        return "badge-error !text-sm";
+      case "Ongoing":
+        return "badge-info !text-sm";
+      default:
+        return "badge-error !text-sm";
+    }
+  };
+
+  const resetFilters = () => {
+    setFilter(FILTER);
+    setSearchData("");
+    setSearchTerm("");
+  };
+
+  const handlePerRowsChange = (newPerPage: number) => {
+    setPagination((pagination) => ({
+      ...pagination,
+      per_page: newPerPage,
+    }));
+  };
+
+  const handlePageChange = (page: number) => {
+    setPagination((pagination) => ({
+      ...pagination,
+      current_page: page,
+    }));
+  };
+
+  return (
+    <div className="p-5">
+      <div className="bg-white rounded-lg shadow p-5 mb-5">
+        <h2 className="!text-xl font-bold mb-4">Filter Reports</h2>
+
+        <FilterReports
+          filter={filter}
+          setFilter={setFilter}
+          searchData={searchData}
+          setSearchData={setSearchData}
+          handleSearch={handleSearch}
+          setSearchTerm={setSearchTerm}
+        />
+
+        <div className="flex justify-end mb-4">
+          <button
+            className="btn bg-blue-500 text-white border-none hover:bg-blue-600"
+            onClick={resetFilters}
+          >
+            Reset Filters
+          </button>
+        </div>
+      </div>
+
+      {/* Data Table */}
+      <div className="bg-white rounded-lg shadow p-5">
+        <DataTable
+          columns={columns}
+          data={data}
+          pagination
+          paginationServer
+          paginationRowsPerPageOptions={paginationRowsPerPageOptions}
+          paginationTotalRows={pagination.total}
+          onChangePage={handlePageChange}
+          onChangeRowsPerPage={handlePerRowsChange}
+          progressComponent={
+            <div className="w-full">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index}>
+                  <div className="w-full border border-gray-200 p-2">
+                    <div className="flex justify-center">
+                      <div className="flex flex-col w-full gap-4">
+                        <div className="w-full h-12 skeleton bg-slate-300"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          }
+          progressPending={isLoading}
+          persistTableHead
+        />
+      </div>
+    </div>
+  );
+};
+
+export default auditorPage(Reports);

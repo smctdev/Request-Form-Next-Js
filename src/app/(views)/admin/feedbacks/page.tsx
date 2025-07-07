@@ -2,7 +2,6 @@
 
 import adminPage from "@/lib/adminPage";
 import { FeedbackType } from "../_types/Feedback";
-import TableLoader from "../_components/loaders/TableLoader";
 import useFetch from "../_hooks/useFetch";
 import DataTable from "react-data-table-component";
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
@@ -15,17 +14,6 @@ function Feedbacks() {
     pagination,
     setPagination,
   } = useFetch({ url: "/feedbacks" });
-
-  const tableHeads = [
-    "ID/Code",
-    "Name",
-    "Email",
-    "Phone",
-    "Department",
-    "Opinion",
-    "Message",
-    "Date Submitted",
-  ];
 
   const tableData = [
     {

@@ -56,16 +56,6 @@ function RequestAccess() {
     };
   }, [echo, user.id, searchTerm]);
 
-  const tableHeads = [
-    "ID/Code",
-    "Type",
-    "Employee Name",
-    "Message",
-    "Status",
-    "Date Submitted",
-    "Action",
-  ];
-
   const tableData = [
     {
       name: "ID/CODE",

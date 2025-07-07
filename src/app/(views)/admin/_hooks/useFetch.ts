@@ -2,13 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { PaginationType } from "../_types/pagination";
 import { paginationData } from "../_constants/pagination";
 import { api } from "@/lib/api";
+import { FilterType } from "@/types/filterTypes";
+import { FILTER } from "@/constants/filters";
 
 export default function useFetch({ url }: { url: string }) {
   const [data, setData] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pagination, setPagination] = useState<PaginationType>(paginationData);
+  const [filter, setFilter] = useState<FilterType>(FILTER);
   const [isRefresh, setIsRefresh] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchData, setSearchData] = useState<string>("");
   const searchDebounce = useRef<any>(null);
 
   useEffect(() => {
@@ -23,6 +27,9 @@ export default function useFetch({ url }: { url: string }) {
             page: pagination?.current_page,
             per_page: pagination?.per_page,
             search: searchTerm,
+            date_from: filter.date_from,
+            date_to: filter.date_to,
+            status: filter.status,
           },
         });
         setData(response.data.data);
@@ -44,12 +51,20 @@ export default function useFetch({ url }: { url: string }) {
       }
     };
     fetchAllData();
-  }, [pagination?.current_page, pagination?.per_page, isRefresh, searchTerm]);
+  }, [
+    pagination?.current_page,
+    pagination?.per_page,
+    isRefresh,
+    searchTerm,
+    filter?.date_from,
+    filter?.date_to,
+    filter?.status,
+  ]);
 
   const handleSearch = () => (e: any) => {
-    if (searchDebounce.current) clearTimeout(searchDebounce.current);
-
     const { value } = e.target;
+    setSearchData(value);
+    if (searchDebounce.current) clearTimeout(searchDebounce.current);
 
     searchDebounce.current = setTimeout(() => {
       setSearchTerm(value);
@@ -65,7 +80,12 @@ export default function useFetch({ url }: { url: string }) {
     setPagination,
     isRefresh,
     setIsRefresh,
-    searchTerm,
     handleSearch,
+    setSearchTerm,
+    setFilter,
+    filter,
+    searchData,
+    searchTerm,
+    setSearchData,
   };
 }
