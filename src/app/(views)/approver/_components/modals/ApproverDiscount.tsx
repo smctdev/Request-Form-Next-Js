@@ -17,6 +17,8 @@ import { api } from "@/lib/api";
 import { useNotification } from "@/context/NotificationContext";
 import { formatFileSize } from "@/utils/formatFileSize";
 import ZoomableImage from "@/components/ZoomableImage";
+import formattedAmount from "@/utils/formattedAmount";
+import Storage from "@/utils/storage";
 
 type Props = {
   closeModal: () => void;
@@ -562,10 +564,10 @@ const ApproverDiscount: React.FC<Props> = ({
                       <td className={`${tableInput}`}>{item.model}</td>
                       <td className={`${tableInput}`}>{item.unit}</td>
                       <td className={`${tableInput}`}>{item.partno}</td>
-                      <td className={`${tableInput}`}>{Number(item.labor).toFixed(2)}</td>
-                      <td className={`${tableInput}`}>{Number(item.spotcash).toFixed(2)}</td>
+                      <td className={`${tableInput}`}>{formattedAmount(item.labor)}</td>
+                      <td className={`${tableInput}`}>{formattedAmount(item.spotcash)}</td>
                       <td className={`${tableInput}`}>
-                        {Number(item.discountedPrice).toFixed(2)}
+                        {formattedAmount(item.discountedPrice)}
                       </td>
                     </tr>
                   ))}
@@ -576,13 +578,13 @@ const ApproverDiscount: React.FC<Props> = ({
                       Totals:
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
-                      {record.form_data[0].total_labor.toFixed(2)}
+                      {formattedAmount(record.form_data[0].total_labor)}
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
-                      {record.form_data[0].total_spotcash.toFixed(2)}
+                      {formattedAmount(record.form_data[0].total_spotcash)}
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
-                      {record.form_data[0].total_discount.toFixed(2)}
+                      {formattedAmount(record.form_data[0].total_discount)}
                     </td>
                   </tr>
                 </tfoot>
@@ -606,7 +608,7 @@ const ApproverDiscount: React.FC<Props> = ({
                         {record?.requested_signature && (
                           <div className="absolute -top-4">
                             <Image
-                              src={record?.requested_signature}
+                              src={Storage(record?.requested_signature) || ""}
                               width={120}
                               height={120}
                               className="relative z-20 pointer-events-none"
@@ -665,7 +667,7 @@ const ApproverDiscount: React.FC<Props> = ({
                                 user.status.split(" ")[0] === "Rejected")) && (
                               <div className="absolute -top-4">
                                 <Image
-                                  src={user.signature}
+                                  src={Storage(user.signature || "")}
                                   alt="avatar"
                                   width={120}
                                   height={120}
@@ -730,7 +732,7 @@ const ApproverDiscount: React.FC<Props> = ({
                               user.status.split(" ")[0] === "Rejected")) && (
                             <div className="absolute -top-4">
                               <Image
-                                src={user.signature}
+                                src={Storage(user.signature || "")}
                                 alt="avatar"
                                 width={120}
                                 height={120}

@@ -60,6 +60,7 @@ type FormData = {
   attachment: string;
   purpose: string;
   reason: string;
+  liquidationDate: string;
   items: Item[];
   branch: string;
   date: string;
@@ -458,6 +459,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
       department: record?.form_data[0]?.department,
       reason: record?.form_data[0]?.reason,
       position: record?.requested_position,
+      liquidationDate: record?.form_data[0]?.liquidationDate,
     };
 
     localStorage.setItem("printData", JSON.stringify(data));
@@ -567,6 +569,13 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
             <h1 className="text-sm font-medium">Reason for Cash Advance:</h1>
             <span className="pl-1 font-bold bg-white rounded-md">
               {record?.form_data[0]?.reason}
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-sm font-medium">Liquidation Date:</h1>
+            <span className="pl-1 font-bold bg-white rounded-md">
+              {record?.form_data[0]?.liquidationDate}
             </span>
           </div>
 

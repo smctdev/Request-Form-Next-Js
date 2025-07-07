@@ -76,13 +76,13 @@ const today = new Date();
 const cashDate = today.toISOString().split("T")[0];
 
 const day = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
 ][today.getDay()];
 
 const initialTableData: TableDataItem[] = Array.from({ length: 1 }, () => ({
@@ -307,26 +307,26 @@ const CreateApplicationCash = (props: Props) => {
     let nextDate = new Date();
 
     let nextDay = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
     ][nextDate.getDay()];
 
     if (lastRow?.cashDate) {
       const lastDate = new Date(lastRow.cashDate);
       nextDate = new Date(lastDate.setDate(lastDate.getDate() + 1));
       nextDay = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
       ][nextDate.getDay()];
     }
 
@@ -637,7 +637,7 @@ const CreateApplicationCash = (props: Props) => {
                   className={`${inputStyle} h-[44px]`}
                 />
                 {errors.reason && formSubmitted && (
-                  <p className="text-red-500">Department is required</p>
+                  <p className="text-red-500">Reason for Cash Advance is required</p>
                 )}
               </div>
               <div className={`${itemDiv}`}>
@@ -703,13 +703,13 @@ const CreateApplicationCash = (props: Props) => {
                                   onChange={(e) => {
                                     const value = e.target.value;
                                     const day = [
-                                      "Sunday",
-                                      "Monday",
-                                      "Tuesday",
-                                      "Wednesday",
-                                      "Thursday",
-                                      "Friday",
-                                      "Saturday",
+                                      "Sun",
+                                      "Mon",
+                                      "Tue",
+                                      "Wed",
+                                      "Thu",
+                                      "Fri",
+                                      "Sat",
                                     ][new Date(value).getDay()];
                                     handleChange(index, "cashDate", value);
                                     handleChange(index, "day", day);

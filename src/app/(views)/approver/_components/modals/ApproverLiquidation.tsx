@@ -17,6 +17,7 @@ import { api } from "@/lib/api";
 import { useNotification } from "@/context/NotificationContext";
 import { formatFileSize } from "@/utils/formatFileSize";
 import ZoomableImage from "@/components/ZoomableImage";
+import Storage from "@/utils/storage";
 
 type Props = {
   closeModal: () => void;
@@ -822,7 +823,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                         {record?.requested_signature && (
                           <div className="absolute -top-4">
                             <Image
-                              src={record?.requested_signature}
+                              src={Storage(record?.requested_signature) || ""}
                               width={120}
                               height={120}
                               className="relative z-20 pointer-events-none"

@@ -12,6 +12,7 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import ZoomableImage from "../ZoomableImage";
 import ApprovedAttachments from "../ApprovedAttachments";
+import formattedAmount from "@/utils/formattedAmount";
 import Storage from "@/utils/storage";
 
 type Props = {
@@ -641,9 +642,9 @@ const ViewPurchaseModal: React.FC<Props> = ({
                             >
                               {item.description}
                             </td>
-                            <td className={tableCellStyle}>{Number(item.unitCost).toFixed(2)}</td>
+                            <td className={tableCellStyle}>{formattedAmount(item.unitCost)}</td>
                             <td className={tableCellStyle}>
-                              {item.totalAmount}
+                              {formattedAmount(item.totalAmount)}
                             </td>
                             <td
                               className={`${tableCellStyle} break-words whitespace-normal`}

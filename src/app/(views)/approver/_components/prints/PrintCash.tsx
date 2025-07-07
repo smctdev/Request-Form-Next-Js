@@ -9,6 +9,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import formattedDate from "@/utils/formattedDate";
 import formattedAmount from "@/utils/formattedAmount";
+import Storage from "@/utils/storage";
 
 type PrintRefundProps = {
   data?: any;
@@ -183,7 +184,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
             <div className="relative ml-6 ">
               <Image
                 className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none -top-1 left-1/2"
-                src={printData?.user?.signature}
+                src={Storage(printData?.user?.signature) || ""}
                 alt=""
                 width={100}
                 height={100}
@@ -212,7 +213,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                   {approver.status === "Approved" && (
                     <Image
                       className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none -top-0.5 left-1/2"
-                      src={approver.signature}
+                      src={Storage(approver.signature) || ""}
                       alt=""
                       width={120}
                       height={120}
@@ -241,7 +242,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                   {approver.status === "Approved" && (
                     <Image
                       className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none -top-1 left-1/2"
-                      src={approver.signature}
+                      src={Storage(approver.signature) || ""}
                       alt=""
                       width={120}
                       height={120}
@@ -297,7 +298,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                   {approver.status === "Approved" && (
                     <Image
                       className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none -top-0.5 left-1/2"
-                      src={approver.signature}
+                      src={Storage(approver.signature) || ""}
                       alt=""
                       width={120}
                       height={120}
@@ -326,7 +327,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                   {approver.status === "Approved" && (
                     <Image
                       className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none -top-1 left-1/2"
-                      src={approver.signature}
+                      src={Storage(approver.signature) || ""}
                       alt=""
                       width={120}
                       height={120}
@@ -533,7 +534,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                     {approver.status === "Approved" && (
                       <Image
                         className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
-                        src={approver.signature}
+                        src={Storage(approver.signature)}
                         alt="avatar"
                         width={120}
                         height={120}
@@ -562,7 +563,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                     {approver.status === "Approved" && (
                       <Image
                         className="absolute transform -translate-x-1/2 -translate-y-full pointer-events-none left-1/2"
-                        src={approver.signature}
+                        src={Storage(approver.signature) || ""}
                         alt=""
                         width={120}
                         height={120}

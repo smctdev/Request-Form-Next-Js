@@ -6,6 +6,7 @@ import HDILogo from "@/assets/HDI.jpg";
 import HOLogo from "@/assets/logo.png";
 import Image from "next/image";
 import formattedAmount from "@/utils/formattedAmount";
+import Storage from "@/utils/storage";
 
 type PrintRefundProps = {
   data?: any;
@@ -153,7 +154,7 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.description}
                       </td>
                       <td className={`${tableStyle} font-normal text-sm`}>
-                        {Number(item.unitCost).toFixed(2)}
+                        {formattedAmount(item.unitCost)}
                       </td>
                       <td className={`${tableStyle} font-normal text-sm`}>
                         {formattedAmount(item.totalAmount)}
@@ -197,7 +198,7 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
                     <>
                       <Image
                         className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
-                        src={printData?.id?.requested_signature}
+                        src={Storage(printData?.id?.requested_signature) || ""}
                         alt="avatar"
                         width={120}
                         height={120}
@@ -213,7 +214,7 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
                     <>
                       <Image
                         className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
-                        src={printData?.user?.data?.signature}
+                        src={Storage(printData?.user?.data?.signature) || ""}
                         alt="avatar"
                         width={120}
                         height={120}
@@ -243,7 +244,7 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
                     {approver.status === "Approved" && (
                       <Image
                         className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
-                        src={approver.signature}
+                        src={Storage(approver.signature) || ""}
                         alt=""
                         width={120}
                         height={120}
@@ -272,7 +273,7 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
                     {approver.status === "Approved" && (
                       <Image
                         className="absolute transform -translate-x-1/2 -translate-y-full pointer-events-none left-1/2"
-                        src={approver.signature}
+                        src={Storage(approver.signature) || ""}
                         alt=""
                         width={120}
                         height={120}

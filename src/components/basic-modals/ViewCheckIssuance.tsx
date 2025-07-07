@@ -12,6 +12,7 @@ import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import ZoomableImage from "../ZoomableImage";
 import ApprovedAttachments from "../ApprovedAttachments";
+import formattedAmount from "@/utils/formattedAmount";
 import Storage from "@/utils/storage";
 
 type Props = {
@@ -385,7 +386,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
       setErrorMessage(
         error.response?.data?.message ||
           error.message ||
-          "Failed to update CheckIssuance Modal."
+          "Failed to update Check Issuance Modal."
       );
     }
   };
@@ -477,7 +478,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
           <div className="flex items-center justify-between w-full">
             <div>
               <h1 className="font-semibold text-[18px]">
-                CheckIssuance Order Requisition Slip
+                Check Issuance Order Requisition Slip
               </h1>
             </div>
             <div className="flex w-auto ">
@@ -693,9 +694,9 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
                             >
                               {item.description}
                             </td>
-                            <td className={tableCellStyle}>{Number(item.unitCost).toFixed(2)}</td>
+                            <td className={tableCellStyle}>{formattedAmount(item.unitCost)}</td>
                             <td className={tableCellStyle}>
-                              {item.totalAmount}
+                              {formattedAmount(item.totalAmount)}
                             </td>
                             <td
                               className={`${tableCellStyle} break-words whitespace-normal`}
@@ -715,7 +716,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
             <input
               type="text"
               className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
-              value={`₱ ${editableRecord.form_data[0].grand_total}`}
+              value={formattedAmount(editableRecord.form_data[0].grand_total)}
               readOnly
             />
           </div>

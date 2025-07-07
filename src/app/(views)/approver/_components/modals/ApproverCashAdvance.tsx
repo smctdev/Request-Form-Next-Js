@@ -19,6 +19,7 @@ import { formatFileSize } from "@/utils/formatFileSize";
 import ZoomableImage from "@/components/ZoomableImage";
 import formattedAmount from "@/utils/formattedAmount";
 import formattedDate from "@/utils/formattedDate";
+import Storage from "@/utils/storage";
 
 type Props = {
   closeModal: () => void;
@@ -69,6 +70,7 @@ type FormData = {
   };
   department?: string;
   reason?: string;
+  liquidationDate?: string;
   purpose: string;
   items: Item[];
   branch: string;
@@ -474,6 +476,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
       department: record?.form_data[0]?.department,
       reason: record?.form_data[0]?.reason,
       position: record?.requested_position,
+      liquidationDate: record?.form_data[0]?.liquidationDate,
     };
 
     console.log(record);
@@ -603,9 +606,6 @@ const ApproverCashAdvance: React.FC<Props> = ({
             <p className="font-medium text-[14px]">
               Request ID: {record.request_code}
             </p>
-            <p className="font-medium text-[14px]">
-              Reason for Cash Advance: {record?.form_data[0]?.reason}
-            </p>
             <div className="flex w-auto ">
               <p>Date: </p>
               <p className="pl-2 font-bold">{formatDate2(record.created_at)}</p>
@@ -630,6 +630,19 @@ const ApproverCashAdvance: React.FC<Props> = ({
               </p>
             </div>
           )}
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-sm font-medium">Reason for Cash Advance:</h1>
+            <span className="pl-1 font-bold bg-white rounded-md">
+              {record?.form_data[0]?.reason}
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="text-sm font-medium">Liquidation Date:</h1>
+            <span className="pl-1 font-bold bg-white rounded-md">
+              {record?.form_data[0]?.liquidationDate}
+            </span>
+          </div>
           <div className="flex w-full mt-2 space-x-2">
             <div className="w-[70%] overflow-x-auto">
               <div className="w-full border-collapse">
@@ -951,7 +964,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                         {record?.requested_signature && (
                           <div className="absolute -top-4">
                             <Image
-                              src={record?.requested_signature}
+                              src={Storage(record?.requested_signature) || ""}
                               width={120}
                               height={120}
                               className="relative z-20 pointer-events-none"
@@ -1010,7 +1023,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                                 user.status.split(" ")[0] === "Rejected")) && (
                               <div className="absolute -top-4">
                                 <Image
-                                  src={user.signature}
+                                  src={Storage(user.signature || "")}
                                   alt="avatar"
                                   width={120}
                                   height={120}
@@ -1075,7 +1088,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                               user.status.split(" ")[0] === "Rejected")) && (
                             <div className="absolute -top-4">
                               <Image
-                                src={user.signature}
+                                src={Storage(user.signature || "")}
                                 alt="avatar"
                                 width={120}
                                 height={120}
