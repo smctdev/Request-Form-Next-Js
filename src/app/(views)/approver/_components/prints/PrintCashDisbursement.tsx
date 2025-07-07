@@ -6,6 +6,7 @@ import HDILogo from "@/assets/HDI.jpg";
 import HOLogo from "@/assets/logo.png";
 import Image from "next/image";
 import formattedAmount from "@/utils/formattedAmount";
+import Storage from "@/utils/storage";
 
 type PrintRefundProps = {
   data?: any;
@@ -194,7 +195,7 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
                 <div className="relative flex flex-col items-center justify-center pt-3 mr-10">
                   <Image
                     className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
-                    src={printData?.id?.requested_signature}
+                    src={Storage(printData?.id?.requested_signature) || ""}
                     alt="avatar"
                     width={120}
                     height={120}
@@ -221,7 +222,7 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
                     {approver.status === "Approved" && (
                       <Image
                         className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none left-1/2"
-                        src={approver.signature}
+                        src={Storage(approver.signature) || ""}
                         alt=""
                         width={120}
                         height={120}
@@ -250,7 +251,7 @@ const PrintCashDisbursement: React.FC<PrintRefundProps> = ({ data }) => {
                     {approver.status === "Approved" && (
                       <Image
                         className="absolute transform -translate-x-1/2 -translate-y-full pointer-events-none left-1/2"
-                        src={approver.signature}
+                        src={Storage(approver.signature) || ""}
                         alt=""
                         width={120}
                         height={120}
