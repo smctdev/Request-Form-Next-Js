@@ -14,7 +14,6 @@ const Modal = ({
   handleSubmit: (data: any) => void;
   isLoading: boolean;
 }) => {
-  if (!isOpen) return null;
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -23,6 +22,8 @@ const Modal = ({
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/50">
