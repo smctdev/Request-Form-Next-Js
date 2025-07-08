@@ -174,12 +174,6 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
     }
   };
 
-  const error = console.error;
-  console.error = (...args: any) => {
-    if (/defaultProps/.test(args[0])) return;
-    error(...args);
-  };
-
   const processAreaChartData = (requests: Request[]) => {
     const today = new Date();
     let startDate: Date;

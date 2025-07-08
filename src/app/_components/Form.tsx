@@ -14,18 +14,24 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
   const [formData, setFormData] = useState<FeedbackData>(feedbackData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
-    if (!user) return;
+    console.log("test");
+    if (user?.length === 0) {
+      setFormData(feedbackData);
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
-      name: user.fullName,
-      email: user.email,
-      phone: user.contact,
+      name: user?.fullName,
+      email: user?.email,
+      phone: user?.contact,
       department: user?.branch?.branch_name,
     }));
-  }, [user]);
+    setIsSubmitted(false);
+  }, [user, isSubmitted]);
 
   const handleChange = (title: string) => (e: any) => {
     const { value } = e.target;
@@ -46,6 +52,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
         setSubmitted(true);
         setError(null);
         setSuccessMessage(response.data);
+        setIsSubmitted(true);
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -73,9 +80,8 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             </span>
           </label>
           <Input
-            defaultValue={formData.name}
             type="text"
-            value={formData.name}
+            value={formData?.name}
             onChange={handleChange("name")}
             placeholder="Full Name (e.g. Juan Dela Cruz)"
           />
@@ -92,7 +98,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
           </label>
           <Input
             type="email"
-            value={formData.email}
+            value={formData?.email}
             onChange={handleChange("email")}
             placeholder="Email Address"
           />
@@ -107,7 +113,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
           </label>
           <Input
             type="number"
-            value={formData.phone}
+            value={formData?.phone}
             onChange={handleChange("phone")}
             placeholder="Phone Number (optional)"
           />
@@ -124,7 +130,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
           </label>
           <Input
             type="text"
-            value={formData.department}
+            value={formData?.department}
             onChange={handleChange("department")}
             placeholder="Department Name"
           />
@@ -142,7 +148,10 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             </span>
           </label>
           <div className="space-y-2">
-            <Select value={formData.opinion} onChange={handleChange("opinion")}>
+            <Select
+              value={formData?.opinion}
+              onChange={handleChange("opinion")}
+            >
               <option value="" disabled>
                 Select a opinion
               </option>
@@ -160,9 +169,9 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
               </small>
             )}
             <Input
-              type={formData.opinion === "other" ? "text" : "hidden"}
+              type={formData?.opinion === "other" ? "text" : "hidden"}
               placeholder="Other Opinion"
-              value={formData.other_opinion}
+              value={formData?.other_opinion}
               onChange={handleChange("other_opinion")}
             />
             {error?.other_opinion && (
@@ -180,7 +189,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             </span>
           </label>
           <Textarea
-            value={formData.message}
+            value={formData?.message}
             onChange={handleChange("message")}
             placeholder="Tell us about your experience..."
           />

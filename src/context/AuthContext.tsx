@@ -94,10 +94,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       if (response.data.data.role === "approver") {
         setIsApprover(true);
       }
-      if (
-        response.data.data.role === "approver" &&
-        response.data?.data?.position?.startsWith("Audit")
-      ) {
+      if (response.data?.data?.position?.startsWith("Audit")) {
         setIsAuditor(true);
       }
     } catch (error) {
