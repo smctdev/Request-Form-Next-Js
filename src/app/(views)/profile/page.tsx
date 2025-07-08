@@ -607,7 +607,11 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                     <Image
                       width={300}
                       height={150}
-                      src={Storage(user?.signature) || ""}
+                      src={
+                        Storage(
+                          `${user?.signature}?original=${new Date().getTime()}`
+                        ) || ""
+                      }
                       className="w-full h-48 object-contain bg-gray-100"
                       alt="signature"
                       draggable="false"
