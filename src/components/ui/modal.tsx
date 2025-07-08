@@ -14,8 +14,8 @@ const Modal = ({
   handleSubmit: (data: any) => void;
   isLoading: boolean;
 }) => {
-
   useEffect(() => {
+    if (!isOpen) return;
     document.body.style.overflow = "hidden";
 
     return () => {

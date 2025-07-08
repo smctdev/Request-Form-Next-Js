@@ -53,4 +53,4 @@ const Home = () => {
   );
 };
 
-export default guestPage(Home);
+export default Home;

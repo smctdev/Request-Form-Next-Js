@@ -1,15 +1,31 @@
+"use client";
+
 import Input from "@/components/ui/input";
 import Select from "@/components/ui/select";
 import Textarea from "@/components/ui/textarea";
 import { api } from "@/lib/api";
 import { feedbackData } from "@/constants/formData";
 import { FeedbackData } from "@/types/formData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Form({ setSubmitted, setSuccessMessage }: any) {
   const [formData, setFormData] = useState<FeedbackData>(feedbackData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user) return;
+    setFormData((prev) => ({
+      ...prev,
+      name: user.fullName,
+      email: user.email,
+      phone: user.contact,
+      department: user?.branch?.branch_name,
+    }));
+  }, [user]);
 
   const handleChange = (title: string) => (e: any) => {
     const { value } = e.target;
@@ -30,6 +46,12 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
         setSubmitted(true);
         setError(null);
         setSuccessMessage(response.data);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: response.data.message,
+          confirmButtonText: "Close",
+        });
       }
     } catch (error: any) {
       console.error("Error sending feedback:", error);
@@ -51,6 +73,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             </span>
           </label>
           <Input
+            defaultValue={formData.name}
             type="text"
             value={formData.name}
             onChange={handleChange("name")}

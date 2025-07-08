@@ -446,7 +446,7 @@ const RequestApprover = (props: Props) => {
           {(row.status === "Pending" || row.status === "Ongoing") && (
             <div
               className="z-20 flex items-center ml-1 transition-opacity duration-300 transform cursor-pointer tooltip tooltip-right group-hover:opacity-100"
-              data-tip={`Pending: ${row.pending_approver}`}
+              data-tip={`Pending: ${row.pending_approver === user?.fullName ? "You" : row.pending_approver}`}
             >
               <QuestionMarkCircleIcon className="w-6 h-6 text-gray-500" />
             </div>
