@@ -892,7 +892,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                         TOTAL
                       </td>
                       <td
-                        className={`${tableStyle} whitespace-nowrap text-center font-bold`}
+                        className={`${tableStyle} whitespace-nowrap text-end font-bold`}
                       >
                         {formattedAmount(
                           isEditing

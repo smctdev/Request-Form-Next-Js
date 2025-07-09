@@ -18,6 +18,7 @@ import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { formatFileSize } from "@/utils/formatFileSize";
+import Storage from "@/utils/storage";
 
 interface Approver {
   id: number;
@@ -962,7 +963,7 @@ const CreateLiquidation = (props: Props) => {
                             <Image
                               width={100}
                               height={100}
-                              src={user.signature}
+                              src={Storage(user?.signature)}
                               className="h-32"
                               alt="signature"
                               draggable="false"
@@ -1069,7 +1070,7 @@ const CreateLiquidation = (props: Props) => {
                         <Image
                           width={100}
                           height={100}
-                          src={URL.createObjectURL(fileItem)}
+                          src={URL?.createObjectURL(fileItem)}
                           alt={fileItem.name}
                           className="object-cover w-full h-20 rounded-md"
                         />

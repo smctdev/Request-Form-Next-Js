@@ -75,15 +75,7 @@ type TableDataItem = {
 const today = new Date();
 const cashDate = today.toISOString().split("T")[0];
 
-const day = [
-  "Sun",
-  "Mon",
-  "Tue",
-  "Wed",
-  "Thu",
-  "Fri",
-  "Sat",
-][today.getDay()];
+const day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][today.getDay()];
 
 const initialTableData: TableDataItem[] = Array.from({ length: 1 }, () => ({
   cashDate: cashDate,
@@ -306,28 +298,16 @@ const CreateApplicationCash = (props: Props) => {
     const lastRow = tableData[tableData.length - 1];
     let nextDate = new Date();
 
-    let nextDay = [
-      "Sun",
-      "Mon",
-      "Tue",
-      "Wed",
-      "Thu",
-      "Fri",
-      "Sat",
-    ][nextDate.getDay()];
+    let nextDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
+      nextDate.getDay()
+    ];
 
     if (lastRow?.cashDate) {
       const lastDate = new Date(lastRow.cashDate);
       nextDate = new Date(lastDate.setDate(lastDate.getDate() + 1));
-      nextDay = [
-        "Sun",
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat",
-      ][nextDate.getDay()];
+      nextDay = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
+        nextDate.getDay()
+      ];
     }
 
     const formattedNextDate = nextDate.toISOString().split("T")[0];
@@ -371,15 +351,11 @@ const CreateApplicationCash = (props: Props) => {
       );
 
       // Calculate total amount
-      const total =
-        parseFloat(data.totalBoatFare || "0") +
-        parseFloat(data.totalHotel || "0") +
-        parseFloat(data.totalPerDiem || "0") +
-        parseFloat(data.totalFare || "0") +
-        parseFloat(data.totalContingency || "0");
 
       // Calculate grand total
-      const grand_total = (total + totalPerDiem).toFixed(2);
+      const grand_total = calculateTotal();
+
+      console.log(grand_total);
 
       // Validate if any item fields are empty
       const emptyItems: number[] = [];
@@ -419,6 +395,8 @@ const CreateApplicationCash = (props: Props) => {
       formData.append("form_type", "Application For Cash Advance");
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
+
+      console.log(grand_total);
 
       formData.append(
         "form_data",
@@ -543,6 +521,7 @@ const CreateApplicationCash = (props: Props) => {
 
   // Function to handle change in totalHotel input
   const handleHotelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
     setTotalHotel(parseFloat(e.target.value) || 0);
   };
 
@@ -637,7 +616,9 @@ const CreateApplicationCash = (props: Props) => {
                   className={`${inputStyle} h-[44px]`}
                 />
                 {errors.reason && formSubmitted && (
-                  <p className="text-red-500">Reason for Cash Advance is required</p>
+                  <p className="text-red-500">
+                    Reason for Cash Advance is required
+                  </p>
                 )}
               </div>
               <div className={`${itemDiv}`}>

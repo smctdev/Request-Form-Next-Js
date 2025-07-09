@@ -8,6 +8,8 @@ import { BiSearchAlt } from "react-icons/bi";
 import { format } from "date-fns";
 import { FILTER } from "@/constants/filters";
 import FilterReports from "@/components/filter-reports";
+import { useState } from "react";
+import Modal from "./_components/modal";
 
 const Reports = () => {
   const {
@@ -24,6 +26,8 @@ const Reports = () => {
   } = useFetch({
     url: "/request-reports",
   });
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [details, setDetails] = useState({});
 
   const columns = [
     {
@@ -64,7 +68,13 @@ const Reports = () => {
     {
       name: "Actions",
       cell: (row: any) => (
-        <button className="btn btn-xs btn-primary">View Details</button>
+        <button
+          className="btn btn-xs btn-primary"
+          type="button"
+          onClick={handleViewDetails(row)}
+        >
+          View Details
+        </button>
       ),
     },
   ];
@@ -108,61 +118,78 @@ const Reports = () => {
     }));
   };
 
+  const handleViewDetails = (details: any) => () => {
+    setDetails(details);
+    setIsOpen(true);
+  };
+
+  const handleCloseViewDetails = () => {
+    setIsOpen(false);
+    setDetails({});
+  };
+
   return (
-    <div className="p-5">
-      <div className="bg-white rounded-lg shadow p-5 mb-5">
-        <h2 className="!text-xl font-bold mb-4">Filter Reports</h2>
+    <>
+      <div className="p-5">
+        <div className="bg-white rounded-lg shadow p-5 mb-5">
+          <h2 className="!text-xl font-bold mb-4">Filter Reports</h2>
 
-        <FilterReports
-          filter={filter}
-          setFilter={setFilter}
-          searchData={searchData}
-          setSearchData={setSearchData}
-          handleSearch={handleSearch}
-          setSearchTerm={setSearchTerm}
-        />
+          <FilterReports
+            filter={filter}
+            setFilter={setFilter}
+            searchData={searchData}
+            setSearchData={setSearchData}
+            handleSearch={handleSearch}
+            setSearchTerm={setSearchTerm}
+          />
 
-        <div className="flex justify-end mb-4">
-          <button
-            className="btn bg-blue-500 text-white border-none hover:bg-blue-600"
-            onClick={resetFilters}
-          >
-            Reset Filters
-          </button>
+          <div className="flex justify-end mb-4">
+            <button
+              className="btn bg-blue-500 text-white border-none hover:bg-blue-600"
+              onClick={resetFilters}
+            >
+              Reset Filters
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Data Table */}
-      <div className="bg-white rounded-lg shadow p-5">
-        <DataTable
-          columns={columns}
-          data={data}
-          pagination
-          paginationServer
-          paginationRowsPerPageOptions={paginationRowsPerPageOptions}
-          paginationTotalRows={pagination.total}
-          onChangePage={handlePageChange}
-          onChangeRowsPerPage={handlePerRowsChange}
-          progressComponent={
-            <div className="w-full">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index}>
-                  <div className="w-full border border-gray-200 p-2">
-                    <div className="flex justify-center">
-                      <div className="flex flex-col w-full gap-4">
-                        <div className="w-full h-12 skeleton bg-slate-300"></div>
+        {/* Data Table */}
+        <div className="bg-white rounded-lg shadow p-5">
+          <DataTable
+            columns={columns}
+            data={data}
+            pagination
+            paginationServer
+            paginationRowsPerPageOptions={paginationRowsPerPageOptions}
+            paginationTotalRows={pagination.total}
+            onChangePage={handlePageChange}
+            onChangeRowsPerPage={handlePerRowsChange}
+            progressComponent={
+              <div className="w-full">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div key={index}>
+                    <div className="w-full border border-gray-200 p-2">
+                      <div className="flex justify-center">
+                        <div className="flex flex-col w-full gap-4">
+                          <div className="w-full h-12 skeleton bg-slate-300"></div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          }
-          progressPending={isLoading}
-          persistTableHead
-        />
+                ))}
+              </div>
+            }
+            progressPending={isLoading}
+            persistTableHead
+          />
+        </div>
       </div>
-    </div>
+      <Modal
+        isOpen={isOpen}
+        details={details}
+        handleCloseViewDetails={handleCloseViewDetails}
+      />
+    </>
   );
 };
 
