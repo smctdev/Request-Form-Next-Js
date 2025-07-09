@@ -24,7 +24,6 @@ export default function Modal({
 }: any) {
   const formType = details?.form_type;
   if (!isOpen) return;
-  console.log(details);
   switch (formType) {
     case SRS:
       return (

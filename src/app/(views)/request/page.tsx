@@ -307,7 +307,6 @@ const Request = (props: Props) => {
   }, [user.id, notificationReceived, toDelete, page, perPage, search]);
 
   const handleView = (record: Record) => {
-    console.log(record);
     setSelectedRecord(record);
     setModalIsOpen(true);
   };

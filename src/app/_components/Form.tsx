@@ -18,7 +18,6 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
   const { user } = useAuth();
 
   useEffect(() => {
-    console.log("test");
     if (user?.length === 0) {
       setFormData(feedbackData);
       return;

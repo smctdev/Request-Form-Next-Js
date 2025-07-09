@@ -450,7 +450,6 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
 
   const handlePrint = () => {
     // Construct the data object to be passed
-    console.log("adsfffsd", record);
     const data = {
       id: record,
       approvedBy: approvedBy,

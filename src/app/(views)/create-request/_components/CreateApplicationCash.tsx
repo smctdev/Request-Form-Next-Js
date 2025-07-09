@@ -355,8 +355,6 @@ const CreateApplicationCash = (props: Props) => {
       // Calculate grand total
       const grand_total = calculateTotal();
 
-      console.log(grand_total);
-
       // Validate if any item fields are empty
       const emptyItems: number[] = [];
       items.forEach((item, index) => {
@@ -395,8 +393,6 @@ const CreateApplicationCash = (props: Props) => {
       formData.append("form_type", "Application For Cash Advance");
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
-
-      console.log(grand_total);
 
       formData.append(
         "form_data",
@@ -521,7 +517,6 @@ const CreateApplicationCash = (props: Props) => {
 
   // Function to handle change in totalHotel input
   const handleHotelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setTotalHotel(parseFloat(e.target.value) || 0);
   };
 

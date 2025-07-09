@@ -479,8 +479,6 @@ const ApproverCashAdvance: React.FC<Props> = ({
       liquidationDate: record?.form_data[0]?.liquidationDate,
     };
 
-    console.log(record);
-
     localStorage.setItem("printData", JSON.stringify(data));
     // Open a new window with PrintRefund component
     const newWindow = window.open(`/print/cash`, "_blank");
