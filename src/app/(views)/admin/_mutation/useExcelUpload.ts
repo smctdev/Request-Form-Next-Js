@@ -87,7 +87,8 @@ export default function useExcelUpload() {
     setData([]);
     setIsDragging(false);
   };
-
+  
+  console.log(data);
   return {
     data,
     handleFileUpload,
