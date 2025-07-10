@@ -1,10 +1,11 @@
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import useExcelUpload from "../_mutation/useExcelUpload";
 import { FiFileText } from "react-icons/fi";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { api } from "@/lib/api";
 import Swal from "sweetalert2";
+import { BiLoader } from "react-icons/bi";
 
 export default function BulkUpload({
   setModalIsOpen,
@@ -29,6 +30,22 @@ export default function BulkUpload({
     setData,
     setIsDragging,
   } = useExcelUpload();
+  const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (abortRef.current) {
+        abortRef.current.abort();
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   const handleClickDiv = () => {
     fileRef.current?.click();
@@ -36,10 +53,18 @@ export default function BulkUpload({
 
   const handleUploadUsers = async () => {
     setLoading(true);
+    const controller = new AbortController();
+    abortRef.current = controller;
     try {
-      const response = await api.post("/bulk-upload-users", {
-        data,
-      });
+      const response = await api.post(
+        "/bulk-upload-users",
+        {
+          data,
+        },
+        {
+          signal: controller.signal,
+        }
+      );
 
       if (response.status === 201) {
         Swal.fire({
@@ -60,6 +85,7 @@ export default function BulkUpload({
       console.error(error);
     } finally {
       setLoading(false);
+      abortRef.current = null;
     }
   };
 
@@ -94,7 +120,7 @@ export default function BulkUpload({
         </div>
       ) : (
         <div className="space-y-5">
-          <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200 max-w-md">
+          <div className={`flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200 max-w-md ${loading && "animate-pulse"}`}>
             <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
               <FiFileText className="w-5 h-5" />
             </div>
@@ -108,7 +134,7 @@ export default function BulkUpload({
               </p>
             </div>
 
-            {fileData && (
+            {fileData && !loading && (
               <button
                 onClick={handleRemoveUpload}
                 className="p-1 text-gray-400 hover:text-red-500 rounded-full hover:bg-red-50 transition-colors"
@@ -125,7 +151,13 @@ export default function BulkUpload({
             onClick={handleUploadUsers}
             className="w-full bg-blue-500 hover:bg-blue-600 px-10 py-2 rounded-md text-white"
           >
-            {loading ? "Uploading..." : "Upload"}
+            {loading ? (
+              <span className="flex gap-1 items-center">
+                <BiLoader className="animate-spin" /> <span>Uploading...</span>
+              </span>
+            ) : (
+              "Upload"
+            )}
           </button>
         </div>
       )}
