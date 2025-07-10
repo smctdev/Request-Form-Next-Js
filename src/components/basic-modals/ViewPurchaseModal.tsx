@@ -664,7 +664,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
             <input
               type="text"
               className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
-              value={`₱ ${editableRecord.form_data[0].grand_total}`}
+              value={formattedAmount(editableRecord.form_data[0].grand_total)}
               readOnly
             />
           </div>

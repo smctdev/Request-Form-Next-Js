@@ -668,7 +668,7 @@ const ApproverRefund: React.FC<Props> = ({
             <input
               type="text"
               className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
-              defaultValue={`₱ ${editableRecord.form_data[0].grand_total}`}
+              defaultValue={formattedAmount(editableRecord.form_data[0].grand_total)}
             />
           </div>
 
