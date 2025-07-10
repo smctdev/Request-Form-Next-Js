@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import Storage from "@/utils/storage";
 import ZoomableImage from "@/components/ZoomableImage";
 import ApprovedAttachments from "@/components/ApprovedAttachments";
+import formattedAmount from "@/utils/formattedAmount";
 
 type Props = {
   closeModal: () => void;
@@ -255,10 +256,10 @@ const RefundRequestDetails: React.FC<Props> = ({ closeModal, record }) => {
                           {item.description}
                         </td>
                         <td className={`${tableCellStyle} text-center`}>
-                          {Number(item.unitCost).toFixed(2)}
+                          {formattedAmount(item.unitCost)}
                         </td>
                         <td className={`${tableCellStyle} text-center`}>
-                          {item.totalAmount}
+                          {formattedAmount(item.totalAmount)}
                         </td>
                         <td
                           className={`${tableCellStyle} break-words whitespace-normal`}
@@ -277,7 +278,7 @@ const RefundRequestDetails: React.FC<Props> = ({ closeModal, record }) => {
             <input
               type="text"
               className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
-              value={`₱ ${editableRecord.form_data[0].grand_total}`}
+              value={formattedAmount(editableRecord.form_data[0].grand_total)}
               readOnly
             />
           </div>
