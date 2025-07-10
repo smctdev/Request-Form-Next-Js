@@ -46,6 +46,10 @@ type Record = {
   branch_code?: {
     branch_code: string;
   };
+  requested_by: string;
+  requested_signature: string;
+  requested_position: string;
+  completed_status: string;
 };
 
 type FormData = {
@@ -290,10 +294,10 @@ const RefundRequestDetails: React.FC<Props> = ({ closeModal, record }) => {
                   <li className="relative flex flex-col items-center justify-center w-auto text-center">
                     <div className="relative flex flex-col items-center justify-center">
                       {/* Signature */}
-                      {user.signature && (
+                      {record?.requested_signature && (
                         <div className="absolute -top-4">
                           <Image
-                            src={Storage(user.signature || "")}
+                            src={Storage(record?.requested_signature || "")}
                             alt="avatar"
                             width={120}
                             height={120}
@@ -307,13 +311,13 @@ const RefundRequestDetails: React.FC<Props> = ({ closeModal, record }) => {
                       {/* Name */}
                       <p className="relative z-10 inline-block mt-4 font-medium text-center uppercase">
                         <span className="relative z-10">
-                          {user.firstName} {user.lastName}
+                          {record?.requested_by}
                         </span>
                         <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-black"></span>
                       </p>
                       {/* Position */}
                       <p className="font-bold text-[12px] text-center mt-1">
-                        {user.position}
+                        {record?.requested_position}
                       </p>
                       {/* Status, if needed */}
                       {user.status && (
