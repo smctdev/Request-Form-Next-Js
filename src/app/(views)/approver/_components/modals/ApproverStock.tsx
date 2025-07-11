@@ -882,7 +882,7 @@ const ApproversStock: React.FC<Props> = ({
                   {notedBy
                     .filter((user) => user.comment)
                     .map((user, index) => (
-                      <div className="flex">
+                      <div className="flex" key={index}>
                         <div>
                           <Image
                             alt="logo"

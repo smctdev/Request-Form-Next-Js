@@ -14,6 +14,7 @@ import ZoomableImage from "../ZoomableImage";
 import ApprovedAttachments from "../ApprovedAttachments";
 import formattedAmount from "@/utils/formattedAmount";
 import Storage from "@/utils/storage";
+import Swal from "sweetalert2";
 type Props = {
   closeModal: () => void;
   record: Record;
@@ -260,6 +261,8 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
 
   const handleEdit = () => {
     setEditedDate(editableRecord.form_data[0].date); // Initialize editedDate with the original date
+    setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+    setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
     setIsEditing(true);
   };
 
@@ -393,25 +396,29 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
     }
   };
   const openAddCustomModal = () => {
-    setIsModalOpen(true);
-  };
-  const closeAddCustomModal = () => {
-    setIsModalOpen(false);
-  };
-  const closeModals = () => {
-    setIsModalOpen(false);
-  };
-  const handleOpenAddCustomModal = () => {
-    setShowAddCustomModal(true);
+    Swal.fire({
+      title: "Edit Approver",
+      text: "Before updating the approver, please make sure to save your changes first. Editing the approver may result in loss of unsaved changes.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsModalOpen(true);
+      }
+    });
   };
 
-  const handleCloseAddCustomModal = () => {
-    setShowAddCustomModal(false);
+  const closeModals = () => {
+    setIsModalOpen(false);
   };
 
   const handleAddCustomData = (notedBy: Approver[], approvedBy: Approver[]) => {
     setNotedBy(notedBy);
     setApprovedBy(approvedBy);
+    setIsEditing(false);
   };
 
   const handlePrint = () => {
@@ -637,7 +644,9 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                             >
                               {item.description}
                             </td>
-                            <td className={tableCellStyle}>{formattedAmount(item.unitCost)}</td>
+                            <td className={tableCellStyle}>
+                              {formattedAmount(item.unitCost)}
+                            </td>
                             <td className={tableCellStyle}>
                               {formattedAmount(item.totalAmount)}
                             </td>

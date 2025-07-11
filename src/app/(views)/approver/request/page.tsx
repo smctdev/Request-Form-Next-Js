@@ -446,7 +446,11 @@ const RequestApprover = (props: Props) => {
           {(row.status === "Pending" || row.status === "Ongoing") && (
             <div
               className="z-20 flex items-center ml-1 transition-opacity duration-300 transform cursor-pointer tooltip tooltip-right group-hover:opacity-100"
-              data-tip={`Pending: ${row.pending_approver === user?.fullName ? "You" : row.pending_approver}`}
+              data-tip={`Pending: ${
+                row.pending_approver === user?.fullName
+                  ? "You"
+                  : row.pending_approver
+              }`}
             >
               <QuestionMarkCircleIcon className="w-6 h-6 text-gray-500" />
             </div>
@@ -472,16 +476,26 @@ const RequestApprover = (props: Props) => {
     setModalIsOpen(false);
   };
 
-  const refreshData = () => {
+  const refreshData = async () => {
     if (user.id) {
-      api
-        .get(`/request-forms/for-approval/${user.id}/for-approval-requests`)
-        .then((response) => {
-          setRequests(response.data.request_forms);
-        })
-        .catch((error) => {
-          console.error("Error refreshing requests data:", error);
-        });
+      try {
+        const response = await api.get(
+          `/request-forms/for-approval/${user.id}/for-approval-requests`,
+          {
+            params: {
+              page: page,
+              per_page: perPage,
+              search: search,
+            },
+          }
+        );
+        setRequests(response.data.request_forms_paginated.data);
+        setTotalPages(response.data.request_forms_paginated.total);
+      } catch (error) {
+        console.error("Error fetching requests data:", error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 

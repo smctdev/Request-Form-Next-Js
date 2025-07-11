@@ -509,14 +509,23 @@ const Request = (props: Props) => {
     </table>
   );
 
-  const refreshData = () => {
+  const refreshData = async () => {
     if (user.id) {
-      api
-        .get(`/view-request`)
-        .then((response: any) => {
-          setRequests(response.data?.data?.data); // Assuming response.data.data contains your array of data
-        })
-        .catch((error: any) => {});
+      try {
+        const response = await api.get(`/view-request`, {
+          params: {
+            page: page,
+            per_page: perPage,
+            search: search,
+          },
+        });
+        setRequests(response.data?.data?.data);
+        setTotalPages(response.data?.data?.total);
+      } catch (error) {
+        console.error("Error fetching requests data:", error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
   const columns = [
@@ -686,7 +695,7 @@ const Request = (props: Props) => {
               columns={columns}
               defaultSortAsc={false}
               data={filteredData()
-                .map((item: Record) => ({
+                ?.map((item: Record) => ({
                   ...item,
                   date: new Date(item.date),
                 }))
