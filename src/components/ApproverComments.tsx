@@ -13,7 +13,7 @@ export default function ApproverComments({ record }: any) {
         <>
           {/* Render Approved By comments */}
           <ul className="flex flex-col w-full mb-4 space-y-4">
-            {record?.approval_process.map((user: any, index: any) => (
+            {record?.approval_process?.map((user: any, index: any) => (
               <div className="flex" key={index}>
                 <div>
                   <Image
