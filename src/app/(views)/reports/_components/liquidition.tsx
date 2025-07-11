@@ -7,6 +7,8 @@ import { useAuth } from "@/context/AuthContext";
 import Storage from "@/utils/storage";
 import ZoomableImage from "@/components/ZoomableImage";
 import ApprovedAttachments from "@/components/ApprovedAttachments";
+import ApproverComments from "@/components/ApproverComments";
+import RequestedByDetail from "@/components/requested-by-details";
 
 type Props = {
   closeModal: () => void;
@@ -25,6 +27,18 @@ type Record = {
   branch: string;
   date: string;
   user_id: number;
+  approval_process: any;
+  user: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    position: string;
+    signature: string;
+    status: string;
+    branch_code: {
+      branch_code: string;
+    };
+  };
   destination: string;
   branch_code?: {
     branch_code: string;
@@ -48,11 +62,6 @@ type Record = {
     signature: string;
     status: string;
   }[];
-  user: {
-    branch: {
-      branch_code: string;
-    };
-  };
 };
 
 type FormData = {
@@ -494,58 +503,7 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
           <div className="flex-col items-center justify-center w-full">
             {
               <div className="flex flex-wrap">
-                <div className="mb-4 ml-5">
-                  <h3 className="mb-3 font-bold">Requested By:</h3>
-                  <ul className="flex flex-wrap gap-6">
-                    <li className="relative flex flex-col items-center justify-center w-auto text-center">
-                      <div className="relative flex flex-col items-center justify-center">
-                        {/* Signature */}
-                        {user.signature && (
-                          <div className="absolute -top-4">
-                            <Image
-                              src={Storage(user.signature || "")}
-                              alt="avatar"
-                              width={120}
-                              height={120}
-                              className="relative z-20 pointer-events-none"
-                              draggable="false"
-                              onContextMenu={(e) => e.preventDefault()}
-                              style={{ filter: "blur(1px)" }} // Optional: Apply a blur
-                            />
-                          </div>
-                        )}
-                        {/* Name */}
-                        <p className="relative z-10 inline-block mt-4 font-medium text-center uppercase">
-                          <span className="relative z-10">
-                            {user.firstName} {user.lastName}
-                          </span>
-                          <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-black"></span>
-                        </p>
-                        {/* Position */}
-                        <p className="font-bold text-[12px] text-center mt-1">
-                          {user.position}
-                        </p>
-                        {/* Status, if needed */}
-                        {user.status && (
-                          <p
-                            className={`font-bold text-[12px] text-center mt-1 ${
-                              user.status === "Approved"
-                                ? "text-green-400"
-                                : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
-                            }`}
-                          >
-                            {user.status}
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
+                <RequestedByDetail record={record} />
                 {notedBy.length > 0 && (
                   <div className="mb-4 ml-5">
                     <h3 className="mb-3 font-bold">Noted By:</h3>
@@ -743,78 +701,7 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
             </div>
           </div>
 
-          <div className="w-full">
-            <h2 className="mb-2 text-lg font-bold">Comments</h2>
-
-            {/* Check if there are no comments in both notedBy and approvedBy */}
-            {notedBy.filter((user) => user.comment).length === 0 &&
-            approvedBy.filter((user) => user.comment).length === 0 ? (
-              <p className="text-gray-500">No comments yet.</p>
-            ) : (
-              <>
-                {/* Render Noted By comments */}
-                <ul className="flex flex-col w-full mb-4 space-y-4">
-                  {notedBy
-                    .filter((user) => user.comment)
-                    .map((user, index) => (
-                      <div className="flex" key={index}>
-                        <div>
-                          <Image
-                            alt="avatar"
-                            className="hidden cursor-pointer sm:block"
-                            src={Avatar}
-                            height={35}
-                            width={45}
-                            draggable="false"
-                            onContextMenu={(e) => e.preventDefault()}
-                            style={{ filter: "blur(1px)" }} // Optional: Apply a blur
-                          />
-                        </div>
-                        <div className="flex flex-row w-full">
-                          <li className="flex flex-col justify-between pl-2">
-                            <h3 className="text-lg font-bold">
-                              {user.firstName} {user.lastName}
-                            </h3>
-                            <p>{user.comment}</p>
-                          </li>
-                        </div>
-                      </div>
-                    ))}
-                </ul>
-
-                {/* Render Approved By comments */}
-                <ul className="flex flex-col w-full mb-4 space-y-4">
-                  {approvedBy
-                    .filter((user) => user.comment)
-                    .map((user, index) => (
-                      <div className="flex" key={index}>
-                        <div>
-                          <Image
-                            alt="avatar"
-                            className="hidden cursor-pointer sm:block"
-                            src={Avatar}
-                            height={35}
-                            width={45}
-                            draggable="false"
-                            onContextMenu={(e) => e.preventDefault()}
-                            style={{ filter: "blur(1px)" }} // Optional: Apply a blur
-                          />
-                        </div>
-                        <div className="flex flex-row w-full">
-                          <li className="flex flex-col justify-between pl-2">
-                            <h3 className="text-lg font-bold">
-                              {user.firstName} {user.lastName}
-                            </h3>
-                            <p>{user.comment}</p>
-                          </li>
-                        </div>
-                      </div>
-                    ))}
-                </ul>
-              </>
-            )}
-          </div>
-
+          <ApproverComments record={record} />
           <ApprovedAttachments
             record={record}
             handleViewImage={handleViewImage}

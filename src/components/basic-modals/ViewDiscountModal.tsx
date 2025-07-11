@@ -14,6 +14,7 @@ import ZoomableImage from "../ZoomableImage";
 import ApprovedAttachments from "../ApprovedAttachments";
 import formattedAmount from "@/utils/formattedAmount";
 import Storage from "@/utils/storage";
+import Swal from "sweetalert2";
 
 type Props = {
   closeModal: () => void;
@@ -212,7 +213,8 @@ const ViewDiscountModal: React.FC<Props> = ({
 
   const handleEdit = () => {
     setEditedDate(editableRecord.form_data[0].date);
-
+    setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+    setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
     setIsEditing(true);
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -408,7 +410,19 @@ const ViewDiscountModal: React.FC<Props> = ({
   };
 
   const openAddCustomModal = () => {
-    setIsModalOpen(true);
+    Swal.fire({
+      title: "Edit Approver",
+      text: "Before updating the approver, please make sure to save your changes first. Editing the approver may result in loss of unsaved changes.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsModalOpen(true);
+      }
+    });
   };
 
   const closeModals = () => {
@@ -418,6 +432,7 @@ const ViewDiscountModal: React.FC<Props> = ({
   const handleAddCustomData = (notedBy: Approver[], approvedBy: Approver[]) => {
     setNotedBy(notedBy);
     setApprovedBy(approvedBy);
+    setIsEditing(false);
   };
 
   const handlePrint = () => {
@@ -660,8 +675,12 @@ const ViewDiscountModal: React.FC<Props> = ({
                             <td className={tableCellStyle}>{item.model}</td>
                             <td className={tableCellStyle}>{item.unit}</td>
                             <td className={tableCellStyle}>{item.partno}</td>
-                            <td className={`${tableCellStyle} text-center`}>{formattedAmount(item.labor)}</td>
-                            <td className={`${tableCellStyle} text-center`}>{formattedAmount(item.spotcash)}</td>
+                            <td className={`${tableCellStyle} text-center`}>
+                              {formattedAmount(item.labor)}
+                            </td>
+                            <td className={`${tableCellStyle} text-center`}>
+                              {formattedAmount(item.spotcash)}
+                            </td>
                             <td className={`${tableCellStyle} text-center`}>
                               {formattedAmount(item.discountedPrice)}
                             </td>
@@ -678,10 +697,14 @@ const ViewDiscountModal: React.FC<Props> = ({
                       {formattedAmount(editableRecord.form_data[0].total_labor)}
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
-                      {formattedAmount(editableRecord.form_data[0].total_spotcash)}
+                      {formattedAmount(
+                        editableRecord.form_data[0].total_spotcash
+                      )}
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
-                      {formattedAmount(editableRecord.form_data[0].total_discount)}
+                      {formattedAmount(
+                        editableRecord.form_data[0].total_discount
+                      )}
                     </td>
                   </tr>
                 </tfoot>

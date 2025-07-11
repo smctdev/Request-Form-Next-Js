@@ -13,6 +13,7 @@ import { useAuth } from "@/context/AuthContext";
 import ZoomableImage from "../ZoomableImage";
 import ApprovedAttachments from "../ApprovedAttachments";
 import Storage from "@/utils/storage";
+import Swal from "sweetalert2";
 
 type Props = {
   closeModal: () => void;
@@ -172,6 +173,8 @@ const ViewRequestModal: React.FC<Props> = ({
 
   const handleEdit = () => {
     setEditedDate(editableRecord.form_data[0].date); // Initialize editedDate with the original date
+    setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
+    setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
     setIsEditing(true);
   };
 
@@ -368,7 +371,19 @@ const ViewRequestModal: React.FC<Props> = ({
   if (!record) return null;
 
   const openAddCustomModal = () => {
-    setIsModalOpen(true);
+    Swal.fire({
+      title: "Edit Approver",
+      text: "Before updating the approver, please make sure to save your changes first. Editing the approver may result in loss of unsaved changes.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsModalOpen(true);
+      }
+    });
   };
 
   const closeModals = () => {
@@ -378,6 +393,7 @@ const ViewRequestModal: React.FC<Props> = ({
   const handleAddCustomData = (notedBy: Approver[], approvedBy: Approver[]) => {
     setNotedBy(notedBy);
     setApprovedBy(approvedBy);
+    setIsEditing(false);
   };
 
   const handlePrint = () => {
