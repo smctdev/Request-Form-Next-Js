@@ -85,48 +85,51 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+
     if (!user?.id || !echo || !pathname) return;
-    echo
-      .private(`App.Models.User.${user?.id}`)
-      .notification((notification: any) => {
-        setnotificationReceived(true);
-        if (notification) {
-          Swal.fire({
-            toast: true,
-            position: "top-end",
-            icon: "info",
-            title: notification.message,
-            showConfirmButton: false,
-            timer: 6000,
-            timerProgressBar: true,
-            showCloseButton: true,
-          });
-        }
 
-        if ("Notification" in window && notification) {
-          Notification.requestPermission().then((permission) => {
-            if (permission === "granted") {
-              const notif = new Notification("Online Request Form", {
-                body:
-                  notification.message || "New notification from request form",
-                icon: smctLogo.src,
-              });
+    const channel = `App.Models.User.${user?.id}`;
 
-              notif.onclick = () => {
-                window.focus();
-                if(notification.type === "App\\Notifications\\ApprovalProcessNotification") {
-                  window.location.href = "/approver/request";
-                } else {
-                  window.location.href = "/request";
-                }
-              };
-            }
-          });
-        }
-      });
+    echo.private(channel).notification((notification: any) => {
+      setnotificationReceived(true);
+      if (notification) {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "info",
+          title: notification.message,
+          showConfirmButton: false,
+          timer: 6000,
+          timerProgressBar: true,
+          showCloseButton: true,
+        });
+      }
+
+      if ("Notification" in window && Notification.permission === "granted") {
+        const notif = new Notification("Online Request Form", {
+          body: notification.message || "New notification from request form",
+          icon: smctLogo.src,
+        });
+
+        notif.onclick = () => {
+          window.focus();
+          if (
+            notification.type ===
+            "App\\Notifications\\ApprovalProcessNotification"
+          ) {
+            window.location.href = "/approver/request";
+          } else {
+            window.location.href = "/request";
+          }
+        };
+      }
+    });
 
     return () => {
-      echo.leave(`private-App.Models.User.${user.id}`);
+      echo.leave(`private-${channel}`);
     };
   }, [user?.id, echo, pathname]);
 
