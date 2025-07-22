@@ -19,6 +19,7 @@ import { useNotification } from "@/context/NotificationContext";
 import approverPage from "@/lib/approverPage";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 import ApproverCheckIssuance from "../_components/modals/ApproverChecklssuance";
+import { BiRotateRight } from "react-icons/bi";
 type Props = {};
 
 type Record = {
@@ -182,6 +183,7 @@ const RequestApprover = (props: Props) => {
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const debounce = useRef<NodeJS.Timeout>(null);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     if (!user.id || !echo) return;
@@ -477,6 +479,7 @@ const RequestApprover = (props: Props) => {
   };
 
   const refreshData = async () => {
+    setIsRefreshing(true);
     if (user.id) {
       try {
         const response = await api.get(
@@ -495,6 +498,7 @@ const RequestApprover = (props: Props) => {
         console.error("Error fetching requests data:", error);
       } finally {
         setLoading(false);
+        setIsRefreshing(false);
       }
     }
   };
@@ -517,11 +521,24 @@ const RequestApprover = (props: Props) => {
 
   return (
     <div className="w-full px-10 pt-4 pb-10 bg-graybg dark:bg-blackbg h-lvh">
-      <Link href="/create-request?title=Stock%20Requisition">
-        <button className="bg-primary text-white rounded-[12px] mb-2 w-[120px] sm:w-[151px] h-[34px] z-10 cursor-pointer">
-          Send Request
+      <div className="flex justify-between items-center">
+        <Link href="/create-request?title=Stock%20Requisition">
+          <button className="bg-primary text-white rounded-[12px] mb-2 w-[120px] sm:w-[151px] h-[34px] z-10 cursor-pointer">
+            Send Request
+          </button>
+        </Link>
+        <button
+          type="button"
+          disabled={isRefreshing}
+          onClick={refreshData}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 flex gap-1 rounded items-center"
+        >
+          <BiRotateRight
+            className={`size-6 ${isRefreshing && "animate-spin"}`}
+          />{" "}
+          <span>{isRefreshing ? "Refreshing..." : "Refresh"}</span>
         </button>
-      </Link>
+      </div>
       <div className="relative w-full h-auto rounded-lg drop-shadow-lg md:mr-4">
         <div className="flex flex-col items-center w-full overflow-x-auto bg-white rounded-lg">
           <div className="w-full border-b-2">

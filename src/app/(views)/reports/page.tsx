@@ -4,12 +4,13 @@ import DataTable from "react-data-table-component";
 import auditorPage from "@/lib/auditorPage";
 import useFetch from "../admin/_hooks/useFetch";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
-import { BiSearchAlt } from "react-icons/bi";
+import { BiRotateRight, BiSearchAlt } from "react-icons/bi";
 import { format } from "date-fns";
 import { FILTER } from "@/constants/filters";
 import FilterReports from "@/components/filter-reports";
 import { useState } from "react";
 import Modal from "./_components/modal";
+import { RotateLoader } from "react-spinners";
 
 const Reports = () => {
   const {
@@ -23,6 +24,8 @@ const Reports = () => {
     setFilter,
     filter,
     searchData,
+    handleRefresh,
+    isRefresh,
   } = useFetch({
     url: "/request-reports",
   });
@@ -155,6 +158,19 @@ const Reports = () => {
 
         {/* Data Table */}
         <div className="bg-white rounded-lg shadow p-5">
+          <div className="flex justify-end p-3">
+            <button
+              type="button"
+              disabled={isRefresh}
+              onClick={handleRefresh}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 flex gap-1 rounded items-center"
+            >
+              <BiRotateRight
+                className={`size-6 ${isRefresh && "animate-spin"}`}
+              />{" "}
+              <span>{isRefresh ? "Refreshing..." : "Refresh"}</span>
+            </button>
+          </div>
           <DataTable
             columns={columns}
             data={data}

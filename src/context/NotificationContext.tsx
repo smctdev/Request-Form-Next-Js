@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { api } from "@/lib/api";
 import echo from "@/hooks/echo";
 import { NotificationContextType } from "@/types/notificationTypes";
+import { usePathname } from "next/navigation";
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
   undefined
@@ -23,6 +24,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isRefresh, setIsRefresh] = useState<boolean>(false);
   const { user } = useAuth();
+  const pathname = usePathname();
 
   const handleMarkAllAsRead = async () => {
     const unreadNotifications = notifications.filter((notif) => !notif.read_at);
@@ -82,23 +84,29 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    if (!user?.id || !echo) return;
+    if (!user?.id || !echo || !pathname) return;
     echo
       .private(`App.Models.User.${user?.id}`)
       .notification((notification: any) => {
         setnotificationReceived(true);
+        if (notification) {
+          Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "info",
+            title: notification.message,
+            showConfirmButton: false,
+            timer: 6000,
+            timerProgressBar: true,
+            showCloseButton: true,
+          });
+        }
       });
 
     return () => {
       echo.leave(`private-App.Models.User.${user.id}`);
     };
-  }, [user?.id, echo]);
-
-  useEffect(() => {
-    if (notificationReceived) {
-      setnotificationReceived(false);
-    }
-  }, [notificationReceived]);
+  }, [user?.id, echo, pathname]);
 
   useEffect(() => {
     // Fetch initial notifications
@@ -118,6 +126,8 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         setUnreadCount(unreadNotifications);
       } catch (error) {
         console.error("Error fetching notifications: ", error);
+      } finally {
+        setnotificationReceived(false);
       }
     };
 
