@@ -112,6 +112,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         const notif = new Notification("Online Request Form", {
           body: notification.message || "New notification from request form",
           icon: smctLogo.src,
+          badge: smctLogo.src,
         });
 
         notif.onclick = () => {
