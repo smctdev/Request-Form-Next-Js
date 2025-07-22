@@ -126,8 +126,6 @@ const ViewStockModal: React.FC<Props> = ({
   const [isHovering, setIsHovering] = useState(false);
   const { user } = useAuth();
 
-  console.log(record)
-
   useEffect(() => {
     const fetchBranchData = async () => {
       try {
