@@ -80,7 +80,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsApprover(false);
       setIsAuditor(false);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
     }
   };
 

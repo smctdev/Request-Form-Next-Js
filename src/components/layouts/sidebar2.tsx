@@ -212,6 +212,8 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
         setPendingCounts(response?.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setnotificationReceived(false);
       }
     };
 
@@ -219,7 +221,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   }, [notificationReceived, isRefresh, isApprover]);
 
   useEffect(() => {
-    if (!echo || user?.id) return;
+    if (!echo || user?.id || !pathname) return;
 
     const channel = echo
       .private(`pendingCount.${user?.id}`)
@@ -230,11 +232,10 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
     return () => {
       channel.stopListening("NotificationEvent");
     };
-  }, [user]);
+  }, [user, pathname, echo]);
 
   useEffect(() => {
-    if (!echo || !user?.id) return;
-
+    if (!echo || !user?.id || !pathname) return;
     echo
       .private(`App.Models.User.${user?.id}`)
       .notification((notification: any) => {
@@ -244,13 +245,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
     return () => {
       echo.leave(`private-App.Models.User.${user.id}`);
     };
-  }, [user?.id, echo]);
-
-  useEffect(() => {
-    if (notificationReceived) {
-      setnotificationReceived(false);
-    }
-  }, [notificationReceived]);
+  }, [user?.id, echo, pathname]);
 
   useEffect(() => {}, []);
 
@@ -298,7 +293,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             Request Form
           </h1> */}
         </div>
-        <ul className="flex-1 w-full mt-6">
+        <ul className="flex-1 w-full overflow-y-auto mt-6 h-[calc(100vh-110px)]">
           <div className="w-full gap-2">
             {navItems.map((item) => (
               <Link href={item.path} key={item.title}>

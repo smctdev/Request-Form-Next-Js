@@ -48,6 +48,7 @@ export default function useFetch({ url }: { url: string }) {
           ...pagination,
           loading: false,
         }));
+        setIsRefresh(false);
       }
     };
     fetchAllData();
@@ -71,6 +72,10 @@ export default function useFetch({ url }: { url: string }) {
     }, 1000);
   };
 
+  const handleRefresh = () => {
+    setIsRefresh(!isRefresh);
+  };
+
   return {
     data,
     setData,
@@ -87,5 +92,6 @@ export default function useFetch({ url }: { url: string }) {
     searchData,
     searchTerm,
     setSearchData,
+    handleRefresh,
   };
 }

@@ -18,6 +18,7 @@ import { useAuth } from "@/context/AuthContext";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 import ViewCheckIssuanceModal from "@/components/basic-modals/ViewCheckIssuance";
+import { BiRotateRight } from "react-icons/bi";
 type Props = {};
 
 type Record = {
@@ -228,6 +229,7 @@ const Request = (props: Props) => {
   const [totalPages, setTotalPages] = useState(0);
   const { user } = useAuth();
   const debounce = useRef<any>(false);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchBranchData = async () => {
@@ -510,6 +512,7 @@ const Request = (props: Props) => {
   );
 
   const refreshData = async () => {
+    setIsRefreshing(true);
     if (user.id) {
       try {
         const response = await api.get(`/view-request`, {
@@ -525,6 +528,7 @@ const Request = (props: Props) => {
         console.error("Error fetching requests data:", error);
       } finally {
         setLoading(false);
+        setIsRefreshing(false);
       }
     }
   };
@@ -649,11 +653,25 @@ const Request = (props: Props) => {
 
   return (
     <div className="w-full px-10 pt-4 bg-graybg dark:bg-blackbg h-lvh md:px-10 lg:px-30">
-      <Link href="/create-request?title=Stock%20Requisition">
-        <button className="cursor-pointer bg-primary hover:bg-blue-600 text-white rounded-[12px] mb-2 w-[120px] sm:w-[151px] h-[34px] z-10">
-          Create a Request
+      <div className="flex justify-between items-center">
+        <Link href="/create-request?title=Stock%20Requisition">
+          <button className="cursor-pointer bg-primary hover:bg-blue-600 text-white rounded-[12px] mb-2 w-[120px] sm:w-[151px] h-[34px] z-10">
+            Create a Request
+          </button>
+        </Link>
+
+        <button
+          type="button"
+          disabled={isRefreshing}
+          onClick={refreshData}
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 flex gap-1 rounded items-center"
+        >
+          <BiRotateRight
+            className={`size-6 ${isRefreshing && "animate-spin"}`}
+          />{" "}
+          <span>{isRefreshing ? "Refreshing..." : "Refresh"}</span>
         </button>
-      </Link>
+      </div>
 
       <div className="relative w-full h-auto rounded-lg drop-shadow-lg md:mr-4 ">
         <div className="flex flex-col items-center w-full overflow-x-auto bg-white rounded-lg">

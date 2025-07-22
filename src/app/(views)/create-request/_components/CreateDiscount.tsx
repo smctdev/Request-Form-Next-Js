@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
+import { MinusCircleIcon, PencilIcon, PlusCircleIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -503,15 +503,6 @@ const CreateDiscount = (props: Props) => {
               </span>{" "}
               Requisition Form
             </h1>
-          </div>
-          <div className="my-2 ">
-            <button
-              type="button"
-              onClick={openAddCustomModal}
-              className="p-2 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
-            >
-              {isEditableApprover ? "Edit Approver" : "Add Approver"}
-            </button>
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -1025,7 +1016,7 @@ const CreateDiscount = (props: Props) => {
                   <br />
                   <span className="text-sm italic">
                     Note: You can add approvers by clicking the 'Add Approver'
-                    button above.
+                    button below.
                   </span>
                 </p>
               ) : (
@@ -1052,6 +1043,24 @@ const CreateDiscount = (props: Props) => {
                   ))}
                 </ul>
               )}
+            </div>
+
+            <div className="my-2">
+              <button
+                type="button"
+                onClick={openAddCustomModal}
+                className="p-5 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
+              >
+                {isEditableApprover ? (
+                  <span className="flex gap-1 items-center">
+                    <PencilIcon className="w-6 h-6" /> Edit Approver
+                  </span>
+                ) : (
+                  <span className="flex gap-1 items-center">
+                    <PlusIcon className="w-6 h-6" /> Add Approver
+                  </span>
+                )}
+              </button>
             </div>
             <div className="flex justify-center w-full pb-10 mt-20 space-x-3">
               <button
