@@ -13,6 +13,7 @@ import { api } from "@/lib/api";
 import echo from "@/hooks/echo";
 import { NotificationContextType } from "@/types/notificationTypes";
 import { usePathname } from "next/navigation";
+import smctLogo from "@/assets/logo.png";
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
   undefined
@@ -99,6 +100,27 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             timer: 6000,
             timerProgressBar: true,
             showCloseButton: true,
+          });
+        }
+
+        if ("Notification" in window && notification) {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              const notif = new Notification("Online Request Form", {
+                body:
+                  notification.message || "New notification from request form",
+                icon: smctLogo.src,
+              });
+
+              notif.onclick = () => {
+                window.focus();
+                if(notification.type === "App\\Notifications\\ApprovalProcessNotification") {
+                  window.location.href = "/approver/request";
+                } else {
+                  window.location.href = "/request";
+                }
+              };
+            }
           });
         }
       });

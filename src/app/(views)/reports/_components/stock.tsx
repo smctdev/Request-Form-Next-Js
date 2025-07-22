@@ -113,7 +113,6 @@ const StockDetails: React.FC<Props> = ({ closeModal, record }) => {
   // Get branch name or default to "Unknown"
 
   useEffect(() => {
-    console.log("tetst", editableRecord);
     setNewData(record.form_data[0].items.map((item) => ({ ...item })));
     setEditableRecord(record);
     setNotedBy(editableRecord.noted_bies);
@@ -222,7 +221,6 @@ const StockDetails: React.FC<Props> = ({ closeModal, record }) => {
     setIsImgModalOpen(false);
     setCurrentImage(null);
   };
-  console.log(record);
 
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
