@@ -293,7 +293,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             Request Form
           </h1> */}
         </div>
-        <ul className="flex-1 w-full overflow-y-auto mt-6 h-[calc(100vh-110px)]">
+        <ul className="flex-1 w-full overflow-y-auto mt-6 h-[calc(100vh-110px)] overflow-x-hidden">
           <div className="w-full gap-2">
             {navItems.map((item) => (
               <Link href={item.path} key={item.title}>
