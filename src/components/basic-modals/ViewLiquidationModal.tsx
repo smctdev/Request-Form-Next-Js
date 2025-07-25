@@ -918,7 +918,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                           <Image
                             width={100}
                             height={100}
-                            src={record.form_data[0].signature}
+                            src={Storage(record.form_data[0].signature)}
                             alt="signature"
                             draggable="false"
                             className="h-24"
