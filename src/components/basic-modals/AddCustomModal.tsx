@@ -212,9 +212,9 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
   };
 
   const handleNext = () => {
-    if (notedBy.length < 1) {
-      return setErrorMessage("You can only select one noted by.");
-    }
+    // if (notedBy.length < 1) {
+    //   return setErrorMessage("You can only select one noted by.");
+    // }
     setErrorMessage("");
     setIsNext(!isNext);
   };
