@@ -80,8 +80,8 @@ type Item = {
 };
 
 const tableStyle2 = "bg-white p-2";
-const inputStyle = "border border-black bg text-[12px] font-bold p-2 h-14";
-const tableCellStyle = `${inputStyle}  w-20`;
+const inputStyle = "border border-black bg text-[12px] font-bold p-2 h-14 w-fit md:w-50";
+const tableCellStyle = `${inputStyle}`;
 const ViewPurchaseModal: React.FC<Props> = ({
   closeModal,
   record,
@@ -571,8 +571,8 @@ const ViewPurchaseModal: React.FC<Props> = ({
                       >
                         DESCRIPTION
                       </th>
-                      <th className={`${inputStyle} w-1/12`}>UNIT COST</th>
-                      <th className={`${inputStyle} w-1/12`}>TOTAL AMOUNT</th>
+                      <th className={`${inputStyle}`}>UNIT COST</th>
+                      <th className={`${inputStyle}`}>TOTAL AMOUNT</th>
                       <th
                         className={`${inputStyle} w-1/4 break-words whitespace-normal`}
                       >
