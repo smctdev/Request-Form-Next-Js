@@ -550,7 +550,7 @@ const ApproversStock: React.FC<Props> = ({
             <input
               type="text"
               className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
-              value={`₱ ${record.form_data[0].grand_total}`}
+              value={formattedAmount(record.form_data[0].grand_total)}
               readOnly
             />
           </div>
@@ -705,7 +705,7 @@ const ApproversStock: React.FC<Props> = ({
                               user.status.split(" ")[0] === "Rejected")) && (
                             <div className="absolute -top-4">
                               <Image
-                                src={user.signature}
+                                src={Storage(user.signature || "")}
                                 alt="avatar"
                                 width={120}
                                 height={120}

@@ -477,7 +477,7 @@ const CashAdvanceDetails: React.FC<Props> = ({ closeModal, record }) => {
                                 user.status.split(" ")[0] === "Rejected")) && (
                               <div className="absolute -top-4">
                                 <Image
-                                  src={user?.signature || ""}
+                                  src={Storage(user?.signature || "")}
                                   alt="avatar"
                                   width={120}
                                   height={120}
