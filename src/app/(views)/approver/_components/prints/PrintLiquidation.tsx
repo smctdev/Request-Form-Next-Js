@@ -7,6 +7,7 @@ import HOLogo from "@/assets/logo.png";
 import Image from "next/image";
 import Storage from "@/utils/storage";
 import PrintRequestNotedApprovedBies from "../print-request-noted-approved-bies";
+import formattedAmount from "@/utils/formattedAmount";
 
 type PrintRefundProps = {
   data?: any;
@@ -246,7 +247,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.transportation}
                       </td>
                       <td className="px-2 text-center border border-black">
-                        {Number(item.transportationAmount).toFixed(2)}
+                        {formattedAmount(item.transportationAmount)}
                       </td>
                       <td className="px-2 text-center border border-black">
                         {item.hotel}
@@ -255,16 +256,16 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                         {item.hotelAddress}
                       </td>
                       <td className="px-2 text-center border border-black">
-                        {Number(item.hotelAmount).toFixed(2)}
+                        {formattedAmount(item.hotelAmount)}
                       </td>
                       <td className="px-2 text-center border border-black">
-                        {Number(item.perDiem).toFixed(2)}
+                        {formattedAmount(item.perDiem)}
                       </td>
                       <td className="px-2 text-center border border-black">
                         {item.particulars}
                       </td>
                       <td className="px-2 text-center border border-black">
-                        {Number(item.particularsAmount).toFixed(2)}
+                        {formattedAmount(item.particularsAmount)}
                       </td>
                       <td className="px-2 text-center border border-black">
                         {item.grandTotal}
@@ -304,7 +305,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                     TOTAL EXPENSE
                   </td>
                   <td className="px-2 py-1 text-xs font-normal border border-black">
-                    {printData?.id.form_data[0].totalExpense}
+                    {formattedAmount(printData?.id.form_data[0].totalExpense)}
                   </td>
                 </tr>
 
@@ -313,7 +314,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                     CASH ADVANCE
                   </td>
                   <td className="px-2 py-1 text-xs font-normal border border-black">
-                    {printData?.id.form_data[0].cashAdvance}
+                    {formattedAmount(printData?.id.form_data[0].cashAdvance)}
                   </td>
                 </tr>
                 <tr>
@@ -321,7 +322,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
                     SHORT
                   </td>
                   <td className="px-2 py-1 text-xs font-normal border border-black">
-                    {printData?.id.form_data[0].short}
+                    {formattedAmount(printData?.id.form_data[0].short)}
                   </td>
                 </tr>
               </tbody>
