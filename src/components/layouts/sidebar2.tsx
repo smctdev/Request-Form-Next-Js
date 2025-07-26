@@ -293,7 +293,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             Request Form
           </h1> */}
         </div>
-        <ul className="flex-1 w-full overflow-y-auto mt-6 h-[calc(100vh-110px)] overflow-x-hidden">
+        <ul className="flex-1 w-full mt-6">
           <div className="w-full gap-2">
             {navItems.map((item) => (
               <Link href={item.path} key={item.title}>
@@ -381,7 +381,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             ) : (
               <div
                 onClick={handleLogout}
-                className="absolute flex items-center justify-center w-full h-10 border-t border-gray-300 cursor-pointer group bottom-2"
+                className="absolute flex items-center justify-center w-full h-10 border-t border-gray-300 cursor-pointer group bottom-2 bg-white"
               >
                 <svg
                   fill="none"
