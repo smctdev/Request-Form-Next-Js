@@ -288,35 +288,37 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
           </div>
         </div>
         <div className="flex justify-between w-full">
-          <div className="ml-20">
-            <p className="text-xs">Noted By:</p>
-            <div className="text-center border-black ">
-              {printData?.notedBy.map((approver: any, index: number) => (
-                <div
-                  key={index}
-                  className="relative flex flex-col items-center justify-center pt-3 mr-10"
-                >
-                  {approver.status === "Approved" && (
-                    <Image
-                      className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none -top-0.5 left-1/2"
-                      src={Storage(approver.signature) || ""}
-                      alt=""
-                      width={120}
-                      height={120}
-                    />
-                  )}
-                  <div className="border-b w-[200px] border-black">
-                    <p className="relative z-10 text-sm font-medium text-center">
-                      {approver.firstName} {approver.lastName}
+          {printData?.notedBy?.length > 0 && (
+            <div className="ml-20">
+              <p className="text-xs">Noted By:</p>
+              <div className="text-center border-black ">
+                {printData?.notedBy.map((approver: any, index: number) => (
+                  <div
+                    key={index}
+                    className="relative flex flex-col items-center justify-center pt-3 mr-10"
+                  >
+                    {approver.status === "Approved" && (
+                      <Image
+                        className="absolute transform -translate-x-1/2 -translate-y-6 pointer-events-none -top-0.5 left-1/2"
+                        src={Storage(approver.signature) || ""}
+                        alt=""
+                        width={120}
+                        height={120}
+                      />
+                    )}
+                    <div className="border-b w-[200px] border-black">
+                      <p className="relative z-10 text-sm font-medium text-center">
+                        {approver.firstName} {approver.lastName}
+                      </p>
+                    </div>
+                    <p className="text-xs font-light text-center">
+                      {approver.position}
                     </p>
                   </div>
-                  <p className="text-xs font-light text-center">
-                    {approver.position}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <div className="mr-20">
             <p className="text-xs">Approved By:</p>
             <div className="text-center border-black ">
@@ -327,7 +329,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
                 >
                   {approver.status === "Approved" && (
                     <Image
-                      className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none -top-1 left-1/2"
+                      className="absolute transform -translate-x-1/2 -translate-y-6 pointer-events-none -top-1 left-1/2"
                       src={Storage(approver.signature) || ""}
                       alt=""
                       width={120}
@@ -365,7 +367,7 @@ const PrintCash: React.FC<PrintRefundProps> = ({ data }) => {
           </h1>
           <div className="flex flex-col items-center mt-1 font-bold">
             <h1 className="text-base font-medium underline uppercase">
-              {printData?.requested_branch}
+              {printData?.user?.branch?.branch}
             </h1>
             <h1 className="text-base font-semibold">BRANCH</h1>
           </div>

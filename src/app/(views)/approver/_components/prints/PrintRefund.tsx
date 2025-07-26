@@ -122,7 +122,7 @@ const PrintRefund: React.FC<PrintRefundProps> = ({ data }) => {
           </h1>
           <div className="flex flex-col items-center mt-2">
             <h1 className="text-sm font-medium underline uppercase">
-              {printData?.requested_branch}
+              {printData?.user?.branch?.branch}
             </h1>
             <h1 className="text-sm font-semibold">BRANCH</h1>
           </div>
