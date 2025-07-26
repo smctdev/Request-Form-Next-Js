@@ -68,6 +68,8 @@ const BaseContent = ({ children }: any) => {
     pathname === "/forgot-password" ||
     pathname.startsWith("/print");
 
+  const isPrint = pathname.startsWith("/print");
+
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
@@ -167,6 +169,7 @@ const BaseContent = ({ children }: any) => {
           />
         </div>
         <button
+          hidden={isPrint}
           ref={buttonRef}
           type="button"
           className="fixed bottom-5 bg-white p-3 rounded-full right-5"
