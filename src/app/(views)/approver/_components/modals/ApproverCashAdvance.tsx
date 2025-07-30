@@ -265,6 +265,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
   };
   const handleDisapprove = async () => {
     setLoading(true);
+    setIsRefresh(true);
     try {
       const requestData = new FormData();
 
@@ -311,6 +312,8 @@ const ApproverCashAdvance: React.FC<Props> = ({
       } else {
         setCommentMessage(errorMessage);
       }
+    } finally {
+      setIsRefresh(false);
     }
   };
 
