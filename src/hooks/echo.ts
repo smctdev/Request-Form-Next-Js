@@ -1,5 +1,4 @@
 import { api } from "@/lib/api";
-import { getCsrfToken } from "@/lib/sanctum";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
