@@ -960,7 +960,7 @@ const CreatePurchaseOrder = (props: Props) => {
               <button
                 type="button"
                 onClick={openAddCustomModal}
-                className="p-5 text-white rounded bg-primary cursor-pointer hover:bg-blue-600"
+                className="p-5 text-white rounded bg-primary cursor-pointer hover:text-black"
               >
                 {isEditableApprover ? (
                   <span className="flex gap-1 items-center">
