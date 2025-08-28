@@ -410,7 +410,8 @@ const CreateStockRequistion = (props: Props) => {
                         type="radio"
                         id="repair_maintenance"
                         value="Repair & Maintenance"
-                        className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        // className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        className="w-5 h-5 text-blue-500 focus:ring-blue-500"
                         {...register("purpose")}
                       />
                       <span
@@ -434,7 +435,8 @@ const CreateStockRequistion = (props: Props) => {
                         type="radio"
                         id="repo_recon"
                         value="Repo. Recon"
-                        className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        // className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        className="w-5 h-5 text-blue-500 focus:ring-blue-500"
                         {...register("purpose", { required: true })}
                       />
                       <span
@@ -455,7 +457,8 @@ const CreateStockRequistion = (props: Props) => {
                         type="radio"
                         id="office_service_used"
                         value="Office/Service Used"
-                        className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        // className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-10 peer border-slate-300 checked:border-slate-400"
+                        className="w-5 h-5 text-blue-500 focus:ring-blue-500"
                         {...register("purpose", { required: true })}
                       />
                       <span

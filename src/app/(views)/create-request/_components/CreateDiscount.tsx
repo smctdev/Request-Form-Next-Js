@@ -521,7 +521,8 @@ const CreateDiscount = (props: Props) => {
                           type="radio"
                           id="proba"
                           value="Proba"
-                          className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-4 peer border-slate-300 checked:border-slate-400"
+                          // className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-4 peer border-slate-300 checked:border-slate-400"
+                          className="w-5 h-5 text-blue-500 focus:ring-blue-500"
                           {...register("emp_status", { required: true })}
                         />
                         <span
@@ -545,7 +546,8 @@ const CreateDiscount = (props: Props) => {
                           type="radio"
                           id="regular"
                           value="Regular"
-                          className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-4 peer border-slate-300 checked:border-slate-400"
+                          // className="w-5 h-5 ml-1 transition-all border rounded-full appearance-none cursor-pointer size-4 peer border-slate-300 checked:border-slate-400"
+                          className="w-5 h-5 text-blue-500 focus:ring-blue-500"
                           {...register("emp_status", { required: true })}
                         />
                         <span
