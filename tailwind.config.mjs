@@ -9,9 +9,20 @@ export default {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: { /* your customizations */ },
+    extend: {
+      colors: {
+        blue: colors.blue,
+        red: colors.red,
+        gray: colors.gray,
+        black: colors.black,
+        white: colors.white,
+      },
+     },
   },
   plugins: [
     daisyui,
   ],
+  daisyui: {
+    themes: ["light", "dark"], // keep DaisyUI themes available
+  },
 };
