@@ -256,6 +256,7 @@ const ApproverDiscount: React.FC<Props> = ({
   };
   const handleDisapprove = async () => {
     setLoading(true);
+    setIsRefresh(true);
     try {
       const requestData = new FormData();
 
@@ -302,6 +303,8 @@ const ApproverDiscount: React.FC<Props> = ({
       } else {
         setCommentMessage(errorMessage);
       }
+    } finally {
+      setIsRefresh(false);
     }
   };
 
@@ -564,8 +567,12 @@ const ApproverDiscount: React.FC<Props> = ({
                       <td className={`${tableInput}`}>{item.model}</td>
                       <td className={`${tableInput}`}>{item.unit}</td>
                       <td className={`${tableInput}`}>{item.partno}</td>
-                      <td className={`${tableInput}`}>{formattedAmount(item.labor)}</td>
-                      <td className={`${tableInput}`}>{formattedAmount(item.spotcash)}</td>
+                      <td className={`${tableInput}`}>
+                        {formattedAmount(item.labor)}
+                      </td>
+                      <td className={`${tableInput}`}>
+                        {formattedAmount(item.spotcash)}
+                      </td>
                       <td className={`${tableInput}`}>
                         {formattedAmount(item.discountedPrice)}
                       </td>

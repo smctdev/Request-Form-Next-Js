@@ -250,6 +250,7 @@ const ApproverRefund: React.FC<Props> = ({
   };
   const handleDisapprove = async () => {
     setLoading(true);
+    setIsRefresh(true);
     try {
       const requestData = new FormData();
 
@@ -294,6 +295,8 @@ const ApproverRefund: React.FC<Props> = ({
       } else {
         setCommentMessage(errorMessage);
       }
+    } finally {
+      setIsRefresh(false);
     }
   };
   const handleApprove = async () => {
@@ -649,7 +652,9 @@ const ApproverRefund: React.FC<Props> = ({
                             <td className={tableCellStyle}>
                               {item.description}
                             </td>
-                            <td className={tableCellStyle}>{formattedAmount(item.unitCost)}</td>
+                            <td className={tableCellStyle}>
+                              {formattedAmount(item.unitCost)}
+                            </td>
                             <td className={tableCellStyle}>
                               {formattedAmount(item.totalAmount)}
                             </td>
@@ -668,7 +673,9 @@ const ApproverRefund: React.FC<Props> = ({
             <input
               type="text"
               className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
-              defaultValue={formattedAmount(editableRecord.form_data[0].grand_total)}
+              defaultValue={formattedAmount(
+                editableRecord.form_data[0].grand_total
+              )}
             />
           </div>
 

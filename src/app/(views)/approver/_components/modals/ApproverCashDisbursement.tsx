@@ -253,6 +253,7 @@ const ApproverCashDisbursement: React.FC<Props> = ({
 
   const handleDisapprove = async () => {
     setLoading(true);
+    setIsRefresh(true);
     try {
       const requestData = new FormData();
 
@@ -299,6 +300,8 @@ const ApproverCashDisbursement: React.FC<Props> = ({
       } else {
         setCommentMessage(errorMessage);
       }
+    } finally {
+      setIsRefresh(false);
     }
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -658,7 +661,9 @@ const ApproverCashDisbursement: React.FC<Props> = ({
                             <td className={tableCellStyle}>
                               {item.description}
                             </td>
-                            <td className={tableCellStyle}>{formattedAmount(item.unitCost)}</td>
+                            <td className={tableCellStyle}>
+                              {formattedAmount(item.unitCost)}
+                            </td>
                             <td className={tableCellStyle}>
                               {formattedAmount(item.totalAmount)}
                             </td>

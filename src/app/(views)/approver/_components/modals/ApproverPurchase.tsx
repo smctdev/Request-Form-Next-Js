@@ -308,6 +308,7 @@ const ApproverPurchase: React.FC<Props> = ({
   };
   const handleDisapprove = async () => {
     setLoading(true);
+    setIsRefresh(true);
     try {
       const requestData = new FormData();
 
@@ -354,6 +355,8 @@ const ApproverPurchase: React.FC<Props> = ({
       } else {
         setCommentMessage(errorMessage);
       }
+    } finally {
+      setIsRefresh(false);
     }
   };
   const handlePrint = () => {
@@ -559,8 +562,12 @@ const ApproverPurchase: React.FC<Props> = ({
                       <tr key={index}>
                         <td className={tableCellStyle}>{item.quantity}</td>
                         <td className={tableCellStyle}>{item.description}</td>
-                        <td className={tableCellStyle}>{formattedAmount(item.unitCost)}</td>
-                        <td className={tableCellStyle}>{formattedAmount(item.totalAmount)}</td>
+                        <td className={tableCellStyle}>
+                          {formattedAmount(item.unitCost)}
+                        </td>
+                        <td className={tableCellStyle}>
+                          {formattedAmount(item.totalAmount)}
+                        </td>
                         <td className={tableCellStyle}>{item.remarks}</td>
                       </tr>
                     ))}
