@@ -13,4 +13,7 @@ export default {
   plugins: [
     daisyui,
   ],
+  daisyui: {
+    themes: ["light"], // keep DaisyUI themes available
+  },
 };
