@@ -363,7 +363,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
           <button
             type="button"
             onClick={handleResetSelection}
-            className="px-2 py-2 font-medium text-gray-800 bg-[#389df1] rounded hover:text-black cursor-pointer"
+            className="px-2 py-2 font-medium text-white bg-[#389df1] rounded hover:text-black cursor-pointer"
           >
             Reset
           </button>
