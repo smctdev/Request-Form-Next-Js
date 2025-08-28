@@ -356,14 +356,14 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
           <button
             type="button"
             onClick={handleCancel}
-            className="px-2 py-2 font-medium text-white bg-gray-500 rounded hover:bg-gray-400 cursor-pointer"
+            className="px-2 py-2 font-medium text-white bg-[#389df1] rounded hover:text-black cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={handleResetSelection}
-            className="px-2 py-2 font-medium text-gray-800 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer"
+            className="px-2 py-2 font-medium text-gray-800 bg-[#389df1] rounded hover:text-black cursor-pointer"
           >
             Reset
           </button>
@@ -371,7 +371,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <button
               type="button"
               onClick={handleNext}
-              className="px-2 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-600 cursor-pointer"
+              className="px-2 py-2 font-medium text-white bg-[#389df1] rounded hover:text-black cursor-pointer"
             >
               Next
             </button>
@@ -380,7 +380,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-2 py-2 font-medium text-white bg-gray-600 rounded hover:bg-gray-700 cursor-pointer"
+                className="px-2 py-2 font-medium text-white bg-[#389df1] rounded hover:text-black cursor-pointer"
               >
                 Back
               </button>
@@ -388,7 +388,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
                 type="button"
                 onClick={handleAddCustomRequest}
                 disabled={isLoading}
-                className="px-2 py-2 font-medium text-white rounded bg-primary hover:bg-blue-400 hover:bg-primary-dark cursor-pointer"
+                className="px-2 py-2 font-medium text-white rounded bg-[#389df1] hover:text-black cursor-pointer"
               >
                 {isLoading ? "Saving..." : "Save"}
               </button>
