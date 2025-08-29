@@ -427,15 +427,15 @@ const RequestApprover = (props: Props) => {
           <div
             className={`${
               row.completed_status === "Completed"
-                ? "bg-blue-700"
+                ? "bg-primary"
                 : row.status.trim() === "Pending"
-                ? "bg-yellow-400"
+                ? "bg-secondary"
                 : row.status.trim() === "Approved"
                 ? "bg-green-400"
                 : row.status.trim() === "Disapproved"
-                ? "bg-pink-400"
+                ? "bg-accent"
                 : row.status.trim() === "Ongoing"
-                ? "bg-blue-500"
+                ? "bg-primary"
                 : "bg-red-600"
             } rounded-lg py-1 px-3 text-center text-white flex items-center`}
           >
