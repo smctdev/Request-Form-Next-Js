@@ -877,6 +877,7 @@ const CreateApplicationCash = (props: Props) => {
                                 <input
                                   id={`rate-${index}`}
                                   type="number"
+                                  step="0.01"
                                   value={item.rate}
                                   onChange={(e) =>
                                     handleChange(index, "rate", e.target.value)
@@ -884,7 +885,7 @@ const CreateApplicationCash = (props: Props) => {
                                   onKeyDown={(e) => {
                                     // Prevent non-digit input
                                     if (
-                                      !/[0-9]/.test(e.key) &&
+                                      !/[0-9.]/.test(e.key) &&
                                       e.key !== "Backspace" &&
                                       e.key !== "Tab"
                                     ) {
@@ -906,6 +907,7 @@ const CreateApplicationCash = (props: Props) => {
                                 <input
                                   id={`per_diem-${index}`}
                                   type="number"
+                                  step ="0.01"
                                   value={item.perDiem}
                                   onChange={(e) =>
                                     handleChange(
@@ -917,7 +919,7 @@ const CreateApplicationCash = (props: Props) => {
                                   onKeyDown={(e) => {
                                     // Prevent non-digit input
                                     if (
-                                      !/[0-9]/.test(e.key) &&
+                                      !/[0-9.]/.test(e.key) &&
                                       e.key !== "Backspace" &&
                                       e.key !== "Tab"
                                     ) {
@@ -986,7 +988,7 @@ const CreateApplicationCash = (props: Props) => {
                       </span>
                     )}
                     <span
-                      className={`bg-yellow-400 flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 max-w-md justify-center ${buttonStyle}`}
+                      className={`bg-black flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 max-w-md justify-center ${buttonStyle}`}
                       onClick={handleAddItem}
                     >
                       <PlusCircleIcon
