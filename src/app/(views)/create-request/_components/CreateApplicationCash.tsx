@@ -988,7 +988,7 @@ const CreateApplicationCash = (props: Props) => {
                       </span>
                     )}
                     <span
-                      className={`bg-black flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 max-w-md justify-center ${buttonStyle}`}
+                      className={`bg-secondary flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 max-w-md justify-center ${buttonStyle}`}
                       onClick={handleAddItem}
                     >
                       <PlusCircleIcon

@@ -700,7 +700,7 @@ const CreateCashDisbursement = (props: Props) => {
             <div className="flex flex-col items-center justify-center w-full mt-4">
               <hr className="w-full my-2 border-t-4 border-gray-400 border-dotted" />
               <span
-                className={`bg-black flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 mt-2 max-w-md justify-center ${buttonStyle}`}
+                className={`bg-secondary flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 mt-2 max-w-md justify-center ${buttonStyle}`}
                 onClick={handleAddItem}
               >
                 <PlusCircleIcon className="w-5 h-5 mr-2" aria-hidden="true" />
