@@ -609,6 +609,7 @@ const CreateStockRequistion = (props: Props) => {
                             <input
                               id={`unit_cost-${index}`}
                               type="number"
+                              step = "0.01"
                               value={item.unitCost}
                               onChange={(e) =>
                                 handleInputChange(
@@ -620,7 +621,7 @@ const CreateStockRequistion = (props: Props) => {
                               onKeyDown={(e) => {
                                 // Prevent non-digit input
                                 if (
-                                  !/[0-9]/.test(e.key) &&
+                                  !/[0-9.]/.test(e.key) &&
                                   e.key !== "Backspace" &&
                                   e.key !== "Tab"
                                 ) {
