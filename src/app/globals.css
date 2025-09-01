@@ -1,15 +1,12 @@
 @import "tailwindcss";
 
-/* @plugin "daisyui"; */
-
 @plugin "daisyui" {
-  include: button, input, select, checkbox, radio, label, textarea;
+  themes: all;
 }
 
-/* @plugin "daisyui/theme" {
+@plugin "daisyui/theme" {
   name: "mytheme";
   default: true;
-
   --color-primary: #389df1;
   --color-primaryD: #50a9f3;
   --color-primary-content: #ffffff;
@@ -30,7 +27,7 @@
   --color-graybg: #eeeeee;
   --color-blackbg: #1e1e1e;
   --color-yellow: #fea01c;
-} */
+}
 
 * {
   font-size: 13px;
