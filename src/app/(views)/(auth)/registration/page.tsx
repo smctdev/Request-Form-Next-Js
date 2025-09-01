@@ -122,6 +122,7 @@ const Registration = () => {
     register,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<UserCredentials>({
     resolver: zodResolver(schema),
@@ -151,7 +152,10 @@ const Registration = () => {
 
       const signatureDataURL = signature?.toDataURL("image/png");
 
-      const signatureData = dataURLtoFile(signatureDataURL, `${data?.userName}.png`);
+      const signatureData = dataURLtoFile(
+        signatureDataURL,
+        `${data?.userName}.png`
+      );
 
       const formData = new FormData();
       formData.append("email", data.email);
@@ -208,8 +212,8 @@ const Registration = () => {
           confirmButtonColor: "#dc3545",
         });
       }
-    } catch (error) {
-      // console.error("Registration Error:", error);
+    } catch (error: any) {
+      console.error("Registration Error:", error);
       Swal.fire({
         icon: "error",
         title: "Registration Failed",
@@ -218,6 +222,16 @@ const Registration = () => {
         confirmButtonText: "Close",
         confirmButtonColor: "#dc3545",
       });
+      const errors = error.response.data.errors;
+
+      if (error.response.status === 422) {
+        Object.keys(errors).forEach((field) => {
+          setError(field as keyof UserCredentials, {
+            type: "server",
+            message: errors[field][0],
+          });
+        });
+      }
     } finally {
       setLoading(false);
     }
