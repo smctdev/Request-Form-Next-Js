@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
 * {
   font-size: 13px;
@@ -60,7 +61,8 @@ input[type="date"] {
   background-color: rgb(238, 238, 238, 1) !important;
 }
 
-:root, [data-theme] {
+:root,
+[data-theme] {
   background-color: rgb(238, 238, 238, 1) !important;
 }
 
@@ -175,5 +177,3 @@ input[type="date"] {
     background-position: top, center;
   }
 }
-
-
