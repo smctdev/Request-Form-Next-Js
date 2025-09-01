@@ -2,6 +2,10 @@
 
 @plugin "daisyui";
 
+@plugin "daisyui" {
+  include: button, input, select, checkbox, radio, label, textarea;
+}
+
 @plugin "daisyui/theme" {
   name: "mytheme";
   default: true;
