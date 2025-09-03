@@ -11,10 +11,16 @@ export default function ZoomableImage({
   const [zoom, setZoom] = useState(1);
   const [dragging, setDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDistanceExceeded, setIsDistanceExceeded] = useState(false);
   const startPosition = useRef({ x: 0, y: 0 });
+  const MAX_DISTANCE = 600;
 
   const zoomIn = () => setZoom((prevZoom) => Math.min(prevZoom + 0.2, 3));
-  const zoomOut = () => setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1));
+  const zoomOut = () => {
+    setZoom((prevZoom) => Math.max(prevZoom - 0.2, 1));
+    setPosition({ x: 0, y: 0 });
+    setIsDistanceExceeded(true);
+  };
   const resetZoom = () => {
     setZoom(1);
     setPosition({ x: 0, y: 0 });
@@ -60,10 +66,17 @@ export default function ZoomableImage({
       x: clientX - startPosition.current.x,
       y: clientY - startPosition.current.y,
     });
+    setIsDistanceExceeded(false);
   };
 
   const handleEnd = () => {
     setDragging(false);
+    const distance = Math.sqrt(position.x ** 2 + position.y ** 2);
+
+    if (distance > MAX_DISTANCE) {
+      setPosition({ x: 0, y: 0 });
+      setIsDistanceExceeded(true);
+    }
   };
 
   useEffect(() => {
@@ -83,7 +96,7 @@ export default function ZoomableImage({
       document.removeEventListener("mouseup", handleMouseUp);
       document.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [dragging]);
+  }, [dragging, isDistanceExceeded, position]);
 
   return (
     <div
@@ -108,7 +121,9 @@ export default function ZoomableImage({
               height={400}
               src={currentImage || ""}
               alt="Viewed"
-              className="object-contain w-full max-h-screen transform select-none"
+              className={`object-contain w-full max-h-screen transform select-none ${
+                isDistanceExceeded && "transition-all duration-500 ease-in-out"
+              }`}
               style={{
                 transform: `scale(${zoom}) translate(${position.x}px, ${position.y}px)`,
                 touchAction: "none",
