@@ -45,16 +45,15 @@ function RequestAccess() {
           ]);
           return;
         }
-        setRequestAccess((prevRequestAccess: any) => [
-          requestAccess,
-          ...prevRequestAccess,
-        ]);
+        setRequestAccess((prevRequestAccess: any) =>
+          [requestAccess, ...prevRequestAccess].slice(0, pagination.per_page)
+        );
       });
 
     return () => {
       channel.stopListening("RequestAccessEvent");
     };
-  }, [echo, user.id, searchTerm]);
+  }, [echo, user.id, searchTerm, pagination.per_page]);
 
   const tableData = [
     {
