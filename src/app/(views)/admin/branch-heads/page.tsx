@@ -15,7 +15,7 @@ import DeleteSuccessModal from "@/app/(views)/admin/_components/ui/DeleteSucessM
 import CompleteModal from "@/app/(views)/admin/_components/ui/CompleteModal";
 import EditBranchHead from "@/app/(views)/admin/_components/modals/EditBranchHead";
 import SuccessModal from "@/app/(views)/admin/_components/ui/SuccessModal";
-import adminPage from "@/lib/adminPage";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 type Props = {};
 
@@ -416,4 +416,4 @@ const SetupBranchHead = (props: Props) => {
   );
 };
 
-export default adminPage(SetupBranchHead);
+export default authenticatedPage(SetupBranchHead, true, true, true);

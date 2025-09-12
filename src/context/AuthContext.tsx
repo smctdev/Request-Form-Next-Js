@@ -53,7 +53,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const fetchUserProfile = async () => {
-    setIsLoading(true);
     try {
       const response = await fetchProfile();
       if (response.status === 200) {
@@ -65,10 +64,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         if (response.data.data.role === "approver") {
           setIsApprover(true);
         }
-        if (
-          response.data.data.role === "approver" &&
-          response.data?.data?.position?.startsWith("Audit")
-        ) {
+        if (response.data?.data?.position?.startsWith("Audit")) {
           setIsAuditor(true);
         }
       }
@@ -80,24 +76,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       setIsApprover(false);
       setIsAuditor(false);
     } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 3000);
+      setIsLoading(false);
     }
   };
 
   const updateProfile = async () => {
     try {
       const response = await fetchProfile();
-      setUser(response.data.data);
-      if (response.data.data.role === "Admin") {
-        setIsAdmin(true);
-      }
-      if (response.data.data.role === "approver") {
-        setIsApprover(true);
-      }
-      if (response.data?.data?.position?.startsWith("Audit")) {
-        setIsAuditor(true);
+      if (response.status === 200) {
+        setUser(response.data.data);
+        setIsAuthenticated(true);
+        if (response.data.data.role === "Admin") {
+          setIsAdmin(true);
+        }
+        if (response.data.data.role === "approver") {
+          setIsApprover(true);
+        }
+        if (response.data?.data?.position?.startsWith("Audit")) {
+          setIsAuditor(true);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -109,17 +106,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const login = async (credentials: CredetialType, router: any) => {
+  const login = async (credentials: CredetialType) => {
     try {
       const response = await loginApi(credentials);
       if (response.status === 200) {
         setIsLogin(true);
         fetchUserProfile();
-        if (response.data.role === "approver") {
-          router.push("/approver/dashboard");
-        } else {
-          router.push("/dashboard");
-        }
         setError("");
       }
     } catch (error: any) {
@@ -158,12 +150,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const logout = async (router: any) => {
+  const logout = async () => {
     try {
       const response = await logoutApi();
       if (response.status === 204) {
-        fetchUserProfile();
-        router.push("/login");
+        setUser([]);
+        setIsAuthenticated(false);
+        setIsAdmin(false);
+        setIsAuditor(false);
+        setIsApprover(false);
+        setIsLogin(false);
       }
     } catch (error) {
       console.error(error);

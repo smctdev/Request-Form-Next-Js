@@ -16,7 +16,7 @@ import EditAreaManager from "@/app/(views)/admin/_components/modals/EditAreaMana
 import SuccessModal from "@/app/(views)/admin/_components/ui/SuccessModal";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import adminPage from "@/lib/adminPage";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 type Props = {};
 
@@ -420,4 +420,4 @@ const SetupAreaManager = (props: Props) => {
   );
 };
 
-export default adminPage(SetupAreaManager);
+export default authenticatedPage(SetupAreaManager, true, true, true);

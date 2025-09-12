@@ -12,7 +12,7 @@ import CompleteModal from "@/app/(views)/admin/_components/ui/CompleteModal";
 import EditUserModal from "@/app/(views)/admin/_components/modals/EditUserModal";
 import ViewApproverModal from "@/app/(views)/admin/_components/modals/ViewApproverModal";
 import { useAuth } from "@/context/AuthContext";
-import adminPage from "@/lib/adminPage";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 type Props = {};
 
@@ -372,4 +372,4 @@ const SetupApprover = (props: Props) => {
   );
 };
 
-export default adminPage(SetupApprover);
+export default authenticatedPage(SetupApprover, true, true, true);

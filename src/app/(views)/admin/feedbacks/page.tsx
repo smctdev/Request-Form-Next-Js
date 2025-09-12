@@ -1,11 +1,11 @@
 "use client";
 
-import adminPage from "@/lib/adminPage";
 import { FeedbackType } from "../_types/Feedback";
 import useFetch from "../_hooks/useFetch";
 import DataTable from "react-data-table-component";
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 function Feedbacks() {
   const {
@@ -116,4 +116,4 @@ function Feedbacks() {
   );
 }
 
-export default adminPage(Feedbacks);
+export default authenticatedPage(Feedbacks, true, true, true);

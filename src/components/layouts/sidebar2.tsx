@@ -22,7 +22,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import echo from "@/hooks/echo";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { NavItem, SidebarProps } from "@/types/sidebarTypes";
@@ -30,7 +30,6 @@ import { useNotification } from "@/context/NotificationContext";
 import Swal from "sweetalert2";
 
 const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
-  const router = useRouter();
   const pathname = usePathname(); // Get current location
   const [notificationReceived, setnotificationReceived] = useState(false);
   const [pendingCounts, setPendingCounts] = useState(0);
@@ -39,6 +38,34 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   const { isRefresh } = useNotification();
 
   const navItems: NavItem[] = isAuditor
+    ? [
+        {
+          title: "Dashboard",
+          submenu: false,
+          icon: ChartBarIcon,
+          path: "/approver/dashboard",
+        },
+        {
+          title: "My Request",
+          submenu: false,
+          icon: EnvelopeIcon,
+          path: "/request",
+        },
+        {
+          title: "Create Request",
+          submenu: false,
+          icon: DocumentPlusIcon,
+          path: "/create-request?title=Stock%20Requisition",
+        },
+        {
+          title: "Reports",
+          submenu: false,
+          icon: FlagIcon,
+          path: "/reports",
+        },
+        { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
+      ]
+    : isAuditor && isApprover
     ? [
         {
           title: "Dashboard",
@@ -259,7 +286,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
       confirmButtonText: "Yes, logout!",
     }).then((result) => {
       if (result.isConfirmed) {
-        logout(router);
+        logout();
       }
     });
   };

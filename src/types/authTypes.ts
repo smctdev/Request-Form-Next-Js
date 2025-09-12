@@ -8,8 +8,8 @@ export type AuthContextType = {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   isLoading: boolean;
-  login: (credentials: CredetialType, router: any) => Promise<void>;
-  logout: (router: any) => Promise<void>;
+  login: (credentials: CredetialType) => Promise<void>;
+  logout: () => Promise<void>;
   setError: React.Dispatch<React.SetStateAction<string>>;
   error: string;
   errors: any;

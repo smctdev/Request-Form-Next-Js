@@ -16,7 +16,7 @@ import EditUserModal from "@/app/(views)/admin/_components/modals/EditUserModal"
 import ViewBranchModal from "@/app/(views)/admin/_components/modals/ViewBranchModal";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import adminPage from "@/lib/adminPage";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 export type Branch = {
   id: number;
@@ -344,4 +344,4 @@ const SetupBranch = (props: Props) => {
   );
 };
 
-export default adminPage(SetupBranch);
+export default authenticatedPage(SetupBranch, true, true, true);

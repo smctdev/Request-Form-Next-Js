@@ -1,6 +1,5 @@
 "use client";
 
-import adminPage from "@/lib/adminPage";
 import { useEffect } from "react";
 import TableLoader from "../_components/loaders/TableLoader";
 import echo from "@/hooks/echo";
@@ -14,6 +13,7 @@ import { formatDate } from "date-fns";
 import { timeFormat } from "../_utils/timeFormat";
 import { FaCheck } from "react-icons/fa";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 function RequestAccess() {
   const { user } = useAuth();
@@ -261,4 +261,4 @@ function RequestAccess() {
   );
 }
 
-export default adminPage(RequestAccess);
+export default authenticatedPage(RequestAccess, true, true, true);
