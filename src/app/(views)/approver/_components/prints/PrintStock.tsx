@@ -90,7 +90,6 @@ const PrintStock: React.FC<PrintRefundProps> = ({ data }) => {
     }
   }, [printData]);
   const tableStyle = "border-b border-black text-sm font-normal";
-  console.log(printData);
 
   return (
     <div className="text-black bg-white h-lvh ">

@@ -412,7 +412,6 @@ const ViewStockModal: React.FC<Props> = ({
     setApprovedBy(approvedBy);
     setIsEditing(false);
   };
-console.log(user);
   const handlePrint = () => {
     // Construct the data object to be passed
     const data = {
