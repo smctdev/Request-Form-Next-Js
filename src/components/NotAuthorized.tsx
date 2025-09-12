@@ -24,7 +24,7 @@ export default function Unauthorized() {
       confirmButtonText: "Yes, logout!",
     }).then((result) => {
       if (result.isConfirmed) {
-        logout(router);
+        logout();
       }
     });
   };

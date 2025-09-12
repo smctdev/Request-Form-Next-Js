@@ -260,7 +260,7 @@ const Navbar = ({
       confirmButtonText: "Yes, logout!",
     }).then((result) => {
       if (result.isConfirmed) {
-        logout(router);
+        logout();
         handleClose();
       }
     });

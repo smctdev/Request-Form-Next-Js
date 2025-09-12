@@ -20,7 +20,7 @@ import SuccessModal from "@/app/(views)/admin/_components/ui/SuccessModal";
 import ViewUserModal from "@/app/(views)/admin/_components/modals/ViewUserModal";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
-import adminPage from "@/lib/adminPage";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 type Props = {};
 
@@ -602,4 +602,4 @@ const SetupUser = (props: Props) => {
   );
 };
 
-export default adminPage(SetupUser);
+export default authenticatedPage(SetupUser, true, true, true);

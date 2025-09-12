@@ -16,10 +16,10 @@ import ApproverRefund from "../_components/modals/ApproverRefund";
 import ApproverPurchase from "../_components/modals/ApproverPurchase";
 import { useAuth } from "@/context/AuthContext";
 import { useNotification } from "@/context/NotificationContext";
-import approverPage from "@/lib/approverPage";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 import ApproverCheckIssuance from "../_components/modals/ApproverChecklssuance";
 import { BiRotateRight } from "react-icons/bi";
+import authenticatedPage from "@/lib/authenticatedPage";
 type Props = {};
 
 type Record = {
@@ -677,4 +677,4 @@ const RequestApprover = (props: Props) => {
   );
 };
 
-export default approverPage(RequestApprover);
+export default authenticatedPage(RequestApprover, true, false, true);

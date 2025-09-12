@@ -16,7 +16,7 @@ import CompleteModal from "@/app/(views)/admin/_components/ui/CompleteModal";
 import EditAVPStaff from "@/app/(views)/admin/_components/modals/EditAVPStaff";
 import SuccessModal from "@/app/(views)/admin/_components/ui/SuccessModal";
 import { useAuth } from "@/context/AuthContext";
-import adminPage from "@/lib/adminPage";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 type Props = {};
 
@@ -421,4 +421,4 @@ const SetupAVP = (props: Props) => {
   );
 };
 
-export default adminPage(SetupAVP);
+export default authenticatedPage(SetupAVP, true, true, true);

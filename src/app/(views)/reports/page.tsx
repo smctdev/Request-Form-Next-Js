@@ -1,7 +1,6 @@
 "use client";
 
 import DataTable from "react-data-table-component";
-import auditorPage from "@/lib/auditorPage";
 import useFetch from "../admin/_hooks/useFetch";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 import { BiRotateRight, BiSearchAlt } from "react-icons/bi";
@@ -11,6 +10,7 @@ import FilterReports from "@/components/filter-reports";
 import { useState } from "react";
 import Modal from "./_components/modal";
 import { RotateLoader } from "react-spinners";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 const Reports = () => {
   const {
@@ -209,4 +209,4 @@ const Reports = () => {
   );
 };
 
-export default auditorPage(Reports);
+export default authenticatedPage(Reports, true, true, false);

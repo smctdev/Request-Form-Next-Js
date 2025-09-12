@@ -39,7 +39,7 @@ const Login = () => {
   const submitData: SubmitHandler<UserCredentials> = async (data) => {
     setLoading(true);
     try {
-      await login(data, router);
+      await login(data);
     } catch (error: any) {
       console.error(error);
     } finally {

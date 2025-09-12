@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 import AddPositionModal from "@/app/(views)/admin/_components/modals/AddPositionModal";
 import EditPositionModal from "@/app/(views)/admin/_components/modals/EditPositionModal";
 import { api } from "@/lib/api";
-import adminPage from "@/lib/adminPage";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 export type Branch = {
   id: number;
@@ -316,4 +316,4 @@ const SetupPosition: React.FC = () => {
   );
 };
 
-export default adminPage(SetupPosition);
+export default authenticatedPage(SetupPosition, true, true, true);

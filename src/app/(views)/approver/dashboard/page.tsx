@@ -12,7 +12,6 @@ import {
   faFileCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { format, startOfWeek, endOfMonth } from "date-fns";
-import { ChartBarIcon } from "@heroicons/react/24/solid";
 import {
   BarChart,
   Bar,
@@ -27,7 +26,7 @@ import {
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
-import approverPage from "@/lib/approverPage";
+import authenticatedPage from "@/lib/authenticatedPage";
 
 type Props = {};
 
@@ -139,7 +138,9 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
 
   const fetchData = async () => {
     try {
-      const response = await api.get(`/request-forms/for-approval/${user.id}/for-approval-requests`);
+      const response = await api.get(
+        `/request-forms/for-approval/${user.id}/for-approval-requests`
+      );
 
       const requests: Request[] = response.data.request_forms || []; // Use the defined type
 
@@ -517,4 +518,4 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
   );
 };
 
-export default approverPage(ApproverDashboard);
+export default authenticatedPage(ApproverDashboard, true, false, true);
