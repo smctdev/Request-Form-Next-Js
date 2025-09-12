@@ -1,5 +1,6 @@
 import Storage from "@/utils/storage";
 import Image from "next/image";
+import tempPhoto from "@/assets/avatar.png";
 
 export default function ApproverComments({ record }: any) {
   return (
@@ -19,7 +20,11 @@ export default function ApproverComments({ record }: any) {
                   <Image
                     alt="avatar"
                     className="hidden cursor-pointer sm:block"
-                    src={Storage(user?.user?.profile_picture)}
+                    src={
+                      !user?.user?.profile_picture
+                        ? tempPhoto.src
+                        : Storage(user?.user?.profile_picture)
+                    }
                     height={35}
                     width={45}
                     draggable="false"
