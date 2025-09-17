@@ -186,13 +186,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
 
         if (parsedAttachment.length > 0) {
           // Construct file URLs
-          const fileUrls = parsedAttachment.map(
-            (filePath) =>
-              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${filePath.replace(
-                /\\/g,
-                "/"
-              )}`
-          );
+          const fileUrls = parsedAttachment.map((filePath) => filePath);
           setAttachmentUrl(fileUrls);
         }
       }
@@ -246,17 +240,14 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
     );
   };
 
-  const handleRemoveAttachment = (index: number) => {
-    // Get the path of the attachment to be removed
-    const attachmentPath = attachmentUrl[index].split(
-      "request-form-files/request_form_attachments/"
-    )[1];
-
+  const handleRemoveAttachment = (index: string) => {
     // Add the path to the removedAttachments state
-    setRemovedAttachments((prevRemoved) => [...prevRemoved, attachmentPath]);
+    setRemovedAttachments((prevRemoved) => [...prevRemoved, index]);
 
     // Remove the attachment from the current list
-    setAttachmentUrl((prevUrls) => prevUrls.filter((_, i) => i !== index));
+    setAttachmentUrl((prevUrls) =>
+      prevUrls.filter((item, i) => item !== index)
+    );
   };
 
   const handleEdit = () => {
@@ -919,7 +910,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
               <div className="flex gap-1">
                 {attachmentUrl.map((fileItem, index) => (
                   <div
-                    key={fileItem}
+                    key={index}
                     className="relative w-24 p-2 bg-white rounded-lg shadow-md"
                   >
                     <div className="relative w-20">
@@ -929,7 +920,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                           <Image
                             width={100}
                             height={100}
-                            src={fileItem}
+                            src={Storage(fileItem)}
                             alt="attachment"
                             className="object-cover w-full h-20 rounded-md"
                           />
@@ -946,7 +937,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                             <p key={index} className="text-center">
                               <button
                                 type="button"
-                                onClick={() => handleRemoveAttachment(index)}
+                                onClick={() => handleRemoveAttachment(fileItem)}
                                 className="px-3 py-1 mt-2 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                               >
                                 Remove
@@ -968,7 +959,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                           <div className="mt-2">
                             {!isEditing ? (
                               <a
-                                href={fileItem}
+                                href={Storage(fileItem)}
                                 download
                                 target="_blank"
                                 onClick={(e) => e.stopPropagation()}
@@ -980,7 +971,9 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                               <p key={index} className="text-center">
                                 <button
                                   type="button"
-                                  onClick={() => handleRemoveAttachment(index)}
+                                  onClick={() =>
+                                    handleRemoveAttachment(fileItem)
+                                  }
                                   className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                                 >
                                   Remove

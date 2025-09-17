@@ -156,13 +156,8 @@ const ViewLiquidationModal: React.FC<Props> = ({
 
         if (parsedAttachment.length > 0) {
           // Construct file URLs
-          const fileUrls = parsedAttachment.map(
-            (filePath) =>
-              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${filePath.replace(
-                /\\/g,
-                "/"
-              )}`
-          );
+
+          const fileUrls = parsedAttachment.map((filePath) => filePath);
           setAttachmentUrl(fileUrls);
         }
       }
@@ -232,17 +227,14 @@ const ViewLiquidationModal: React.FC<Props> = ({
     );
   };
 
-  const handleRemoveAttachment = (index: number) => {
-    // Get the path of the attachment to be removed
-    const attachmentPath = attachmentUrl[index].split(
-      "request-form-files/request_form_attachments/"
-    )[1];
-
+  const handleRemoveAttachment = (index: string) => {
     // Add the path to the removedAttachments state
-    setRemovedAttachments((prevRemoved) => [...prevRemoved, attachmentPath]);
+    setRemovedAttachments((prevRemoved) => [...prevRemoved, index]);
 
     // Remove the attachment from the current list
-    setAttachmentUrl((prevUrls) => prevUrls.filter((_, i) => i !== index));
+    setAttachmentUrl((prevUrls) =>
+      prevUrls.filter((item, i) => item !== index)
+    );
   };
 
   const handleEdit = () => {
@@ -1247,7 +1239,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                             <p key={index} className="text-center">
                               <button
                                 type="button"
-                                onClick={() => handleRemoveAttachment(index)}
+                                onClick={() => handleRemoveAttachment(fileItem)}
                                 className="px-3 py-1 mt-2 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                               >
                                 Remove
@@ -1281,7 +1273,9 @@ const ViewLiquidationModal: React.FC<Props> = ({
                               <p key={index} className="text-center">
                                 <button
                                   type="button"
-                                  onClick={() => handleRemoveAttachment(index)}
+                                  onClick={() =>
+                                    handleRemoveAttachment(fileItem)
+                                  }
                                   className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                                 >
                                   Remove
