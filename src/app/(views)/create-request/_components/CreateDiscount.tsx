@@ -4,7 +4,12 @@ export const dynamic = "force-dynamic";
 
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { MinusCircleIcon, PencilIcon, PlusCircleIcon, PlusIcon } from "@heroicons/react/24/solid";
+import {
+  MinusCircleIcon,
+  PencilIcon,
+  PlusCircleIcon,
+  PlusIcon,
+} from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -431,15 +436,26 @@ const CreateDiscount = (props: Props) => {
       if (response.status === 201) {
         Swal.close();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("An error occurred while submitting the request:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Submission Failed",
-        text: "An unexpected error occurred. Please try again.",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#dc3545",
-      });
+
+      if (error.response.status === 422) {
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: error.response.data.message,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#dc3545",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: "An unexpected error occurred. Please try again.",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#dc3545",
+        });
+      }
     } finally {
       setLoading(false);
     }
