@@ -470,15 +470,26 @@ const CreateLiquidation = (props: Props) => {
       if (response.status === 201) {
         Swal.close();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("An error occurred while submitting the request:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Submission Failed",
-        text: "An unexpected error occurred. Please try again.",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#dc3545",
-      });
+
+      if (error.response.status === 422) {
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: error.response.data.message,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#dc3545",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: "An unexpected error occurred. Please try again.",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#dc3545",
+        });
+      }
     } finally {
       setLoading(false);
     }

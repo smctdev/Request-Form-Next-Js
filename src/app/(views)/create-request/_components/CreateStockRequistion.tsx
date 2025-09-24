@@ -215,7 +215,7 @@ const CreateStockRequistion = (props: Props) => {
       // Display confirmation modal
       setShowConfirmationModal(true);
       setFormData(formData);
-    } catch (error) {
+    } catch (error: any) {
       console.error("An error occurred while preparing the request:", error);
     } finally {
       setLoading(false);
@@ -264,15 +264,26 @@ const CreateStockRequistion = (props: Props) => {
       if (response.status === 201) {
         Swal.close();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("An error occurred while submitting the request:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Submission Failed",
-        text: "An unexpected error occurred. Please try again.",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#dc3545",
-      });
+
+      if (error.response.status === 422) {
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: error.response.data.message,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#dc3545",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: "An unexpected error occurred. Please try again.",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#dc3545",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -802,7 +813,7 @@ const CreateStockRequistion = (props: Props) => {
             )}
             <div className="max-w-[500px] overflow-x-auto pb-3 ">
               <div className="flex gap-1">
-                {file.map((fileItem) => (
+                {file.map((fileItem, index) => (
                   <div
                     key={fileItem.name}
                     className="relative w-24 p-2 bg-white rounded-lg shadow-md"
