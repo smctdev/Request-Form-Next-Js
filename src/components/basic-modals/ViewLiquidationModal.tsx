@@ -463,7 +463,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
   };
 
   const handleViewImage = (imageUrl: any) => {
-    setCurrentImage(imageUrl);
+    setCurrentImage(Storage(imageUrl));
     setIsImgModalOpen(true);
   };
 
