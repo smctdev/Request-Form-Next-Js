@@ -442,7 +442,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
   };
 
   const handleViewImage = (imageUrl: any) => {
-    setCurrentImage(imageUrl);
+    setCurrentImage(Storage(imageUrl));
     setIsImgModalOpen(true);
   };
 
@@ -1036,7 +1036,9 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
                               <p key={index} className="text-center">
                                 <button
                                   type="button"
-                                  onClick={() => handleRemoveAttachment(fileItem)}
+                                  onClick={() =>
+                                    handleRemoveAttachment(fileItem)
+                                  }
                                   className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                                 >
                                   Remove
