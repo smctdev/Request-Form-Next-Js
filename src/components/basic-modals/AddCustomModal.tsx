@@ -48,21 +48,17 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
         try {
           const response = await api.get(`/view-approvers/${user.id}`);
 
-          const allApprovers = [
-            ...(response.data.HOApprovers || []),
-            ...(response.data.areaManagerApprover || []),
-            ...(response.data.sameBranchApprovers || []),
-          ];
+          const allApprovers = response.data.data ?? [];
           const currentUserId = Number(user.id);
           const currentUsers = allApprovers.filter(
-            (approver) => approver.id !== currentUserId
+            (approver: any) => approver.id !== currentUserId
           );
 
           const uniqueIds = new Set(
-            currentUsers.map((approver) => approver.id)
+            currentUsers.map((approver: any) => approver.id)
           );
           const uniqueApprovers = allApprovers.filter(
-            (approver) =>
+            (approver: any) =>
               uniqueIds.has(approver.id) && uniqueIds.delete(approver.id)
           );
 
