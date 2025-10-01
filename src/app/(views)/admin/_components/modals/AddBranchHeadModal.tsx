@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { api } from "@/lib/api";
 import ClipLoader from "react-spinners/ClipLoader";
+import Swal from "sweetalert2";
 
 type User = {
   user: {
@@ -43,30 +44,31 @@ const AddBranchHeadModal = ({
   const [selectedBranches, setSelectedBranches] = useState<number[]>([]);
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isWaiting, setIsWaiting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setIsWaiting(true);
       try {
         const response = await api.get(`/get-all-branch-heads`);
 
-        const transformedData = response.data.data
-          .filter((item: any) => item.user.position.trim() === "Branch Manager")
-          .map((item: any) => ({
-            id: item.user.id,
-            name: item.user.fullName,
-            branch_code: item.user.branch_code,
-            email: item.user.email,
-            role: item.user.role.trim(),
-            position: item.user.position,
-          }));
+        const transformedData = response.data.data.map((item: any) => ({
+          id: item.user.id,
+          name: item.user.fullName,
+          branch_code: item.user.branch_code,
+          email: item.user.email,
+          role: item.user.role.trim(),
+          position: item.user.position,
+        }));
 
         setUsers(transformedData);
       } catch (error) {
         console.error("Error fetching users data:", error);
       } finally {
         setLoading(false);
+        setIsWaiting(false);
       }
     };
 
@@ -77,8 +79,11 @@ const AddBranchHeadModal = ({
 
   useEffect(() => {
     const fetchBranches = async () => {
+      setIsWaiting(true);
       try {
-        const response = await api.get(`/view-branch/${selectedUser.id}/view-branch-not-in-branch-head`);
+        const response = await api.get(
+          `/view-branch/${selectedUser.id}/view-branch-not-in-branch-head`
+        );
 
         setBranches(response.data.data);
       } catch (error) {
@@ -86,7 +91,7 @@ const AddBranchHeadModal = ({
         setError("Failed to fetch branches");
         setBranches([]);
       } finally {
-        setLoading(false);
+        setIsWaiting(false);
       }
     };
 
@@ -131,10 +136,15 @@ const AddBranchHeadModal = ({
         setSelectedUser(null);
         setSelectedBranches([]);
         refreshData(); // Refresh parent data if needed
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error creating branch head:", error);
         setIsLoading(false);
         // Handle error state or show error message
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.message,
+        });
       }
     } else {
       // Handle case where user or branches are not selected
@@ -146,6 +156,11 @@ const AddBranchHeadModal = ({
     setSelectedUser(null);
     setSelectedBranches([]);
     closeModal();
+  };
+
+  const handleSelectAnotherBranchHead = () => {
+    setSelectedUser(null);
+    setSelectedBranches([]);
   };
 
   if (!modalIsOpen) {
@@ -176,9 +191,18 @@ const AddBranchHeadModal = ({
           <div>
             {selectedUser ? (
               <div className="bg-white flex-col w-10/12 sm:w-full h-1/2 rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex space-x-2">
-                <h3 className="p-4 text-lg font-bold">
-                  Branches for {`${selectedUser.name} `}:
-                </h3>
+                <div className="flex justify-between items-center">
+                  <h3 className="p-4 text-lg font-bold">
+                    Branches for {`${selectedUser.name} `}:
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={handleSelectAnotherBranchHead}
+                    className="p-2 bg-gray-500 hover:bg-gray-600 text-white rounded"
+                  >
+                    Select another branch head
+                  </button>
+                </div>
                 <input
                   type="text"
                   placeholder="Search branches..."
@@ -187,7 +211,26 @@ const AddBranchHeadModal = ({
                   className="p-2 mb-2 bg-white border border-black rounded-md "
                 />
                 <div className="px-4">
-                  {branches.length === 0 ? (
+                  {isWaiting ? (
+                    <>
+                      {Array.from({ length: 10 }).map((_, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between mb-2 bg-blue-100"
+                        >
+                          <div className="flex items-center justify-between w-full p-4">
+                            <div className="w-full space-y-2">
+                              <p className="skeleton bg-slate-200 h-6 w-45"></p>
+                              <p className="skeleton bg-slate-200 h-6 w-26"></p>
+                            </div>
+                            <div className="h-6 w-6">
+                              <p className="skeleton bg-slate-200 h-6 w-6"></p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </>
+                  ) : branches.length === 0 ? (
                     <ClipLoader size={35} color={"#123abc"} loading={loading} />
                   ) : (
                     branches
@@ -242,7 +285,17 @@ const AddBranchHeadModal = ({
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {users.length === 0 ? (
+                      {isWaiting ? (
+                        <>
+                          {Array.from({ length: 10 }).map((_, index) => (
+                            <tr key={index}>
+                              <td colSpan={3} className="text-center p-2">
+                                <p className="skeleton bg-slate-200 h-10 w-full"></p>
+                              </td>
+                            </tr>
+                          ))}
+                        </>
+                      ) : users.length === 0 ? (
                         <>
                           <tr>
                             <td colSpan={3} className="text-center">

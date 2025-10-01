@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { api } from "@/lib/api";
 import ClipLoader from "react-spinners/ClipLoader";
+import Swal from "sweetalert2";
 
 interface Branch {
   id: number;
@@ -60,10 +61,12 @@ const EditBranchHead = ({
   const [initialSelectedBranches, setInitialSelectedBranches] = useState<
     number[]
   >([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isWaiting, setIsWaiting] = useState<boolean>(false);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [branchHeadData, setBranchHeadData] = useState<Record | null>(null);
+  const [removedBranchId, setRemovedBranchId] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchBranches = async () => {
@@ -114,6 +117,7 @@ const EditBranchHead = ({
 
   useEffect(() => {
     const fetchBranches = async () => {
+      setIsWaiting(true);
       try {
         const response = await api.get(`/view-branch`);
 
@@ -122,6 +126,8 @@ const EditBranchHead = ({
         console.error("Error fetching branches:", error);
         setError("Failed to fetch branches");
         setBranches([]);
+      } finally {
+        setIsWaiting(false);
       }
     };
 
@@ -155,6 +161,7 @@ const EditBranchHead = ({
         const putData = {
           user_id: selectedUser.user_id,
           branch_id: selectedBranches, // Ensure this is an array of branch IDs
+          removed_branch_id: removedBranchId,
         };
 
         const response = await api.post(
@@ -167,10 +174,16 @@ const EditBranchHead = ({
         editModalClose();
         refreshData();
         setIsLoading(false); // Refresh parent data if needed
-      } catch (error) {
+        setRemovedBranchId([]);
+      } catch (error: any) {
         console.error("Error updating branch head:", error);
         setIsLoading(false);
         setError("Failed to update branch head. Please try again."); // Show error message
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.message,
+        });
       }
     } else {
       setError("Please select at least one branch."); // Show error message
@@ -187,9 +200,10 @@ const EditBranchHead = ({
     setSelectedBranches(
       selectedBranches.filter((id) => id !== branchIdToRemove)
     );
+    setRemovedBranchId([...removedBranchId, branchIdToRemove]);
   };
   return (
-    <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50">
+    <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50">
       <div className="p-4 w-10/12 sm:w-1/3 relative bg-primary flex justify-center mx-20 border-b rounded-t-[12px]">
         <h2 className="text-center text-xl md:text-[32px] font-bold h-full text-white">
           Edit Branch Head
@@ -219,7 +233,26 @@ const EditBranchHead = ({
               className="p-2 mb-2 border border-gray-300 rounded-md "
             />
             <div className="h-auto px-4">
-              {branches.length === 0 ? (
+              {isWaiting ? (
+                <>
+                  {Array.from({ length: 10 }).map((_, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between mb-2 bg-blue-100"
+                    >
+                      <div className="flex items-center justify-between w-full p-4">
+                        <div className="w-full space-y-2">
+                          <p className="skeleton bg-slate-200 h-6 w-45"></p>
+                          <p className="skeleton bg-slate-200 h-6 w-26"></p>
+                        </div>
+                        <div className="h-6 w-6">
+                          <p className="skeleton bg-slate-200 h-6 w-6"></p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : branches.length === 0 ? (
                 <ClipLoader size={35} color={"#123abc"} loading={loading} />
               ) : (
                 branches
