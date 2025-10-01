@@ -43,7 +43,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
           title: "Dashboard",
           submenu: false,
           icon: ChartBarIcon,
-          path: "/approver/dashboard",
+          path: "/dashboard",
         },
         {
           title: "My Request",
