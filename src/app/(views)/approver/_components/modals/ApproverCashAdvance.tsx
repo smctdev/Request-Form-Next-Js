@@ -963,7 +963,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                       <div className="relative flex flex-col items-center justify-center">
                         {/* Signature */}
                         {record?.requested_signature && (
-                          <div className="absolute -top-7">
+                          <div className="absolute -top-12">
                             <Image
                               src={Storage(record?.requested_signature) || ""}
                               width={120}
@@ -1022,7 +1022,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                             {(user.status === "Approved" ||
                               (typeof user.status === "string" &&
                                 user.status.split(" ")[0] === "Rejected")) && (
-                              <div className="absolute -top-7">
+                              <div className="absolute -top-12">
                                 <Image
                                   src={Storage(user.signature || "")}
                                   alt="avatar"
@@ -1087,7 +1087,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                           {(user.status === "Approved" ||
                             (typeof user.status === "string" &&
                               user.status.split(" ")[0] === "Rejected")) && (
-                            <div className="absolute -top-7">
+                            <div className="absolute -top-12">
                               <Image
                                 src={Storage(user.signature || "")}
                                 alt="avatar"
