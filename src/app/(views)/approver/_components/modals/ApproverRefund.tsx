@@ -694,7 +694,7 @@ const ApproverRefund: React.FC<Props> = ({
                         {/* Signature */}
 
                         {record?.requested_signature && (
-                          <div className="absolute -top-7">
+                          <div className="absolute -top-15">
                             <Image
                               src={Storage(record?.requested_signature) || ""}
                               width={120}
@@ -753,7 +753,7 @@ const ApproverRefund: React.FC<Props> = ({
                             {(user.status === "Approved" ||
                               (typeof user.status === "string" &&
                                 user.status.split(" ")[0] === "Rejected")) && (
-                              <div className="absolute -top-7">
+                              <div className="absolute -top-15">
                                 <Image
                                   src={Storage(user.signature || "")}
                                   alt="avatar"
@@ -818,7 +818,7 @@ const ApproverRefund: React.FC<Props> = ({
                           {(user.status === "Approved" ||
                             (typeof user.status === "string" &&
                               user.status.split(" ")[0] === "Rejected")) && (
-                            <div className="absolute -top-7">
+                            <div className="absolute -top-15">
                               <Image
                                 src={Storage(user.signature || "")}
                                 alt="avatar"
