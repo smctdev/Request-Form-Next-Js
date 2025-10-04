@@ -5,6 +5,14 @@ import { ThemeProvider as MyThemeProvider } from "next-themes";
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [isMounted, setIsMounted] = useState<boolean>(true);
+  const userAgent = navigator.userAgent;
+  const isNotSupportedDarkMode = [
+    "Windows NT 5.1",
+    "Windows NT 6.0",
+    "Windows NT 6.1",
+    "Windows NT 6.2",
+    "Windows NT 6.3",
+  ].includes(userAgent);
 
   useEffect(() => {
     setIsMounted(true);
@@ -16,8 +24,8 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <MyThemeProvider
-      data-theme="light"
-      defaultTheme="system"
+      data-theme={isNotSupportedDarkMode ? "mytheme" : "light"}
+      defaultTheme={isNotSupportedDarkMode ? "mytheme" : "system"}
       enableSystem={true}
     >
       {children}
