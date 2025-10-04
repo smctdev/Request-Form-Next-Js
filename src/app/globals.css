@@ -39,6 +39,16 @@
   --color-accent: #a61b60;
 }
 
+[data-tip]::after {
+  background-color: var(--color-base-300, #e5e7eb);
+  color: var(--color-text, #000000); 
+}
+
+[data-theme="dark"] [data-tip]::after {
+  background-color: var(--color-base-200, #1e1e1e);
+  color: var(--color-text, #ffffff);
+}
+
 @plugin "daisyui/theme" {
   name: "mytheme";
   default: true;

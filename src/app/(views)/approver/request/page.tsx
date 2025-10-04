@@ -447,7 +447,7 @@ const RequestApprover = (props: Props) => {
           {/* Tooltip Icon and Tooltip Itself */}
           {(row.status === "Pending" || row.status === "Ongoing") && (
             <div
-              className="z-20 flex items-center ml-1 transition-opacity duration-300 transform cursor-pointer tooltip tooltip-right group-hover:opacity-100 bg-base-100"
+              className="z-20 flex items-center ml-1 transition-opacity duration-300 transform cursor-pointer tooltip tooltip-right group-hover:opacity-100"
               data-tip={`Pending: ${
                 row.pending_approver === user?.fullName
                   ? "You"
