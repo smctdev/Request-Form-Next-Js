@@ -20,6 +20,8 @@
   --color-base-100: #f0f5f1;
   --color-base-200: #e3e6e4;
   --color-base-300: #c9c9c9;
+  --color-text: #000000;
+  --color-accent: #eb31bc;
 }
 
 @plugin "daisyui/theme" {
@@ -33,6 +35,8 @@
   --color-base-100: #121010;
   --color-base-200: #1c1c1c;
   --color-base-300: #050505;
+  --color-text: #ffffff;
+  --color-accent: #a61b60;
 }
 
 @plugin "daisyui/theme" {
