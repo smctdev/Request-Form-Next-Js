@@ -4,10 +4,21 @@ import { FiMonitor } from "react-icons/fi";
 
 export default function ThemeButton() {
   const { theme, setTheme } = useTheme();
+  const userAgent = navigator.userAgent;
+  const isNotSupportedDarkMode = [
+    "Windows NT 5.1",
+    "Windows NT 6.0",
+    "Windows NT 6.1",
+    "Windows NT 6.2",
+    "Windows NT 6.3",
+  ].includes(userAgent);
 
   const toggleDarkMode = (value: string) => () => {
     setTheme(value);
   };
+
+  if (isNotSupportedDarkMode) return null;
+
   return (
     <>
       {theme === "system" ? (
