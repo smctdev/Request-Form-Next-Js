@@ -301,8 +301,8 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   if (!isAuthenticated) return null;
 
   return (
-    <div className={`bg-white h-full`}>
-      <div className={`bg-white ${open ? "w-60" : "w-20"} h-full`}>
+    <div className={`h-full`}>
+      <div className={`${open ? "w-60" : "w-20"} h-full`}>
         <div className="px-2 py-3 h-[68px] flex justify-center items-center border-b-[0.5px] border-gray-300">
           <Image
             src={Logo}
@@ -379,7 +379,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             {open ? (
               <div
                 onClick={handleLogout}
-                className="absolute flex hover:bg-[#ff7575] px-5 rounded-lg hover:text-black items-center justify-center w-full h-10 border-t cursor-pointer bottom-2"
+                className="absolute flex hover:bg-[#ff7575] px-5 rounded-lg hover:  items-center justify-center w-full h-10 border-t cursor-pointer bottom-2"
               >
                 <svg
                   fill="none"
@@ -408,7 +408,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             ) : (
               <div
                 onClick={handleLogout}
-                className="absolute flex items-center justify-center w-full h-10 border-t border-gray-300 cursor-pointer group bottom-2 bg-white"
+                className="absolute flex items-center justify-center w-full h-10 border-t border-gray-300 cursor-pointer group bottom-2"
               >
                 <svg
                   fill="none"
@@ -427,7 +427,7 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
                   <path d="M17 16l4-4m0 0l-4-4 m4 4h-14m5 8 H6a3 3 0 01-3-3V7a3 3 0 013-3h7"></path>
                 </svg>
                 <p
-                  className={`${pStyle2} truncate p-1 absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-[#ff7575] text-black rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300`}
+                  className={`${pStyle2} truncate p-1 absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-[#ff7575]   rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300`}
                 >
                   Logout
                 </p>

@@ -73,7 +73,7 @@ const EditPositionModal = ({
           onClick={handleCancel}
         />
       </div>
-      <div className="bg-white w-10/12 md:w-2/5 mx-auto rounded-b-[12px] shadow-lg overflow-y-auto p-6">
+      <div className="bg-base-100 w-10/12 md:w-2/5 mx-auto rounded-b-[12px] shadow-lg overflow-y-auto p-6">
         <form onSubmit={handleUpdatePosition}>
           <div className="flex flex-col">
             {/* Render input fields dynamically */}

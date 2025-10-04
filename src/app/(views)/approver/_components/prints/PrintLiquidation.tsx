@@ -138,7 +138,7 @@ const PrintLiquidation: React.FC<PrintRefundProps> = ({ data }) => {
     }
   `}
       </style>
-      <div className="-m-16 text-black bg-white content">
+      <div className="-m-16   bg-base-100 content">
         <div className="flex flex-col items-center justify-center">
           <div className="justify-center w-1/2">{logo}</div>
           <h1 className="mt-1 text-sm font-semibold uppercase">

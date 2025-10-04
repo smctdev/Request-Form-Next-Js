@@ -2,7 +2,7 @@ import contents from "@/data/contents.json";
 
 export default function WhyRequestOnline() {
   return (
-    <div className="p-8 overflow-hidden bg-white shadow-md rounded-xl">
+    <div className="p-8 overflow-hidden shadow-md rounded-xl shadow-gray-50">
       <h2 className="mb-4 !text-2xl font-bold text-primary">
         Why Choose Request Form Online?
       </h2>
@@ -14,7 +14,7 @@ export default function WhyRequestOnline() {
                 {index + 1}
               </span>
             </div>
-            <span className="text-gray-700 font-semibold">{item.content}</span>
+            <span className="font-semibold">{item.content}</span>
           </li>
         ))}
       </ul>

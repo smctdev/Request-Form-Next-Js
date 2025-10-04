@@ -167,7 +167,7 @@ const Sidebar = ({ darkMode, role }: SidebarProps) => {
   return (
     <div className={`${darkMode ? "dark" : "light"} dark:bg-blackD h-full`}>
       <div
-        className={`bg-white dark:bg-blackD w-60
+        className={`bg-base-100 dark:bg-blackD w-60
         } h-full`}
       >
         <div className="px-2 py-3 h-[68px] flex justify-between items-center border-b-[0.5px] border-gray">
@@ -187,7 +187,7 @@ const Sidebar = ({ darkMode, role }: SidebarProps) => {
             Request Form
           </h1>
           <ArrowLeftCircleIcon
-            className={`size-[34px] text-black dark:text-white -right-2 ml-2 absolute cursor-pointer ${
+            className={`size-[34px]   dark:text-white -right-2 ml-2 absolute cursor-pointer ${
               !open && "hidden"
             }`}
             onClick={() => setOpen(false)}

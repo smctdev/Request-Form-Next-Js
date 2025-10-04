@@ -20,13 +20,12 @@ import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 
-const boxWhite =
-  "bg-white w-full h-[190px] rounded-[15px] drop-shadow-lg relative";
+const boxWhite = "bg-gray-50 w-full h-[190px] rounded-[15px] drop-shadow-lg relative";
 const boxPink = "w-full h-[150px] rounded-t-[12px] relative";
 const outerLogo =
   "lg:w-[120px] lg:h-[125px] w-[80px] h-[90px] right-0 mr-[56px] lg:mt-[26px] mt-[56px] absolute !text-[120px]";
 const innerBox =
-  "lg:w-[82px] lg:h-[84px] w-[57px] h-[58px] bg-white absolute right-0 mr-[29px] lg:mt-[37px] md:mt-[47px] mt-[47px] rounded-[12px] flex justify-center items-center";
+  "lg:w-[82px] lg:h-[84px] w-[57px] h-[58px]  absolute right-0 mr-[29px] lg:mt-[37px] md:mt-[47px] mt-[47px] rounded-[12px] flex justify-center items-center";
 const innerLogo =
   "lg:w-[48px] lg:h-[51px] w-[40px] h-[45px] flex justify-center items-center !text-[50px]";
 
@@ -231,7 +230,7 @@ const Dashboard: React.FC = () => {
     setPage(page);
   };
   return (
-    <div className="bg-gray-100 h-screen pt-[26px] px-[35px]">
+    <div className="h-screen pt-[26px] px-[35px]">
       <div className="bg-primary w-full sm:w-full h-[210px] rounded-[12px] pl-[30px] flex flex-row justify-between items-center">
         <div>
           <p className="!text-[15px] lg:!text-[20px] !font-bold">
@@ -382,7 +381,7 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
       <div
-        className={`mt-[20px] mb-10 bg-white w-full h-full data-table-container drop-shadow-lg rounded-[12px] relative sm:w-full ${
+        className={`mt-[20px] mb-10  w-full h-full data-table-container drop-shadow-lg rounded-[12px] relative sm:w-full ${
           latestRequests.length === 0 ? "overflow-hidden" : "overflow-x-auto"
         }`}
       >

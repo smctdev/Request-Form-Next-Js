@@ -12,9 +12,9 @@ type Props = {};
 const Help: React.FC<Props> = ({}) => {
   const { user } = useAuth();
   return (
-    <div className="bg-graybg dark:bg-blackbg h-full py-[26px]  px-[35px] ">
+    <div className="h-full py-[26px] px-[35px] ">
       <div className="bg-primary w-full sm:w-full h-96 rounded-[12px] pl-[30px] flex flex-col justify-center items-center">
-        <p className="!text-5xl font-bold text-white ">Help Center</p>
+        <p className="!text-5xl font-bold ">Help Center</p>
         <p className="mt-2 ">
           Explore Our Categories to Quickly Access the Information You Need.
         </p>
@@ -27,7 +27,7 @@ const Help: React.FC<Props> = ({}) => {
       >
         <Link
           href="/help/user"
-          className="block px-6 py-6 bg-white border-gray-300 rounded-lg cursor-pointer border-1"
+          className="block px-6 py-6 bg-base-100 border-gray-300 rounded-lg cursor-pointer border-1"
         >
           <QuestionMarkCircleIcon className="size-14 text-primary " />
           <p className="mt-4 text-lg font-bold">FAQs</p>
@@ -38,7 +38,7 @@ const Help: React.FC<Props> = ({}) => {
         </Link>
         <Link
           href="/help/guide"
-          className="block px-6 py-6 bg-white border-gray-300 rounded-lg cursor-pointer border-1"
+          className="block px-6 py-6 bg-base-100 border-gray-300 rounded-lg cursor-pointer border-1"
         >
           <BookOpenIcon className="size-14 text-primary " />
           <p className="mt-4 text-lg font-bold">How to Request</p>
@@ -47,7 +47,7 @@ const Help: React.FC<Props> = ({}) => {
         {user.role === "User" && (
           <Link
             href="/help/setup"
-            className="block px-6 py-6 bg-white border-gray-300 rounded-lg cursor-pointer border-1"
+            className="block px-6 py-6 bg-base-100 border-gray-300 rounded-lg cursor-pointer border-1"
           >
             <LifebuoyIcon className="size-14 text-primary " />
             <p className="mt-4 text-lg font-bold">Setup</p>

@@ -11,10 +11,12 @@ export default function BulkUpload({
   setModalIsOpen,
   setIsBulkUpload,
   refreshData,
+  onCancel,
 }: {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   setIsBulkUpload: Dispatch<SetStateAction<boolean>>;
   refreshData: any;
+  onCancel: () => void;
 }) {
   const [loading, setLoading] = useState<boolean>(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -90,7 +92,7 @@ export default function BulkUpload({
   };
 
   return (
-    <div className="grid w-full h-full place-content-center">
+    <div className="grid w-full h-full place-content-center space-y-5">
       {data?.length === 0 ? (
         <div
           className={`border-2 h-96 w-96 rounded border-blue-300 border-dotted grid place-content-center hover:bg-blue-100 !cursor-pointer ${
@@ -120,7 +122,11 @@ export default function BulkUpload({
         </div>
       ) : (
         <div className="space-y-5">
-          <div className={`flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200 max-w-md ${loading && "animate-pulse"}`}>
+          <div
+            className={`flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200 max-w-md ${
+              loading && "animate-pulse"
+            }`}
+          >
             <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
               <FiFileText className="w-5 h-5" />
             </div>
@@ -161,6 +167,9 @@ export default function BulkUpload({
           </button>
         </div>
       )}
+      <button type="button" className="btn btn-secondary" onClick={onCancel}>
+        Cancel
+      </button>
     </div>
   );
 }

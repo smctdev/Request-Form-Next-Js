@@ -122,22 +122,22 @@ const AddApproverModal = ({
           Add {entityType}
         </h2>
         <XMarkIcon
-          className="absolute text-black cursor-pointer size-6 right-3"
+          className="absolute   cursor-pointer size-6 right-3"
           onClick={closeModal}
         />
       </div>
 
-      <div className="relative w-10/12 overflow-x-hidden overflow-y-auto bg-white md:w-1/2 lg:w-1/3 x-20 h-2/3">
+      <div className="relative w-10/12 overflow-x-hidden overflow-y-auto bg-base-100 md:w-1/2 lg:w-1/3 x-20 h-2/3">
         <div className="relative w-full my-2 sm:mx-0 md:mx-4 sm:px-5 lg:px-5 lg:mx-0">
           <div className="relative flex-grow">
             <input
               type="text"
-              className="w-full py-2 pl-10 pr-3 bg-white border border-black rounded-md"
+              className="w-full py-2 pl-10 pr-3 bg-base-100 border border-black rounded-md"
               value={filterTerm}
               onChange={(e) => setFilterTerm(e.target.value)}
               placeholder="Search approvers"
             />
-            <MagnifyingGlassIcon className="absolute w-5 h-5 text-black transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
+            <MagnifyingGlassIcon className="absolute w-5 h-5   transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
           </div>
         </div>
         {loading ? (
@@ -150,7 +150,7 @@ const AddApproverModal = ({
               <div
                 key={user.id}
                 className={`flex items-center justify-between mb-2 ${
-                  index % 2 === 0 ? "bg-white" : "bg-blue-100"
+                  index % 2 === 0 ? "bg-base-100" : "bg-blue-100"
                 }`}
               >
                 <div className="flex items-center justify-between w-full p-4">
@@ -174,7 +174,7 @@ const AddApproverModal = ({
         )}
       </div>
       {isButtonVisible && (
-        <div className="bg-white w-10/12 md:w-1/2 lg:w-1/3 rounded-b-[12px] justify-end shadow-lg p-2 bottom-4 right-4 flex space-x-2">
+        <div className="bg-base-100 w-10/12 md:w-1/2 lg:w-1/3 rounded-b-[12px] justify-end shadow-lg p-2 bottom-4 right-4 flex space-x-2">
           <button
             onClick={handleCancel}
             className="h-12 px-4 py-2 font-bold text-white bg-gray-500 rounded cursor-pointer hover:bg-gray-400"

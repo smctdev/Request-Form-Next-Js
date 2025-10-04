@@ -113,6 +113,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setIsLogin(true);
         fetchUserProfile();
         setError("");
+      } else if (response.status === 226) {
+        Swal.fire({
+          icon: "warning",
+          title: "Ops!",
+          text: response.data.message,
+          confirmButtonText: "Okay",
+          confirmButtonColor: "#007bff",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.reload();
+          }
+        });
       }
     } catch (error: any) {
       console.error(error);

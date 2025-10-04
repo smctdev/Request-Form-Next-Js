@@ -6,15 +6,22 @@ import WhySmct from "./_components/WhyRequestOnline";
 import ContactInfo from "./_components/ContactInfo";
 import SubmittedSuccess from "./_components/SubmittedSuccess";
 import Form from "./_components/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { set } from "date-fns";
 
 const Home = () => {
   const [submitted, setSubmitted] = useState(false);
   const [successMessage, setSuccessMessage] = useState<any>(null);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return <></>;
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-dark">
       <NavbarHome />
-      <section className="py-16 text-white bg-gradient-to-r from-primary to-blue-800">
+      <section className="py-16 text-white bg-gradient-to-r from-primary to-secondary">
         <div className="container px-4 mx-auto text-center">
           <h1 className="mb-4 font-bold md:!text-5xl">
             Help Us Improve the System

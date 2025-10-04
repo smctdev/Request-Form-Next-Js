@@ -20,7 +20,7 @@ const ApproveSuccessModal: React.FC<ApproveSuccessModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="relative flex flex-col items-center justify-center w-10/12 bg-white rounded-md sm:w-1/3">
+      <div className="relative flex flex-col items-center justify-center w-10/12 bg-base-100 rounded-md sm:w-1/3">
         <FontAwesomeIcon
           icon={faCircleCheck}
           className="absolute !size-20 text-primary -top-6"

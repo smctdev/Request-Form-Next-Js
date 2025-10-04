@@ -335,7 +335,7 @@ const EditUserModal = ({
 
   const fields = fieldsConfig[entityType] || [];
   const pStyle = "font-medium w-full";
-  const inputStyle = "input input-bordered bg-white w-full mt-2";
+  const inputStyle = "input input-bordered bg-base-100 w-full mt-2";
 
   const branch = [
     "Des Appliance, Inc.",
@@ -360,7 +360,7 @@ const EditUserModal = ({
           onClick={handleCancel}
         />
       </div>
-      <div className="bg-white w-10/12 md:w-2/5 mx-auto rounded-b-[12px] shadow-lg overflow-y-auto p-6">
+      <div className="bg-base-100 w-10/12 md:w-2/5 mx-auto rounded-b-[12px] shadow-lg overflow-y-auto p-6">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Render input fields dynamically */}
           {fields.map((field, index) => (
@@ -368,7 +368,7 @@ const EditUserModal = ({
               <p className={`${pStyle}`}>{field}</p>
               {field === "Role" ? (
                 <select
-                  className={`select select-bordered w-full bg-white rounded-lg border p-2`}
+                  className={`select select-bordered w-full bg-base-100 rounded-lg border p-2`}
                   value={editedRole}
                   onChange={(e) => setEditedRole(e.target.value)}
                 >
@@ -386,7 +386,7 @@ const EditUserModal = ({
                 </select>
               ) : field === "Branch Code" ? (
                 <select
-                  className={`select select-bordered w-full rounded-lg border bg-white p-2`}
+                  className={`select select-bordered w-full rounded-lg border bg-base-100 p-2`}
                   value={editedBranchCode}
                   onChange={(e) =>
                     handleBranchCodeChange(Number(e.target.value))
@@ -406,7 +406,7 @@ const EditUserModal = ({
                 </select>
               ) : field === "Position" ? (
                 <select
-                  className={`select select-bordered w-full rounded-lg bg-white border p-2`}
+                  className={`select select-bordered w-full rounded-lg bg-base-100 border p-2`}
                   value={editedPosition}
                   onChange={(e) => setEditedPosition(e.target.value)}
                 >
@@ -430,7 +430,7 @@ const EditUserModal = ({
                 />
               ) : field === "Branch" ? (
                 <select
-                  className={`select select-bordered w-full rounded-lg bg-white border p-2 mt-2`}
+                  className={`select select-bordered w-full rounded-lg bg-base-100 border p-2 mt-2`}
                   value={editedBranch}
                   onChange={(e) => setEditedBranch(e.target.value)}
                 >

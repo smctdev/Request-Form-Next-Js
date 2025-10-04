@@ -78,11 +78,11 @@ const initialTableData: TableDataItem[] = Array.from({ length: 1 }, () => ({
   discountedPrice: "",
 }));
 
-const tableStyle = "border border-black p-2";
+const tableStyle = "border p-2";
 const inputStyle2 =
-  "w-full   rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";
+  "w-full   rounded-[12px] pl-[10px]   autofill-input focus:outline-0";
 const tableInput =
-  "w-full h-full bg-white px-2 py-1 bg-white  autofill-input focus:outline-0";
+  "w-full h-full  px-2 py-1   autofill-input focus:outline-0";
 const buttonStyle =
   "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 
@@ -510,7 +510,7 @@ const CreateDiscount = (props: Props) => {
           </option>
         ))}
       </select> */}
-      <div className="bg-white w-full   mb-5 rounded-[12px] flex flex-col">
+      <div className=" w-full   mb-5 rounded-[12px] flex flex-col">
         <div className="border-b flex justify-between flex-col px-[30px] md:flex-row ">
           <div>
             <h1 className="flex py-4 mr-2 text-3xl font-bold text-left text-primary">
@@ -607,10 +607,10 @@ const CreateDiscount = (props: Props) => {
                     </thead>
                     <tbody>
                       {tableData.map((item, index) => (
-                        <tr key={index} className="border border-black">
+                        <tr key={index} className="border">
                           {/* Brand Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `brand-${index}`
@@ -652,7 +652,7 @@ const CreateDiscount = (props: Props) => {
                           </td>
                           {/* Model Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `model-${index}`
@@ -694,7 +694,7 @@ const CreateDiscount = (props: Props) => {
 
                           {/* Unit Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `unit-${index}`
@@ -733,7 +733,7 @@ const CreateDiscount = (props: Props) => {
 
                           {/* Part No Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `part_no-${index}`
@@ -763,7 +763,7 @@ const CreateDiscount = (props: Props) => {
 
                           {/* Labor Charge Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `labor-${index}`
@@ -784,7 +784,7 @@ const CreateDiscount = (props: Props) => {
 
                           {/* Spotcash Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `spotcash-${index}`
@@ -818,7 +818,7 @@ const CreateDiscount = (props: Props) => {
 
                           {/* Discounted Price Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `discountedPrice-${index}`
@@ -866,18 +866,18 @@ const CreateDiscount = (props: Props) => {
                     </tbody>
 
                     {/* Footer to display totals */}
-                    <tfoot className="bg-gray-100">
+                    <tfoot className="shadow-md shadow-gray-50">
                       <tr>
                         <td colSpan={4} className="p-2 font-bold text-right">
                           Totals:
                         </td>
-                        <td className="p-2 font-bold text-center border border-black">
+                        <td className="p-2 font-bold text-center border">
                           {totalAmount.totalLabor}
                         </td>
-                        <td className="p-2 font-bold text-center border border-black">
+                        <td className="p-2 font-bold text-center border">
                           {totalAmount.totalSpotCash}
                         </td>
-                        <td className="p-2 font-bold text-center border border-black">
+                        <td className="p-2 font-bold text-center border">
                           {totalAmount.totalDiscountedPrice}
                         </td>
                       </tr>
@@ -892,7 +892,7 @@ const CreateDiscount = (props: Props) => {
               <div className="flex flex-row items-center gap-2 mt-2">
                 {tableData.length > 1 && (
                   <span
-                    className={`${buttonStyle} bg-pink-400 flex items-center justify-center cursor-pointer hover:bg-white hover:border-4 hover:border-pink hover:text-pink`}
+                    className={`${buttonStyle} bg-pink-400 flex items-center justify-center cursor-pointer hover: hover:border-4 hover:border-pink hover:text-pink`}
                     onClick={handleRemoveItem}
                   >
                     <MinusCircleIcon
@@ -903,7 +903,7 @@ const CreateDiscount = (props: Props) => {
                   </span>
                 )}
                 <span
-                  className={`bg-secondary flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 max-w-md justify-center ${buttonStyle}`}
+                  className={`bg-yellow-400 flex items-center cursor-pointer hover:text-white hover:bg-yellow-500 hover:border-4 hover:border-yellow-400 text-gray-950 max-w-md justify-center ${buttonStyle}`}
                   onClick={handleAddItem}
                 >
                   <PlusCircleIcon className="w-5 h-5 mr-2" aria-hidden="true" />
@@ -916,7 +916,7 @@ const CreateDiscount = (props: Props) => {
                 <p className="mb-3 font-semibold">Upload attachment:</p>
                 <div
                   className={`relative w-full p-6 text-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer 
-                      ${isHovering ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                      ${isHovering ? "bg-base-200" : "hover:bg-base-300"}`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
@@ -930,7 +930,7 @@ const CreateDiscount = (props: Props) => {
                     onChange={handleFileChange}
                     className="hidden"
                   />
-                  <p className="text-gray-500">
+                  <p className="text-gray-300">
                     Drag and drop your images here <br /> or <br />
                     <span className="text-blue-500">click to upload</span>
                   </p>
@@ -953,7 +953,7 @@ const CreateDiscount = (props: Props) => {
                 {file.map((fileItem) => (
                   <div
                     key={fileItem.name}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2  rounded-lg shadow-md"
                   >
                     <div className="relative">
                       {fileItem.type.startsWith("image/") ? (
@@ -1087,7 +1087,7 @@ const CreateDiscount = (props: Props) => {
                 onClick={handleFormSubmit}
                 disabled={loading}
               >
-                <span className="text-white hover:text-black">
+                <span className="text-white hover: ">
                   {loading ? "PLEASE WAIT..." : "CREATE REQUEST"}
                 </span>
               </button>
@@ -1095,7 +1095,7 @@ const CreateDiscount = (props: Props) => {
           </div>
           {showConfirmationModal && (
             <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-              <div className="p-4 bg-white rounded-md">
+              <div className="p-4  rounded-md">
                 <p>Are you sure you want to submit the request?</p>
                 <div className="flex justify-end mt-4">
                   <button

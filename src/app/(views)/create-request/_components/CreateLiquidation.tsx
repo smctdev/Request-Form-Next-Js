@@ -89,11 +89,11 @@ const initialTableData: TableDataItem[] = Array.from({ length: 1 }, () => ({
   grandTotal: "0",
 }));
 
-const tableStyle = "border border-black p-2";
+const tableStyle = "border p-2";
 const inputStyle =
-  "w-full  border-2 border-black rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";
+  "w-full  border-2 rounded-[12px] pl-[10px]   autofill-input focus:outline-0";
 const tableInput =
-  "w-full h-full bg-white px-2 py-1 focus:outline-0  autofill-input";
+  "w-full h-full  px-2 py-1 focus:outline-0  autofill-input";
 const itemDiv = "flex flex-col  w-3/4";
 
 const buttonStyle =
@@ -512,7 +512,7 @@ const CreateLiquidation = (props: Props) => {
       {/* <h1 className="text-primary text-[32px] font-bold">Create Request</h1>
 
       <select
-        className="w-2/5 lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 border-black rounded-xl mb-2"
+        className="w-2/5 lg:h-[56px] md:h-10 p-2 bg-gray-200 pl-[30px] border-2 rounded-xl mb-2"
         value={selectedRequestType}
         onChange={(e) => {
           setSelectedRequestType(e.target.value);
@@ -528,7 +528,7 @@ const CreateLiquidation = (props: Props) => {
           </option>
         ))}
       </select> */}
-      <div className="bg-white w-full mb-5 rounded-[12px] flex flex-col">
+      <div className=" w-full mb-5 rounded-[12px] flex flex-col">
         <div className="border-b flex justify-between flex-col px-[30px] md:flex-row ">
           <div>
             <h1 className="flex py-4 mr-2 text-3xl font-bold text-left text-primary">
@@ -554,19 +554,19 @@ const CreateLiquidation = (props: Props) => {
               </div>
             </div>
             <div className="w-full mt-4 overflow-x-auto">
-              <div className="w-full border border-collapse border-black ">
+              <div className="w-full border border-collapse ">
                 <div className="table-container">
-                  <table className="w-full border border-collapse border-black ">
+                  <table className="w-full border border-collapse ">
                     <thead className="bg-[#8EC7F7]">
                       <tr>
                         <th>Date</th>
-                        <th colSpan={4} className="border border-black">
+                        <th colSpan={4} className="border">
                           Transportation
                         </th>
-                        <th colSpan={3} className="border border-black">
+                        <th colSpan={3} className="border">
                           Hotel
                         </th>
-                        <th colSpan={5} className="border border-black">
+                        <th colSpan={5} className="border">
                           PER DIEM OTHER RELATED EXPENSES
                         </th>
                       </tr>
@@ -589,9 +589,9 @@ const CreateLiquidation = (props: Props) => {
                     </thead>
                     <tbody>
                       {tableData.map((item, index) => (
-                        <tr key={index} className="border border-black">
+                        <tr key={index} className="border">
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `day-${index}`
@@ -633,7 +633,7 @@ const CreateLiquidation = (props: Props) => {
                               )}
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `from-${index}`
@@ -662,7 +662,7 @@ const CreateLiquidation = (props: Props) => {
                               )}
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `to-${index}`
@@ -691,7 +691,7 @@ const CreateLiquidation = (props: Props) => {
                               )}
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `type-${index}`
@@ -713,7 +713,7 @@ const CreateLiquidation = (props: Props) => {
                             />
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `transportation_amount-${index}`
@@ -736,7 +736,7 @@ const CreateLiquidation = (props: Props) => {
                             />
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `hotel_name-${index}`
@@ -754,7 +754,7 @@ const CreateLiquidation = (props: Props) => {
                             ></textarea>
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `hotel_address-${index}`
@@ -776,7 +776,7 @@ const CreateLiquidation = (props: Props) => {
                             />
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `hotel_amount-${index}`
@@ -799,7 +799,7 @@ const CreateLiquidation = (props: Props) => {
                             />
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `per_diem-${index}`
@@ -818,7 +818,7 @@ const CreateLiquidation = (props: Props) => {
                             />
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `particulars-${index}`
@@ -840,7 +840,7 @@ const CreateLiquidation = (props: Props) => {
                             />
                           </td>
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
                                 `particulars_amount-${index}`
@@ -862,7 +862,7 @@ const CreateLiquidation = (props: Props) => {
                               className={`${tableInput} focus:outline-0`}
                             />
                           </td>
-                          <td className="p-1 font-bold text-center border border-black">
+                          <td className="p-1 font-bold text-center border">
                             ₱{item.grandTotal}
                           </td>
                           {tableData.length > 1 && (
@@ -886,7 +886,7 @@ const CreateLiquidation = (props: Props) => {
 
               <div className="flex flex-row items-center gap-2">
                 <span
-                  className={`bg-secondary flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 max-w-md justify-center ${buttonStyle}`}
+                  className={`bg-yellow-400 flex items-center cursor-pointer hover:border-4 hover:border-yellow-400  hover:text-white hover:bg-yellow-500  text-gray-950 max-w-md justify-center ${buttonStyle}`}
                   onClick={handleAddItem}
                 >
                   <PlusCircleIcon className="w-5 h-5 mr-2" aria-hidden="true" />
@@ -897,7 +897,7 @@ const CreateLiquidation = (props: Props) => {
 
             <div className="grid grid-cols-1 overflow-x-auto lg:grid-cols-2 md:gap-2">
               <div>
-                <table className="w-full mt-10 border border-black">
+                <table className="w-full mt-10 border">
                   <tbody>
                     <tr>
                       <td className={`${tableStyle}`}>
@@ -921,7 +921,7 @@ const CreateLiquidation = (props: Props) => {
                           type="number"
                           value={cashAdvance}
                           onChange={(e) => setCashAdvance(e.target.value)}
-                          className="font-bold bg-white focus:outline-0"
+                          className="font-bold  focus:outline-0"
                         />
                         {errors.cashAdvance && (
                           <p className="text-red-500">
@@ -948,7 +948,7 @@ const CreateLiquidation = (props: Props) => {
                 </table>
               </div>
               <div>
-                <table className="w-full mt-10 border border-black">
+                <table className="w-full mt-10 border">
                   <tbody>
                     <tr>
                       <td className={`${tableStyle}`}>
@@ -1032,7 +1032,7 @@ const CreateLiquidation = (props: Props) => {
                 <p className="mb-3 font-semibold">Upload attachment:</p>
                 <div
                   className={`relative w-full p-6 text-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer 
-                      ${isHovering ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                      ${isHovering ? "bg-base-200" : "hover:bg-base-300"}`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
@@ -1046,7 +1046,7 @@ const CreateLiquidation = (props: Props) => {
                     onChange={handleFileChange}
                     className="hidden"
                   />
-                  <p className="text-gray-500">
+                  <p className="text-gray-300">
                     Drag and drop your images here <br /> or <br />
                     <span className="text-blue-500">click to upload</span>
                   </p>
@@ -1069,7 +1069,7 @@ const CreateLiquidation = (props: Props) => {
                 {file.map((fileItem) => (
                   <div
                     key={fileItem.name}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2  rounded-lg shadow-md"
                   >
                     <div className="relative">
                       {fileItem.type.startsWith("image/") ? (
@@ -1203,7 +1203,7 @@ const CreateLiquidation = (props: Props) => {
                 onClick={handleFormSubmit}
                 disabled={loading}
               >
-                <span className="text-white hover:text-black">
+                <span className="text-white hover: ">
                   {loading ? "PLEASE WAIT..." : "CREATE REQUEST"}
                 </span>
               </button>
@@ -1211,7 +1211,7 @@ const CreateLiquidation = (props: Props) => {
           </div>
           {showConfirmationModal && (
             <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-              <div className="p-4 bg-white rounded-md">
+              <div className="p-4  rounded-md">
                 <p>Are you sure you want to submit the request?</p>
                 <div className="flex justify-end mt-4">
                   <button

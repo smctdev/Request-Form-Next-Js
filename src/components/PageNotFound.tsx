@@ -19,7 +19,7 @@ export default function PageNotFound() {
           {[...Array(30)].map((_, i) => (
             <div
               key={i}
-              className="absolute bg-white rounded-full bg-opacity-70 !animate-pulse"
+              className="absolute bg-base-100 rounded-full bg-opacity-70 !animate-pulse"
               style={{
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
@@ -35,9 +35,9 @@ export default function PageNotFound() {
         <div className="relative z-10 w-full max-w-2xl">
           <div className="bg-base-100 rounded-3xl shadow-2xl p-8 md:p-12 transform transition-all hover:scale-[1.01] duration-300">
             <div className="flex justify-center mb-8">
-              <p className="!text-6xl text-white font-bold">404 Not Found</p>
+              <p className="!text-6xl font-bold">404 Not Found</p>
             </div>
-            <p className="mb-8 !text-lg opacity-80 text-white">
+            <p className="mb-8 !text-lg opacity-80">
               The page you're looking for seems to have drifted off into the
               cosmos. Don't worry, we'll help you navigate back to dashboard.
             </p>

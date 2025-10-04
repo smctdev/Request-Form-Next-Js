@@ -211,7 +211,7 @@ const AddAVPModal = ({
       <div className="p-4 w-10/12 sm:w-1/3 relative bg-primary flex justify-center mx-20 border-b rounded-t-[12px]">
         {selectedAVP && (
           <ArrowLeftIcon
-            className="absolute text-black cursor-pointer size-6 left-3"
+            className="absolute   cursor-pointer size-6 left-3"
             onClick={handleBack}
           />
         )}
@@ -219,12 +219,12 @@ const AddAVPModal = ({
           Add {entityType}
         </h2>
         <XMarkIcon
-          className="absolute text-black cursor-pointer size-6 right-3"
+          className="absolute   cursor-pointer size-6 right-3"
           onClick={handleCancel}
         />
       </div>
 
-      <div className="relative w-10/12 overflow-y-auto bg-white sm:w-1/3 x-20 h-2/3">
+      <div className="relative w-10/12 overflow-y-auto bg-base-100 sm:w-1/3 x-20 h-2/3">
         {loading ? (
           <div className="flex items-center justify-center h-full">
             <ClipLoader size={35} color={"#389df1"} loading={loading} />
@@ -254,7 +254,7 @@ const AddAVPModal = ({
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="bg-white divide-y divide-gray-200">
+                      <tbody className="bg-base-100 divide-y divide-gray-200">
                         {isWaiting ? (
                           <>
                             {Array.from({ length: 10 }).map((_, index) => (
@@ -291,7 +291,7 @@ const AddAVPModal = ({
                   <>
                     {/* Step 3: Select Branch */}
                     {selectedAVP && selectedUser && (
-                      <div className="bg-white flex-col w-10/12 sm:w-full h-1/2 rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex space-x-2">
+                      <div className="bg-base-100 flex-col w-10/12 sm:w-full h-1/2 rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex space-x-2">
                         <h3 className="p-4 text-lg font-bold">
                           Branches for {`${selectedUser?.firstName}`}:
                         </h3>
@@ -300,7 +300,7 @@ const AddAVPModal = ({
                           placeholder="Search branches..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="p-2 mb-2 bg-white border border-black rounded-md"
+                          className="p-2 mb-2 bg-base-100 border border-black rounded-md"
                         />
                         {errorValidation && (
                           <p className="p-3 text-red-600 bg-red-200 rounded">
@@ -437,7 +437,7 @@ const AddAVPModal = ({
         )}
       </div>
       {isButtonVisible ? (
-        <div className="bg-white w-10/12 sm:w-1/3 rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex justify-end space-x-2">
+        <div className="bg-base-100 w-10/12 sm:w-1/3 rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex justify-end space-x-2">
           <button
             onClick={handleCancel}
             className="h-12 px-4 py-2 font-bold text-white bg-gray-500 rounded cursor-pointer hover:bg-gray-600"
@@ -452,7 +452,7 @@ const AddAVPModal = ({
           </button>
         </div>
       ) : (
-        <div className="bg-white w-10/12 sm:w-1/3 rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex justify-end space-x-2" />
+        <div className="bg-base-100 w-10/12 sm:w-1/3 rounded-b-[12px] shadow-lg p-2 bottom-4 right-4 flex justify-end space-x-2" />
       )}
     </div>
   );

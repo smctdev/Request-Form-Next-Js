@@ -540,7 +540,7 @@ const RequestApprover = (props: Props) => {
         </button>
       </div>
       <div className="relative w-full h-auto rounded-lg drop-shadow-lg md:mr-4">
-        <div className="flex flex-col items-center w-full overflow-x-auto bg-white rounded-lg">
+        <div className="flex flex-col items-center w-full overflow-x-auto bg-base-100 rounded-lg">
           <div className="w-full border-b-2">
             <ul className="flex items-center justify-between px-2 py-4 space-x-4 overflow-x-auto font-medium md:space-x-6">
               <div className="flex justify-start">

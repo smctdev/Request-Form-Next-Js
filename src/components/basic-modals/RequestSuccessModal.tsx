@@ -15,7 +15,7 @@ const RequestSuccessModal: React.FC<RequestSuccessModalProps> = ({
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black/50 flex-col z-50">
-      <div className="bg-white relative w-1/2 md:w-1/3 flex flex-col items-center justify-center rounded-md ">
+      <div className="bg-base-100 relative w-1/2 md:w-1/3 flex flex-col items-center justify-center rounded-md ">
         <FontAwesomeIcon
           icon={faCircleCheck}
           className="!size-20 text-primary absolute -top-6  "

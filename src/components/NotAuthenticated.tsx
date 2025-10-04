@@ -10,13 +10,11 @@ export default function Unauthenticated() {
         <div className="p-8 card-body md:p-10">
           <div className="flex justify-center mb-6">
             <div className="p-5 rounded-full bg-error bg-opacity-20 text-error">
-              <FaLock className="text-white !text-4xl" />
+              <FaLock className="!text-4xl" />
             </div>
           </div>
-          <h1 className="mb-2 !text-3xl font-bold text-white">
-            Access Restricted
-          </h1>
-          <p className="mb-6 !text-lg opacity-80 text-white">
+          <h1 className="mb-2 !text-3xl font-bold">Access Restricted</h1>
+          <p className="mb-6 !text-lg opacity-80">
             You need to be signed in to view this content. Please authenticate
             to continue.
           </p>
@@ -25,11 +23,11 @@ export default function Unauthenticated() {
               <FaSignInAlt /> Sign In
             </Link>
 
-            <div className="text-white divider divider-primary">OR</div>
+            <div className="divider divider-primary">OR</div>
 
             <Link
               href="/registration"
-              className="gap-2 text-white bg-gray-700 btn btn-outline"
+              className="gap-2 bg-gray-700 btn btn-outline"
             >
               <FaUserPlus /> Create Account
             </Link>
@@ -38,7 +36,7 @@ export default function Unauthenticated() {
           <div className="mt-6">
             <button
               onClick={() => router.back()}
-              className="text-sm text-white link link-hover opacity-70"
+              className="text-sm link link-hover opacity-70"
             >
               ← Return to previous page
             </button>

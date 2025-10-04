@@ -6,6 +6,14 @@ import DataTable from "react-data-table-component";
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { ChangeEvent, useState } from "react";
+import { FormInputFeedbackType } from "../_types/form-inputs";
+import { FORM_INPUTS_FEEDBACK } from "../_constants/form-inputs";
+import Modal from "@/components/ui/modal";
+import Input from "@/components/ui/input";
+import Error from "next/error";
+import { api } from "@/lib/api";
+import Swal from "sweetalert2";
 
 function Feedbacks() {
   const {
@@ -14,6 +22,11 @@ function Feedbacks() {
     pagination,
     setPagination,
   } = useFetch({ url: "/feedbacks" });
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [formInputs, setFormInputs] =
+    useState<FormInputFeedbackType>(FORM_INPUTS_FEEDBACK);
+  const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<any>(null);
 
   const tableData = [
     {
@@ -79,11 +92,50 @@ function Feedbacks() {
     });
   };
 
+  const handleOpenModal = () => {
+    console.log("open");
+    setIsOpen(!isOpen);
+  };
+
+  const handleSubmitNotification = async () => {
+    setIsSubmitLoading(true);
+    try {
+      const response = await api.post("/send-notification", formInputs);
+      if (response.status === 201) {
+        setFormInputs(FORM_INPUTS_FEEDBACK);
+        setErrors(null);
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: response.data.message,
+          confirmButtonText: "Close",
+        });
+        setIsOpen(false);
+      }
+    } catch (error: any) {
+      console.error(error);
+      if (error.response.status === 422) {
+        setErrors(error.response.data.errors);
+      }
+    } finally {
+      setIsSubmitLoading(false);
+    }
+  };
+
   return (
     <div className="bg-graybg min-h-screen pt-8 px-6 pb-20">
-      <h2 className="!text-4xl font-bold text-blue-400 mb-6">Feedbacks</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="!text-4xl font-bold text-blue-400 mb-6">Feedbacks</h2>
+        <button
+          type="button"
+          className="px-4 py-3 font bold bg-primary rounded-md"
+          onClick={handleOpenModal}
+        >
+          Notify Users
+        </button>
+      </div>
 
-      <div className="bg-white rounded-xl shadow-md">
+      <div className="bg-base-100 rounded-xl shadow-md">
         <DataTable
           columns={tableData}
           data={feedbacks}
@@ -112,6 +164,44 @@ function Feedbacks() {
           persistTableHead
         />
       </div>
+      <Modal
+        isOpen={isOpen}
+        isLoading={isSubmitLoading}
+        title="Notify Users"
+        handleSubmit={handleSubmitNotification}
+        handleClose={handleOpenModal}
+      >
+        <div className="flex flex-col space-y-2">
+          <div>
+            <label htmlFor="title">Title</label>
+            <Input
+              type="text"
+              placeholder="Enter title"
+              value={formInputs.title}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setFormInputs({ ...formInputs, title: e.target.value })
+              }
+            />
+            {errors?.title && (
+              <small className="text-error">{errors.title[0]}</small>
+            )}
+          </div>
+          <div>
+            <label htmlFor="message">Message</label>
+            <Input
+              type="text"
+              placeholder="Enter message"
+              value={formInputs.message}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setFormInputs({ ...formInputs, message: e.target.value })
+              }
+            />
+            {errors?.message && (
+              <small className="text-error">{errors.message[0]}</small>
+            )}
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

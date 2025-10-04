@@ -566,9 +566,9 @@ const ApproverCashAdvance: React.FC<Props> = ({
 
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black shadow-lg md:mx-0 md:w-11/12 lg:w-11/12 space-y-auto h-4/5">
+      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-base-100 border-black shadow-lg md:mx-0 md:w-11/12 lg:w-11/12 space-y-auto h-4/5">
         <div className="sticky flex justify-end cursor-pointer top-2">
-          <XMarkIcon className="w-6 h-6 text-black" onClick={closeModal} />
+          <XMarkIcon className="w-6 h-6  " onClick={closeModal} />
         </div>
         {!isFetchingApprovers && (
           <>
@@ -633,14 +633,14 @@ const ApproverCashAdvance: React.FC<Props> = ({
           )}
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-sm font-medium">Reason for Cash Advance:</h1>
-            <span className="pl-1 font-bold bg-white rounded-md">
+            <span className="pl-1 font-bold bg-base-100 rounded-md">
               {record?.form_data[0]?.reason}
             </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-sm font-medium">Liquidation Date:</h1>
-            <span className="pl-1 font-bold bg-white rounded-md">
+            <span className="pl-1 font-bold bg-base-100 rounded-md">
               {record?.form_data[0]?.liquidationDate}
             </span>
           </div>
@@ -843,7 +843,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                           type="number"
                           value={newTotalBoatFare}
                           onChange={(e) => setNewTotalBoatFare(e.target.value)}
-                          className="w-full bg-white"
+                          className="w-full bg-base-100"
                           readOnly={!isEditing}
                         />
                       ) : (
@@ -863,7 +863,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                           type="number"
                           value={newTotalHotel}
                           onChange={(e) => setNewTotalHotel(e.target.value)}
-                          className="w-full bg-white"
+                          className="w-full bg-base-100"
                           readOnly={!isEditing}
                         />
                       ) : (
@@ -898,7 +898,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                           type="number"
                           value={newTotalFare}
                           onChange={(e) => setNewTotalFare(e.target.value)}
-                          className="w-full bg-white"
+                          className="w-full bg-base-100"
                           readOnly={!isEditing}
                         />
                       ) : (
@@ -1147,7 +1147,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
                 {attachmentUrl.map((fileItem) => (
                   <div
                     key={fileItem}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                   >
                     <div className="relative w-20">
                       {isImageFile(fileItem) ? (
@@ -1242,7 +1242,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
             {record.status === "Pending" && (
               <div>
                 <textarea
-                  className="w-full h-auto p-1 mt-2 bg-white border border-black rounded-md"
+                  className="w-full h-auto p-1 mt-2 bg-base-100 border border-black rounded-md"
                   placeholder="Enter your comments here.."
                   value={comments}
                   onChange={(e) => setComments(e.target.value)}
@@ -1428,7 +1428,7 @@ const ApproverCashAdvance: React.FC<Props> = ({
               {file.map((fileItem) => (
                 <div
                   key={fileItem.name}
-                  className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                  className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                 >
                   <div className="relative">
                     {fileItem.type.startsWith("image/") ? (

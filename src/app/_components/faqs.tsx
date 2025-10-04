@@ -11,7 +11,7 @@ export default function Faqs() {
   };
 
   return (
-    <div className="p-8 overflow-hidden bg-white shadow-md rounded-xl">
+    <div className="p-8 overflow-hidden shadow-gray-50 shadow-md rounded-xl">
       <h2 className="mb-4 !text-2xl font-bold text-primary">FAQs?</h2>
       <ul className="space-y-4">
         {faqs?.map((faq, index) => (
@@ -52,8 +52,8 @@ export default function Faqs() {
                 <span
                   className={`!text-lg ${
                     openAnswer[index]
-                      ? "text-gray-700 font-bold hover:text-gray-800"
-                      : "text-gray-500 font-semibold hover:text-gray-600"
+                      ? "font-bold"
+                      : "font-semibold"
                   }`}
                 >
                   {faq.question}
@@ -61,7 +61,7 @@ export default function Faqs() {
               </p>
               {openAnswer && openAnswer[index] && (
                 <p>
-                  <span className="text-gray-700 whitespace-pre-line">
+                  <span className=" whitespace-pre-line">
                     <span className="font-bold">&gt;</span> {faq.answer}
                   </span>
                 </p>

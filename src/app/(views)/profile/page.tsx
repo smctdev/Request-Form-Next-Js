@@ -161,7 +161,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
     return (
       <>
         <div className="w-full h-full px-4 py-4 md:px-10 lg:px-30">
-          <div className="flex flex-col w-full px-4 py-12 bg-white rounded-lg md:px-8 lg:px-10 xl:px-12">
+          <div className="flex flex-col w-full px-4 py-12  rounded-lg md:px-8 lg:px-10 xl:px-12">
             <div className="flex flex-col items-center justify-center rounded-lg lg:flex-row">
               <div className="flex flex-col items-start w-full px-4 text-left md:px-10">
                 <div className="flex flex-col items-center lg:flex-row md:items-start">
@@ -172,7 +172,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                       <p className="h-4 mb-3 cursor-pointer w-36 text-primary skeleton bg-slate-300"></p>
                       <input type="file" className="hidden" />
                     </div>
-                    <p className="w-40 h-4 italic font-semibold text-black skeleton bg-slate-300"></p>
+                    <p className="w-40 h-4 italic font-semibold   skeleton bg-slate-300"></p>
                   </div>
                 </div>
 
@@ -371,8 +371,8 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
     setNewProfilePic(file); // Store the selected file in state
   };
   return (
-    <div className="min-h-screen bg-gray-200 p-4 md:p-8 lg:p-12">
-      <div className="bg-white rounded-box shadow-lg p-4 md:p-8 w-full max-w-7xl mx-auto">
+    <div className="min-h-screen p-4 md:p-8 lg:p-12">
+      <div className=" rounded-box shadow-lg p-4 md:p-8 w-full max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <div className="flex flex-col md:flex-row items-center gap-6">
@@ -413,9 +413,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                 <h1 className="!text-2xl md:text-3xl font-bold">
                   {user.firstName} {user.lastName}
                 </h1>
-                <p className="!text-lg italic font-semibold text-gray-600">
-                  {user.position}
-                </p>
+                <p className="!text-lg italic font-semibold">{user.position}</p>
               </div>
             </div>
 
@@ -426,56 +424,40 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             )}
 
             <div className="space-y-6">
-              <h2 className="!text-2xl font-bold text-gray-800">
-                User Information
-              </h2>
+              <h2 className="!text-2xl font-bold ">User Information</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex flex-col space-y-1">
-                  <span className="text-sm font-medium text-gray-500">
-                    Email
-                  </span>
-                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
-                    <p className="text-gray-800 font-medium">{user.email}</p>
+                  <span className="text-sm font-medium ">Email</span>
+                  <div className="p-3 rounded-lg border">
+                    <p className=" font-medium">{user.email}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col space-y-1">
-                  <span className="text-sm font-medium text-gray-500">
-                    Branch Code
-                  </span>
-                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
-                    <p className="text-gray-800 font-medium">
-                      {user.branch.branch_code}
-                    </p>
+                  <span className="text-sm font-medium ">Branch Code</span>
+                  <div className="p-3 rounded-lg border">
+                    <p className=" font-medium">{user.branch.branch_code}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col space-y-1">
-                  <span className="text-sm font-medium text-gray-500">
-                    Contact
-                  </span>
-                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
-                    <p className="text-gray-800 font-medium">{user.contact}</p>
+                  <span className="text-sm font-medium ">Contact</span>
+                  <div className="p-3 rounded-lg border">
+                    <p className=" font-medium">{user.contact}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col space-y-1">
-                  <span className="text-sm font-medium text-gray-500">
-                    Username
-                  </span>
-                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
-                    <p className="text-gray-800 font-medium">{user.userName}</p>
+                  <span className="text-sm font-medium ">Username</span>
+                  <div className="p-3 rounded-lg border">
+                    <p className=" font-medium">{user.userName}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col space-y-1">
-                  <span className="text-sm font-medium text-gray-500">
-                    Branch Name
-                  </span>
-                  <div className="p-3 rounded-lg bg-gray-50 border border-gray-200 dark:border-gray-700">
-                    <p className="text-gray-800 font-medium">
-                      {user.branch?.branch}
-                    </p>
+                  <span className="text-sm font-medium ">Branch Name</span>
+                  <div className="p-3 rounded-lg border">
+                    <p className=" font-medium">{user.branch?.branch}</p>
                   </div>
                 </div>
               </div>
@@ -495,7 +477,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
           </div>
 
           <div className="space-y-8">
-            <div className="card bg-gray-100 shadow">
+            <div className="card shadow">
               <div className="card-body">
                 <h2 className="card-title !text-lg">Change Password</h2>
 
@@ -506,7 +488,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                   <div className="relative">
                     <input
                       type={showCurrent ? "text" : "password"}
-                      className="input input-bordered w-full bg-gray-100"
+                      className="input input-bordered w-full"
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       value={currentPassword}
                       placeholder="Enter your current password"
@@ -531,7 +513,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                   <div className="relative">
                     <input
                       type={showPassword ? "text" : "password"}
-                      className="input input-bordered w-full bg-gray-100"
+                      className="input input-bordered w-full"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="Enter your new password"
@@ -556,7 +538,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                   <div className="relative">
                     <input
                       type={showConfirmPassword ? "text" : "password"}
-                      className="input input-bordered w-full bg-gray-100"
+                      className="input input-bordered w-full"
                       value={confirmNewPassword}
                       onChange={(e) => setConfirmNewPassword(e.target.value)}
                       placeholder="Confirm your new password"
@@ -598,7 +580,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
               </div>
             </div>
 
-            <div className="card bg-gray-100 shadow">
+            <div className="card shadow">
               <div className="card-body">
                 <h2 className="card-title !text-lg">Signature</h2>
 
@@ -612,7 +594,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                           `${user?.signature}?original=${new Date().getTime()}`
                         ) || ""
                       }
-                      className="w-full h-48 object-contain bg-gray-100"
+                      className="w-full h-48 object-contain"
                       alt="signature"
                       draggable="false"
                       onContextMenu={(e) => e.preventDefault()}
@@ -630,8 +612,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                       penColor="black"
                       ref={(ref) => setSignature(ref)}
                       canvasProps={{
-                        className:
-                          "sigCanvas border rounded-box w-full h-48 bg-white",
+                        className: "sigCanvas border rounded-box w-full h-48 ",
                       }}
                       velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
                       minWidth={1.5} // Minimum stroke width
@@ -643,7 +624,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                       <button
                         type="button"
                         onClick={(e) => handleClear(e)}
-                        className="p-2 bg-gray-500 text-white hover:bg-gray-400 rounded-md"
+                        className="p-2 0 text-white hover:bg-gray-400 rounded-md"
                       >
                         Clear
                       </button>
@@ -674,7 +655,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
 
       {showSuccessModal && (
         <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50 ">
-          <div className="relative flex flex-col items-center justify-center w-1/4 bg-white rounded-md ">
+          <div className="relative flex flex-col items-center justify-center w-1/4  rounded-md ">
             <FontAwesomeIcon
               icon={faCircleCheck}
               className="absolute !size-20 text-primary -top-6 "
@@ -701,7 +682,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
       )}
       {signatureSuccess && (
         <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50 ">
-          <div className="relative flex flex-col items-center justify-center w-1/4 bg-white rounded-md ">
+          <div className="relative flex flex-col items-center justify-center w-1/4  rounded-md ">
             <FontAwesomeIcon
               icon={faCircleCheck}
               className="absolute !size-20 text-primary -top-6 "

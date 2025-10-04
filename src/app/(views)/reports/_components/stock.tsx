@@ -224,10 +224,10 @@ const StockDetails: React.FC<Props> = ({ closeModal, record }) => {
 
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black rounded-t-lg shadow-lg md:mx-0 md:w-1/2 space-y-auto h-3/4">
+      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-base-100 border-black rounded-t-lg shadow-lg md:mx-0 md:w-1/2 space-y-auto h-3/4">
         <div className="sticky flex justify-end cursor-pointer top-2">
           <XMarkIcon
-            className="w-8 h-8 p-1 text-black bg-white rounded-full "
+            className="w-8 h-8 p-1   bg-base-100 rounded-full "
             onClick={closeModal}
           />
         </div>
@@ -281,7 +281,7 @@ const StockDetails: React.FC<Props> = ({ closeModal, record }) => {
           </p>
           <div className="flex w-1/2 ">
             <h1 className="flex items-center">Branch: </h1>
-            <p className="w-full pl-1 font-bold bg-white rounded-md ">
+            <p className="w-full pl-1 font-bold bg-base-100 rounded-md ">
               {record?.branch_code?.branch_code}
             </p>
           </div>
@@ -340,7 +340,7 @@ const StockDetails: React.FC<Props> = ({ closeModal, record }) => {
             <h1>Grand Total</h1>
             <input
               type="text"
-              className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
+              className="w-full p-1 mt-2 font-bold bg-base-100 border border-black rounded-md "
               value={formattedAmount(editableRecord.form_data[0].grand_total)}
               readOnly
             />
@@ -486,7 +486,7 @@ const StockDetails: React.FC<Props> = ({ closeModal, record }) => {
                 {attachmentUrl.map((fileItem, index) => (
                   <div
                     key={fileItem}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                   >
                     <div className="relative w-20">
                       {isImageFile(fileItem) ? (

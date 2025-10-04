@@ -29,11 +29,11 @@ const ViewBranchModal: React.FC<ViewBranchModalProps> = ({
           Branch
         </h2>
         <XMarkIcon
-          className="absolute text-black cursor-pointer size-6 right-3"
+          className="absolute   cursor-pointer size-6 right-3"
           onClick={closeModal}
         />
       </div>
-      <div className="bg-white w-1/2 rounded-b-[12px] shadow-lg   lg:overflow h-auto px-14">
+      <div className="bg-base-100 w-1/2 rounded-b-[12px] shadow-lg   lg:overflow h-auto px-14">
         {user && (
           <div className="grid gap-4 mt-5 mb-10 lg:grid-cols-2 justify-items-center place-content-center">
             {Object.entries(user).map(([key, value]) => (

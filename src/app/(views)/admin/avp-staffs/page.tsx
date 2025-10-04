@@ -268,11 +268,11 @@ const SetupAVP = (props: Props) => {
   return (
     <div className="w-full h-full px-4 pt-4 bg-graybg dark:bg-blackbg sm:px-10 md:px-10 lg:px-30 xl:px-30">
       <div className="w-full h-auto rounded-lg drop-shadow-lg md:mr-4">
-        <div className="flex flex-col w-full overflow-x-auto bg-white rounded-lg">
+        <div className="flex flex-col w-full overflow-x-auto bg-base-100 rounded-lg">
           <h1 className="pl-4 sm:pl-[30px] !text-[24px] text-left py-4 text-primary font-bold mr-2 underline decoration-2 underline-offset-8">
             AVP Staff
           </h1>
-          <div className="flex items-end justify-end mx-2 bg-white">
+          <div className="flex items-end justify-end mx-2 bg-base-100">
             <div>
               <button
                 className="bg-primary text-white rounded-[12px] p-2 cursor-pointer"
@@ -286,12 +286,12 @@ const SetupAVP = (props: Props) => {
             <div className="relative flex-grow">
               <input
                 type="text"
-                className="w-full py-2 pl-10 pr-3 bg-white border border-black rounded-md"
+                className="w-full py-2 pl-10 pr-3 bg-base-100 border border-black rounded-md"
                 value={filterTerm}
                 onChange={(e) => setFilterTerm(e.target.value)}
                 placeholder="Search Area Manager"
               />
-              <MagnifyingGlassIcon className="absolute w-5 h-5 text-black transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
+              <MagnifyingGlassIcon className="absolute w-5 h-5   transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
             </div>
           </div>
           {loading ? (
