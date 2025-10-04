@@ -1,17 +1,27 @@
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { FiMonitor } from "react-icons/fi";
 
 export default function ThemeButton() {
   const { theme, setTheme } = useTheme();
-  const userAgent = navigator.userAgent;
-  const isNotSupportedDarkMode = [
-    "Windows NT 5.1",
-    "Windows NT 6.0",
-    "Windows NT 6.1",
-    "Windows NT 6.2",
-    "Windows NT 6.3",
-  ].includes(userAgent);
+  const [isNotSupportedDarkMode, setIsNotSupportedDarkMode] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof navigator !== "undefined") {
+      const userAgent = navigator.userAgent;
+      const unsupportedOS = [
+        "Windows NT 5.1",
+        "Windows NT 6.0",
+        "Windows NT 6.1",
+        "Windows NT 6.2",
+        "Windows NT 6.3",
+      ];
+      const isUnsupported = unsupportedOS.some((os) => userAgent.includes(os));
+      setIsNotSupportedDarkMode(isUnsupported);
+    }
+  }, []);
 
   const toggleDarkMode = (value: string) => () => {
     setTheme(value);
