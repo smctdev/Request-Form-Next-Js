@@ -258,7 +258,7 @@ const Registration = () => {
           src={building}
           alt=""
         />
-        <div className="z-10 w-full p-4 m-10 rounded-lg lg:p-8 lg:mt-0 lg:m-0">
+        <div className="z-10 w-full p-4 m-10 rounded-lg bg-base-100 lg:p-8 lg:mt-0 lg:m-0">
           <h1 className="text-primary font-bold lg:!text-[32px] md:!text-2xl mb-6 text-left">
             ACCOUNT REGISTRATION
           </h1>
