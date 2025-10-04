@@ -14,6 +14,7 @@ import Input from "@/components/ui/input";
 import Error from "next/error";
 import { api } from "@/lib/api";
 import Swal from "sweetalert2";
+import { BellAlertIcon } from "@heroicons/react/24/solid";
 
 function Feedbacks() {
   const {
@@ -128,10 +129,10 @@ function Feedbacks() {
         <h2 className="!text-4xl font-bold text-blue-400 mb-6">Feedbacks</h2>
         <button
           type="button"
-          className="px-4 py-3 font bold bg-primary rounded-md"
+          className="px-4 py-3 font bold bg-primary rounded-md text-white flex gap-1 items-center"
           onClick={handleOpenModal}
         >
-          Notify Users
+          <BellAlertIcon className="w-5 h-5 mr-2" /> Notify Users
         </button>
       </div>
 
