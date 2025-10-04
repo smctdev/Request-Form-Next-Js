@@ -11,7 +11,13 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     setIsMounted(true);
 
-    if (typeof navigator !== "undefined") {
+    if (typeof window !== "undefined" || typeof navigator !== "undefined") {
+      const supportsDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme)").media !== "not all";
+
+        console.log(supportsDarkMode);
+
       const userAgent = navigator.userAgent;
       const unsupportedOS = [
         "Windows NT 5.1",
