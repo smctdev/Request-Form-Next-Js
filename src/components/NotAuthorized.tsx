@@ -41,7 +41,7 @@ export default function Unauthorized() {
                     <div className="relative p-8 border shadow-lg bg-error/5 rounded-xl border-error/20">
                       <div className="text-center">
                         <FaBan className="mx-auto mb-4 !text-8xl text-error" />
-                        <div className="gap-2 text-white badge badge-error">
+                        <div className="gap-2 badge badge-error">
                           <FaLock /> 403 Forbidden
                         </div>
                       </div>
@@ -53,7 +53,7 @@ export default function Unauthorized() {
                   <h1 className="mb-4 !text-4xl font-bold text-error">
                     Access Denied
                   </h1>
-                  <p className="mb-6 text-lg text-white">
+                  <p className="mb-6 text-lg">
                     You don't have permission to access this resource. This area
                     requires special privileges.
                   </p>
@@ -65,16 +65,14 @@ export default function Unauthorized() {
                         name="forbidden-options"
                         defaultChecked
                       />
-                      <div className="font-medium text-white collapse-title">
+                      <div className="font-medium collapse-title">
                         I think I should have access
                       </div>
                       <div className="collapse-content">
-                        <p className="mb-3 text-white">
-                          Contact your administrator or:
-                        </p>
+                        <p className="mb-3">Contact your administrator or:</p>
                         <Link
                           href="/request-access"
-                          className="gap-2 btn btn-outline btn-error btn-sm hover:text-white"
+                          className="gap-2 btn btn-outline btn-error btn-sm hover"
                         >
                           <FaUserShield /> Request Access
                         </Link>
@@ -83,7 +81,7 @@ export default function Unauthorized() {
 
                     <div className="collapse collapse-plus bg-base-200">
                       <input type="radio" name="forbidden-options" />
-                      <div className="font-medium text-white collapse-title">
+                      <div className="font-medium collapse-title">
                         I have a different account
                       </div>
                       <div className="collapse-content">
@@ -97,7 +95,7 @@ export default function Unauthorized() {
                       </div>
                     </div>
 
-                    <div className="text-white divider divider-primary">OR</div>
+                    <div className="divider divider-primary">OR</div>
 
                     <div className="flex flex-col gap-2 sm:flex-row">
                       <Link
@@ -106,13 +104,13 @@ export default function Unauthorized() {
                             ? "approver/dashboard"
                             : "dashboard"
                         }`}
-                        className="flex-1 gap-2 text-white btn btn-ghost"
+                        className="flex-1 gap-2 btn btn-ghost"
                       >
                         <FaHome className="!text-6xl" /> Go back to Dashboard
                       </Link>
                       <button
                         onClick={() => router.back()}
-                        className="flex-1 gap-2 text-white btn btn-ghost"
+                        className="flex-1 gap-2 btn btn-ghost"
                       >
                         ↩ Go Back
                       </button>

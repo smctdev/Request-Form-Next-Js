@@ -181,16 +181,17 @@ const AddUserModal = ({
             onClick={closeModal}
           />
         </div>
-        <div className="bg-white w-7/12 md:w-2/5 x-20 rounded-b-[12px] shadow-lg  overflow-y-auto  h-2/3">
+        <div className="bg-base-100 w-7/12 md:w-2/5 x-20 rounded-b-[12px] shadow-lg  overflow-y-auto  h-2/3">
           {isBulkUpload ? (
             <BulkUpload
               setIsBulkUpload={setIsBulkUpload}
               setModalIsOpen={setModalIsOpen}
               refreshData={refreshData}
+              onCancel={handleBulkUpload}
             />
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="max-w-4xl p-6 mx-auto mt-2 bg-white rounded-lg">
+              <div className="max-w-4xl p-6 mx-auto mt-2 bg-base-100 rounded-lg">
                 {/* Form Fields */}
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
                   {/* First Name */}
@@ -202,7 +203,7 @@ const AddUserModal = ({
                       type="text"
                       {...register("firstName")}
                       placeholder="Enter first name"
-                      className="w-full mt-2 bg-white input input-bordered"
+                      className="w-full mt-2 bg-base-100 input input-bordered"
                     />
                     {errors.firstName && (
                       <span className="text-xs text-red-500">
@@ -220,7 +221,7 @@ const AddUserModal = ({
                       type="text"
                       {...register("lastName")}
                       placeholder="Enter last name"
-                      className="w-full mt-2 bg-white input input-bordered"
+                      className="w-full mt-2 bg-base-100 input input-bordered"
                     />
                     {errors.lastName && (
                       <span className="text-xs text-red-500">
@@ -238,7 +239,7 @@ const AddUserModal = ({
                       type="text"
                       {...register("email")}
                       placeholder="Enter email"
-                      className="w-full mt-2 bg-white input input-bordered"
+                      className="w-full mt-2 bg-base-100 input input-bordered"
                     />
                     {errors.email && (
                       <span className="text-xs text-red-500">
@@ -256,7 +257,7 @@ const AddUserModal = ({
                       type="text"
                       {...register("userName")}
                       placeholder="Enter username"
-                      className="w-full mt-2 bg-white input input-bordered"
+                      className="w-full mt-2 bg-base-100 input input-bordered"
                     />
                     {errors.userName && (
                       <span className="text-xs text-red-500">
@@ -274,7 +275,7 @@ const AddUserModal = ({
                       type="text"
                       {...register("contact")}
                       placeholder="Enter contact number"
-                      className="w-full mt-2 bg-white input input-bordered"
+                      className="w-full mt-2 bg-base-100 input input-bordered"
                     />
                     {errors.contact && (
                       <span className="text-xs text-red-500">
@@ -294,7 +295,7 @@ const AddUserModal = ({
                       render={({ field }) => (
                         <select
                           {...field}
-                          className="w-full mt-2 bg-white select select-bordered"
+                          className="w-full mt-2 bg-base-100 select select-bordered"
                           onChange={(e) => {
                             field.onChange(e);
                             handleBranchCodeChange(Number(e.target.value));
@@ -339,7 +340,7 @@ const AddUserModal = ({
                         <input
                           {...field}
                           readOnly
-                          className="w-full mt-2 bg-white input input-bordered"
+                          className="w-full mt-2 bg-base-100 input input-bordered"
                         />
                       )}
                     />
@@ -359,7 +360,7 @@ const AddUserModal = ({
                       type="text"
                       {...register("employee_id")}
                       placeholder="Enter your employee ID"
-                      className="w-full mt-2 bg-white input input-bordered"
+                      className="w-full mt-2 bg-base-100 input input-bordered"
                     />
                     {errors.employee_id && (
                       <span className="text-xs text-red-500">
@@ -379,7 +380,7 @@ const AddUserModal = ({
                       render={({ field }) => (
                         <select
                           {...field}
-                          className="w-full mt-2 bg-white select select-bordered"
+                          className="w-full mt-2 bg-base-100 select select-bordered"
                         >
                           <option value="" hidden>
                             Select Role
@@ -413,7 +414,7 @@ const AddUserModal = ({
                       render={({ field }) => (
                         <select
                           {...field}
-                          className="w-full mt-2 bg-white select select-bordered"
+                          className="w-full mt-2 bg-base-100 select select-bordered"
                         >
                           <option value="" hidden>
                             Select Position
@@ -454,7 +455,7 @@ const AddUserModal = ({
                           type={showPassword ? "text" : "password"}
                           {...register("password")}
                           placeholder="Enter password"
-                          className="w-full mt-2 bg-white input input-bordered"
+                          className="w-full mt-2 bg-base-100 input input-bordered"
                         />
                         {showPassword ? (
                           <EyeSlashIcon
@@ -485,7 +486,7 @@ const AddUserModal = ({
                           type={showConfirmPassword ? "text" : "password"}
                           {...register("confirmPassword")}
                           placeholder="Confirm password"
-                          className="w-full mt-2 bg-white input input-bordered"
+                          className="w-full mt-2 bg-base-100 input input-bordered"
                         />
                         {showConfirmPassword ? (
                           <EyeSlashIcon

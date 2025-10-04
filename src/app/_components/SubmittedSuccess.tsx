@@ -3,7 +3,7 @@ export default function SubmittedSuccess({
   setSubmitted,
 }: any) {
   return (
-    <div className="max-w-fit p-8 mx-auto overflow-hidden text-center bg-white shadow-md rounded-xl">
+    <div className="max-w-fit p-8 mx-auto overflow-hidden text-center bg-base-100 shadow-md rounded-xl">
       <div className="flex items-center justify-center w-20 h-20 mx-auto mb-6 rounded-full bg-secondary">
         <svg
           className="w-10 h-10 text-primary"

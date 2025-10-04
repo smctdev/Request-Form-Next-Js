@@ -93,7 +93,7 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
 
   const tableStyle = "border-black border py-2 font-bold text-xs text-center";
   return (
-    <div className="text-black bg-white h-lvh">
+    <div className="  bg-base-100 h-lvh">
       <style>
         {`
         @media print

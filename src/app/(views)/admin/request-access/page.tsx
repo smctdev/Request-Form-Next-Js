@@ -223,11 +223,11 @@ function RequestAccess() {
           type="search"
           placeholder="Search..."
           onChange={handleSearch()}
-          className="bg-white border border-gray-300 text-gray-600 text-sm rounded-lg focus:ring-blue-500 focus:outline-none focus:border-blue-500 block w-1/6 py-2.5 pr-2.5 pl-10"
+          className="bg-base-100 border border-gray-300 text-gray-600 text-sm rounded-lg focus:ring-blue-500 focus:outline-none focus:border-blue-500 block w-1/6 py-2.5 pr-2.5 pl-10"
         />
         <FaMagnifyingGlass className="absolute top-0 left-0 mt-3.5 ml-3 text-gray-400" />
       </div>
-      <div className="bg-white rounded-xl shadow-md">
+      <div className="bg-base-100 rounded-xl shadow-md">
         <DataTable
           columns={tableData}
           data={requestAccess}

@@ -79,7 +79,7 @@ type Item = {
   remarks: string;
 };
 
-const tableStyle2 = "bg-white p-2";
+const tableStyle2 = "bg-base-100 p-2";
 const inputStyle =
   "border border-black bg text-[12px] font-bold p-2 h-14 w-fit md:w-50";
 const tableCellStyle = `${inputStyle}`;
@@ -439,10 +439,10 @@ const ViewPurchaseModal: React.FC<Props> = ({
 
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black rounded-t-lg shadow-lg md:mx-0 md:w-1/2 space-y-auto h-3/4">
+      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-base-100 border-black rounded-t-lg shadow-lg md:mx-0 md:w-1/2 space-y-auto h-3/4">
         <div className="sticky flex justify-end cursor-pointer top-2">
           <XMarkIcon
-            className="w-8 h-8 p-1 text-black bg-white rounded-full "
+            className="w-8 h-8 p-1   bg-base-100 rounded-full "
             onClick={closeModal}
           />
         </div>
@@ -507,7 +507,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
           </div>
           <div className="flex w-1/2 ">
             <h1 className="flex items-center">Branch: </h1>
-            <p className="w-full pl-1 font-bold bg-white rounded-md ">
+            <p className="w-full pl-1 font-bold bg-base-100 rounded-md ">
               {branchName}
             </p>
           </div>
@@ -518,14 +518,14 @@ const ViewPurchaseModal: React.FC<Props> = ({
               {isEditing ? (
                 <input
                   type="text"
-                  className="w-full p-1 mt-2 bg-white border border-black rounded-md "
+                  className="w-full p-1 mt-2 bg-base-100 border border-black rounded-md "
                   value={newSupplier}
                   onChange={(e) => setNewSupplier(e.target.value)}
                 />
               ) : (
                 <input
                   type="text"
-                  className="w-full p-1 mt-2 bg-white border border-black rounded-md "
+                  className="w-full p-1 mt-2 bg-base-100 border border-black rounded-md "
                   value={editableRecord.form_data[0].supplier}
                   readOnly
                 />
@@ -537,14 +537,14 @@ const ViewPurchaseModal: React.FC<Props> = ({
               {isEditing ? (
                 <input
                   type="text"
-                  className="w-full p-1 mt-2 bg-white border border-black rounded-md "
+                  className="w-full p-1 mt-2 bg-base-100 border border-black rounded-md "
                   value={newAddress}
                   onChange={(e) => setNewAddress(e.target.value)}
                 />
               ) : (
                 <input
                   type="text"
-                  className="w-full p-1 mt-2 bg-white border border-black rounded-md "
+                  className="w-full p-1 mt-2 bg-base-100 border border-black rounded-md "
                   value={editableRecord.form_data[0].address}
                   readOnly
                 />
@@ -673,7 +673,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
             <h1>Grand Total</h1>
             <input
               type="text"
-              className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
+              className="w-full p-1 mt-2 font-bold bg-base-100 border border-black rounded-md "
               value={formattedAmount(editableRecord.form_data[0].grand_total)}
               readOnly
             />
@@ -887,7 +887,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
                 <p className="mb-3 font-semibold">Upload attachment:</p>
                 <div
                   className={`relative w-full p-6 text-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer 
-                    ${isHovering ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                    ${isHovering ? "bg-base-200" : "hover:bg-base-300"}`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
@@ -925,7 +925,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
                 {attachmentUrl.map((fileItem, index) => (
                   <div
                     key={index}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                   >
                     <div className="relative w-20">
                       {isImageFile(fileItem) ? (
@@ -1003,7 +1003,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
                 {newAttachments.map((fileItem) => (
                   <div
                     key={fileItem.name}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                   >
                     <div className="relative">
                       {fileItem.type.startsWith("image/") ? (

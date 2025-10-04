@@ -35,11 +35,11 @@ const ViewApproverModal: React.FC<ViewApproverModalProps> = ({
           Approver
         </h2>
         <XMarkIcon
-          className="size-6 text-black absolute right-3 cursor-pointer"
+          className="size-6   absolute right-3 cursor-pointer"
           onClick={closeModal}
         />
       </div>
-      <div className="bg-white w-1/2 rounded-b-[12px] shadow-lg   lg:overflow h-auto px-14">
+      <div className="bg-base-100 w-1/2 rounded-b-[12px] shadow-lg   lg:overflow h-auto px-14">
         {user && (
           <div className="grid mb-10 lg:grid-cols-2 justify-items-center place-content-center mt-5  gap-4">
             {Object.entries(user).map(([key, value]) => (

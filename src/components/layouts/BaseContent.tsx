@@ -124,11 +124,11 @@ const BaseContent = ({ children }: any) => {
           >
             <SetupSignature signatureProps={setSignature} />
           </Modal>
-          <div className="relative flex w-full h-screen white">
+          <div className="relative flex w-full h-screen">
             <div
               className={`h-full fixed ${
                 isSidebarVisible ? "block" : "hidden"
-              } md:block z-30 text-black`}
+              } md:block z-30  `}
             >
               <Sidebar2
                 darkMode={false}
@@ -145,12 +145,11 @@ const BaseContent = ({ children }: any) => {
             >
               <Navbar
                 darkMode={false}
-                toggleDarkMode={() => {}}
                 toggleSidebar={toggleSidebar}
                 currentPage={pathname.replace(/\//g, " ")}
                 isSidebarVisible={isSidebarVisible}
               />
-              <div className="flex-1 w-full text-black bg-gray">{children}</div>
+              <div className="flex-1 w-full">{children}</div>
             </div>
           </div>
         </>
@@ -172,7 +171,7 @@ const BaseContent = ({ children }: any) => {
           hidden={isPrint}
           ref={buttonRef}
           type="button"
-          className="fixed bottom-5 bg-white p-3 rounded-full right-5"
+          className="fixed bottom-5 bg-base-100 p-3 rounded-full right-5"
           onClick={handleOpenFeedback}
         >
           <div className="flex gap-1 items-center group transition-all duration-500 ease-in-out">

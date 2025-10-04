@@ -28,12 +28,12 @@ import { useAuth } from "@/context/AuthContext";
 type Props = {};
 
 const boxWhite =
-  "bg-white w-full h-[190px] rounded-[15px] drop-shadow-lg relative";
+  "bg-base-100 w-full h-[190px] rounded-[15px] drop-shadow-lg relative";
 const boxPink = "w-full h-[150px] rounded-t-[12px] relative";
 const outerLogo =
   "lg:w-[120px] lg:h-[125px] w-[80px] h-[90px] right-0 mr-[56px] lg:mt-[26px] mt-[56px] absolute";
 const innerBox =
-  "lg:w-[82px] lg:h-[84px] w-[57px] h-[58px] bg-white absolute right-0 mr-[29px] lg:mt-[37px] md:mt-[47px] mt-[47px] rounded-[12px] flex justify-center items-center";
+  "lg:w-[82px] lg:h-[84px] w-[57px] h-[58px] bg-base-100 absolute right-0 mr-[29px] lg:mt-[37px] md:mt-[47px] mt-[47px] rounded-[12px] flex justify-center items-center";
 const innerLogo =
   "lg:w-[48px] lg:h-[51px] w-[40px] h-[45px] flex justify-center items-center";
 
@@ -432,7 +432,7 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
         </div>
       </div>
       <div className="flex flex-col gap-4 md:flex-row ">
-        <div className="flex-7 pt-2 bg-white drop-shadow-lg w-full rounded-[12px] h-[327px] mt-4">
+        <div className="flex-7 pt-2 bg-base-100 drop-shadow-lg w-full rounded-[12px] h-[327px] mt-4">
           <h1 className="text-lg font-bold text-center ">
             REQUESTS THIS MONTH
           </h1>
@@ -489,7 +489,7 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
           </ResponsiveContainer>
         </div>
 
-        <div className="flex-3 pb-10 pt-2 bg-white w-full drop-shadow-lg lg:w-2/4 rounded-[12px] h-[327px] mt-4">
+        <div className="flex-3 pb-10 pt-2 bg-base-100 w-full drop-shadow-lg lg:w-2/4 rounded-[12px] h-[327px] mt-4">
           <h1 className="text-lg font-bold text-center">REQUEST THIS WEEK</h1>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart

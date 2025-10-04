@@ -5,6 +5,7 @@ import Logo from "@/assets/logo.png";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import ThemeButton from "./theme-button";
 
 export default function NavbarHome() {
   const [collapse, setCollapse] = useState(false);
@@ -51,7 +52,8 @@ export default function NavbarHome() {
             </div>
             <h1 className="text-xl font-bold">SMCT Group of Companies</h1>
           </div>
-          <div className="hidden space-x-6 md:flex">
+          <div className="hidden space-x-6 md:flex items-center">
+            <ThemeButton />
             {isAuthenticated ? (
               <Link
                 href={`/${

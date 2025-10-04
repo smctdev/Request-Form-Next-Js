@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Slice from "@/assets/Slice.png";
 import building from "@/assets/building.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -52,9 +52,9 @@ const Login = () => {
   };
 
   const inputStyle =
-    "w-full lg:max-w-[417px] h-[45px] p-2 bg-gray-300 rounded-lg text-black focus:outline-none focus:ring-1 focus:ring-primary";
+    "w-full lg:max-w-[417px] h-[45px] p-2 bg-gray-300 rounded-lg   focus:outline-none focus:ring-1 focus:ring-primary";
   return (
-    <div className="flex flex-row bg-[#FFFFFF] text-black">
+    <div className="flex flex-row">
       <div className="relative flex items-center justify-center w-full p-8 bg-center bg-cover lg:w-1/2">
         <Image
           className="absolute inset-0 z-0 object-cover w-full h-screen lg:hidden"
@@ -64,7 +64,7 @@ const Login = () => {
           alt="photo"
         />
 
-        <div className="lg:max-w-[481px] bg-white md:max-w-[430px] w-full lg:mt-0 mt-20  bg-opacity-90 p-8 rounded-lg z-10 lg:m-0 m-10 ">
+        <div className="lg:max-w-[481px] md:max-w-[430px] w-full lg:mt-0 mt-20 shadow-md shadow-gray-50 bg-base-100 bg-opacity-90 p-8 rounded-lg z-10 lg:m-0 m-10 ">
           <h1 className="text-primary font-bold lg:!text-[32px] md:!text-2xl mb-6 text-left lg:mt-0 ">
             <Link href="/" className="transition hover:text-[#38bdf1]">
               <ArrowLeftCircleIcon className="inline w-18 h-18" />

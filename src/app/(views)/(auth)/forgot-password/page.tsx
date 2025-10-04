@@ -63,10 +63,10 @@ const ForgotPassword: React.FC = () => {
           src={building}
           alt="photo"
         />
-        <div className="lg:max-w-[481px] md:max-w-[450px] w-full lg:mt-0  mt-20 bg-white bg-opacity-90 p-8 rounded-lg z-10 lg:m-0 m-10 relative ">
+        <div className="lg:max-w-[481px] md:max-w-[450px] w-full lg:mt-0  mt-20 bg-base-100 bg-opacity-90 p-8 rounded-lg z-10 lg:m-0 m-10 relative ">
           <Link href="/login">
             <div className="block lg:hidden">
-              <XCircleIcon className="absolute mb-2 text-black cursor-pointer size-8 right-4 top-4" />
+              <XCircleIcon className="absolute mb-2   cursor-pointer size-8 right-4 top-4" />
             </div>
           </Link>
           <h1 className="p-4 mt-4 text-2xl font-semibold text-center">

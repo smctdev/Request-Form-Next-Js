@@ -76,11 +76,11 @@ const AddPositionModal = ({
           Add Position
         </h2>
         <XMarkIcon
-          className="absolute text-black cursor-pointer size-6 right-3"
+          className="absolute   cursor-pointer size-6 right-3"
           onClick={closeModal}
         />
       </div>
-      <div className="bg-white w-7/12 md:w-2/6 x-20 rounded-b-[12px] shadow-lg overflow-y-auto">
+      <div className="bg-base-100 w-7/12 md:w-2/6 x-20 rounded-b-[12px] shadow-lg overflow-y-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="gap-4 mt-10 md:mx-5">
             <div className="mb-4">

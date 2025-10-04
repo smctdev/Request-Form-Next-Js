@@ -509,10 +509,10 @@ const ApproverCashDisbursement: React.FC<Props> = ({
 
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black rounded-t-lg shadow-lg md:mx-0 md:w-1/2 space-y-auto h-3/4">
+      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-base-100 border-black rounded-t-lg shadow-lg md:mx-0 md:w-1/2 space-y-auto h-3/4">
         <div className="sticky flex justify-end cursor-pointer top-2">
           <XMarkIcon
-            className="w-8 h-8 p-1 text-black bg-white rounded-full "
+            className="w-8 h-8 p-1   bg-base-100 rounded-full "
             onClick={closeModal}
           />
         </div>
@@ -681,7 +681,7 @@ const ApproverCashDisbursement: React.FC<Props> = ({
 
             <input
               type="text"
-              className="w-full p-1 mt-2 font-bold bg-white border border-black rounded-md "
+              className="w-full p-1 mt-2 font-bold bg-base-100 border border-black rounded-md "
               value={`${getCurrencySymbol(record.currency)} ${
                 editableRecord.form_data[0].grand_total
               }`}
@@ -886,7 +886,7 @@ const ApproverCashDisbursement: React.FC<Props> = ({
                 {attachmentUrl.map((fileItem) => (
                   <div
                     key={fileItem}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                   >
                     <div className="relative w-20">
                       {isImageFile(fileItem) ? (
@@ -981,7 +981,7 @@ const ApproverCashDisbursement: React.FC<Props> = ({
             {record.status === "Pending" && (
               <div>
                 <textarea
-                  className="w-full h-auto p-1 mt-2 bg-white border border-black rounded-md"
+                  className="w-full h-auto p-1 mt-2 bg-base-100 border border-black rounded-md"
                   placeholder="Enter your comments here.."
                   value={comments}
                   onChange={(e) => setComments(e.target.value)}
@@ -1167,7 +1167,7 @@ const ApproverCashDisbursement: React.FC<Props> = ({
               {file.map((fileItem) => (
                 <div
                   key={fileItem.name}
-                  className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                  className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                 >
                   <div className="relative">
                     {fileItem.type.startsWith("image/") ? (

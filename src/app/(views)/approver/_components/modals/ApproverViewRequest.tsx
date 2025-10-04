@@ -901,7 +901,7 @@ const ApproverViewRequest = (props: Props) => {
   return (
     <div className="bg-graybg dark:bg-blackbg w-full h-screen pt-4 px-10 md:px-10 lg:px-30">
       <div className="w-full  h-auto  drop-shadow-lg rounded-lg  md:mr-4 relative ">
-        <div className="bg-white   rounded-lg  w-full flex flex-col items-center overflow-x-auto">
+        <div className="bg-base-100   rounded-lg  w-full flex flex-col items-center overflow-x-auto">
           <div className="w-full border-b-2  md:px-30">
             <ul className=" px-2 md:px-30 flex justify-start items-center space-x-4 md:space-x-6 py-4 font-medium overflow-x-auto">
               {items.map((item, index) => (

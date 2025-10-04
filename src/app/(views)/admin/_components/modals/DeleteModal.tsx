@@ -36,7 +36,7 @@ const DeleteModal = ({
   return (
     deleteModal && (
       <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50 ">
-        <div className=" p-4  w-1/2 md:w-1/3 bg-white flex flex-col justify-center   rounded-[12px] shadow-lg">
+        <div className=" p-4  w-1/2 md:w-1/3 bg-base-100 flex flex-col justify-center   rounded-[12px] shadow-lg">
           <div className="flex justify-between w-full">
             <div className="flex items-center">
               <ExclamationCircleIcon className="size-14 rounded-lg bg-[#FFCFCF] text-[#E74E4E]  left-3 cursor-pointer" />
@@ -46,7 +46,7 @@ const DeleteModal = ({
             </div>
             <div>
               <XMarkIcon
-                className="text-black cursor-pointer size-8 right-3"
+                className="  cursor-pointer size-8 right-3"
                 onClick={closeDeleteModal}
               />
             </div>

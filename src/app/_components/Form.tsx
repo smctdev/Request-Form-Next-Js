@@ -67,15 +67,15 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
     }
   };
   return (
-    <div className="p-8 overflow-hidden bg-white shadow-md rounded-xl h-fit">
+    <div className="p-8 overflow-hidden shadow-md rounded-xl bg-base-100 h-fit shadow-gray-300">
       <h2 className="mb-6 !text-2xl font-bold text-primary">
         Help Make the System Better
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="label">
-            <span className="label-text">
-              Full Name <span className="text-red-500">*</span>
+            <span>
+              Full Name <span className="text-error">*</span>
             </span>
           </label>
           <Input
@@ -85,14 +85,14 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             placeholder="Full Name (e.g. Juan Dela Cruz)"
           />
           {error?.name && (
-            <small className="text-red-500 !text-sm">{error?.name[0]}</small>
+            <small className="text-error !text-sm">{error?.name[0]}</small>
           )}
         </div>
 
         <div>
           <label className="label">
-            <span className="label-text">
-              Email Address <span className="text-red-500">*</span>
+            <span>
+              Email Address <span className="text-error">*</span>
             </span>
           </label>
           <Input
@@ -102,13 +102,13 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             placeholder="Email Address"
           />
           {error?.email && (
-            <small className="text-red-500 !text-sm">{error?.email[0]}</small>
+            <small className="text-error !text-sm">{error?.email[0]}</small>
           )}
         </div>
 
         <div>
           <label className="label">
-            <span className="label-text">Phone Number (optional)</span>
+            <span>Phone Number (optional)</span>
           </label>
           <Input
             type="number"
@@ -117,14 +117,14 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             placeholder="Phone Number (optional)"
           />
           {error?.phone && (
-            <small className="text-red-500 !text-sm">{error?.phone[0]}</small>
+            <small className="text-error !text-sm">{error?.phone[0]}</small>
           )}
         </div>
 
         <div>
           <label className="label">
-            <span className="label-text">
-              Department Name <span className="text-red-500">*</span>
+            <span>
+              Department Name <span className="text-error">*</span>
             </span>
           </label>
           <Input
@@ -134,7 +134,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             placeholder="Department Name"
           />
           {error?.department && (
-            <small className="text-red-500 !text-sm">
+            <small className="text-error !text-sm">
               {error?.department[0]}
             </small>
           )}
@@ -142,8 +142,8 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
 
         <div>
           <label className="label">
-            <span className="label-text">
-              Select a Opinion <span className="text-red-500">*</span>
+            <span>
+              Select a Opinion <span className="text-error">*</span>
             </span>
           </label>
           <div className="space-y-2">
@@ -163,7 +163,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
               <option value="other">Other Opinion</option>
             </Select>
             {error?.opinion && (
-              <small className="text-red-500 !text-sm">
+              <small className="text-error !text-sm">
                 {error?.opinion[0]}
               </small>
             )}
@@ -174,7 +174,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
               onChange={handleChange("other_opinion")}
             />
             {error?.other_opinion && (
-              <small className="text-red-500 !text-sm">
+              <small className="text-error !text-sm">
                 {error?.other_opinion[0]}
               </small>
             )}
@@ -183,8 +183,8 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
 
         <div>
           <label className="label">
-            <span className="label-text">
-              Message <span className="text-red-500">*</span>
+            <span>
+              Message <span className="text-error">*</span>
             </span>
           </label>
           <Textarea
@@ -193,7 +193,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
             placeholder="Tell us about your experience..."
           />
           {error?.message && (
-            <small className="text-red-500 !text-sm">{error?.message[0]}</small>
+            <small className="text-error !text-sm">{error?.message[0]}</small>
           )}
         </div>
 

@@ -57,7 +57,7 @@ export default function FilterReports({
           <span className="label-text">Status</span>
         </label>
         <select
-          className="select select-bordered w-full bg-white"
+          className="select select-bordered w-full bg-base-100"
           value={filter?.status}
           onChange={(e) =>
             setFilter((filter) => ({
@@ -85,7 +85,7 @@ export default function FilterReports({
             type="search"
             placeholder="Search reports..."
             value={searchData}
-            className="input input-bordered w-full pl-10 bg-white focus:outline-none focus:border-blue-500"
+            className="input input-bordered w-full pl-10 bg-base-100 focus:outline-none focus:border-blue-500"
             onChange={handleSearch()}
           />
           <span className="absolute left-3 top-2 z-1">

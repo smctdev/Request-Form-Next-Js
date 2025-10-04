@@ -496,10 +496,10 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
 
   return (
     <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-white border-black shadow-lg md:mx-0 md:w-11/12 lg:w-11/12 space-y-auto h-4/5">
+      <div className="relative z-10 w-full p-4 mx-10 overflow-scroll bg-base-100 border-black shadow-lg md:mx-0 md:w-11/12 lg:w-11/12 space-y-auto h-4/5">
         <div className="sticky flex justify-end cursor-pointer top-2">
           <XMarkIcon
-            className="w-8 h-8 p-1 text-black bg-white rounded-full "
+            className="w-8 h-8 p-1   bg-base-100 rounded-full "
             onClick={closeModal}
           />
         </div>
@@ -566,21 +566,21 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
           <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
             <div className="flex w-1/2 ">
               <h1 className="flex items-center">Branch: </h1>
-              <p className="w-full pl-1 font-bold bg-white rounded-md ">
+              <p className="w-full pl-1 font-bold bg-base-100 rounded-md ">
                 {branchName}
               </p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-sm font-medium">Reason for Cash Advance:</h1>
-            <span className="pl-1 font-bold bg-white rounded-md">
+            <span className="pl-1 font-bold bg-base-100 rounded-md">
               {record?.form_data[0]?.reason}
             </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
             <h1 className="text-sm font-medium">Liquidation Date:</h1>
-            <span className="pl-1 font-bold bg-white rounded-md">
+            <span className="pl-1 font-bold bg-base-100 rounded-md">
               {record?.form_data[0]?.liquidationDate}
             </span>
           </div>
@@ -637,7 +637,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
@@ -651,7 +651,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
@@ -665,7 +665,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
@@ -679,7 +679,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
@@ -693,7 +693,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
@@ -707,7 +707,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
@@ -721,7 +721,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
@@ -735,7 +735,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                               <td className="break-words border-2 border-black tableCellStyle">
@@ -749,7 +749,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                       e.target.value
                                     )
                                   }
-                                  className="w-full bg-white"
+                                  className="w-full bg-base-100"
                                 />
                               </td>
                             </tr>
@@ -810,7 +810,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                             onChange={(e) =>
                               setNewTotalBoatFare(e.target.value)
                             }
-                            className="w-full bg-white"
+                            className="w-full bg-base-100"
                             readOnly={!isEditing}
                           />
                         ) : (
@@ -859,7 +859,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                             type="number"
                             value={newTotalFare}
                             onChange={(e) => setNewTotalFare(e.target.value)}
-                            className="w-full bg-white"
+                            className="w-full bg-base-100"
                             readOnly={!isEditing}
                           />
                         ) : (
@@ -879,7 +879,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                             onChange={(e) =>
                               setNewTotalContingency(e.target.value)
                             }
-                            className="w-full bg-white"
+                            className="w-full bg-base-100"
                             readOnly={!isEditing}
                           />
                         ) : (
@@ -1120,7 +1120,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                 <p className="mb-3 font-semibold">Upload attachment:</p>
                 <div
                   className={`relative w-full p-6 text-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer 
-                    ${isHovering ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                    ${isHovering ? "bg-base-200" : "hover:bg-base-300"}`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
@@ -1158,7 +1158,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                 {attachmentUrl.map((fileItem, index) => (
                   <div
                     key={index}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                   >
                     <div className="relative w-20">
                       {isImageFile(fileItem) ? (
@@ -1236,7 +1236,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                 {newAttachments.map((fileItem) => (
                   <div
                     key={fileItem.name}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
                   >
                     <div className="relative">
                       {fileItem.type.startsWith("image/") ? (

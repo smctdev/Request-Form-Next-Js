@@ -62,13 +62,13 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const inputStyle =
-  "w-full   border-2 border-black rounded-[12px] bg-white  autofill-input";
+  "w-full   border-2 border-black rounded-[12px]   autofill-input";
 const itemDiv = "flex flex-col  ";
 const buttonStyle =
   "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
-const tableStyle = "border border-black p-2 border-collapse";
+const tableStyle = "border  p-2 border-collapse";
 const inputStyle2 =
-  "w-full   rounded-[12px] pl-[10px] bg-white  autofill-input focus:outline-0";
+  "w-full   rounded-[12px] pl-[10px]   autofill-input focus:outline-0";
 
 const CreateCheckIssuance = (props: Props) => {
   const router = useRouter();
@@ -478,7 +478,7 @@ const CreateCheckIssuance = (props: Props) => {
           </option>
         ))}
       </select> */}
-      <div className="bg-white w-full mb-5 rounded-[12px] flex flex-col">
+      <div className=" w-full mb-5 rounded-[12px] flex flex-col">
         <div className="border-b flex justify-between flex-col px-[30px] md:flex-row ">
           <div>
             <h1 className="flex py-4 mr-2 text-3xl font-bold text-left text-primary">
@@ -515,13 +515,13 @@ const CreateCheckIssuance = (props: Props) => {
                         onChange={handleChange}
                       />
                       {dropdownOpen && filteredBanks?.length > 0 && (
-                        <div className="absolute bg-white w-full max-h-[200px] overflow-y-auto border rounded border-gray-300">
+                        <div className="absolute  w-full max-h-[200px] overflow-y-auto border rounded border-gray-300 bg-base-100">
                           <ul>
                             {filteredBanks?.map((bank, index) => (
                               <li
                                 key={index}
                                 onClick={handleSetItem(bank?.name)}
-                                className="p-5 hover:bg-gray-300 rounded cursor-pointer"
+                                className="p-5 hover:bg-base-200 rounded cursor-pointer"
                               >
                                 {bank?.name}
                               </li>
@@ -578,7 +578,7 @@ const CreateCheckIssuance = (props: Props) => {
                         <tr key={index}>
                           {/* Quantity Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border "
                             onClick={() => {
                               const input = document.getElementById(
                                 `quantity-${index}`
@@ -626,7 +626,7 @@ const CreateCheckIssuance = (props: Props) => {
                           </td>
                           {/* Description Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border "
                             onClick={() => {
                               const input = document.getElementById(
                                 `description-${index}`
@@ -678,7 +678,7 @@ const CreateCheckIssuance = (props: Props) => {
                           </td>
                           {/* Unit Cost Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border "
                             onClick={() => {
                               const input = document.getElementById(
                                 `unit_cost-${index}`
@@ -727,7 +727,7 @@ const CreateCheckIssuance = (props: Props) => {
                           </td>
                           {/* Total Amount Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border "
                             onClick={() => {
                               const input = document.getElementById(
                                 `total_amount-${index}`
@@ -773,7 +773,7 @@ const CreateCheckIssuance = (props: Props) => {
                           </td>
                           {/* Remarks Input */}
                           <td
-                            className="p-1 border border-black"
+                            className="p-1 border "
                             onClick={() => {
                               const input = document.getElementById(
                                 `remarks-${index}`
@@ -816,12 +816,12 @@ const CreateCheckIssuance = (props: Props) => {
                         </tr>
                       ))}
                     </tbody>
-                    <tfoot className="bg-gray-100">
+                    <tfoot className="shadow-md shadow-gray-50">
                       <tr>
                         <td colSpan={4} className="p-2 font-bold text-right">
                           Grand Total:
                         </td>
-                        <td className="p-2 font-bold text-center border border-black">
+                        <td className="p-2 font-bold text-center border ">
                           ₱{calculateGrandTotal()}
                         </td>
                       </tr>
@@ -834,7 +834,7 @@ const CreateCheckIssuance = (props: Props) => {
             <div className="flex flex-col items-center justify-center w-full mt-4">
               <hr className="w-full my-2 border-t-4 border-gray-400 border-dotted" />
               <span
-                className={`bg-yellow-400 flex items-center cursor-pointer hover:bg-white hover:border-4 hover:border-yellow-400  hover:text-yellow-400  text-gray-950 mt-2 max-w-md justify-center ${buttonStyle}`}
+                className={`bg-yellow-400 flex items-center cursor-pointer hover:text-white hover:border-4 hover:bg-yellow-500 hover:border-yellow-400  text-gray-950 mt-2 max-w-md justify-center ${buttonStyle}`}
                 onClick={handleAddItem}
               >
                 <PlusCircleIcon className="w-5 h-5 mr-2" aria-hidden="true" />
@@ -846,7 +846,7 @@ const CreateCheckIssuance = (props: Props) => {
                 <p className="mb-3 font-semibold">Upload attachment:</p>
                 <div
                   className={`relative w-full p-6 text-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer 
-                      ${isHovering ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                      ${isHovering ? "bg-base-200" : "hover:bg-base-300"}`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
@@ -860,7 +860,7 @@ const CreateCheckIssuance = (props: Props) => {
                     onChange={handleFileChange}
                     className="hidden"
                   />
-                  <p className="text-gray-500">
+                  <p className="text-gray-300">
                     Drag and drop your images here <br /> or <br />
                     <span className="text-blue-500">click to upload</span>
                   </p>
@@ -883,7 +883,7 @@ const CreateCheckIssuance = (props: Props) => {
                 {file.map((fileItem) => (
                   <div
                     key={fileItem.name}
-                    className="relative w-24 p-2 bg-white rounded-lg shadow-md"
+                    className="relative w-24 p-2  rounded-lg shadow-md"
                   >
                     <div className="relative">
                       {fileItem.type.startsWith("image/") ? (
@@ -1017,7 +1017,7 @@ const CreateCheckIssuance = (props: Props) => {
                 onClick={handleFormSubmit}
                 disabled={loading}
               >
-                <span className="text-white hover:text-black">
+                <span className="text-white hover: ">
                   {loading ? "PLEASE WAIT..." : "CREATE REQUEST"}
                 </span>
               </button>
@@ -1025,7 +1025,7 @@ const CreateCheckIssuance = (props: Props) => {
           </div>
           {showConfirmationModal && (
             <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-              <div className="p-4 bg-white rounded-md">
+              <div className="p-4  rounded-md">
                 <p>Are you sure you want to submit the request?</p>
                 <div className="flex justify-end mt-4">
                   <button

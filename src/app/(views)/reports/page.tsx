@@ -134,7 +134,7 @@ const Reports = () => {
   return (
     <>
       <div className="p-5">
-        <div className="bg-white rounded-lg shadow p-5 mb-5">
+        <div className="bg-base-100 rounded-lg shadow p-5 mb-5">
           <h2 className="!text-xl font-bold mb-4">Filter Reports</h2>
 
           <FilterReports
@@ -157,7 +157,7 @@ const Reports = () => {
         </div>
 
         {/* Data Table */}
-        <div className="bg-white rounded-lg shadow p-5">
+        <div className="bg-base-100 rounded-lg shadow p-5">
           <div className="flex justify-end p-3">
             <button
               type="button"

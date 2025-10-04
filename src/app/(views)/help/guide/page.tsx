@@ -39,7 +39,7 @@ const HelpGuide = (props: Props) => {
       <h1 className="text-primary dark:text-primaryD !text-[32px] font-bold">
         Help Guide
       </h1>
-      <div className="bg-white w-full mb-5 rounded-[12px] flex flex-col p-10">
+      <div className="bg-base-100 w-full mb-5 rounded-[12px] flex flex-col p-10">
         <div className="flex items-center justify-center mb-4">
           <ReactPlayer
             url={currentVideo}

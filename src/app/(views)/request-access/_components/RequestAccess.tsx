@@ -82,7 +82,7 @@ export default function RequestAccess({
         </p>
       </div>
       <form
-        className="space-y-4 mx-auto p-10 bg-white rounded-b-lg shadow-sm border-gray-200 border"
+        className="space-y-4 mx-auto p-10 bg-base-100 rounded-b-lg shadow-sm border-gray-200 border"
         onSubmit={handleSubmit()}
       >
         <div className="form-control">

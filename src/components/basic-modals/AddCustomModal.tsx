@@ -219,7 +219,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
 
   return (
     <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50">
-      <div className="flex flex-col w-10/12 mx-20 bg-white rounded-lg shadow-lg sm:w-1/3">
+      <div className="flex flex-col w-10/12 mx-20 bg-base-100 rounded-lg shadow-lg sm:w-1/3">
         <div className="flex items-center justify-center p-4 rounded-t-lg bg-primary">
           <h2 className="text-xl font-bold text-center text-white md:text-2xl">
             Add {entityType}
@@ -229,7 +229,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
           <div className="relative flex items-center mb-4">
             <input
               type="text"
-              className="w-full py-2 pl-10 pr-3 bg-white border border-gray-300 rounded-md"
+              className="w-full py-2 pl-10 pr-3 border border-gray-300 rounded-md"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search approvers"
@@ -348,7 +348,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <div className="mt-4 text-red-500">{errorMessage}</div>
           )}
         </div>
-        <div className="flex flex-col justify-end gap-2 p-4 bg-gray-100 rounded-b-lg md:flex-row">
+        <div className="flex flex-col justify-end gap-2 p-4 bg-base-300 rounded-b-lg md:flex-row">
           <button
             type="button"
             onClick={handleCancel}

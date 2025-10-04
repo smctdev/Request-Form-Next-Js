@@ -19,7 +19,7 @@ const CompleteModal = ({
   return (
     showCompleteModal && (
       <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50 ">
-        <div className="relative flex flex-col items-center justify-center w-10/12 bg-white rounded-md sm:w-1/3 ">
+        <div className="relative flex flex-col items-center justify-center w-10/12 bg-base-100 rounded-md sm:w-1/3 ">
           <FontAwesomeIcon
             icon={faCircleCheck}
             className="absolute !size-20 text-primary -top-6 "

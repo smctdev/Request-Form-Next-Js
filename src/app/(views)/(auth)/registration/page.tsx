@@ -47,9 +47,9 @@ const schema = z
   });
 
 const fieldStyle = "flex flex-col md:flex-row gap-4";
-const headerStyle = "lg:text-lg text-base mb-2";
+const headerStyle = "lg:text-lg mb-2";
 const inputStyle =
-  "w-full h-[45px] p-2 bg-gray-300 rounded-lg  autofill-input text-black";
+  "w-full h-[45px] p-2 bg-gray-300 rounded-lg  autofill-input";
 
 const Registration = () => {
   const router = useRouter();
@@ -249,7 +249,7 @@ const Registration = () => {
     }
   };
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center text-black bg-[#FFFFFF]">
+    <div className="flex flex-col lg:flex-row items-center justify-cente">
       <div className="flex h-screen justify-center w-full lg:w-1/2">
         <Image
           height={0}
@@ -258,7 +258,7 @@ const Registration = () => {
           src={building}
           alt=""
         />
-        <div className="z-10 w-full p-4 m-10 bg-white rounded-lg lg:p-8 lg:mt-0 lg:m-0">
+        <div className="z-10 w-full p-4 m-10 rounded-lg lg:p-8 lg:mt-0 lg:m-0">
           <h1 className="text-primary font-bold lg:!text-[32px] md:!text-2xl mb-6 text-left">
             ACCOUNT REGISTRATION
           </h1>
@@ -553,7 +553,7 @@ const Registration = () => {
                     penColor="black"
                     ref={(ref) => setSignature(ref)}
                     canvasProps={{
-                      className: "sigCanvas border border-black h-96 w-full",
+                      className: "sigCanvas border h-96 w-full bg-base-100",
                     }}
                     velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
                     minWidth={1.5} // Minimum stroke width
@@ -588,7 +588,7 @@ const Registration = () => {
 
             <div className="relative flex items-center justify-center">
               <button
-                className="cursor-pointer bg-primary text-white px-4 rounded-lg w-full lg:h-[45px] h-10"
+                className="cursor-pointer bg-primary px-4 rounded-lg w-full lg:h-[45px] h-10"
                 type="submit"
                 onClick={() => setLoading(!loading)}
               >

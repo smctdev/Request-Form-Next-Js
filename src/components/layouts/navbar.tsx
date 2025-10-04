@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import {
-  MoonIcon,
-  SunIcon,
   ChevronDownIcon,
   BellIcon,
   ChevronUpIcon,
@@ -19,7 +17,6 @@ import Swal from "sweetalert2";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import Link from "next/link";
-import echo from "@/hooks/echo";
 import { api } from "@/lib/api";
 import { ucfirst } from "@/utils/ucfirst";
 import { useRouter } from "next/navigation";
@@ -40,6 +37,7 @@ import ViewCashAdvanceModal from "../basic-modals/ViewCashAdvanceModal";
 import ViewLiquidationModal from "../basic-modals/ViewLiquidationModal";
 import ViewRequestModal from "../basic-modals/ViewRequestModal";
 import fullnameAcronym from "@/utils/fullnameAcronym";
+import ThemeButton from "./theme-button";
 
 type Record = {
   approved_attachment: string;
@@ -179,12 +177,11 @@ const AnimatedDiv = animated.div as any;
 
 const Navbar = ({
   darkMode,
-  toggleDarkMode,
   currentPage,
   toggleSidebar,
   isSidebarVisible,
 }: NavProps) => {
-  const flexBetween = "flex items-center justify-between";
+  const flexBetween = "flex items-center justify-between items-center";
   const listProfile = "px-4 hover:bg-[#E0E0F9] cursor-pointer py-2";
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenNotif, setIsOpenNotif] = useState(false);
@@ -356,26 +353,26 @@ const Navbar = ({
       markAsReadNotification(notifId);
     };
 
+  const handleReadOnly = (notifId: any) => () => {
+    markAsReadNotification(notifId);
+  };
+
   if (!isAuthenticated) return null;
 
   return (
-    <div
-      className={`nav-container ${
-        darkMode ? "dark" : "white"
-      } sticky top-0 z-50`}
-    >
+    <div className={`nav-container sticky top-0 z-50 bg-base-100`}>
       {/* Toggle light and dark mode */}
-      <nav className={`${flexBetween} bg-white dark:bg-blackD`}>
-        <div className={`h-[67px] flex items-center bg-white dark:bg-blackD`}>
+      <nav className={`${flexBetween}`}>
+        <div className={`h-[67px] flex items-center`}>
           <div onClick={toggleSidebar}>
             {isSidebarVisible ? (
               <XMarkIcon
                 title="Close Menu"
-                className={`size-[36px] font-bold cursor-pointer pl-4 text-black`}
+                className={`size-[36px] font-bold cursor-pointer pl-4`}
               />
             ) : (
               <Bars3Icon
-                className={`size-[36px] font-bold cursor-pointer pl-4 text-black`}
+                className={`size-[36px] font-bold cursor-pointer pl-4`}
               />
             )}
           </div>
@@ -388,19 +385,6 @@ const Navbar = ({
         </div>
 
         <div className="flex items-center justify-between pr-12">
-          {/* <div className="pr-2 sm:pr-8">
-            {darkMode ? (
-              <SunIcon
-                className="size-[27px] text-white cursor-pointer"
-                onClick={toggleDarkMode}
-              />
-            ) : (
-              <MoonIcon
-                className="size-[27px] text-black cursor-pointer"
-                onClick={toggleDarkMode}
-              />
-            )}
-          </div> */}
           <div className={`${flexBetween} gap-2 relative`}>
             {isLoading ? (
               <div className="relative flex flex-col gap-4 w-52">
@@ -413,6 +397,9 @@ const Navbar = ({
               </div>
             ) : (
               <>
+                <div className="pr-2">
+                  <ThemeButton />
+                </div>
                 {user?.profile_picture ? (
                   <Image
                     alt="logo"
@@ -432,7 +419,7 @@ const Navbar = ({
                 )}
                 {/* USER NAME */}
                 <p
-                  className="pl-2 lg:!text-[14px] !text-[11px] text-gray-600 font-bold cursor-pointer"
+                  className="pl-2 lg:!text-[14px] !text-[11px] font-bold cursor-pointer"
                   onClick={toggleProfileDropdown}
                 >
                   {user?.firstName} {user?.lastName}
@@ -443,7 +430,7 @@ const Navbar = ({
             {!isOpen ? (
               <button
                 ref={buttonRef}
-                className="size-[25px] text-black cursor-pointer"
+                className="size-[25px] cursor-pointer"
                 onClick={toggleProfileDropdown}
               >
                 <ChevronDownIcon />
@@ -451,7 +438,7 @@ const Navbar = ({
             ) : (
               <button
                 ref={buttonRef}
-                className="size-[25px] text-black cursor-pointer"
+                className="size-[25px] cursor-pointer"
                 onClick={toggleProfileDropdown}
               >
                 <ChevronUpIcon />
@@ -461,7 +448,7 @@ const Navbar = ({
             {isOpen && (
               <div
                 ref={dropdownRef}
-                className="absolute z-50 w-full overflow-x-hidden bg-white top-[55px] rounded-b-lg shadow-sm"
+                className="absolute z-50 w-full bg-base-100 overflow-x-hidden top-[55px] rounded-b-lg shadow-sm"
                 style={{ zIndex: 1000 }}
               >
                 <ul>
@@ -520,12 +507,12 @@ const Navbar = ({
             {isOpenNotif && (
               <div className="flex flex-row">
                 <div
-                  className="w-96 md:w-[500px] bg-white absolute top-11 right-0 border-2 border-black z-40 overflow-y-auto max-h-[500px] rounded-lg shadow-lg flex flex-col"
+                  className="w-96 md:w-[500px] absolute top-11 right-0 border-2 bg-base-100 border-black z-40 overflow-y-auto max-h-[500px] rounded-lg shadow-lg flex flex-col"
                   ref={dropdownRef}
                 >
                   <ul className="flex-1 overflow-y-auto">
                     {notifications.length === 0 ? (
-                      <li className="px-4 py-4 text-center text-gray-500">
+                      <li className="px-4 py-4 text-center">
                         No notifications yet
                       </li>
                     ) : (
@@ -535,28 +522,33 @@ const Navbar = ({
                         const title =
                           notif.data?.request_form_id ??
                           notif.data?.form_type ??
+                          notif.data?.title ??
                           "No title available";
                         const requestSender =
                           `${notif.data?.requesterFirstname} ${notif.data?.requesterLastname}` ||
                           "No name available";
+                        const from = notif.data?.from || "No name available";
                         const createdAt =
                           notif.data?.created_at || new Date().toISOString();
                         const notificationId =
                           notif.notification_id || "unknown-id";
 
-                        const handles = !notif.data.request_id
-                          ? handleGoToAllRequest()
-                          : notif.data.request_reference === "approver"
-                          ? handleViewAndMarkReadNotification(
-                              notif.data.request_id,
-                              notif.id
-                            )
-                          : notif.data.request_reference === "requester"
-                          ? handleViewAndMarkReadRequestNotification(
-                              notif.data.request_id,
-                              notif.id
-                            )
-                          : handleGoToAllRequest();
+                        const handles =
+                          notif.data.type === "feedback"
+                            ? handleReadOnly(notif.id)
+                            : !notif.data.request_id
+                            ? handleGoToAllRequest()
+                            : notif.data.request_reference === "approver"
+                            ? handleViewAndMarkReadNotification(
+                                notif.data.request_id,
+                                notif.id
+                              )
+                            : notif.data.request_reference === "requester"
+                            ? handleViewAndMarkReadRequestNotification(
+                                notif.data.request_id,
+                                notif.id
+                              )
+                            : handleGoToAllRequest();
 
                         const textColor =
                           notif.data.status === "approved"
@@ -578,8 +570,8 @@ const Navbar = ({
                             key={notif.id}
                           >
                             <li
-                              className={`px-4 py-4 hover:bg-[#E0E0F9] cursor-pointer border-b flex items-center relative ${
-                                notif.read_at ? "" : "bg-[#9b9b9b5e]"
+                              className={`px-4 py-4 hover:bg-base-100 cursor-pointer border-b flex items-center relative ${
+                                notif.read_at ? "" : "bg-base-300"
                               }`}
                               onClick={() => setIsOpenNotif(false)}
                               aria-label={`Notification: ${message}`}
@@ -615,6 +607,14 @@ const Navbar = ({
                                     </span>
                                   </p>
                                 )}
+                                {notif.data.from && (
+                                  <p>
+                                    <span className="font-bold">From:</span>{" "}
+                                    <span className="font-semibold">
+                                      {from}
+                                    </span>
+                                  </p>
+                                )}
                               </div>
                               <p className="absolute !text-xs text-center text-gray-400 top-2 right-2">
                                 {formatDate(createdAt)}
@@ -633,7 +633,7 @@ const Navbar = ({
                   <hr />
                   {notifications.length > 0 && ( // Conditionally render this section
                     <div
-                      className="py-5 text-center text-gray-500 cursor-pointer"
+                      className="py-5 text-center cursor-pointer"
                       onClick={handleMarkAllAsRead}
                     >
                       Mark All As Read
