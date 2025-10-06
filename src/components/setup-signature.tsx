@@ -29,7 +29,7 @@ export default function SetupSignature({ signatureProps }: any) {
           penColor="black"
           ref={(ref) => setSignature(ref)}
           canvasProps={{
-            className: "sigCanvas border border-black h-96 w-full",
+            className: "sigCanvas border border-black h-96 w-full bg-gray-100",
           }}
           onEnd={handleSignatureChange}
           velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)

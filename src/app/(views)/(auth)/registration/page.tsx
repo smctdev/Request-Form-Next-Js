@@ -553,7 +553,7 @@ const Registration = () => {
                     penColor="black"
                     ref={(ref) => setSignature(ref)}
                     canvasProps={{
-                      className: "sigCanvas border h-96 w-full bg-base-100",
+                      className: "sigCanvas border h-96 w-full bg-gray-100",
                     }}
                     velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
                     minWidth={1.5} // Minimum stroke width
