@@ -612,7 +612,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                       penColor="black"
                       ref={(ref) => setSignature(ref)}
                       canvasProps={{
-                        className: "sigCanvas border rounded-box w-full h-48 ",
+                        className: "sigCanvas border rounded-box w-full h-48 bg-gray-100",
                       }}
                       velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
                       minWidth={1.5} // Minimum stroke width
