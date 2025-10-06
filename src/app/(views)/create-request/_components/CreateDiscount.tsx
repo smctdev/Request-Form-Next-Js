@@ -1093,7 +1093,7 @@ const CreateDiscount = (props: Props) => {
           </div>
           {showConfirmationModal && (
             <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-black/50">
-              <div className="p-4  rounded-md">
+              <div className="p-4 bg-base-100 rounded-md">
                 <p>Are you sure you want to submit the request?</p>
                 <div className="flex justify-end mt-4">
                   <button
