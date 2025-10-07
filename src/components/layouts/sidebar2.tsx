@@ -37,187 +37,188 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
     useAuth();
   const { isRefresh } = useNotification();
 
-  const navItems: NavItem[] = isAuditor
-    ? [
-        {
-          title: "Dashboard",
-          submenu: false,
-          icon: ChartBarIcon,
-          path: "/dashboard",
-        },
-        {
-          title: "My Request",
-          submenu: false,
-          icon: EnvelopeIcon,
-          path: "/request",
-        },
-        {
-          title: "Create Request",
-          submenu: false,
-          icon: DocumentPlusIcon,
-          path: "/create-request?title=Stock%20Requisition",
-        },
-        {
-          title: "Reports",
-          submenu: false,
-          icon: FlagIcon,
-          path: "/reports",
-        },
-        { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-      ]
-    : isAuditor && isApprover
-    ? [
-        {
-          title: "Dashboard",
-          submenu: false,
-          icon: ChartBarIcon,
-          path: "/approver/dashboard",
-        },
-        {
-          title: "My Request",
-          submenu: false,
-          icon: EnvelopeIcon,
-          path: "/request",
-        },
-        {
-          title: "Create Request",
-          submenu: false,
-          icon: DocumentPlusIcon,
-          path: "/create-request?title=Stock%20Requisition",
-        },
-        {
-          title: "Process Request",
-          submenu: false,
-          icon: DocumentCheckIcon,
-          path: "/approver/request",
-        },
-        {
-          title: "Reports",
-          submenu: false,
-          icon: FlagIcon,
-          path: "/reports",
-        },
-        { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-      ]
-    : isApprover
-    ? [
-        {
-          title: "Dashboard",
-          submenu: false,
-          icon: ChartBarIcon,
-          path: "/approver/dashboard",
-        },
-        {
-          title: "My Request",
-          submenu: false,
-          icon: EnvelopeIcon,
-          path: "/request",
-        },
-        {
-          title: "Create Request",
-          submenu: false,
-          icon: DocumentPlusIcon,
-          path: "/create-request?title=Stock%20Requisition",
-        },
-        {
-          title: "Process Request",
-          submenu: false,
-          icon: DocumentCheckIcon,
-          path: "/approver/request",
-        },
-        { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-      ]
-    : isAdmin
-    ? [
-        {
-          title: "Dashboard",
-          submenu: false,
-          icon: ChartBarIcon,
-          path: "/dashboard",
-        },
-        {
-          title: "Users",
-          submenu: false,
-          icon: UserPlusIcon,
-          path: "/admin/users",
-        },
-        {
-          title: "Positions",
-          submenu: false,
-          icon: BriefcaseIcon,
-          path: "/admin/positions",
-        },
-        {
-          title: "Branches",
-          submenu: false,
-          icon: BuildingOfficeIcon,
-          path: "/admin/branches",
-        },
-        {
-          title: "Approvers",
-          submenu: false,
-          icon: UserIcon,
-          path: "/admin/approvers",
-        },
-        {
-          title: "AVP Staffs",
-          submenu: false,
-          icon: UserGroupIcon,
-          path: "/admin/avp-staffs",
-        },
-        {
-          title: "Area Managers",
-          submenu: false,
-          icon: MapIcon,
-          path: "/admin/area-managers",
-        },
-        {
-          title: "Branch Heads",
-          submenu: false,
-          icon: SwatchIcon,
-          path: "/admin/branch-heads",
-        },
-        {
-          title: "Feedbacks",
-          submenu: false,
-          icon: StarIcon,
-          path: "/admin/feedbacks",
-        },
-        {
-          title: "Request Access",
-          submenu: false,
-          icon: LockClosedIcon,
-          path: "/admin/request-access",
-        },
-        {
-          title: "Reports",
-          submenu: false,
-          icon: FlagIcon,
-          path: "/reports",
-        },
-        { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-      ]
-    : [
-        {
-          title: "Dashboard",
-          submenu: false,
-          icon: ChartBarIcon,
-          path: "/dashboard",
-        },
-        {
-          title: "My Request",
-          submenu: false,
-          icon: EnvelopeIcon,
-          path: "/request",
-        },
-        {
-          title: "Create Request",
-          submenu: false,
-          icon: DocumentPlusIcon,
-          path: "/create-request?title=Stock%20Requisition",
-        },
-        { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-      ];
+  const navItems: NavItem[] =
+    isAuditor && isApprover
+      ? [
+          {
+            title: "Dashboard",
+            submenu: false,
+            icon: ChartBarIcon,
+            path: "/approver/dashboard",
+          },
+          {
+            title: "My Request",
+            submenu: false,
+            icon: EnvelopeIcon,
+            path: "/request",
+          },
+          {
+            title: "Create Request",
+            submenu: false,
+            icon: DocumentPlusIcon,
+            path: "/create-request?title=Stock%20Requisition",
+          },
+          {
+            title: "Process Request",
+            submenu: false,
+            icon: DocumentCheckIcon,
+            path: "/approver/request",
+          },
+          {
+            title: "Reports",
+            submenu: false,
+            icon: FlagIcon,
+            path: "/reports",
+          },
+          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
+        ]
+      : isAuditor
+      ? [
+          {
+            title: "Dashboard",
+            submenu: false,
+            icon: ChartBarIcon,
+            path: "/dashboard",
+          },
+          {
+            title: "My Request",
+            submenu: false,
+            icon: EnvelopeIcon,
+            path: "/request",
+          },
+          {
+            title: "Create Request",
+            submenu: false,
+            icon: DocumentPlusIcon,
+            path: "/create-request?title=Stock%20Requisition",
+          },
+          {
+            title: "Reports",
+            submenu: false,
+            icon: FlagIcon,
+            path: "/reports",
+          },
+          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
+        ]
+      : isApprover
+      ? [
+          {
+            title: "Dashboard",
+            submenu: false,
+            icon: ChartBarIcon,
+            path: "/approver/dashboard",
+          },
+          {
+            title: "My Request",
+            submenu: false,
+            icon: EnvelopeIcon,
+            path: "/request",
+          },
+          {
+            title: "Create Request",
+            submenu: false,
+            icon: DocumentPlusIcon,
+            path: "/create-request?title=Stock%20Requisition",
+          },
+          {
+            title: "Process Request",
+            submenu: false,
+            icon: DocumentCheckIcon,
+            path: "/approver/request",
+          },
+          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
+        ]
+      : isAdmin
+      ? [
+          {
+            title: "Dashboard",
+            submenu: false,
+            icon: ChartBarIcon,
+            path: "/dashboard",
+          },
+          {
+            title: "Users",
+            submenu: false,
+            icon: UserPlusIcon,
+            path: "/admin/users",
+          },
+          {
+            title: "Positions",
+            submenu: false,
+            icon: BriefcaseIcon,
+            path: "/admin/positions",
+          },
+          {
+            title: "Branches",
+            submenu: false,
+            icon: BuildingOfficeIcon,
+            path: "/admin/branches",
+          },
+          {
+            title: "Approvers",
+            submenu: false,
+            icon: UserIcon,
+            path: "/admin/approvers",
+          },
+          {
+            title: "AVP Staffs",
+            submenu: false,
+            icon: UserGroupIcon,
+            path: "/admin/avp-staffs",
+          },
+          {
+            title: "Area Managers",
+            submenu: false,
+            icon: MapIcon,
+            path: "/admin/area-managers",
+          },
+          {
+            title: "Branch Heads",
+            submenu: false,
+            icon: SwatchIcon,
+            path: "/admin/branch-heads",
+          },
+          {
+            title: "Feedbacks",
+            submenu: false,
+            icon: StarIcon,
+            path: "/admin/feedbacks",
+          },
+          {
+            title: "Request Access",
+            submenu: false,
+            icon: LockClosedIcon,
+            path: "/admin/request-access",
+          },
+          {
+            title: "Reports",
+            submenu: false,
+            icon: FlagIcon,
+            path: "/reports",
+          },
+          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
+        ]
+      : [
+          {
+            title: "Dashboard",
+            submenu: false,
+            icon: ChartBarIcon,
+            path: "/dashboard",
+          },
+          {
+            title: "My Request",
+            submenu: false,
+            icon: EnvelopeIcon,
+            path: "/request",
+          },
+          {
+            title: "Create Request",
+            submenu: false,
+            icon: DocumentPlusIcon,
+            path: "/create-request?title=Stock%20Requisition",
+          },
+          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
+        ];
 
   useEffect(() => {
     const handleResize = () => {
