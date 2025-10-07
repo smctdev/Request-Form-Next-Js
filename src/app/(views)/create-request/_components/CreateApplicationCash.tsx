@@ -9,6 +9,7 @@ import {
   PencilIcon,
   PlusCircleIcon,
   PlusIcon,
+  TrashIcon,
 } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -98,8 +99,7 @@ const initialTableData: TableDataItem[] = Array.from({ length: 1 }, () => ({
 const tableStyle = "border p-2";
 const inputStyle2 =
   "w-full   rounded-[12px] pl-[10px]   autofill-input focus:outline-0";
-const tableInput =
-  "w-full h-full  px-2 py-1   autofill-input focus:outline-0";
+const tableInput = "w-full h-full  px-2 py-1   autofill-input focus:outline-0";
 const itemDiv = "flex flex-col ";
 const buttonStyle =
   "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
@@ -226,8 +226,7 @@ const CreateApplicationCash = (props: Props) => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const inputStyle =
-    "w-full max-w-[300px] border-2 rounded-[12px] pl-[10px] ";
+  const inputStyle = "w-full max-w-[300px] border-2 rounded-[12px] pl-[10px] ";
   const [tableData, setTableData] = useState<TableDataItem[]>(initialTableData);
   const [selectedRequestType, setSelectedRequestType] = useState(
     "/create-request/application-for-cash-advance"
@@ -277,7 +276,7 @@ const CreateApplicationCash = (props: Props) => {
     ]);
   }, [selectedRequestType]);
 
-  const handleRemoveItem = () => {
+  const handleRemoveItem = (index: number) => () => {
     if (tableData.length > 1) {
       Swal.fire({
         title: "Are you sure?",
@@ -290,8 +289,7 @@ const CreateApplicationCash = (props: Props) => {
         cancelButtonText: "Cancel",
       }).then((result) => {
         if (result.isConfirmed) {
-          const updatedItems = [...tableData];
-          updatedItems.pop();
+          const updatedItems = tableData.filter((_, i) => i !== index);
           setTableData(updatedItems);
         }
       });
@@ -654,6 +652,7 @@ const CreateApplicationCash = (props: Props) => {
                             </th>
                             <th className="border"></th>
                             <th className="border"></th>
+                            <th className="border"></th>
                           </tr>
                           <tr>
                             <th className={`${tableStyle}`}>Date</th>
@@ -665,6 +664,9 @@ const CreateApplicationCash = (props: Props) => {
                             <th className={`${tableStyle}`}>Rate</th>
                             <th className={`${tableStyle}`}>Per Diem</th>
                             <th className={`${tableStyle}`}>Remarks</th>
+                            {tableData.length > 1 && (
+                              <th className={`${tableStyle}`}>Action</th>
+                            )}
                           </tr>
                         </thead>
                         <tbody>
@@ -975,6 +977,17 @@ const CreateApplicationCash = (props: Props) => {
                                   }
                                 />
                               </td>
+                              {tableData.length > 1 && (
+                                <td>
+                                  <button
+                                    type="button"
+                                    className="p-2"
+                                    onClick={handleRemoveItem(index)}
+                                  >
+                                    <TrashIcon className="size-7 text-red-500" />
+                                  </button>
+                                </td>
+                              )}
                             </tr>
                           ))}
                         </tbody>
@@ -986,18 +999,6 @@ const CreateApplicationCash = (props: Props) => {
                   <hr className="w-full my-2 border-t-4 border-gray-400 border-dotted" />
 
                   <div className="flex flex-row items-center gap-2 mt-2">
-                    {tableData.length > 1 && (
-                      <span
-                        className={`${buttonStyle} bg-pink-400 flex items-center justify-center cursor-pointer hover: hover:border-4 hover:border-pink hover:text-pink`}
-                        onClick={handleRemoveItem}
-                      >
-                        <MinusCircleIcon
-                          className="w-5 h-5 mr-2"
-                          aria-hidden="true"
-                        />
-                        Remove Item
-                      </span>
-                    )}
                     <span
                       className={`bg-yellow-400 flex items-center cursor-pointer hover:border-4 hover:border-yellow-400  hover:text-white hover:bg-yellow-500  text-gray-950 max-w-md justify-center ${buttonStyle}`}
                       onClick={handleAddItem}
@@ -1111,10 +1112,7 @@ const CreateApplicationCash = (props: Props) => {
                             TOTAL
                           </td>
                           <td className={`${tableStyle} text-center `}>
-                            <p className="font-bold  ">
-                              {" "}
-                              ₱{calculateTotal()}{" "}
-                            </p>
+                            <p className="font-bold  "> ₱{calculateTotal()} </p>
                           </td>
                         </tr>
                       </tbody>
