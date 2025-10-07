@@ -90,7 +90,6 @@ const Dashboard: React.FC = () => {
       </tbody>
     </table>
   );
-
   useEffect(() => {
     if (!user.id) return;
 
