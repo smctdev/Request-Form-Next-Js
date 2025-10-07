@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Preloader from "./loaders/PreLoader";
 
-export default function PageNotFound() {
+export default function PageError() {
   const { isAuthenticated, user, isLoading } = useAuth();
   const router = useRouter();
 
@@ -34,11 +34,13 @@ export default function PageNotFound() {
         <div className="relative z-10 w-full max-w-2xl">
           <div className="bg-base-100 rounded-3xl shadow-2xl p-8 md:p-12 transform transition-all hover:scale-[1.01] duration-300">
             <div className="flex justify-center mb-8">
-              <p className="!text-6xl font-bold">404 Not Found</p>
+              <p className="!text-6xl font-bold">
+                Ops! Something went wrong with this page.
+              </p>
             </div>
             <p className="mb-8 !text-lg opacity-80">
-              The page you're looking for seems to have drifted off into the
-              cosmos. Don't worry, we'll help you navigate back to dashboard.
+              We're having trouble loading this page right now. Please try again
+              later or head back to the dashboard.
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               {isAuthenticated ? (
