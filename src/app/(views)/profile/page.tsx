@@ -681,8 +681,8 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
         </div>
       )}
       {signatureSuccess && (
-        <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50 bg-base-100">
-          <div className="relative flex flex-col items-center justify-center w-1/4  rounded-md ">
+        <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50">
+          <div className="relative flex flex-col items-center justify-center w-1/4  rounded-md bg-base-100">
             <FontAwesomeIcon
               icon={faCircleCheck}
               className="absolute !size-20 text-primary -top-6 "
