@@ -9,6 +9,7 @@ import {
   PencilIcon,
   PlusCircleIcon,
   PlusIcon,
+  TrashIcon,
 } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -81,8 +82,7 @@ const initialTableData: TableDataItem[] = Array.from({ length: 1 }, () => ({
 const tableStyle = "border p-2";
 const inputStyle2 =
   "w-full   rounded-[12px] pl-[10px]   autofill-input focus:outline-0";
-const tableInput =
-  "w-full h-full  px-2 py-1   autofill-input focus:outline-0";
+const tableInput = "w-full h-full  px-2 py-1   autofill-input focus:outline-0";
 const buttonStyle =
   "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 
@@ -259,7 +259,7 @@ const CreateDiscount = (props: Props) => {
     setTotalAmount(totals);
   }, [tableData]);
 
-  const handleRemoveItem = () => {
+  const handleRemoveItem = (index: number) => () => {
     if (tableData.length > 1) {
       Swal.fire({
         title: "Are you sure?",
@@ -272,8 +272,7 @@ const CreateDiscount = (props: Props) => {
         cancelButtonText: "Cancel",
       }).then((result) => {
         if (result.isConfirmed) {
-          const updatedItems = [...tableData];
-          updatedItems.pop();
+          const updatedItems = tableData.filter((_, i) => i !== index);
           setTableData(updatedItems);
         }
       });
@@ -601,6 +600,9 @@ const CreateDiscount = (props: Props) => {
                         <th className={`${tableStyle}`}>Labor Charge</th>
                         <th className={`${tableStyle}`}>Net Spotcash</th>
                         <th className={`${tableStyle}`}>Discounted Price</th>
+                        {tableData.length > 1 && (
+                          <th className={`${tableStyle}`}>Action</th>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
@@ -859,6 +861,17 @@ const CreateDiscount = (props: Props) => {
                                 </p>
                               )}
                           </td>
+                          {tableData.length > 1 && (
+                            <td>
+                              <button
+                                type="button"
+                                onClick={handleRemoveItem(index)}
+                                className="p-2"
+                              >
+                                <TrashIcon className="text-red-500 size-7" />
+                              </button>
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
@@ -888,7 +901,7 @@ const CreateDiscount = (props: Props) => {
               <hr className="w-full my-2 border-t-4 border-gray-400 border-dotted" />
 
               <div className="flex flex-row items-center gap-2 mt-2">
-                {tableData.length > 1 && (
+                {/* {tableData.length > 1 && (
                   <span
                     className={`${buttonStyle} bg-pink-400 flex items-center justify-center cursor-pointer hover: hover:border-4 hover:border-pink hover:text-pink`}
                     onClick={handleRemoveItem}
@@ -899,7 +912,7 @@ const CreateDiscount = (props: Props) => {
                     />
                     Remove Item
                   </span>
-                )}
+                )} */}
                 <span
                   className={`bg-yellow-400 flex items-center cursor-pointer hover:text-white hover:bg-yellow-500 hover:border-4 hover:border-yellow-400 text-gray-950 max-w-md justify-center ${buttonStyle}`}
                   onClick={handleAddItem}
