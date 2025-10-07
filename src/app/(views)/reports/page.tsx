@@ -134,7 +134,7 @@ const Reports = () => {
   return (
     <>
       <div className="p-5">
-        <div className="bg-base-100 rounded-lg shadow p-5 mb-5">
+        <div className="bg-base-100 rounded-lg shadow-md p-5 mb-5 shadow-gray-50">
           <h2 className="!text-xl font-bold mb-4">Filter Reports</h2>
 
           <FilterReports
