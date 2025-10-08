@@ -1,43 +1,14 @@
 import React, { useEffect, useState } from "react";
-import SMCTLogo from "@/assets/SMCT.png";
-import DSMLogo from "@/assets/DSM.jpg";
-import DAPLogo from "@/assets/DAP.jpg";
-import HDILogo from "@/assets/HDI.jpg";
-import HOLogo from "@/assets/logo.png";
-import Image from "next/image";
 import formattedAmount from "@/utils/formattedAmount";
-import Storage from "@/utils/storage";
 import PrintRequestNotedApprovedBies from "../print-request-noted-approved-bies";
+import BrandName from "@/utils/brand-name";
 
 type PrintRefundProps = {
   data?: any;
 };
 const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
   const [printData, setPrintData] = useState<any>(null);
-  let logo;
-  if (printData?.user?.branch.branch === "Strong Moto Centrum, Inc.") {
-    logo = <Image width={100} height={100} src={SMCTLogo} alt="SMCT Logo" />;
-  } else if (printData?.user?.branch.branch === "Des Strong Motors, Inc.") {
-    logo = <Image width={100} height={100} src={DSMLogo} alt="DSM Logo" />;
-  } else if (printData?.user?.branch.branch === "Des Appliance Plaza, Inc.") {
-    logo = <Image width={100} height={100} src={DAPLogo} alt="DAP Logo" />;
-  } else if (printData?.user?.branch.branch === "Honda Des, Inc.") {
-    logo = <Image width={100} height={100} src={HDILogo} alt="HDI Logo" />;
-  } else if (printData?.user?.branch.branch === "Head Office") {
-    logo = (
-      <div className="flex items-center justify-center">
-        <Image
-          width={100}
-          height={100}
-          src={HOLogo}
-          alt="HO Logo"
-          className="w-44"
-        />
-      </div>
-    );
-  } else {
-    logo = null; // Handle the case where branch does not match any of the above
-  }
+  const logo = BrandName(printData?.user?.branch.branch);
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) return ""; // Return empty string if dateString is undefined or null
 
@@ -115,7 +86,9 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
           </p>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <div className="justify-center w-1/2">{logo}</div>
+          <div className="justify-center w-1/2 !text-6xl font-extrabold">
+            {logo}
+          </div>
 
           <h1 className="mt-2 text-xs font-semibold uppercase">
             Discount Requisition Slip
