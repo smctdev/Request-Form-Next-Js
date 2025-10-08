@@ -57,7 +57,7 @@ function Feedbacks() {
     },
     {
       name: "OPINION",
-      selector: (row: FeedbackType) =>
+      cell: (row: FeedbackType) =>
         row.opinion === "other" ? row.other_opinion : row.opinion,
     },
     {
