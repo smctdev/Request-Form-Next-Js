@@ -560,6 +560,8 @@ const Navbar = ({
                               notif.type ===
                                 "App\\Notifications\\ReturnRequestNotification"
                             ? "text-red-500"
+                            : notif.data.type === "feedback"
+                            ? "text-purple-500"
                             : "text-primary";
 
                         return (
@@ -585,18 +587,18 @@ const Navbar = ({
                               </div>
                               <div className="flex-1 mt-4 ml-4">
                                 <p
-                                  className={`${textColor} text-sm ${
+                                  className={`${textColor} !text-lg ${
                                     notif.read_at ? "" : "font-bold"
                                   } text-center`}
                                 >
-                                  {message}
+                                  {title}
                                 </p>
                                 <p
                                   className={`${textColor} text-sm ${
                                     notif.read_at ? "" : "font-bold"
                                   } text-center`}
                                 >
-                                  {title}
+                                  {message}
                                 </p>
                                 {notif.data.request_reference ===
                                   "approver" && (
