@@ -179,7 +179,7 @@ function Feedbacks() {
               type="text"
               placeholder="Enter title"
               value={formInputs.title}
-              translate
+              translate="true"
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 setFormInputs({ ...formInputs, title: e.target.value })
               }
