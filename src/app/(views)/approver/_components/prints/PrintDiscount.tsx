@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import formattedAmount from "@/utils/formattedAmount";
 import PrintRequestNotedApprovedBies from "../print-request-noted-approved-bies";
 import BrandName from "@/utils/brand-name";
+import GeneratingPrintDataLoader from "../generating-print-data-loader";
 
 type PrintRefundProps = {
   data?: any;
@@ -9,6 +10,7 @@ type PrintRefundProps = {
 const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
   const [printData, setPrintData] = useState<any>(null);
   const logo = BrandName(printData?.user?.branch.branch);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) return ""; // Return empty string if dateString is undefined or null
 
@@ -52,15 +54,23 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
         window.close();
       };
 
-      window.print();
+      setTimeout(() => {
+        window.print();
+      }, 3000);
+
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
 
       setTimeout(() => {
         if (!isPrinting) {
           window.close();
         }
-      }, 500);
+      }, 3000);
     }
   }, [printData]);
+
+  if (isLoading) return <GeneratingPrintDataLoader />;
 
   const tableStyle = "border-black border py-2 font-bold text-xs text-center";
   return (
@@ -86,7 +96,7 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
           </p>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <div className="justify-center w-1/2 !text-6xl font-extrabold">
+          <div className="justify-center w-1/2 flex !text-6xl font-extrabold text-center">
             {logo}
           </div>
 
