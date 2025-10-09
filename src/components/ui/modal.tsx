@@ -29,7 +29,7 @@ const Modal = ({
 
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/50">
-      <div className="relative bg-base-100 rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-base-100 rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="!text-xl font-semibold">{title}</h3>
         </div>
