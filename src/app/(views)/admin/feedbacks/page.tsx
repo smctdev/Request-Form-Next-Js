@@ -15,6 +15,7 @@ import Error from "next/error";
 import { api } from "@/lib/api";
 import Swal from "sweetalert2";
 import { BellAlertIcon } from "@heroicons/react/24/solid";
+import Textarea from "@/components/ui/textarea";
 
 function Feedbacks() {
   const {
@@ -190,8 +191,7 @@ function Feedbacks() {
           </div>
           <div>
             <label htmlFor="message">Message</label>
-            <Input
-              type="text"
+            <Textarea
               placeholder="Enter message"
               value={formInputs.message}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
