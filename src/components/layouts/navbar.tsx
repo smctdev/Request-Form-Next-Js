@@ -596,7 +596,10 @@ const Navbar = ({
                                 <p
                                   className={`${textColor} text-sm ${
                                     notif.read_at ? "" : "font-bold"
-                                  } text-center`}
+                                  } text-center ${
+                                    notif.data.type === "feedback" &&
+                                    "whitespace-pre-wrap"
+                                  }`}
                                 >
                                   {message}
                                 </p>
