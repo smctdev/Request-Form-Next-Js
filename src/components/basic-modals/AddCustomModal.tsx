@@ -5,6 +5,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Swal from "sweetalert2";
 import { Approver } from "@/types/approverTypes";
 import { useAuth } from "@/context/AuthContext";
+import { FaSpinner } from "react-icons/fa";
 
 interface AddCustomModalProps {
   modalIsOpen: boolean;
@@ -32,12 +33,9 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [approvers, setApprovers] = useState<Approver[]>([]);
   const [isNext, setIsNext] = useState(false);
-  const [ids, setIds] = useState({
-    notedByIds: [],
-    approvedByIds: [],
-  });
   const [isLoading, setIsLoading] = useState(false);
   const { user, updateProfile } = useAuth();
+  const [isResetting, setIsResetting] = useState<boolean>(false);
 
   useEffect(() => {
     if (modalIsOpen) {
@@ -82,14 +80,6 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
     }
   }, [modalIsOpen, user.id]);
 
-  useEffect(() => {
-    setIds((prev: any) => ({
-      ...prev,
-      notedByIds: initialNotedBy.map((approver) => approver.id),
-      approvedByIds: initialApprovedBy.map((approver) => approver.id),
-    }));
-  }, [initialNotedBy, initialApprovedBy]);
-
   const filteredApprovers = approvers.filter((approver) =>
     Object.values(approver).some((value) =>
       String(value).toLowerCase().includes(searchTerm.toLowerCase())
@@ -98,6 +88,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
 
   const handleResetSelection = async () => {
     if (notedBy.length === 0 && approvedBy.length === 0) return;
+    setIsResetting(true);
     try {
       const response = await api.post("/reset-approved-noted-by");
       if (response.status === 201) {
@@ -105,14 +96,12 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
         setApprovedBy([]);
         setIsNext(false);
         updateProfile();
-        setIds({
-          notedByIds: [],
-          approvedByIds: [],
-        });
       }
       return response.status;
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -123,13 +112,6 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
         ? prevNotedBy.filter((a) => a.id !== approver.id)
         : [...prevNotedBy, approver]
     );
-
-    setIds((prev: any) => ({
-      ...prev,
-      notedByIds: prev.notedByIds.includes(approver.id)
-        ? prev.notedByIds.filter((id: number) => id !== approver.id)
-        : [...prev.notedByIds, approver.id],
-    }));
   };
 
   const toggleApprovedBy = (approver: Approver) => {
@@ -139,12 +121,6 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
         ? prevApprovedBy.filter((a) => a.id !== approver.id)
         : [...prevApprovedBy, approver]
     );
-    setIds((prev: any) => ({
-      ...prev,
-      approvedByIds: prev.approvedByIds.includes(approver.id)
-        ? prev.approvedByIds.filter((id: number) => id !== approver.id)
-        : [...prev.approvedByIds, approver.id],
-    }));
   };
 
   const handleCancel = () => {
@@ -175,11 +151,12 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
 
     try {
       const response = await api.post("/save-approved-noted-by", {
-        notedByIds: ids.notedByIds,
-        approvedByIds: ids.approvedByIds,
+        notedByIds: notedBy?.map((item: any) => item.id),
+        approvedByIds: approvedBy?.map((item: any) => item.id),
       });
 
       if (response.status === 204) {
+        closeModal();
         handleAddCustomData(notedBy, approvedBy);
         updateProfile();
         setNotedBy([]);
@@ -188,10 +165,6 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
         setErrorMessage("");
         setIsNext(false);
         closeModal();
-        setIds({
-          notedByIds: [],
-          approvedByIds: [],
-        });
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -237,7 +210,67 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <MagnifyingGlassIcon className="absolute w-5 h-5 text-gray-500 transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
           </div>
           <div className="flex justify-center gap-4 overflow-y-auto lg:grid-cols-2 h-80">
-            {!isNext ? (
+            {!isLoading ? (
+              <div className="flex items-center justify-center flex-col gap-5">
+                <FaSpinner className="animate-spin size-22" />
+                <div className="flex gap-2">
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.1s" }}
+                  >
+                    S
+                  </span>
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.2s" }}
+                  >
+                    a
+                  </span>
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.3s" }}
+                  >
+                    v
+                  </span>
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.4s" }}
+                  >
+                    i
+                  </span>
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.5s" }}
+                  >
+                    n
+                  </span>
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.6s" }}
+                  >
+                    g
+                  </span>
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.7s" }}
+                  >
+                    .
+                  </span>
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.8s" }}
+                  >
+                    .
+                  </span>
+                  <span
+                    className="!text-4xl animate-bounce"
+                    style={{ animationDelay: "0.9s" }}
+                  >
+                    .
+                  </span>
+                </div>
+              </div>
+            ) : !isNext ? (
               <div>
                 <h1 className="!text-lg font-medium">Noted By</h1>
                 {filteredApprovers.map((approver, index) => {
@@ -275,7 +308,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
                             toggleNotedBy(approver);
                           }
                         }}
-                        disabled={isApproved}
+                        disabled={isApproved || isResetting || isLoading}
                       />
                       <label
                         htmlFor={`noted_by_${approver.id}`}
@@ -328,7 +361,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
                             toggleApprovedBy(approver);
                           }
                         }}
-                        disabled={isNoted}
+                        disabled={isNoted || isResetting || isLoading}
                       />
                       <label
                         htmlFor={`approved_by_${approver.id}`}
@@ -353,6 +386,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             type="button"
             onClick={handleCancel}
             className="px-2 py-2 font-medium text-white bg-gray-500 rounded hover:bg-gray-400 cursor-pointer"
+            disabled={isLoading}
           >
             Cancel
           </button>
@@ -360,14 +394,16 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             type="button"
             onClick={handleResetSelection}
             className="px-2 py-2 font-medium text-gray-800 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer"
+            disabled={isResetting || isLoading}
           >
-            Reset
+            {isResetting ? "Resetting..." : "Reset"}
           </button>
           {!isNext ? (
             <button
               type="button"
               onClick={handleNext}
               className="px-2 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-600 cursor-pointer"
+              disabled={isLoading}
             >
               Next
             </button>
@@ -377,6 +413,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
                 type="button"
                 onClick={handleNext}
                 className="px-2 py-2 font-medium text-white bg-gray-600 rounded hover:bg-gray-700 cursor-pointer"
+                disabled={isLoading}
               >
                 Back
               </button>
