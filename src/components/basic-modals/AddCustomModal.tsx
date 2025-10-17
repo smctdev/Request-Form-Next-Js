@@ -210,7 +210,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
             <MagnifyingGlassIcon className="absolute w-5 h-5 text-gray-500 transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
           </div>
           <div className="flex justify-center gap-4 overflow-y-auto lg:grid-cols-2 h-80">
-            {!isLoading ? (
+            {isLoading ? (
               <div className="flex items-center justify-center flex-col gap-5">
                 <FaSpinner className="animate-spin size-22" />
                 <div className="flex gap-2">
