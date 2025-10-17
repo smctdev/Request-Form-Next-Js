@@ -1,6 +1,6 @@
 import Preloader from "@/components/loaders/PreLoader";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 
@@ -9,9 +9,11 @@ export default function guestPage(WrappedComponent: any) {
     const { user, isLoading, isAuthenticated, isLogin, isApprover } = useAuth();
     const router = useRouter();
     const isAlreadyAuthenticated = isAuthenticated && user;
+    const pathname = usePathname();
+    const isBackToDashboard = pathname !== "/";
 
     useEffect(() => {
-      if (isLoading) return;
+      if (isLoading || !isBackToDashboard) return;
 
       if (isAuthenticated) {
         const path = isApprover ? "/approver/dashboard" : "/dashboard";
@@ -28,11 +30,20 @@ export default function guestPage(WrappedComponent: any) {
           });
         }
       }
-    }, [isLoading, isAuthenticated, router, isApprover, isLogin]);
+    }, [
+      isLoading,
+      isAuthenticated,
+      router,
+      isApprover,
+      isLogin,
+      isBackToDashboard,
+    ]);
 
-    if (isLoading || isAlreadyAuthenticated) {
+    if (isLoading) {
       return <Preloader />;
     }
+
+    if (isBackToDashboard && isAlreadyAuthenticated) return null;
 
     return <WrappedComponent {...props} />;
   }

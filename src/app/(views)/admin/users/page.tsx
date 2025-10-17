@@ -40,6 +40,7 @@ type Record = {
   email_verified_at: string;
   verification_status: string;
   signature: string;
+  is_cbm_staff: boolean;
 };
 
 const SetupUser = (props: Props) => {
@@ -112,6 +113,7 @@ const SetupUser = (props: Props) => {
             email_verified_at: item.email_verified_at,
             verification_status: item.verification_status,
             signature: item.signature,
+            is_cbm_staff: item?.is_cbm_staff,
           })
         );
 
