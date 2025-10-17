@@ -529,7 +529,7 @@ const Navbar = ({
                           "No name available";
                         const from = notif.data?.from || "No name available";
                         const createdAt =
-                          notif.data?.created_at || new Date().toISOString();
+                          notif?.created_at || new Date().toISOString();
                         const notificationId =
                           notif.notification_id || "unknown-id";
 
