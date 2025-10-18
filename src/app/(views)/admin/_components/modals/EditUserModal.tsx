@@ -310,8 +310,14 @@ const EditUserModal = ({
       refreshData();
       openSuccessModal();
       setErrorMessage(""); // Clear error message on success
-    } catch (error) {
-      setErrorMessage("Failed to update. Please try again.");
+      setIsCbmStaff("");
+      setIsCbmStaffSelected(false);
+    } catch (error: any) {
+      if (error.response.status === 400) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Failed to update. Please try again.");
+      }
       console.error("Error updating:", error);
     } finally {
       setLoading(false);
@@ -333,7 +339,7 @@ const EditUserModal = ({
       "Role",
       "Branch Code",
       "Branch Name",
-      "is_cbm_staff",
+      "Is Cbm Staff",
     ],
     Branch: ["Branch", "BranchCode", "BranchName"],
     Manager: ["Manager Name", "Manager ID", "Branch Code"],
@@ -472,7 +478,7 @@ const EditUserModal = ({
                 />
               ) : (
                 <>
-                  {field !== "is_cbm_staff" && (
+                  {field !== "Is Cbm Staff" && (
                     <input
                       type="text"
                       className={`${inputStyle}`}
@@ -504,10 +510,10 @@ const EditUserModal = ({
                       }
                     />
                   )}
-                  {field === "is_cbm_staff" && (
+                  {field === "Is Cbm Staff" && (
                     <select
                       className={`select select-bordered w-full rounded-lg bg-base-100 border p-2 mt-2`}
-                      value={field === "is_cbm_staff" ? isCbmStaff : ""}
+                      value={field === "Is Cbm Staff" ? isCbmStaff : ""}
                       onChange={(e) => {
                         if (e.target.value === "yes") {
                           setIsCbmStaff("yes");

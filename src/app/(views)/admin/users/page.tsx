@@ -166,12 +166,12 @@ const SetupUser = (props: Props) => {
 
   const editModalShow = (row: Record) => {
     setSelectedUser(row);
-
     setEditModal(true);
   };
 
   const editModalClose = () => {
     setEditModal(false);
+    setSelectedUser(null);
   };
 
   const openModal = () => {
@@ -286,6 +286,7 @@ const SetupUser = (props: Props) => {
           position: item.position,
           email_verified_at: item.email_verified_at,
           verification_status: item.verification_status,
+          is_cbm_staff: item?.is_cbm_staff,
         })
       );
 
