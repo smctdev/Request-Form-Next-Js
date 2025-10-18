@@ -95,7 +95,6 @@ function Feedbacks() {
   };
 
   const handleOpenModal = () => {
-    console.log("open");
     setIsOpen(!isOpen);
   };
 

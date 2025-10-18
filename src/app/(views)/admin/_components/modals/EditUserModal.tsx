@@ -39,6 +39,8 @@ const EditUserModal = ({
   const [approvedBy, setApprovedBy] = useState<number[]>([]);
   const [approvers, setApprovers] = useState<any[]>([]);
   const [name, setName] = useState<string>("");
+  const [isCbmStaff, setIsCbmStaff] = useState<string>("");
+  const [isCbmStaffSelected, setIsCbmStaffSelected] = useState<boolean>(false);
   const [branchList, setBranchList] = useState<
     { id: number; branch_code: string; branch: string }[]
   >([]);
@@ -139,6 +141,7 @@ const EditUserModal = ({
       setEditedBranchName(selectedUser.branch_name || "");
       setEditedRole(selectedUser.role || "");
       setEditedPosition(selectedUser.position || "");
+      setIsCbmStaff(selectedUser?.is_cbm_staff ? "yes" : "no");
     }
   }, [selectedUser]);
 
@@ -232,6 +235,7 @@ const EditUserModal = ({
         password?: string; // Make password optional
         notedBy?: number[];
         approvedBy?: number[];
+        is_cbm_staff?: boolean;
       }
 
       // Create updatedData object
@@ -242,6 +246,7 @@ const EditUserModal = ({
         email: email,
         userName: username,
         contact: contact,
+        is_cbm_staff: isCbmStaffSelected,
         branch:
           entityType === "Branch" || entityType === "User"
             ? editedBranch
@@ -305,8 +310,14 @@ const EditUserModal = ({
       refreshData();
       openSuccessModal();
       setErrorMessage(""); // Clear error message on success
-    } catch (error) {
-      setErrorMessage("Failed to update. Please try again.");
+      setIsCbmStaff("");
+      setIsCbmStaffSelected(false);
+    } catch (error: any) {
+      if (error.response.status === 400) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Failed to update. Please try again.");
+      }
       console.error("Error updating:", error);
     } finally {
       setLoading(false);
@@ -328,6 +339,7 @@ const EditUserModal = ({
       "Role",
       "Branch Code",
       "Branch Name",
+      "Is Cbm Staff",
     ],
     Branch: ["Branch", "BranchCode", "BranchName"],
     Manager: ["Manager Name", "Manager ID", "Branch Code"],
@@ -465,36 +477,64 @@ const EditUserModal = ({
                   }
                 />
               ) : (
-                <input
-                  type="text"
-                  className={`${inputStyle}`}
-                  value={
-                    field === "Firstname"
-                      ? firstname
-                      : field === "Lastname"
-                      ? lastname
-                      : field === "Email"
-                      ? email
-                      : field === "Username"
-                      ? username
-                      : field === "Contact"
-                      ? contact
-                      : ""
-                  }
-                  onChange={(e) =>
-                    field === "Firstname"
-                      ? setFirstName(e.target.value)
-                      : field === "Lastname"
-                      ? setLastName(e.target.value)
-                      : field === "Email"
-                      ? setEmail(e.target.value)
-                      : field === "Username"
-                      ? setUsername(e.target.value)
-                      : field === "Contact"
-                      ? setContact(e.target.value)
-                      : null
-                  }
-                />
+                <>
+                  {field !== "Is Cbm Staff" && (
+                    <input
+                      type="text"
+                      className={`${inputStyle}`}
+                      value={
+                        field === "Firstname"
+                          ? firstname
+                          : field === "Lastname"
+                          ? lastname
+                          : field === "Email"
+                          ? email
+                          : field === "Username"
+                          ? username
+                          : field === "Contact"
+                          ? contact
+                          : ""
+                      }
+                      onChange={(e) =>
+                        field === "Firstname"
+                          ? setFirstName(e.target.value)
+                          : field === "Lastname"
+                          ? setLastName(e.target.value)
+                          : field === "Email"
+                          ? setEmail(e.target.value)
+                          : field === "Username"
+                          ? setUsername(e.target.value)
+                          : field === "Contact"
+                          ? setContact(e.target.value)
+                          : null
+                      }
+                    />
+                  )}
+                  {field === "Is Cbm Staff" && (
+                    <select
+                      className={`select select-bordered w-full rounded-lg bg-base-100 border p-2 mt-2`}
+                      value={field === "Is Cbm Staff" ? isCbmStaff : ""}
+                      onChange={(e) => {
+                        if (e.target.value === "yes") {
+                          setIsCbmStaff("yes");
+                          setIsCbmStaffSelected(true);
+                        } else {
+                          setIsCbmStaff("no");
+                          setIsCbmStaffSelected(false);
+                        }
+                      }}
+                    >
+                      <option value="" hidden>
+                        Select is cbm staff
+                      </option>
+                      <option value="" disabled>
+                        Select is cbm staff
+                      </option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  )}
+                </>
               )}
             </div>
           ))}

@@ -8,6 +8,7 @@ import SubmittedSuccess from "./_components/SubmittedSuccess";
 import Form from "./_components/Form";
 import { useEffect, useState } from "react";
 import { set } from "date-fns";
+import guestPage from "@/lib/guestPage";
 
 const Home = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -59,4 +60,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default guestPage(Home);
