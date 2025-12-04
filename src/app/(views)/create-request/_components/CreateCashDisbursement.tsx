@@ -23,6 +23,7 @@ import { api } from "@/lib/api";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { formatFileSize } from "@/utils/formatFileSize";
+import SelectKindOfRequest from "@/components/select-kind-of-request";
 
 type Props = {};
 
@@ -35,6 +36,7 @@ interface Approver {
 
 const schema = z.object({
   approver_list_id: z.number(),
+  kind_of_request: z.string(),
   items: z.array(
     z.object({
       quantity: z.string(),
@@ -75,6 +77,7 @@ const CreateCashDisbursement = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState("PHP");
+  const [kindOfRequest, setKindOfRequest] = useState<string>("");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -142,6 +145,7 @@ const CreateCashDisbursement = (props: Props) => {
 
   const {
     handleSubmit,
+    register,
     formState: { errors },
   } = useForm<FormData>();
 
@@ -205,6 +209,7 @@ const CreateCashDisbursement = (props: Props) => {
       formData.append("form_type", "Cash Disbursement Requisition Slip");
       formData.append("user_id", user.id);
       formData.append("currency", selectedCurrency);
+      formData.append("kind_of_request", kindOfRequest);
       formData.append(
         "form_data",
         JSON.stringify([
@@ -423,7 +428,10 @@ const CreateCashDisbursement = (props: Props) => {
             </h1>
           </div>
           <div>
-            <label htmlFor="currency" className="mb-2 text-xl text-info font-bold">
+            <label
+              htmlFor="currency"
+              className="mb-2 text-xl text-info font-bold"
+            >
               Select Currency &nbsp;
             </label>
             <select
@@ -439,7 +447,15 @@ const CreateCashDisbursement = (props: Props) => {
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="px-[35px] mt-4">
+          <div className="px-[35px] mt-4 space-y-2">
+            <SelectKindOfRequest
+              {...register("kind_of_request", { required: true })}
+              onChange={(e) => setKindOfRequest(e.target.value)}
+              value={kindOfRequest}
+            />
+            {errors.kind_of_request && formSubmitted && (
+              <p className="text-red-500">Kind of request is required</p>
+            )}
             <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2 md:flex md:justify-start md:gap-2"></div>
             <div className="w-full mt-4 overflow-x-auto md:overflow-auto">
               <div className="w-full">

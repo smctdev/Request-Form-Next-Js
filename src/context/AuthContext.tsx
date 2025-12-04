@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     if (!user.id || !echo) return;
 
-    const channel = echo
+    echo
       .private(`request-access.${user.id}`)
       .listen("RequestAccessEvent", (event: any) => {
         const { requestAccess } = event;
@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       });
 
     return () => {
-      channel.stopListening("RequestAccessEvent");
+      echo.leave(`request-access.${user.id}`);
     };
   }, [echo, user.id]);
 

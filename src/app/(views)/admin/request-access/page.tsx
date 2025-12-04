@@ -31,7 +31,7 @@ function RequestAccess() {
   useEffect(() => {
     if (!user.id || !echo) return;
 
-    const channel = echo
+    echo
       .private(`request-access.${user.id}`)
       .listen("RequestAccessEvent", (event: any) => {
         if (searchTerm) return;
@@ -51,7 +51,7 @@ function RequestAccess() {
       });
 
     return () => {
-      channel.stopListening("RequestAccessEvent");
+      echo.leave(`request-access.${user.id}`);
     };
   }, [echo, user.id, searchTerm, pagination.per_page]);
 

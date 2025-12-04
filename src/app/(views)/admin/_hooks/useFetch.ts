@@ -5,7 +5,13 @@ import { api } from "@/lib/api";
 import { FilterType } from "@/types/filterTypes";
 import { FILTER } from "@/constants/filters";
 
-export default function useFetch({ url }: { url: string }) {
+export default function useFetch({
+  url,
+  isFetch = true,
+}: {
+  url: string;
+  isFetch?: boolean;
+}) {
   const [data, setData] = useState<any>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [pagination, setPagination] = useState<PaginationType>(paginationData);
@@ -16,6 +22,8 @@ export default function useFetch({ url }: { url: string }) {
   const searchDebounce = useRef<any>(null);
 
   useEffect(() => {
+    console.log(isFetch);
+    if (!isFetch) return;
     setPagination((pagination) => ({
       ...pagination,
       loading: true,
@@ -60,6 +68,7 @@ export default function useFetch({ url }: { url: string }) {
     filter?.date_from,
     filter?.date_to,
     filter?.status,
+    isFetch,
   ]);
 
   const handleSearch = () => (e: any) => {

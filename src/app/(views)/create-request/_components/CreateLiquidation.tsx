@@ -24,6 +24,7 @@ import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { formatFileSize } from "@/utils/formatFileSize";
 import Storage from "@/utils/storage";
+import SelectKindOfRequest from "@/components/select-kind-of-request";
 
 interface Approver {
   id: number;
@@ -40,6 +41,7 @@ const schema = z.object({
   approver_list_id: z.number(),
   approver: z.string(),
   short: z.string(),
+  kind_of_request: z.string(),
   items: z.array(
     z.object({
       liquidationDate: z.string(),
@@ -92,8 +94,7 @@ const initialTableData: TableDataItem[] = Array.from({ length: 1 }, () => ({
 const tableStyle = "border p-2";
 const inputStyle =
   "w-full  border-2 rounded-[12px] pl-[10px]   autofill-input focus:outline-0";
-const tableInput =
-  "w-full h-full  px-2 py-1 focus:outline-0  autofill-input";
+const tableInput = "w-full h-full  px-2 py-1 focus:outline-0  autofill-input";
 const itemDiv = "flex flex-col  w-3/4";
 
 const buttonStyle =
@@ -121,6 +122,7 @@ const CreateLiquidation = (props: Props) => {
     Record<string, string>
   >({});
   const [isHovering, setIsHovering] = useState(false);
+  const [kindOfRequest, setKindOfRequest] = useState<string>("");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -371,6 +373,7 @@ const CreateLiquidation = (props: Props) => {
       formData.append("approvers_id", String(selectedApproverList));
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
+      formData.append("kind_of_request", kindOfRequest);
 
       formData.append(
         "form_data",
@@ -541,6 +544,14 @@ const CreateLiquidation = (props: Props) => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="px-[35px] mt-4 ">
+            <SelectKindOfRequest
+              {...register("kind_of_request", { required: true })}
+              onChange={(e) => setKindOfRequest(e.target.value)}
+              value={kindOfRequest}
+            />
+            {errors.kind_of_request && formSubmitted && (
+              <p className="text-red-500">Kind of request is required</p>
+            )}
             <div className="grid w-1/2 grid-cols-1 gap-2 md:grid-cols-2 md:flex md:justify-start md:space-x-8">
               <div className={`${itemDiv}`}>
                 <p className="font-semibold">Purpose:</p>

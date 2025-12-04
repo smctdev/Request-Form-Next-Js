@@ -23,6 +23,7 @@ import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { formatFileSize } from "@/utils/formatFileSize";
+import SelectKindOfRequest from "@/components/select-kind-of-request";
 
 type Props = {};
 
@@ -49,6 +50,7 @@ const schema = z.object({
   bank: z.string(),
   account_no: z.string(),
   swift_code: z.string().optional(),
+  kind_of_request: z.string(),
   items: z.array(
     z.object({
       quantity: z.string(),
@@ -86,6 +88,7 @@ const CreateCheckIssuance = (props: Props) => {
   const [initialNotedBy, setInitialNotedBy] = useState<Approver[]>([]);
   const [initialApprovedBy, setInitialApprovedBy] = useState<Approver[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [kindOfRequest, setKindOfRequest] = useState<string>("");
   const {
     formState: { errors: formErrors },
   } = useForm<FormData>();
@@ -240,6 +243,7 @@ const CreateCheckIssuance = (props: Props) => {
       formData.append("form_type", "Check Issuance Requisition Slip");
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
+      formData.append("kind_of_request", kindOfRequest);
 
       formData.append(
         "form_data",
@@ -491,6 +495,14 @@ const CreateCheckIssuance = (props: Props) => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="px-[35px] mt-4 ">
+            <SelectKindOfRequest
+              {...register("kind_of_request", { required: true })}
+              onChange={(e) => setKindOfRequest(e.target.value)}
+              value={kindOfRequest}
+            />
+            {errors.kind_of_request && formSubmitted && (
+              <p className="text-red-500">Kind of request is required</p>
+            )}
             <div>
               <div className="grid flex-row justify-start grid-cols-1 mt-2 sm:grid-cols-2 md:grid-cols-4 sm:mt-0 sm:space-y-0 sm:gap-4 lg:gap-0 lg:space-x-4">
                 <div className="space-y-5">

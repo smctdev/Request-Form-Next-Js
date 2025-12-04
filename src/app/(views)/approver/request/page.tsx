@@ -204,7 +204,7 @@ const RequestApprover = (props: Props) => {
       });
 
     return () => {
-      echo.leave(`private-App.Models.User.${user.id}`);
+      echo.leave(`App.Models.User.${user.id}`);
     };
   }, [user.id, echo]);
 

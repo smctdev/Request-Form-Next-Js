@@ -24,6 +24,7 @@ import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { formatFileSize } from "@/utils/formatFileSize";
+import SelectKindOfRequest from "@/components/select-kind-of-request";
 
 interface Approver {
   id: number;
@@ -48,6 +49,7 @@ const schema = z.object({
   totalAmount: z.string(),
   approver_list_id: z.number(),
   approver: z.string(),
+  kind_of_request: z.string(),
   items: z.array(
     z.object({
       cashDate: z.string().nonempty("Cash date is required"),
@@ -122,6 +124,7 @@ const CreateApplicationCash = (props: Props) => {
   const [initialNotedBy, setInitialNotedBy] = useState<Approver[]>([]);
   const [initialApprovedBy, setInitialApprovedBy] = useState<Approver[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [kindOfRequest, setKindOfRequest] = useState<string>("");
   const {
     formState: { errors: formErrors },
   } = useForm<FormData>();
@@ -396,6 +399,7 @@ const CreateApplicationCash = (props: Props) => {
       formData.append("form_type", "Application For Cash Advance");
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
+      formData.append("kind_of_request", kindOfRequest);
 
       formData.append(
         "form_data",
@@ -607,6 +611,14 @@ const CreateApplicationCash = (props: Props) => {
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="px-[35px] mt-4 ">
+            <SelectKindOfRequest
+              {...register("kind_of_request", { required: true })}
+              onChange={(e) => setKindOfRequest(e.target.value)}
+              value={kindOfRequest}
+            />
+            {errors.kind_of_request && formSubmitted && (
+              <p className="text-red-500">Kind of request is required</p>
+            )}
             <div className="grid justify-between gap-8 xl:grid-cols-4 md:grid-cols-2 ">
               <div className={`${itemDiv}`}>
                 <p className="font-semibold">Reason for Cash Advance</p>

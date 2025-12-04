@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Tools",
+    "value": "tools"
+  },
+  {
+    "title": "Staff House",
+    "value": "staff_house"
+  },
+  {
+    "title": "Store Rental",
+    "value": "store_rental"
+  },
+  {
+    "title": "Credit And Collection",
+    "value": "credit_and_collection"
+  },
+  {
+    "title": "IT Related",
+    "value": "it_related"
+  },
+  {
+    "title": "Spare Parts",
+    "value": "spare_parts"
+  },
+  {
+    "title": "Marketing Related",
+    "value": "marketing_related"
+  },
+  {
+    "title": "Not Applicable",
+    "value": "n/a"
+  }
+]
