@@ -274,7 +274,7 @@ const Request = (props: Props) => {
       });
 
     return () => {
-      echo.leave(`private-App.Models.User.${user.id}`);
+      echo.leave(`App.Models.User.${user.id}`);
     };
   }, [echo, user.id]);
 

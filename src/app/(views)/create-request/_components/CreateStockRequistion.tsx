@@ -23,6 +23,7 @@ import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { formatFileSize } from "@/utils/formatFileSize";
+import SelectKindOfRequest from "@/components/select-kind-of-request";
 
 interface Approver {
   id: number;
@@ -36,6 +37,7 @@ const schema = z.object({
   approver_list_id: z.number(),
   approver: z.string(),
   attachment: z.array(z.any()).optional(),
+  kind_of_request: z.string(),
   items: z.array(
     z.object({
       quantity: z.string(),
@@ -69,6 +71,7 @@ const CreateStockRequistion = (props: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [approvedBy, setApprovedBy] = useState<Approver[]>([]);
   const [isHovering, setIsHovering] = useState(false);
+  const [kindOfRequest, setKindOfRequest] = useState<string>("");
   const { user } = useAuth();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -194,6 +197,7 @@ const CreateStockRequistion = (props: Props) => {
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
       formData.append("form_type", "Stock Requisition Slip");
+      formData.append("kind_of_request", kindOfRequest);
       formData.append(
         "form_data",
         JSON.stringify([
@@ -407,7 +411,15 @@ const CreateStockRequistion = (props: Props) => {
           </div>
         </div>
         <div className="px-[35px] mt-4">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+            <SelectKindOfRequest
+              {...register("kind_of_request", { required: true })}
+              onChange={(e) => setKindOfRequest(e.target.value)}
+              value={kindOfRequest}
+            />
+            {errors.kind_of_request && formSubmitted && (
+              <p className="text-red-500">Kind of request is required</p>
+            )}
             <div className="flex flex-col justify-between sm:flex-row">
               <div className="">
                 <p className="font-bold">Purpose:</p>

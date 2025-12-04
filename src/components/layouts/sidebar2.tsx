@@ -18,6 +18,7 @@ import {
   StarIcon,
   LockClosedIcon,
   FlagIcon,
+  UsersIcon,
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
@@ -161,6 +162,12 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
             path: "/admin/approvers",
           },
           {
+            title: "Approver Checkers",
+            submenu: false,
+            icon: UsersIcon,
+            path: "/admin/approver-checkers",
+          },
+          {
             title: "AVP Staffs",
             submenu: false,
             icon: UserGroupIcon,
@@ -249,21 +256,21 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   }, [notificationReceived, isRefresh, isApprover]);
 
   useEffect(() => {
-    if (!echo || user?.id || !pathname) return;
+    if (!echo || !user?.id) return;
 
-    const channel = echo
+    echo
       .private(`pendingCount.${user?.id}`)
       .listen("NotificationEvent", (e: any) => {
         setnotificationReceived(true);
       });
 
     return () => {
-      channel.stopListening("NotificationEvent");
+      echo.leave(`pendingCount.${user?.id}`);
     };
-  }, [user, pathname, echo]);
+  }, [user?.id, echo]);
 
   useEffect(() => {
-    if (!echo || !user?.id || !pathname) return;
+    if (!echo || !user?.id) return;
     echo
       .private(`App.Models.User.${user?.id}`)
       .notification((notification: any) => {
@@ -271,9 +278,9 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
       });
 
     return () => {
-      echo.leave(`private-App.Models.User.${user.id}`);
+      echo.leave(`App.Models.User.${user?.id}`);
     };
-  }, [user?.id, echo, pathname]);
+  }, [user?.id, echo]);
 
   useEffect(() => {}, []);
 

@@ -130,7 +130,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     });
 
     return () => {
-      echo.leave(`private-${channel}`);
+      echo.leave(`${channel}`);
     };
   }, [user?.id, echo, pathname]);
 

@@ -23,6 +23,7 @@ import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { formatFileSize } from "@/utils/formatFileSize";
+import SelectKindOfRequest from "@/components/select-kind-of-request";
 
 type Props = {};
 
@@ -47,6 +48,7 @@ const schema = z.object({
   approver: z.string(),
   supplier: z.string(),
   address: z.string(),
+  kind_of_request: z.string(),
   items: z.array(
     z.object({
       quantity: z.string(),
@@ -59,8 +61,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const inputStyle =
-  "w-full   border-2 border rounded-[12px]   autofill-input";
+const inputStyle = "w-full   border-2 border rounded-[12px]   autofill-input";
 const itemDiv = "flex flex-col  ";
 const buttonStyle =
   "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
@@ -98,6 +99,7 @@ const CreatePurchaseOrder = (props: Props) => {
     { name: string; address: string }[]
   >([]);
   const [searchSupplier, setSearchSupplier] = useState("");
+  const [kindOfRequest, setKindOfRequest] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -189,6 +191,7 @@ const CreatePurchaseOrder = (props: Props) => {
     setNotedBy(user.noted_bies.map((nb: any) => nb.noted_by));
     setApprovedBy(user.approved_bies.map((ab: any) => ab.approved_by));
   }, [user.noted_bies, user.approved_bies]);
+
   const onSubmit = async (data: any) => {
     try {
       if (approvedBy.length === 0) {
@@ -239,6 +242,7 @@ const CreatePurchaseOrder = (props: Props) => {
       formData.append("form_type", "Purchase Order Requisition Slip");
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
+      formData.append("kind_of_request", kindOfRequest);
 
       formData.append(
         "form_data",
@@ -488,7 +492,15 @@ const CreatePurchaseOrder = (props: Props) => {
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="px-[35px] mt-4 ">
+          <div className="px-[35px] mt-4 space-y-2">
+            <SelectKindOfRequest
+              {...register("kind_of_request", { required: true })}
+              onChange={(e) => setKindOfRequest(e.target.value)}
+              value={kindOfRequest}
+            />
+            {errors.kind_of_request && formSubmitted && (
+              <p className="text-red-500">Kind of request is required</p>
+            )}
             <div>
               <div className="grid flex-row justify-start grid-cols-1 mt-2 space-y-2 sm:grid-cols-2 md:grid-cols-4 sm:mt-0 sm:space-y-0 sm:gap-4 lg:gap-0 lg:space-x-4">
                 <div className={`${itemDiv}`}>

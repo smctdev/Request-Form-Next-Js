@@ -15,6 +15,7 @@ import ApprovedAttachments from "../ApprovedAttachments";
 import formattedAmount from "@/utils/formattedAmount";
 import Storage from "@/utils/storage";
 import Swal from "sweetalert2";
+import SelectKindOfRequest from "../select-kind-of-request";
 type Props = {
   closeModal: () => void;
   record: Record;
@@ -124,6 +125,8 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [kindOfRequest, setKindOfRequest] = useState<string>("");
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -325,6 +328,10 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
       );
       return;
     }
+    setFormSubmitted(true);
+    if (!kindOfRequest) {
+      return;
+    }
 
     setLoading(true);
     try {
@@ -339,6 +346,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
       formData.append("noted_by", JSON.stringify(notedByIds));
       formData.append("approved_by", JSON.stringify(approvedByIds));
       formData.append("currency", editableRecord.currency);
+      formData.append("kind_of_request", kindOfRequest);
       formData.append(
         "form_data",
         JSON.stringify([
@@ -376,6 +384,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
       setIsEditing(false);
       setSavedSuccessfully(true);
       setRemovedAttachments([]);
+      setFormSubmitted(false);
       refreshData();
     } catch (error: any) {
       setLoading(false);
@@ -536,6 +545,19 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
               </div>
             )}
           </div>
+
+          {isEditing && (
+            <>
+              <SelectKindOfRequest
+                onChange={(e) => setKindOfRequest(e.target.value)}
+                value={kindOfRequest}
+                width={"w-full"}
+              />
+              {!kindOfRequest && formSubmitted && (
+                <p className="text-red-500">Kind of request is required</p>
+              )}
+            </>
+          )}
           <div className="w-full mt-4 overflow-x-auto">
             <div className="w-full border-collapse">
               <div className="table-container">

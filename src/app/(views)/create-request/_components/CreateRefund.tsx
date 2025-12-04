@@ -23,6 +23,7 @@ import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { formatFileSize } from "@/utils/formatFileSize";
+import SelectKindOfRequest from "@/components/select-kind-of-request";
 
 type CustomApprover = {
   id: number;
@@ -44,6 +45,7 @@ const schema = z.object({
   approver_list_id: z.number(),
   approver: z.string(),
   attachment: z.array(z.any()).optional(),
+  kind_of_request: z.string(),
   items: z.array(
     z.object({
       quantity: z.string(),
@@ -59,8 +61,7 @@ type FormData = z.infer<typeof schema>;
 
 type Props = {};
 
-const inputStyle =
-  "w-full h-full  px-2 py-1   autofill-input focus:outline-0";
+const inputStyle = "w-full h-full  px-2 py-1   autofill-input focus:outline-0";
 const buttonStyle =
   "h-[45px] w-[150px] rounded-[12px] text-white cursor-pointer";
 
@@ -83,10 +84,12 @@ const CreateRefund = (props: Props) => {
   const [initialApprovedBy, setInitialApprovedBy] = useState<Approver[]>([]);
   const [isHovering, setIsHovering] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [kindOfRequest, setKindOfRequest] = useState<string>("");
   const { user } = useAuth();
   const {
     handleSubmit,
     formState: { errors },
+    register,
   } = useForm<FormData>();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -200,6 +203,7 @@ const CreateRefund = (props: Props) => {
       formData.append("form_type", "Refund Request");
       formData.append("currency", "PHP");
       formData.append("user_id", user.id);
+      formData.append("kind_of_request", kindOfRequest);
 
       formData.append(
         "form_data",
@@ -430,7 +434,15 @@ const CreateRefund = (props: Props) => {
         <div className="px-[35px] mt-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-row w-1/2 mt-5 mb-4 space-x-6 "></div>
-            <div className="table-container">
+            <SelectKindOfRequest
+              {...register("kind_of_request", { required: true })}
+              onChange={(e) => setKindOfRequest(e.target.value)}
+              value={kindOfRequest}
+            />
+            {errors.kind_of_request && formSubmitted && (
+              <p className="text-red-500">Kind of request is required</p>
+            )}
+            <div className="table-container mt-2">
               <table className="w-full">
                 <thead className="">
                   <tr>
@@ -543,9 +555,7 @@ const CreateRefund = (props: Props) => {
                           )}
                       </td>
 
-                      <td className="p-1 border">
-                        {item.totalAmount}
-                      </td>
+                      <td className="p-1 border">{item.totalAmount}</td>
                       <td
                         className="p-1 border"
                         onClick={() => {
