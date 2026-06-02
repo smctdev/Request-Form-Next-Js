@@ -1,5 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { BiLoader } from "react-icons/bi";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const Modal = ({
   isOpen,
@@ -19,7 +20,6 @@ const Modal = ({
   useEffect(() => {
     if (!isOpen) return;
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -28,42 +28,52 @@ const Modal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/50">
-      <div className="relative bg-base-100 rounded-lg shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="!text-xl font-semibold">{title}</h3>
+    <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="relative bg-base-100 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-base-300">
+          <h3 className="!text-lg font-bold text-base-content">{title}</h3>
+          {handleClose && (
+            <button
+              type="button"
+              onClick={handleClose}
+              disabled={isLoading}
+              className="p-1.5 rounded-lg text-base-content/40 hover:text-base-content hover:bg-base-200 transition-colors disabled:opacity-40"
+              aria-label="Close"
+            >
+              <XMarkIcon className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
-        <div className="p-4">{children}</div>
+        {/* Body */}
+        <div className="px-6 py-5">{children}</div>
 
-        <div className="flex justify-end gap-3 p-4 border-t">
-          <button
-            type="button"
-            onClick={handleClose}
-            className="px-4 py-2 bg-base-300 rounded"
-            disabled={isLoading}
-          >
-            Close
-          </button>
+        {/* Footer */}
+        <div className="flex justify-end gap-3 px-6 py-4 border-t border-base-300">
+          {handleClose && (
+            <button
+              type="button"
+              onClick={handleClose}
+              disabled={isLoading}
+              className="px-4 py-2 text-sm font-medium rounded-xl bg-base-200 hover:bg-base-300 text-base-content transition-colors disabled:opacity-50"
+            >
+              Close
+            </button>
+          )}
           <button
             type="button"
             onClick={handleSubmit}
             disabled={isLoading}
-            className={`px-4 py-2 flex gap-1 items-center text-sm font-medium text-white rounded-md hover:bg-blue-700 ${
-              isLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 "
-            }`}
+            className="px-5 py-2 text-sm font-semibold text-primary-content bg-primary hover:opacity-90 active:scale-[0.98] rounded-xl transition-all flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>
-                <span>
-                  <BiLoader className="animate-spin" />
-                </span>
+                <BiLoader className="animate-spin w-4 h-4" />
                 <span>Submitting...</span>
               </>
             ) : (
-              <>
-                <span>Submit</span>
-              </>
+              "Save Signature"
             )}
           </button>
         </div>

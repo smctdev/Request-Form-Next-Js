@@ -1,10 +1,11 @@
 import { useAuth } from "@/context/AuthContext";
 import { dataURLtoFile } from "@/utils/dataUrlToFile";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SignatureCanvas from "react-signature-canvas";
 
 export default function SetupSignature({ signatureProps }: any) {
   const [signature, setSignature] = useState<SignatureCanvas | null>(null);
+  const [isEmpty, setIsEmpty] = useState(true);
   const { user } = useAuth();
 
   const handleSignatureChange = () => {
@@ -12,6 +13,7 @@ export default function SetupSignature({ signatureProps }: any) {
       const dataUrl = signature.toDataURL("image/png");
       const toDataurl = dataURLtoFile(dataUrl, `${user?.userName}.png`);
       signatureProps(toDataurl);
+      setIsEmpty(false);
     }
   };
 
@@ -19,38 +21,47 @@ export default function SetupSignature({ signatureProps }: any) {
     event.preventDefault();
     signature?.clear();
     signatureProps(null);
+    setIsEmpty(true);
   };
 
   return (
-    <div>
-      <div className="flex flex-col w-full mb-4">
-        <h1>Signature</h1>
+    <div className="flex flex-col gap-3">
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium text-base-content">
+          Draw your signature below
+        </p>
+        {!isEmpty && (
+          <span className="text-xs text-success font-medium">✓ Signature captured</span>
+        )}
+      </div>
+
+      <div className="border-2 border-dashed border-base-300 rounded-xl overflow-hidden transition-colors hover:border-primary/50">
         <SignatureCanvas
           penColor="black"
           ref={(ref) => setSignature(ref)}
           canvasProps={{
-            className: "sigCanvas border border-black h-96 w-full bg-gray-100",
+            className: "sigCanvas w-full h-52 bg-white",
           }}
           onEnd={handleSignatureChange}
-          velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
-          minWidth={1.5} // Minimum stroke width
-          maxWidth={2.5} // Maximum stroke width
-          throttle={10} // Reduces points for smoother lines
+          velocityFilterWeight={0.7}
+          minWidth={1.5}
+          maxWidth={2.5}
+          throttle={10}
           dotSize={1.5}
         />
-        {!signature && (
-          <span className="text-xs text-red-500">
-            Please provide a signature.
-          </span>
-        )}
-        <button
-          onClick={handleClear}
-          type="button"
-          className="p-1 mt-2 bg-gray-300 rounded-lg cursor-pointer"
-        >
-          Clear
-        </button>
       </div>
+
+      <p className="text-xs text-base-content/40 text-center">
+        Use your mouse or touch to sign inside the box
+      </p>
+
+      <button
+        onClick={handleClear}
+        type="button"
+        className="self-start text-xs text-base-content/40 hover:text-error underline transition-colors"
+      >
+        Clear signature
+      </button>
     </div>
   );
 }
