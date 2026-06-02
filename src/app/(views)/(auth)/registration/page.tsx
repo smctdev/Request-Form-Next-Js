@@ -46,16 +46,23 @@ const schema = z
     path: ["confirmPassword"],
   });
 
-const fieldStyle = "flex flex-col md:flex-row gap-4";
-const headerStyle = "lg:text-lg mb-2";
-const inputStyle =
-  "w-full h-[45px] p-2 bg-gray-300 rounded-lg  autofill-input";
+const inputCls =
+  "w-full h-11 px-4 rounded-xl bg-base-200 border border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-base-content placeholder:text-base-content/40 autofill-input";
+const selectCls =
+  "w-full h-11 px-4 rounded-xl bg-base-200 border border-transparent transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary text-base-content";
+const labelCls = "block text-sm font-medium text-base-content mb-1.5";
+const errorCls = "mt-1 text-xs text-error";
+const sectionLabelCls =
+  "text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-4 mt-6";
+
+const FieldError = ({ message }: { message?: string }) =>
+  message ? <p className={errorCls}>{message}</p> : null;
 
 const Registration = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [signature, setSignature] = useState<SignatureCanvas | null | any>(
-    null
+    null,
   );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -71,15 +78,11 @@ const Registration = () => {
     const fetchPositionData = async () => {
       try {
         const response = await api.get("/positions");
-
-        if (response.status === 200) {
-          setRoleOptions(response.data.position);
-        }
+        if (response.status === 200) setRoleOptions(response.data.position);
       } catch (error: any) {
         console.error("Error fetching position data:", error);
       }
     };
-
     fetchPositionData();
   }, []);
 
@@ -88,35 +91,30 @@ const Registration = () => {
       try {
         const response = await api.get("view-branch");
         const branches = response.data.data;
-        // Assuming response.data.data is the array of branches
-        const branchOptions = branches.map(
-          (branch: { id: number; branch_code: string; branch: string }) => ({
-            id: branch.id,
-            branch_code: branch.branch_code,
-            branch: branch.branch,
-          })
+        setBranchList(
+          branches.map(
+            (b: { id: number; branch_code: string; branch: string }) => ({
+              id: b.id,
+              branch_code: b.branch_code,
+              branch: b.branch,
+            }),
+          ),
         );
-        setBranchList(branchOptions);
       } catch (error) {
         console.error("Error fetching branch data:", error);
       }
     };
-
     fetchBranchData();
   }, []);
 
   const signatureIsEmpty = () => {
-    if (signature && signature.isEmpty && signature.isEmpty()) {
+    if (signature?.isEmpty?.()) {
       setSignatureEmpty(true);
       return true;
     }
     return false;
   };
-  useEffect(() => {
-    if (signature) {
-      signature.toDataURL("image/png");
-    }
-  }, [signature]);
+
   const {
     control,
     register,
@@ -124,37 +122,26 @@ const Registration = () => {
     setValue,
     setError,
     formState: { errors },
-  } = useForm<UserCredentials>({
-    resolver: zodResolver(schema),
-  });
+  } = useForm<UserCredentials>({ resolver: zodResolver(schema) });
 
-  const handleClear = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    signature?.clear();
-  };
-
-  const capitalizeWords = (str: string) => {
-    return str.replace(
+  const capitalizeWords = (str: string) =>
+    str.replace(
       /\b\w+/g,
-      (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
     );
-  };
 
   const submitData = async (data: UserCredentials) => {
     setLoading(true);
     try {
-      // Check if signature is empty
       if (signatureIsEmpty()) {
-        setSignatureEmpty(true);
         setLoading(false);
-        return; // Exit function early if signature is empty
+        return;
       }
 
       const signatureDataURL = signature?.toDataURL("image/png");
-
       const signatureData = dataURLtoFile(
         signatureDataURL,
-        `${data?.userName}.png`
+        `${data.userName}.png`,
       );
 
       const formData = new FormData();
@@ -173,8 +160,8 @@ const Registration = () => {
       formData.append("employee_id", data.employee_id);
 
       const response = await api.post("register", formData);
-
       setErrorMessage(response.data.errors);
+
       if (response.data.status) {
         setLoading(false);
         localStorage.setItem("token", response.data.token);
@@ -186,28 +173,17 @@ const Registration = () => {
           confirmButtonText: "Close",
           confirmButtonColor: "#007bff",
         });
-        window.setTimeout(() => {
-          router.push("/login"); // Router to login after successful registration
-        }, 2000);
+        window.setTimeout(() => router.push("/login"), 2000);
       } else {
         setPositionError(response.data.errors.position[0]);
-        const errors = response.data.errors;
-        const message = [];
-
-        if (errors.email) {
-          message.push(...errors.email);
-        }
-        if (errors.employee_id) {
-          message.push(...errors.employee_id);
-        }
+        const errs = response.data.errors;
+        const message = [...(errs.email ?? []), ...(errs.employee_id ?? [])];
         setErrorMessage(message);
         Swal.fire({
           icon: "error",
           title: "Registration Failed",
           iconColor: "#dc3545",
-          text:
-            message.join(", ") ||
-            "An error occurred during the registration process. Please try again.",
+          text: message.join(", ") || "An error occurred. Please try again.",
           confirmButtonText: "Close",
           confirmButtonColor: "#dc3545",
         });
@@ -222,15 +198,14 @@ const Registration = () => {
         confirmButtonText: "Close",
         confirmButtonColor: "#dc3545",
       });
-      const errors = error.response.data.errors;
-
-      if (error.response.status === 422) {
-        Object.keys(errors).forEach((field) => {
+      if (error.response?.status === 422) {
+        const errs = error.response.data.errors;
+        Object.keys(errs).forEach((field) =>
           setError(field as keyof UserCredentials, {
             type: "server",
-            message: errors[field][0],
-          });
-        });
+            message: errs[field][0],
+          }),
+        );
       }
     } finally {
       setLoading(false);
@@ -238,277 +213,239 @@ const Registration = () => {
   };
 
   const handleBranchCodeChange = (selectedBranchId: number) => {
-    const selectedBranch = branchList.find(
-      (branch) => branch.id === selectedBranchId
-    );
-
-    if (selectedBranch) {
-      setValue("branch", selectedBranch.branch);
-    } else {
-      setValue("branch", "Honda Des, Inc.");
-    }
+    const selected = branchList.find((b) => b.id === selectedBranchId);
+    setValue("branch", selected?.branch ?? "Honda Des, Inc.");
   };
+
+  const PasswordInput = ({
+    name,
+    placeholder,
+    show,
+    onToggle,
+  }: {
+    name: "password" | "confirmPassword";
+    placeholder: string;
+    show: boolean;
+    onToggle: () => void;
+  }) => (
+    <div className="relative">
+      <input
+        type={show ? "text" : "password"}
+        {...register(name)}
+        placeholder={placeholder}
+        className={`${inputCls} pr-11 ${errors[name] ? "border-error" : ""}`}
+      />
+      <button
+        type="button"
+        onClick={onToggle}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/40 hover:text-base-content/70 transition-colors"
+      >
+        {show ? (
+          <EyeSlashIcon className="w-5 h-5" />
+        ) : (
+          <EyeIcon className="w-5 h-5" />
+        )}
+      </button>
+    </div>
+  );
+
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-cente">
-      <div className="flex h-screen justify-center w-full lg:w-1/2">
+    <div className="flex min-h-screen">
+      {/* Left form panel */}
+      <div className="relative flex items-start justify-center w-full lg:w-1/2 p-6 overflow-y-auto">
+        {/* Mobile background */}
         <Image
-          height={0}
-          width={0}
-          className="absolute inset-0 z-0 object-cover w-full h-screen md:block lg:hidden"
+          className="absolute inset-0 z-0 object-cover w-full h-full lg:hidden"
+          fill
           src={building}
-          alt=""
+          alt="background"
         />
-        <div className="z-10 w-full p-4 m-10 rounded-lg bg-base-100 lg:p-8 lg:mt-0 lg:m-0">
-          <h1 className="text-primary font-bold lg:!text-[32px] md:!text-2xl mb-6 text-left">
-            ACCOUNT REGISTRATION
-          </h1>
-          <form onSubmit={handleSubmit(submitData, () => setLoading(false))}>
-            <div className="max-h-[calc(100vh-200px)] overflow-y-auto">
-              <div className={`${fieldStyle}`}>
-                <div className="w-full mb-4 md:w-1/2 ">
-                  <h1 className={`${headerStyle}`}>First Name</h1>
+        <div className="absolute inset-0 z-0 bg-black/40 lg:hidden" />
+
+        <div className="relative z-10 w-full max-w-2xl py-8 border border-base-200 rounded-2xl">
+          <div className="bg-base-100 rounded-2xl shadow-2xl p-8 lg:p-10">
+            {/* Header */}
+            <div className="mb-8">
+              <button
+                type="button"
+                onClick={() => router.push("/login")}
+                className="text-primary hover:opacity-70 transition-opacity mb-6 flex items-center gap-1 text-xs font-medium"
+              >
+                ← Back to login
+              </button>
+              <h1 className="text-2xl font-bold text-base-content">
+                Create an account
+              </h1>
+              <p className="text-sm text-base-content/50 mt-1">
+                Fill in the details below to register
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit(submitData, () => setLoading(false))}>
+              {/* Personal Info */}
+              <p className={sectionLabelCls}>Personal Information</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className={labelCls}>First Name</label>
                   <input
                     type="text"
                     {...register("firstName")}
                     placeholder="Enter first name"
-                    className={`${inputStyle}`}
+                    className={`${inputCls} ${errors.firstName ? "border-error" : ""}`}
                   />
-                  <div>
-                    {errors.firstName && (
-                      <span className="text-xs text-red-500">
-                        {" "}
-                        {errors.firstName.message}
-                      </span>
-                    )}
-                  </div>
+                  <FieldError message={errors.firstName?.message} />
                 </div>
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Last Name</h1>
+                <div>
+                  <label className={labelCls}>Last Name</label>
                   <input
                     type="text"
                     {...register("lastName")}
                     placeholder="Enter last name"
-                    className={`${inputStyle}`}
+                    className={`${inputCls} ${errors.lastName ? "border-error" : ""}`}
                   />
-                  {errors.lastName && (
-                    <p className="text-xs text-red-500">
-                      {" "}
-                      {errors.lastName.message}
-                    </p>
-                  )}
+                  <FieldError message={errors.lastName?.message} />
+                </div>
+                <div>
+                  <label className={labelCls}>Employee ID</label>
+                  <input
+                    type="text"
+                    {...register("employee_id")}
+                    placeholder="Enter employee ID"
+                    className={`${inputCls} ${errors.employee_id ? "border-error" : ""}`}
+                  />
+                  <FieldError message={errors.employee_id?.message} />
+                </div>
+                <div>
+                  <label className={labelCls}>Contact Number</label>
+                  <input
+                    type="text"
+                    {...register("contact")}
+                    placeholder="Enter 11-digit number"
+                    className={`${inputCls} ${errors.contact ? "border-error" : ""}`}
+                  />
+                  <FieldError message={errors.contact?.message} />
                 </div>
               </div>
-              <div className={`${fieldStyle}`}>
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Username</h1>
+
+              {/* Account Info */}
+              <p className={sectionLabelCls}>Account Information</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className={labelCls}>Username</label>
                   <input
                     type="text"
                     {...register("userName")}
                     placeholder="Enter username"
-                    className={`${inputStyle}`}
+                    className={`${inputCls} ${errors.userName ? "border-error" : ""}`}
                   />
-                  <div>
-                    {errors.userName && (
-                      <span className="text-xs text-red-500">
-                        {" "}
-                        {errors.userName.message}
-                      </span>
-                    )}
-                  </div>
+                  <FieldError message={errors.userName?.message} />
                 </div>
-
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Email</h1>
+                <div>
+                  <label className={labelCls}>Email</label>
                   <input
                     type="text"
                     {...register("email")}
                     placeholder="Enter email"
-                    className={`${inputStyle}`}
+                    className={`${inputCls} ${errors.email ? "border-error" : ""}`}
                   />
-                  <div>
-                    {errors.email && (
-                      <span className="text-xs text-red-500">
-                        {" "}
-                        {errors.email.message}
-                      </span>
-                    )}
-                  </div>
+                  <FieldError message={errors.email?.message} />
+                </div>
+                <div>
+                  <label className={labelCls}>Password</label>
+                  <PasswordInput
+                    name="password"
+                    placeholder="Enter password"
+                    show={showPassword}
+                    onToggle={() => setShowPassword(!showPassword)}
+                  />
+                  <FieldError message={errors.password?.message} />
+                </div>
+                <div>
+                  <label className={labelCls}>Confirm Password</label>
+                  <PasswordInput
+                    name="confirmPassword"
+                    placeholder="Confirm password"
+                    show={showConfirmPassword}
+                    onToggle={() =>
+                      setShowConfirmPassword(!showConfirmPassword)
+                    }
+                  />
+                  <FieldError message={errors.confirmPassword?.message} />
                 </div>
               </div>
-              <div className={`${fieldStyle}`}>
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Password</h1>
-                  <div className="relative flex items-center justify-center w-full ">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      {...register("password")}
-                      placeholder="Enter password"
-                      className={`${inputStyle}`}
-                    />
-                    {showPassword ? (
-                      <EyeSlashIcon
-                        className="size-[24px] absolute right-3 cursor-pointer "
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                    ) : (
-                      <EyeIcon
-                        className="size-[24px] absolute right-3 cursor-pointer "
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {errors.password && (
-                      <span className="text-xs text-red-500">
-                        {" "}
-                        {errors.password.message}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Confirm Password</h1>
-                  <div className="relative flex items-center justify-center w-full ">
-                    <input
-                      type={showConfirmPassword ? "text" : "password"}
-                      {...register("confirmPassword")}
-                      placeholder="Confirm password"
-                      className={`${inputStyle}`}
-                    />
-                    {showConfirmPassword ? (
-                      <EyeSlashIcon
-                        className="size-[24px] absolute right-3 cursor-pointer "
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                      />
-                    ) : (
-                      <EyeIcon
-                        className="size-[24px] absolute right-3 cursor-pointer "
-                        onClick={() =>
-                          setShowConfirmPassword(!showConfirmPassword)
-                        }
-                      />
-                    )}
-                  </div>
-                  <div>
-                    {errors.confirmPassword && (
-                      <span className="text-xs text-red-500">
-                        {" "}
-                        {errors.confirmPassword.message}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className={`${fieldStyle}`}>
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Contact</h1>
-                  <input
-                    type="text"
-                    {...register("contact")}
-                    placeholder="Enter contact number"
-                    className={`${inputStyle}`}
-                  />
-                  <div>
-                    {errors.contact && (
-                      <span className="text-xs text-red-500">
-                        {" "}
-                        {errors.contact.message}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Position</h1>
-                  <div className="relative">
-                    <Controller
-                      name="position"
-                      control={control}
-                      render={({ field }) => (
-                        <select
-                          {...field}
-                          className="w-full h-[45px] p-2 bg-gray-300 rounded-lg"
-                        >
-                          <option value="" hidden>
-                            Select Position
-                          </option>
-                          <option value="" disabled>
-                            Select Position
-                          </option>
-                          {roleOptions.length === 0 ? (
-                            <option disabled>No position added yet</option>
-                          ) : (
-                            roleOptions.map((option, index) => (
-                              <option value={option.value} key={index}>
-                                {option.label}
-                              </option>
-                            ))
-                          )}
-                        </select>
-                      )}
-                    />
 
-                    {positionError && (
-                      <div className="flex items-start justify-start text-red-500">
-                        {positionError}
-                      </div>
-                    )}
-                    <div>
-                      {errors.position && (
-                        <span className="text-xs text-red-500">
-                          {errors.position.message}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={`${fieldStyle}`}>
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Branch Code</h1>
-                  <div className="relative">
-                    <Controller
-                      name="branchCode"
-                      control={control}
-                      render={({ field }) => (
-                        <select
-                          {...field}
-                          className="w-full p-2 h-[45px] bg-gray-300 rounded-lg"
-                          onChange={(e) => {
-                            field.onChange(e);
-                            handleBranchCodeChange(Number(e.target.value));
-                          }}
-                        >
-                          <option value="" hidden>
-                            Select branch
-                          </option>
-                          <option value="" disabled>
-                            Select branch
-                          </option>
-                          {branchList.length > 0 ? (
-                            branchList.map((branch) => (
-                              <option key={branch.id} value={branch.id}>
-                                {branch.branch_code}
-                              </option>
-                            ))
-                          ) : (
-                            <option value="" disabled>
-                              No branch codes available
+              {/* Work Info */}
+              <p className={sectionLabelCls}>Work Information</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className={labelCls}>Position</label>
+                  <Controller
+                    name="position"
+                    control={control}
+                    render={({ field }) => (
+                      <select
+                        {...field}
+                        className={`${selectCls} ${errors.position ? "border-error" : ""}`}
+                      >
+                        <option value="" hidden>
+                          Select position
+                        </option>
+                        <option value="" disabled>
+                          Select position
+                        </option>
+                        {roleOptions.length === 0 ? (
+                          <option disabled>No positions added yet</option>
+                        ) : (
+                          roleOptions.map((opt, i) => (
+                            <option value={opt.value} key={i}>
+                              {opt.label}
                             </option>
-                          )}
-                        </select>
-                      )}
-                    />
-                    {errors.branchCode && (
-                      <span className="text-xs text-red-500">
-                        {errors.branchCode.message}
-                      </span>
+                          ))
+                        )}
+                      </select>
                     )}
-                  </div>
+                  />
+                  {positionError && <p className={errorCls}>{positionError}</p>}
+                  <FieldError message={errors.position?.message} />
                 </div>
-                <div className="w-full mb-4 md:w-1/2">
-                  <h1 className={`${headerStyle}`}>Branch</h1>
+                <div>
+                  <label className={labelCls}>Branch Code</label>
+                  <Controller
+                    name="branchCode"
+                    control={control}
+                    render={({ field }) => (
+                      <select
+                        {...field}
+                        className={`${selectCls} ${errors.branchCode ? "border-error" : ""}`}
+                        onChange={(e) => {
+                          field.onChange(e);
+                          handleBranchCodeChange(Number(e.target.value));
+                        }}
+                      >
+                        <option value="" hidden>
+                          Select branch
+                        </option>
+                        <option value="" disabled>
+                          Select branch
+                        </option>
+                        {branchList.length > 0 ? (
+                          branchList.map((b) => (
+                            <option key={b.id} value={b.id}>
+                              {b.branch_code}
+                            </option>
+                          ))
+                        ) : (
+                          <option value="" disabled>
+                            No branch codes available
+                          </option>
+                        )}
+                      </select>
+                    )}
+                  />
+                  <FieldError message={errors.branchCode?.message} />
+                </div>
+                <div className="md:col-span-2">
+                  <label className={labelCls}>Branch</label>
                   <Controller
                     name="branch"
                     control={control}
@@ -516,107 +453,94 @@ const Registration = () => {
                       <input
                         {...field}
                         readOnly
-                        className="w-full h-[45px] p-2 bg-gray-300 rounded-lg"
+                        placeholder="Auto-filled from branch code"
+                        className={`${inputCls} opacity-60 cursor-not-allowed`}
                       />
                     )}
                   />
-                  {errors.branch && (
-                    <span className="text-xs text-red-500">
-                      {errors.branch.message}
-                    </span>
-                  )}
+                  <FieldError message={errors.branch?.message} />
                 </div>
               </div>
-              <div>
-                <div className="w-full mb-4">
-                  <h1 className={`${headerStyle}`}>Employee ID</h1>
-                  <input
-                    type="text"
-                    {...register("employee_id")}
-                    placeholder="Enter your employee ID"
-                    className={`${inputStyle}`}
-                  />
-                  <div>
-                    {errors.employee_id && (
-                      <span className="text-xs text-red-500">
-                        {" "}
-                        {errors.employee_id.message}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="flex flex-col w-full mb-4">
-                  <h1 className={`${headerStyle}`}>Signature</h1>
+
+              {/* Signature */}
+              <p className={sectionLabelCls}>Signature</p>
+              <div className="mb-6">
+                <div className="border-2 border-dashed border-base-300 rounded-xl overflow-hidden bg-base-100">
                   <SignatureCanvas
                     penColor="black"
                     ref={(ref) => setSignature(ref)}
                     canvasProps={{
-                      className: "sigCanvas border h-96 w-full bg-gray-100",
+                      className: "sigCanvas w-full h-48 bg-white",
                     }}
-                    velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
-                    minWidth={1.5} // Minimum stroke width
-                    maxWidth={2.5} // Maximum stroke width
-                    throttle={10} // Reduces points for smoother lines
+                    velocityFilterWeight={0.7}
+                    minWidth={1.5}
+                    maxWidth={2.5}
+                    throttle={10}
                     dotSize={1.5}
                   />
-                  {signatureEmpty && (
-                    <span className="text-xs text-red-500">
-                      Please provide a signature.
-                    </span>
-                  )}
-                  <button
-                    onClick={(e) => handleClear(e)}
-                    type="button"
-                    className="p-1 mt-2 bg-gray-300 rounded-lg cursor-pointer"
-                  >
-                    Clear
-                  </button>
                 </div>
-              </div>
-              <div className="flex items-center justify-center">
-                {Array.isArray(errorMessage) && errorMessage.length > 0 && (
-                  <div className="text-xs text-red-500">
-                    {errorMessage.map((message, index) => (
-                      <p key={index}>{message}</p>
-                    ))}
-                  </div>
+                {signatureEmpty && (
+                  <p className={errorCls}>Please provide a signature.</p>
                 )}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signature?.clear();
+                    setSignatureEmpty(false);
+                  }}
+                  type="button"
+                  className="mt-2 text-xs text-base-content/40 hover:text-error transition-colors underline"
+                >
+                  Clear signature
+                </button>
               </div>
-            </div>
 
-            <div className="relative flex items-center justify-center">
+              {/* Server errors */}
+              {Array.isArray(errorMessage) && errorMessage.length > 0 && (
+                <div className="mb-4 px-4 py-3 bg-error/10 border border-error/30 rounded-xl text-xs text-error space-y-1">
+                  {errorMessage.map((msg, i) => (
+                    <p key={i}>{msg}</p>
+                  ))}
+                </div>
+              )}
+
+              {/* Submit */}
               <button
-                className="cursor-pointer bg-primary px-4 rounded-lg w-full lg:h-[45px] h-10"
+                className="w-full h-11 bg-primary hover:opacity-90 active:scale-[0.98] text-primary-content font-semibold rounded-xl transition-all flex items-center justify-center disabled:opacity-60 disabled:cursor-not-allowed"
                 type="submit"
-                onClick={() => setLoading(!loading)}
+                disabled={loading}
               >
-                {!loading && "Register"}
+                {loading ? (
+                  <BounceLoader color="#FFFFFF" size={20} />
+                ) : (
+                  "Create Account"
+                )}
               </button>
-              {loading ? (
-                <BounceLoader color="#FFFFFF" className="absolute" />
-              ) : null}
-            </div>
-          </form>
-          <Link href="/login">
-            <div className="flex flex-row justify-center mt-4 ">
-              <p className="italic text-center">Already have an account? </p>
-              <p className="pl-2 italic font-bold underline text-primary">
-                Log In
-              </p>
-            </div>
-          </Link>
+            </form>
+
+            <p className="mt-6 text-center text-sm text-base-content/50">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-semibold hover:underline"
+              >
+                Sign in
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-      <div className="items-center justify-center hidden w-1/2 lg:block">
+
+      {/* Right decorative panel */}
+      <div className="hidden lg:block w-1/2 sticky top-0 h-screen">
         <Image
-          className="object-cover w-full h-screen"
-          width={0}
-          height={0}
+          fill
+          className="object-cover"
           src={Slice}
-          alt=""
+          alt="decorative"
+          priority
         />
+        <div className="absolute inset-0 bg-primary/10" />
       </div>
     </div>
   );
