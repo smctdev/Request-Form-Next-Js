@@ -1,34 +1,53 @@
 [
   {
-    "title": "Tools",
-    "value": "tools"
+    "value": "Office Supplies"
   },
   {
-    "title": "Staff House",
-    "value": "staff_house"
+    "value": "New Registration"
   },
   {
-    "title": "Store Rental",
-    "value": "store_rental"
+    "value": "Utility Bills (Water, Electric, Guard Salary)"
   },
   {
-    "title": "Credit And Collection",
-    "value": "credit_and_collection"
+    "value": "Renewal of Unit"
   },
   {
-    "title": "IT Related",
-    "value": "it_related"
+    "value": "Meal / Diesel / Gasoline Allowance"
   },
   {
-    "title": "Spare Parts",
-    "value": "spare_parts"
+    "value": "Transfer Ownership of Unit"
   },
   {
-    "title": "Marketing Related",
-    "value": "marketing_related"
+    "value": "Shipment Fee"
   },
   {
-    "title": "Not Applicable",
-    "value": "n/a"
+    "value": "Raffle Winner"
+  },
+  {
+    "value": "FFE (New / Replacement)"
+  },
+  {
+    "value": "Notarial Fee"
+  },
+  {
+    "value": "Professional Fee"
+  },
+  {
+    "value": "Retaineers Fee"
+  },
+  {
+    "value": "Appliance Repair (e.g. Aircon Cleaning)"
+  },
+  {
+    "value": "MC Service (Office / Service Used)"
+  },
+  {
+    "value": "LTO Accreditation"
+  },
+  {
+    "value": "DTI Accreditation"
+  },
+  {
+    "value": "Cash Advance - Logistics"
   }
 ]

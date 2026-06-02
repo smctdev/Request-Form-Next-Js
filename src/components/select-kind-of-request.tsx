@@ -10,10 +10,7 @@ interface Props extends SelectHTMLAttributes<HTMLSelectElement>, W {}
 export default function SelectKindOfRequest(props: Props) {
   return (
     <div className="flex flex-col gap-2">
-      <label
-        htmlFor="select-kind-of-request"
-        className="font-bold"
-      >
+      <label htmlFor="select-kind-of-request" className="font-bold">
         What kind of request?
       </label>
 
@@ -27,9 +24,9 @@ export default function SelectKindOfRequest(props: Props) {
         <option value="" disabled>
           What kind of request?
         </option>
-        {kindOfRequests.map(({ title, value }, index: number) => (
+        {kindOfRequests.map(({ value }, index: number) => (
           <option key={index} value={value}>
-            {title}
+            {value}
           </option>
         ))}
       </select>
