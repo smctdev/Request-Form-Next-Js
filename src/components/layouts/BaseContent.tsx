@@ -128,7 +128,7 @@ const BaseContent = ({ children }: any) => {
             <div
               className={`h-full fixed ${
                 isSidebarVisible ? "block" : "hidden"
-              } md:block z-30  `}
+              } md:block z-30 overflow-visible`}
             >
               <Sidebar2
                 darkMode={false}

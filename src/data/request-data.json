@@ -1,34 +1,42 @@
 [
   {
     "title": "Stock Requisition",
-    "path": "/create-request/stock-requisition"
+    "path": "/create-request/stock-requisition",
+    "isShow": true
   },
   {
     "title": "Purchase Order Requisition Slip",
-    "path": "/create-request/purchase-order-requisition-slip"
+    "path": "/create-request/purchase-order-requisition-slip",
+    "isShow": true
   },
   {
     "title": "Cash Disbursement Requisition Slip",
-    "path": "/create-request/cash-or-card-disbursement-requisition-slip"
+    "path": "/create-request/cash-or-card-disbursement-requisition-slip",
+    "isShow": true
   },
   {
     "title": "Application For Cash Advance",
-    "path": "/create-request/application-for-cash-advance"
+    "path": "/create-request/application-for-cash-advance",
+    "isShow": false
   },
   {
     "title": "Liquidation of Actual Expense",
-    "path": "/create-request/liquidation-of-actual-expense"
+    "path": "/create-request/liquidation-of-actual-expense",
+    "isShow": false
   },
   {
     "title": "Request for Refund",
-    "path": "/create-request/request-for-refund"
+    "path": "/create-request/request-for-refund",
+    "isShow": false
   },
   {
     "title": "Discount Request",
-    "path": "/create-request/discount-request"
+    "path": "/create-request/discount-request",
+    "isShow": false
   },
   {
     "title": "Check Issuance Requisition Slip",
-    "path": "/create-request/check-issuance-requisition-slip"
+    "path": "/create-request/check-issuance-requisition-slip",
+    "isShow": true
   }
 ]

@@ -21,7 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<any>([]);
+  const [user, setUser] = useState<any>(null);
   const [error, setError] = useState<string>("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isAuditor, setIsAuditor] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!user.id || !echo) return;
+    if (!user || !echo) return;
 
     echo
       .private(`request-access.${user.id}`)
@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     return () => {
       echo.leave(`request-access.${user.id}`);
     };
-  }, [echo, user.id]);
+  }, [echo, user]);
 
   useEffect(() => {
     fetchUserProfile();
@@ -70,7 +70,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       }
     } catch (error) {
       console.error(error);
-      setUser([]);
+      setUser(null);
       setIsAuthenticated(false);
       setIsAdmin(false);
       setIsApprover(false);
@@ -98,7 +98,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       }
     } catch (error) {
       console.error(error);
-      setUser([]);
+      setUser(null);
       setIsAuthenticated(false);
       setIsAdmin(false);
       setIsAuditor(false);
@@ -166,7 +166,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await logoutApi();
       if (response.status === 204) {
-        setUser([]);
+        setUser(null);
         setIsAuthenticated(false);
         setIsAdmin(false);
         setIsAuditor(false);

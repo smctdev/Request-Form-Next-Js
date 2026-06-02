@@ -18,16 +18,14 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user?.length === 0) {
-      setFormData(feedbackData);
-      return;
-    }
+    if (!user) return;
+
     setFormData((prev) => ({
       ...prev,
-      name: user?.fullName,
-      email: user?.email,
-      phone: user?.contact,
-      department: user?.branch?.branch_name,
+      name: user?.fullName || "",
+      email: user?.email || "",
+      phone: user?.contact || "",
+      department: user?.branch?.branch_name || "",
     }));
     setIsSubmitted(false);
   }, [user, isSubmitted]);
@@ -163,9 +161,7 @@ export default function Form({ setSubmitted, setSuccessMessage }: any) {
               <option value="other">Other Opinion</option>
             </Select>
             {error?.opinion && (
-              <small className="text-error !text-sm">
-                {error?.opinion[0]}
-              </small>
+              <small className="text-error !text-sm">{error?.opinion[0]}</small>
             )}
             <Input
               type={formData?.opinion === "other" ? "text" : "hidden"}

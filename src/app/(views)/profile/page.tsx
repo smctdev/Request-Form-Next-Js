@@ -76,8 +76,8 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
         const branchOptions = branches.map(
           (branch: { id: number; branch_code: string }) => ({
             id: branch.id,
-            branch_code: branch.branch_code,
-          })
+            branch_code: branch?.branch_code,
+          }),
         );
         setBranchList(branchOptions);
       } catch (error) {
@@ -133,10 +133,10 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
       setChangePasswordLoading(false);
       console.error(
         "Failed to change password:",
-        error.response?.data?.message || error.response.data.error
+        error.response?.data?.message || error.response.data.error,
       );
       setErrorMessage(
-        error.response?.data?.message || error.response.data.error
+        error.response?.data?.message || error.response.data.error,
       );
     }
   };
@@ -253,20 +253,20 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
       setChangePasswordLoading(true);
       const response = await api.post(
         `/upload-profile-pic/${user.id}`,
-        formData
+        formData,
       );
 
       if (response.data.status) {
         await updateProfile();
       } else {
         throw new Error(
-          response.data.message || "Failed to upload profile picture"
+          response.data.message || "Failed to upload profile picture",
         );
       }
     } catch (error: any) {
       console.error(
         "Failed to upload profile picture:",
-        error.response?.data?.message || error.message
+        error.response?.data?.message || error.message,
       );
     } finally {
       setChangePasswordLoading(false);
@@ -280,10 +280,10 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
   const profilePictureUrl = newProfilePic
     ? URL.createObjectURL(newProfilePic) // Create a temporary URL for the new profile picture
     : user?.profile_picture
-    ? `${
-        process.env.NEXT_PUBLIC_API_STORAGE_URL
-      }/${user.profile_picture.replace(/\\/g, "/")}`
-    : Avatar2;
+      ? `${
+          process.env.NEXT_PUBLIC_API_STORAGE_URL
+        }/${user.profile_picture.replace(/\\/g, "/")}`
+      : Avatar2;
   const onSubmit = async () => {
     setLoading(true);
     setSubmitting(true);
@@ -301,7 +301,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
 
       const response = await api.post(
         `/update-profilepic/${user.id}`,
-        formData
+        formData,
       );
       if (response.status === 200) {
         await updateProfile();
@@ -313,7 +313,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
     } catch (error: any) {
       console.error(
         "Failed to update profile picture:",
-        error.response?.data || error.message
+        error.response?.data || error.message,
       );
       setProfileError(error.response?.data.message);
       setSubmitting(false);
@@ -348,7 +348,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             headers: {
               "Content-Type": "application/json",
             },
-          }
+          },
         );
         if (response.status === 200) {
           setSignatureSuccess(true);
@@ -429,35 +429,39 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                 <div className="flex flex-col space-y-1">
                   <span className="text-sm font-medium ">Email</span>
                   <div className="p-3 rounded-lg border">
-                    <p className=" font-medium">{user.email}</p>
+                    <p className=" font-medium">{user.email || "N/A"}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col space-y-1">
                   <span className="text-sm font-medium ">Branch Code</span>
                   <div className="p-3 rounded-lg border">
-                    <p className=" font-medium">{user.branch.branch_code}</p>
+                    <p className=" font-medium">
+                      {user?.branch?.branch_code || "N/A"}
+                    </p>
                   </div>
                 </div>
 
                 <div className="flex flex-col space-y-1">
                   <span className="text-sm font-medium ">Contact</span>
                   <div className="p-3 rounded-lg border">
-                    <p className=" font-medium">{user.contact}</p>
+                    <p className=" font-medium">{user.contact || "N/A"}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col space-y-1">
                   <span className="text-sm font-medium ">Username</span>
                   <div className="p-3 rounded-lg border">
-                    <p className=" font-medium">{user.userName}</p>
+                    <p className=" font-medium">{user.userName || "N/A"}</p>
                   </div>
                 </div>
 
                 <div className="flex flex-col space-y-1">
                   <span className="text-sm font-medium ">Branch Name</span>
                   <div className="p-3 rounded-lg border">
-                    <p className=" font-medium">{user.branch?.branch}</p>
+                    <p className=" font-medium">
+                      {user.branch?.branch || "N/A"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -591,7 +595,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                       height={150}
                       src={
                         Storage(
-                          `${user?.signature}?original=${new Date().getTime()}`
+                          `${user?.signature}?original=${new Date().getTime()}`,
                         ) || ""
                       }
                       className="w-full h-48 object-contain"
@@ -612,7 +616,8 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                       penColor="black"
                       ref={(ref) => setSignature(ref)}
                       canvasProps={{
-                        className: "sigCanvas border rounded-box w-full h-48 bg-gray-100",
+                        className:
+                          "sigCanvas border rounded-box w-full h-48 bg-gray-100",
                       }}
                       velocityFilterWeight={0.7} // Reduces stringy effect (default: 0.7)
                       minWidth={1.5} // Minimum stroke width

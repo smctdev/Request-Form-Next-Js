@@ -49,15 +49,15 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
           const allApprovers = response.data.data ?? [];
           const currentUserId = Number(user.id);
           const currentUsers = allApprovers.filter(
-            (approver: any) => approver.id !== currentUserId
+            (approver: any) => approver.id !== currentUserId,
           );
 
           const uniqueIds = new Set(
-            currentUsers.map((approver: any) => approver.id)
+            currentUsers.map((approver: any) => approver.id),
           );
           const uniqueApprovers = allApprovers.filter(
             (approver: any) =>
-              uniqueIds.has(approver.id) && uniqueIds.delete(approver.id)
+              uniqueIds.has(approver.id) && uniqueIds.delete(approver.id),
           );
 
           setApprovers(uniqueApprovers);
@@ -82,8 +82,8 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
 
   const filteredApprovers = approvers.filter((approver) =>
     Object.values(approver).some((value) =>
-      String(value).toLowerCase().includes(searchTerm.toLowerCase())
-    )
+      String(value).toLowerCase().includes(searchTerm.toLowerCase()),
+    ),
   );
 
   const handleResetSelection = async () => {
@@ -110,7 +110,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
     setNotedBy((prevNotedBy) =>
       prevNotedBy.some((a) => a.id === approver.id)
         ? prevNotedBy.filter((a) => a.id !== approver.id)
-        : [...prevNotedBy, approver]
+        : [...prevNotedBy, approver],
     );
   };
 
@@ -119,7 +119,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
     setApprovedBy((prevApprovedBy) =>
       prevApprovedBy.some((a) => a.id === approver.id)
         ? prevApprovedBy.filter((a) => a.id !== approver.id)
-        : [...prevApprovedBy, approver]
+        : [...prevApprovedBy, approver],
     );
   };
 
@@ -134,7 +134,7 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
   const handleAddCustomRequest = async () => {
     if (notedBy.length > 0 && approvedBy.length === 0) {
       setErrorMessage(
-        "You must select at least one approved by if noted by is selected."
+        "You must select at least one approved by if noted by is selected.",
       );
       return;
     }
@@ -272,108 +272,132 @@ const AddCustomModal: React.FC<AddCustomModalProps> = ({
               </div>
             ) : !isNext ? (
               <div>
-                <h1 className="!text-lg font-medium">Noted By</h1>
-                {filteredApprovers.map((approver, index) => {
-                  const isNoted = notedBy.some((a) => a.id === approver.id);
-                  const isApproved = approvedBy.some(
-                    (a) => a.id === approver.id
-                  );
-                  const isDisabled = isNoted || isApproved;
-                  const highlightClass =
-                    isNoted && isApproved ? "bg-yellow-100" : "";
+                {filteredApprovers.length === 0 ? (
+                  <p className="text-center">No approvers found</p>
+                ) : (
+                  <>
+                    <h1 className="!text-lg font-medium">Noted By</h1>
+                    {filteredApprovers.map((approver, index) => {
+                      const isNoted = notedBy.some((a) => a.id === approver.id);
+                      const isApproved = approvedBy.some(
+                        (a) => a.id === approver.id,
+                      );
+                      const isDisabled = isNoted || isApproved;
+                      const highlightClass =
+                        isNoted && isApproved ? "bg-yellow-100" : "";
 
-                  return (
-                    <div key={approver.id} className="flex items-center mb-2">
-                      {isNoted && (
-                        <span
-                          className="flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold text-center text-white rounded-full"
-                          style={{
-                            background: "#007bff",
-                            height: "20px",
-                            width: "20px",
-                          }} // Set fixed height and width
+                      return (
+                        <div
+                          key={approver.id}
+                          className="flex items-center mb-2"
                         >
-                          {notedBy.findIndex((a) => a.id === approver.id) + 1}
-                        </span>
-                      )}
-                      <input
-                        type="checkbox"
-                        className={`h-5 w-5 mr-2 ${
-                          isDisabled ? "!cursor-not-allowed" : "cursor-pointer"
-                        }`}
-                        id={`noted_by_${approver.id}`}
-                        checked={isNoted}
-                        onChange={() => {
-                          if (!isApproved) {
-                            toggleNotedBy(approver);
-                          }
-                        }}
-                        disabled={isApproved || isResetting || isLoading}
-                      />
-                      <label
-                        htmlFor={`noted_by_${approver.id}`}
-                        className={`${highlightClass} ${
-                          isApproved ? "text-gray-400" : ""
-                        }`}
-                      >
-                        {approver.firstName} {approver.lastName}
-                      </label>
-                    </div>
-                  );
-                })}
+                          {isNoted && (
+                            <span
+                              className="flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold text-center text-white rounded-full"
+                              style={{
+                                background: "#007bff",
+                                height: "20px",
+                                width: "20px",
+                              }} // Set fixed height and width
+                            >
+                              {notedBy.findIndex((a) => a.id === approver.id) +
+                                1}
+                            </span>
+                          )}
+                          <input
+                            type="checkbox"
+                            className={`h-5 w-5 mr-2 ${
+                              isDisabled
+                                ? "!cursor-not-allowed"
+                                : "cursor-pointer"
+                            }`}
+                            id={`noted_by_${approver.id}`}
+                            checked={isNoted}
+                            onChange={() => {
+                              if (!isApproved) {
+                                toggleNotedBy(approver);
+                              }
+                            }}
+                            disabled={isApproved || isResetting || isLoading}
+                          />
+                          <label
+                            htmlFor={`noted_by_${approver.id}`}
+                            className={`${highlightClass} ${
+                              isApproved ? "text-gray-400" : ""
+                            }`}
+                          >
+                            {approver.firstName} {approver.lastName}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
               </div>
             ) : (
               <div>
-                <h1 className="!text-lg font-medium">Approved By</h1>
-                {filteredApprovers.map((approver, index) => {
-                  const isNoted = notedBy.some((a) => a.id === approver.id);
-                  const isApproved = approvedBy.some(
-                    (a) => a.id === approver.id
-                  );
-                  const isDisabled = isNoted || isApproved;
-                  const highlightClass =
-                    isNoted && isApproved ? "bg-yellow-100" : "";
+                {filteredApprovers.length === 0 ? (
+                  <p className="text-center">No approvers found</p>
+                ) : (
+                  <>
+                    <h1 className="!text-lg font-medium">Approved By</h1>
+                    {filteredApprovers.map((approver, index) => {
+                      const isNoted = notedBy.some((a) => a.id === approver.id);
+                      const isApproved = approvedBy.some(
+                        (a) => a.id === approver.id,
+                      );
+                      const isDisabled = isNoted || isApproved;
+                      const highlightClass =
+                        isNoted && isApproved ? "bg-yellow-100" : "";
 
-                  return (
-                    <div key={approver.id} className="flex items-center mb-2">
-                      {isApproved && (
-                        <span
-                          className="flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold text-center text-white rounded-full"
-                          style={{
-                            background: "#007bff",
-                            height: "20px",
-                            width: "20px",
-                          }} // Set fixed height and width
+                      return (
+                        <div
+                          key={approver.id}
+                          className="flex items-center mb-2"
                         >
-                          {approvedBy.findIndex((a) => a.id === approver.id) +
-                            1}
-                        </span>
-                      )}
-                      <input
-                        type="checkbox"
-                        className={`h-5 w-5 mr-2 ${
-                          isDisabled ? "!cursor-not-allowed" : "cursor-pointer"
-                        }`}
-                        id={`approved_by_${approver.id}`}
-                        checked={isApproved}
-                        onChange={() => {
-                          if (!isNoted) {
-                            toggleApprovedBy(approver);
-                          }
-                        }}
-                        disabled={isNoted || isResetting || isLoading}
-                      />
-                      <label
-                        htmlFor={`approved_by_${approver.id}`}
-                        className={`${highlightClass} ${
-                          isNoted ? "text-gray-400" : ""
-                        }`}
-                      >
-                        {approver.firstName} {approver.lastName}
-                      </label>
-                    </div>
-                  );
-                })}
+                          {isApproved && (
+                            <span
+                              className="flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold text-center text-white rounded-full"
+                              style={{
+                                background: "#007bff",
+                                height: "20px",
+                                width: "20px",
+                              }} // Set fixed height and width
+                            >
+                              {approvedBy.findIndex(
+                                (a) => a.id === approver.id,
+                              ) + 1}
+                            </span>
+                          )}
+                          <input
+                            type="checkbox"
+                            className={`h-5 w-5 mr-2 ${
+                              isDisabled
+                                ? "!cursor-not-allowed"
+                                : "cursor-pointer"
+                            }`}
+                            id={`approved_by_${approver.id}`}
+                            checked={isApproved}
+                            onChange={() => {
+                              if (!isNoted) {
+                                toggleApprovedBy(approver);
+                              }
+                            }}
+                            disabled={isNoted || isResetting || isLoading}
+                          />
+                          <label
+                            htmlFor={`approved_by_${approver.id}`}
+                            className={`${highlightClass} ${
+                              isNoted ? "text-gray-400" : ""
+                            }`}
+                          >
+                            {approver.firstName} {approver.lastName}
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
               </div>
             )}
           </div>

@@ -31,9 +31,12 @@ import { useNotification } from "@/context/NotificationContext";
 import Swal from "sweetalert2";
 
 const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
-  const pathname = usePathname(); // Get current location
+  const pathname = usePathname();
   const [notificationReceived, setnotificationReceived] = useState(false);
   const [pendingCounts, setPendingCounts] = useState(0);
+  const [tooltip, setTooltip] = useState<{ label: string; y: number } | null>(
+    null,
+  );
   const { user, logout, isAuthenticated, isApprover, isAuditor, isAdmin } =
     useAuth();
   const { isRefresh } = useNotification();
@@ -74,158 +77,178 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
           { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
         ]
       : isAuditor
-      ? [
-          {
-            title: "Dashboard",
-            submenu: false,
-            icon: ChartBarIcon,
-            path: "/dashboard",
-          },
-          {
-            title: "My Request",
-            submenu: false,
-            icon: EnvelopeIcon,
-            path: "/request",
-          },
-          {
-            title: "Create Request",
-            submenu: false,
-            icon: DocumentPlusIcon,
-            path: "/create-request?title=Stock%20Requisition",
-          },
-          {
-            title: "Reports",
-            submenu: false,
-            icon: FlagIcon,
-            path: "/reports",
-          },
-          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-        ]
-      : isApprover
-      ? [
-          {
-            title: "Dashboard",
-            submenu: false,
-            icon: ChartBarIcon,
-            path: "/approver/dashboard",
-          },
-          {
-            title: "My Request",
-            submenu: false,
-            icon: EnvelopeIcon,
-            path: "/request",
-          },
-          {
-            title: "Create Request",
-            submenu: false,
-            icon: DocumentPlusIcon,
-            path: "/create-request?title=Stock%20Requisition",
-          },
-          {
-            title: "Process Request",
-            submenu: false,
-            icon: DocumentCheckIcon,
-            path: "/approver/request",
-          },
-          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-        ]
-      : isAdmin
-      ? [
-          {
-            title: "Dashboard",
-            submenu: false,
-            icon: ChartBarIcon,
-            path: "/dashboard",
-          },
-          {
-            title: "Users",
-            submenu: false,
-            icon: UserPlusIcon,
-            path: "/admin/users",
-          },
-          {
-            title: "Positions",
-            submenu: false,
-            icon: BriefcaseIcon,
-            path: "/admin/positions",
-          },
-          {
-            title: "Branches",
-            submenu: false,
-            icon: BuildingOfficeIcon,
-            path: "/admin/branches",
-          },
-          {
-            title: "Approvers",
-            submenu: false,
-            icon: UserIcon,
-            path: "/admin/approvers",
-          },
-          {
-            title: "Approver Checkers",
-            submenu: false,
-            icon: UsersIcon,
-            path: "/admin/approver-checkers",
-          },
-          {
-            title: "AVP Staffs",
-            submenu: false,
-            icon: UserGroupIcon,
-            path: "/admin/avp-staffs",
-          },
-          {
-            title: "Area Managers",
-            submenu: false,
-            icon: MapIcon,
-            path: "/admin/area-managers",
-          },
-          {
-            title: "Branch Heads",
-            submenu: false,
-            icon: SwatchIcon,
-            path: "/admin/branch-heads",
-          },
-          {
-            title: "Feedbacks",
-            submenu: false,
-            icon: StarIcon,
-            path: "/admin/feedbacks",
-          },
-          {
-            title: "Request Access",
-            submenu: false,
-            icon: LockClosedIcon,
-            path: "/admin/request-access",
-          },
-          {
-            title: "Reports",
-            submenu: false,
-            icon: FlagIcon,
-            path: "/reports",
-          },
-          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-        ]
-      : [
-          {
-            title: "Dashboard",
-            submenu: false,
-            icon: ChartBarIcon,
-            path: "/dashboard",
-          },
-          {
-            title: "My Request",
-            submenu: false,
-            icon: EnvelopeIcon,
-            path: "/request",
-          },
-          {
-            title: "Create Request",
-            submenu: false,
-            icon: DocumentPlusIcon,
-            path: "/create-request?title=Stock%20Requisition",
-          },
-          { title: "Help", submenu: false, icon: BookOpenIcon, path: "/help" },
-        ];
+        ? [
+            {
+              title: "Dashboard",
+              submenu: false,
+              icon: ChartBarIcon,
+              path: "/dashboard",
+            },
+            {
+              title: "My Request",
+              submenu: false,
+              icon: EnvelopeIcon,
+              path: "/request",
+            },
+            {
+              title: "Create Request",
+              submenu: false,
+              icon: DocumentPlusIcon,
+              path: "/create-request?title=Stock%20Requisition",
+            },
+            {
+              title: "Reports",
+              submenu: false,
+              icon: FlagIcon,
+              path: "/reports",
+            },
+            {
+              title: "Help",
+              submenu: false,
+              icon: BookOpenIcon,
+              path: "/help",
+            },
+          ]
+        : isApprover
+          ? [
+              {
+                title: "Dashboard",
+                submenu: false,
+                icon: ChartBarIcon,
+                path: "/approver/dashboard",
+              },
+              {
+                title: "My Request",
+                submenu: false,
+                icon: EnvelopeIcon,
+                path: "/request",
+              },
+              {
+                title: "Create Request",
+                submenu: false,
+                icon: DocumentPlusIcon,
+                path: "/create-request?title=Stock%20Requisition",
+              },
+              {
+                title: "Process Request",
+                submenu: false,
+                icon: DocumentCheckIcon,
+                path: "/approver/request",
+              },
+              {
+                title: "Help",
+                submenu: false,
+                icon: BookOpenIcon,
+                path: "/help",
+              },
+            ]
+          : isAdmin
+            ? [
+                {
+                  title: "Dashboard",
+                  submenu: false,
+                  icon: ChartBarIcon,
+                  path: "/dashboard",
+                },
+                {
+                  title: "Users",
+                  submenu: false,
+                  icon: UserPlusIcon,
+                  path: "/admin/users",
+                },
+                {
+                  title: "Positions",
+                  submenu: false,
+                  icon: BriefcaseIcon,
+                  path: "/admin/positions",
+                },
+                {
+                  title: "Branches",
+                  submenu: false,
+                  icon: BuildingOfficeIcon,
+                  path: "/admin/branches",
+                },
+                {
+                  title: "Approvers",
+                  submenu: false,
+                  icon: UserIcon,
+                  path: "/admin/approvers",
+                },
+                // {
+                //   title: "Approver Checkers",
+                //   submenu: false,
+                //   icon: UsersIcon,
+                //   path: "/admin/approver-checkers",
+                // },
+                {
+                  title: "AVP Staffs",
+                  submenu: false,
+                  icon: UserGroupIcon,
+                  path: "/admin/avp-staffs",
+                },
+                {
+                  title: "Area Managers",
+                  submenu: false,
+                  icon: MapIcon,
+                  path: "/admin/area-managers",
+                },
+                {
+                  title: "Branch Heads",
+                  submenu: false,
+                  icon: SwatchIcon,
+                  path: "/admin/branch-heads",
+                },
+                {
+                  title: "Feedbacks",
+                  submenu: false,
+                  icon: StarIcon,
+                  path: "/admin/feedbacks",
+                },
+                {
+                  title: "Request Access",
+                  submenu: false,
+                  icon: LockClosedIcon,
+                  path: "/admin/request-access",
+                },
+                {
+                  title: "Reports",
+                  submenu: false,
+                  icon: FlagIcon,
+                  path: "/reports",
+                },
+                {
+                  title: "Help",
+                  submenu: false,
+                  icon: BookOpenIcon,
+                  path: "/help",
+                },
+              ]
+            : [
+                {
+                  title: "Dashboard",
+                  submenu: false,
+                  icon: ChartBarIcon,
+                  path: "/dashboard",
+                },
+                {
+                  title: "My Request",
+                  submenu: false,
+                  icon: EnvelopeIcon,
+                  path: "/request",
+                },
+                {
+                  title: "Create Request",
+                  submenu: false,
+                  icon: DocumentPlusIcon,
+                  path: "/create-request?title=Stock%20Requisition",
+                },
+                {
+                  title: "Help",
+                  submenu: false,
+                  icon: BookOpenIcon,
+                  path: "/help",
+                },
+              ];
 
   useEffect(() => {
     const handleResize = () => {
@@ -302,147 +325,130 @@ const Sidebar2 = ({ darkMode, role, open, toggleSidebar }: SidebarProps) => {
   const listStyle =
     "relative mx-2 group flex items-center text-[18px] text-gray-400 font-medium py-2 pr-3 px-2 cursor-pointer rounded-lg";
   const pStyle = "group-hover:text-primary font text-lg px-2 rounded-lg";
-  const pStyle2 = "font text-lg px-2 rounded-lg";
   const iconStyle = "size-[32px] group-hover:text-primary";
-  const activeClass = "bg-[#D2E6F7] text-primary"; // Change to your preferred active color
+  const activeClass = "bg-[#D2E6F7] text-primary";
 
   if (!isAuthenticated) return null;
 
+  const logoutIcon = (
+    <svg
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      style={{ transform: "rotate(-180deg)", width: "25px", height: "25px" }}
+    >
+      <path d="M17 16l4-4m0 0l-4-4 m4 4h-14m5 8 H6a3 3 0 01-3-3V7a3 3 0 013-3h7"></path>
+    </svg>
+  );
+
   return (
-    <div className={`h-full`}>
-      <div className={`${open ? "w-60" : "w-20"} h-full`}>
-        <div className="px-2 py-3 h-[68px] flex justify-center items-center border-b-[0.5px] border-gray-300">
-          <Image
-            src={Logo}
-            alt="Logo"
-            height={80}
-            width={120}
-            className="cursor-pointer"
-            onClick={toggleSidebar}
-          />
-          {/* <h1
-            className={`text-primary font-bold mr-7 ${
-              open ? "visible" : "invisible"
-            }`}
-          >
-            Request Form
-          </h1> */}
+    <div
+      className={`h-full ${open ? "w-60" : "w-20"} flex flex-col bg-base-100 border-r border-base-300 transition-all duration-300 ${!open ? "overflow-visible" : "overflow-hidden"}`}
+    >
+      {/* Single fixed tooltip rendered at hovered item's Y position */}
+      {!open && tooltip && (
+        <div
+          className="fixed left-20 z-[9999] pointer-events-none whitespace-nowrap rounded-lg bg-[#D2E6F7] text-primary px-3 py-1.5 text-sm font-medium shadow-md"
+          style={{ top: tooltip.y }}
+        >
+          {tooltip.label}
         </div>
-        <ul className="flex-1 w-full mt-6">
-          <div className="w-full gap-2">
-            {navItems.map((item) => (
-              <Link href={item.path} key={item.title}>
-                <li
-                  className={`${listStyle} ${
-                    pathname.startsWith(item.path.split("?")[0])
-                      ? activeClass
-                      : ""
-                  } ${!open ? "justify-center" : "hover:bg-[#E7F1F9]"}`}
-                >
-                  <div
-                    className={`p-2 ${
-                      !open ? "hover:bg-[#D2E6F7] rounded-lg relative" : ""
-                    }`}
-                  >
-                    <item.icon className={iconStyle} />
+      )}
+      {/* Logo */}
+      <div className="px-2 py-3 h-[68px] flex justify-center items-center border-b border-base-300 shrink-0">
+        <Image
+          src={Logo}
+          alt="Logo"
+          height={80}
+          width={120}
+          className="cursor-pointer"
+          onClick={toggleSidebar}
+        />
+      </div>
 
-                    {pendingCounts > 0 &&
-                      item.title === "Process Request" &&
-                      !open && (
-                        <span className="absolute top-0 right-0 bg-pink-400 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
-                          {pendingCounts}
-                        </span>
-                      )}
+      {/* Nav items — scrollable */}
+      <ul className="flex-1 overflow-y-auto overflow-x-hidden w-full mt-4 pb-2">
+        <div className="w-full flex flex-col gap-1">
+          {navItems.map((item) => (
+            <Link href={item.path} key={item.title}>
+              <li
+                className={`${listStyle} ${
+                  pathname.startsWith(item.path.split("?")[0])
+                    ? activeClass
+                    : ""
+                } ${!open ? "justify-center hover:bg-[#D2E6F7] dark:hover:bg-base-200 overflow-visible" : "hover:bg-[#E7F1F9] dark:hover:bg-base-200"}`}
+                onMouseEnter={(e) =>
+                  !open &&
+                  setTooltip({
+                    label: item.title,
+                    y:
+                      (e.currentTarget.getBoundingClientRect().top +
+                        e.currentTarget.getBoundingClientRect().bottom) /
+                        2 -
+                      14,
+                  })
+                }
+                onMouseLeave={() => setTooltip(null)}
+              >
+                <div className="relative p-2">
+                  <item.icon className={iconStyle} />
+                  {pendingCounts > 0 &&
+                    item.title === "Process Request" &&
+                    !open && (
+                      <span className="absolute top-0 right-0 bg-pink-400 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                        {pendingCounts}
+                      </span>
+                    )}
+                </div>
+                {open ? (
+                  <div className="flex-1">
+                    <p className={`${pStyle} truncate p-1`}>
+                      {item.title}{" "}
+                      {pendingCounts > 0 &&
+                        item.title === "Process Request" && (
+                          <span className="bg-pink-400 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
+                            {pendingCounts}
+                          </span>
+                        )}
+                    </p>
                   </div>
-                  {open ? (
-                    <div className={`flex-1 ${!open ? "hidden" : "block"}`}>
-                      <p className={`${pStyle} truncate p-1`}>
-                        {item.title}{" "}
-                        {pendingCounts > 0 &&
-                          item.title === "Process Request" &&
-                          open && (
-                            <span className="bg-pink-400 text-white text-xs font-semibold px-1.5 py-0.5 rounded-full">
-                              {pendingCounts}
-                            </span>
-                          )}
-                      </p>
-                    </div>
-                  ) : (
-                    <div className={`relative group`}>
-                      <p
-                        className={`${pStyle} truncate p-1 absolute left-full ml-5 top-1/2 transform -translate-y-1/2 bg-[#D2E6F7] rounded-lg ${
-                          open
-                            ? "hidden"
-                            : "opacity-0 invisible group-hover:opacity-100 group-hover:visible"
-                        } transition-opacity`}
-                      >
-                        {item.title}
-                      </p>
-                    </div>
-                  )}
-                </li>
-              </Link>
-            ))}
+                ) : null}
+              </li>
+            </Link>
+          ))}
+        </div>
+      </ul>
 
-            {open ? (
-              <div
-                onClick={handleLogout}
-                className="absolute flex hover:bg-[#ff7575] px-5 rounded-lg hover:  items-center justify-center w-full h-10 border-t cursor-pointer bottom-2"
-              >
-                <svg
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="text-gray-500 dark:text-gray-400"
-                  style={{
-                    transform: "rotate(-180deg)",
-                    width: "25px",
-                    height: "25px",
-                  }} // Rotating 180 degrees to the left
-                >
-                  <path d="M17 16l4-4m0 0l-4-4 m4 4h-14m5 8 H6a3 3 0 01-3-3V7a3 3 0 013-3h7"></path>
-                </svg>
-                <p
-                  className={`${pStyle} text-gray-500 truncate p-1 ${
-                    !open ? "hidden" : ""
-                  } dark:text-gray-400`}
-                >
-                  Logout
-                </p>
-              </div>
-            ) : (
-              <div
-                onClick={handleLogout}
-                className="absolute flex items-center justify-center w-full h-10 border-t border-gray-300 cursor-pointer group bottom-2"
-              >
-                <svg
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="text-gray-500 hover:text-[#ff7575] dark:text-gray-400"
-                  style={{
-                    transform: "rotate(-180deg)",
-                    width: "25px",
-                    height: "25px",
-                  }} // Rotating 180 degrees to the left
-                >
-                  <path d="M17 16l4-4m0 0l-4-4 m4 4h-14m5 8 H6a3 3 0 01-3-3V7a3 3 0 013-3h7"></path>
-                </svg>
-                <p
-                  className={`${pStyle2} truncate p-1 absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-[#ff7575]   rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300`}
-                >
-                  Logout
-                </p>
-              </div>
-            )}
-          </div>
-        </ul>
+      {/* Logout — always at bottom */}
+      <div
+        onClick={handleLogout}
+        onMouseEnter={(e) =>
+          !open &&
+          setTooltip({
+            label: "Logout",
+            y:
+              (e.currentTarget.getBoundingClientRect().top +
+                e.currentTarget.getBoundingClientRect().bottom) /
+                2 -
+              14,
+          })
+        }
+        onMouseLeave={() => setTooltip(null)}
+        className={`relative shrink-0 flex items-center border-t border-base-300 h-12 cursor-pointer group hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors ${
+          open ? "px-5 gap-2" : "justify-center"
+        }`}
+      >
+        <span className="text-base-content/50 group-hover:text-red-500 transition-colors">
+          {logoutIcon}
+        </span>
+        {open && (
+          <p className="text-base-content/50 group-hover:text-red-500 font text-lg px-2 rounded-lg truncate p-1 transition-colors">
+            Logout
+          </p>
+        )}
       </div>
     </div>
   );

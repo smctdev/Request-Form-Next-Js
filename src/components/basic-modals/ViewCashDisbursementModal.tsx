@@ -35,6 +35,12 @@ type Record = {
   date: string;
   user_id: number;
   attachment: string;
+  kind_of_request: string;
+  user: {
+    branch: {
+      branch_code: string;
+    };
+  };
   noted_by: {
     id: number;
     firstName: string;
@@ -95,7 +101,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
   const [newData, setNewData] = useState<Item[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editedApprovers, setEditedApprovers] = useState<number>(
-    record.approvers_id
+    record.approvers_id,
   );
   const [editedDate, setEditedDate] = useState("");
   const [fetchingApprovers, setFetchingApprovers] = useState(false);
@@ -114,13 +120,11 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
   >([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showAddCustomModal, setShowAddCustomModal] = useState(false);
-  const [branchList, setBranchList] = useState<any[]>([]);
-  const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -128,30 +132,6 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
   const [kindOfRequest, setKindOfRequest] = useState<string>("");
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
   const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchBranchData = async () => {
-      try {
-        const response = await api.get(`/view-branch`);
-        const branches = response.data.data;
-
-        // Create a mapping of id to branch_name
-        const branchMapping = new Map<number, string>(
-          branches.map((branch: { id: number; branch_code: string }) => [
-            branch.id,
-            branch.branch_code,
-          ])
-        );
-
-        setBranchList(branches);
-        setBranchMap(branchMapping);
-      } catch (error) {
-        console.error("Error fetching branch data:", error);
-      }
-    };
-
-    fetchBranchData();
-  }, []);
 
   const getCurrencySymbol = (currencyCode: string): string => {
     return (
@@ -161,7 +141,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
   };
 
   const handleCurrencyChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const { value } = event.target;
     setEditableRecord((prevRecord) => ({
@@ -173,7 +153,8 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
   // Get branch ID from record
   const branchId = parseInt(record.form_data[0].branch, 10);
   // Get branch name or default to "Unknown"
-  const branchName = branchMap.get(branchId) || "Unknown";
+  const branchName = record?.user?.branch?.branch_code;
+
   useEffect(() => {
     const attachments = JSON.parse(record.attachment);
     // Ensure currentUserId and userId are converted to numbers if they exist
@@ -182,6 +163,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
     setEditedApprovers(record.approvers_id);
+    setKindOfRequest(record.kind_of_request);
     try {
       if (typeof record.attachment === "string") {
         // Parse the JSON string if it contains the file path
@@ -239,7 +221,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setNewAttachments((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -249,7 +231,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
 
     // Remove the attachment from the current list
     setAttachmentUrl((prevUrls) =>
-      prevUrls.filter((item, i) => item !== index)
+      prevUrls.filter((item, i) => item !== index),
     );
   };
 
@@ -275,7 +257,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
   const handleItemChange = (
     index: number,
     field: keyof Item,
-    value: string
+    value: string,
   ) => {
     // Update the field of the item at the specified index in newData
     const newDataCopy = [...newData];
@@ -320,11 +302,11 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
           parseFloat(item.quantity) > 0 &&
           parseFloat(item.unitCost) > 0 &&
           item.description &&
-          item.description.trim() !== ""
+          item.description.trim() !== "",
       )
     ) {
       setErrorMessage(
-        "Quantity and unit cost must be greater than 0, and description cannot be empty."
+        "Quantity and unit cost must be greater than 0, and description cannot be empty.",
       );
       return;
     }
@@ -357,13 +339,13 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
             grand_total: editableRecord.form_data[0].grand_total,
             items: newData,
           },
-        ])
+        ]),
       );
 
       // Append existing attachments
       attachmentUrl.forEach((url, index) => {
         const path = url.split(
-          "request-form-files/request_form_attachments/"
+          "request-form-files/request_form_attachments/",
         )[1];
         formData.append(`attachment_url_${index}`, path);
       });
@@ -391,7 +373,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
       setErrorMessage(
         error.response?.data?.message ||
           error.message ||
-          "Failed to update Cash Disbursement"
+          "Failed to update Cash Disbursement",
       );
     }
   };
@@ -510,12 +492,12 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                 record.status.trim() === "Pending"
                   ? "bg-yellow-400"
                   : record.status.trim() === "Approved"
-                  ? "bg-green-400"
-                  : record.status.trim() === "Disapproved"
-                  ? "bg-pink-400"
-                  : record.status.trim() === "Ongoing"
-                  ? "bg-primary"
-                  : "bg-blue-700"
+                    ? "bg-green-400"
+                    : record.status.trim() === "Disapproved"
+                      ? "bg-pink-400"
+                      : record.status.trim() === "Ongoing"
+                        ? "bg-primary"
+                        : "bg-blue-700"
               } rounded-lg  py-1 w-1/3
              font-medium text-[14px] text-center ml-2 text-white`}
             >
@@ -546,7 +528,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
             )}
           </div>
 
-          {isEditing && (
+          {isEditing ? (
             <>
               <SelectKindOfRequest
                 onChange={(e) => setKindOfRequest(e.target.value)}
@@ -557,6 +539,15 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                 <p className="text-red-500">Kind of request is required</p>
               )}
             </>
+          ) : (
+            <div className="flex">
+              <p>
+                <h1 className="flex items-center w-full">Kind of Request: </h1>
+              </p>
+              <p className="w-full pl-1 font-bold bg-base-100 rounded-md">
+                {record?.kind_of_request}
+              </p>
+            </div>
           )}
           <div className="w-full mt-4 overflow-x-auto">
             <div className="w-full border-collapse">
@@ -591,7 +582,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "quantity",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2} w-full`}
@@ -605,7 +596,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "description",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2} w-full break-words whitespace-normal`}
@@ -619,7 +610,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "unitCost",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2} w-full`}
@@ -641,7 +632,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "remarks",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2} w-full break-words whitespace-normal`}
@@ -743,10 +734,10 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                               user.status === "Approved"
                                 ? "text-green-400"
                                 : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
+                                  ? "text-yellow-400"
+                                  : user.status === "Rejected"
+                                    ? "text-red"
+                                    : ""
                             }`}
                           >
                             {user.status}
@@ -809,8 +800,8 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending" || !user.status
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status ? user.status : "Pending"}
@@ -874,8 +865,8 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending" || !user.status
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status ? user.status : "Pending"}
