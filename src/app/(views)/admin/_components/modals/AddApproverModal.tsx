@@ -67,8 +67,8 @@ const AddApproverModal = ({
 
   const filteredApproverlist = users.filter((user) =>
     Object.values(user).some((value) =>
-      String(value).toLowerCase().includes(filterTerm.toLowerCase())
-    )
+      String(value).toLowerCase().includes(filterTerm.toLowerCase()),
+    ),
   );
 
   useEffect(() => {
@@ -146,30 +146,34 @@ const AddApproverModal = ({
           </div>
         ) : (
           <div className="">
-            {filteredApproverlist.map((user, index) => (
-              <div
-                key={user.id}
-                className={`flex items-center justify-between mb-2 ${
-                  index % 2 === 0 ? "bg-base-100" : "bg-blue-100"
-                }`}
-              >
-                <div className="flex items-center justify-between w-full p-4">
-                  <div>
-                    <p>{user.name}</p>
-                    <p>{user.email}</p>
-                    <p>{user.position}</p>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(user.id)}
-                      onChange={() => handleCheckboxChange(user.id)}
-                      className="mx-1 text-blue-500 cursor-pointer size-5"
-                    />
+            {filteredApproverlist.length === 0 ? (
+              <p className="p-4 text-center">No approvers found.</p>
+            ) : (
+              filteredApproverlist.map((user, index) => (
+                <div
+                  key={user.id}
+                  className={`flex items-center justify-between mb-2 ${
+                    index % 2 === 0 ? "bg-base-100" : "bg-blue-100"
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full p-4">
+                    <div>
+                      <p>{user.name}</p>
+                      <p>{user.email}</p>
+                      <p>{user.position}</p>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        checked={selectedUsers.includes(user.id)}
+                        onChange={() => handleCheckboxChange(user.id)}
+                        className="mx-1 text-blue-500 cursor-pointer size-5"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         )}
       </div>
