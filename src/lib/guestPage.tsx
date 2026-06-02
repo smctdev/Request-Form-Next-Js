@@ -13,9 +13,7 @@ export default function guestPage(WrappedComponent: any) {
     const isBackToDashboard = pathname !== "/";
 
     useEffect(() => {
-      if (isLoading || !isBackToDashboard) return;
-
-      if (isAuthenticated) {
+      if (user && isAuthenticated && !isLoading && isBackToDashboard) {
         const path = isApprover ? "/approver/dashboard" : "/dashboard";
 
         router.push(path);
@@ -31,12 +29,13 @@ export default function guestPage(WrappedComponent: any) {
         }
       }
     }, [
-      isLoading,
       isAuthenticated,
       router,
       isApprover,
       isLogin,
       isBackToDashboard,
+      user,
+      isLoading,
     ]);
 
     if (isLoading) {

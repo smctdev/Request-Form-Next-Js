@@ -9,7 +9,7 @@ export default function authenticatedPage(
   WrappedComponent: any,
   isProtectedAdmin = false,
   isProtectedAuditor = false,
-  isProtectedApprover = false
+  isProtectedApprover = false,
 ) {
   function AuthenticatedPageComponent(props: any) {
     const {
@@ -32,22 +32,21 @@ export default function authenticatedPage(
     const noAccess =
       (protectedAdmin && !isAdmin) ||
       (protectedAdminAndAuditor && !adminAndAuditor) ||
-      (protectedAdminAndApprover && !adminAndApprover); 
+      (protectedAdminAndApprover && !adminAndApprover);
 
     useEffect(() => {
-      if (isLoading) return;
-
-      if (!isAuthenticated) {
+      if (!isLoading && !user && !isAuthenticated) {
         route.replace("/login");
       }
+
       setIsLogin(false);
-    }, [isLoading, isAuthenticated, route, isApprover]);
+    }, [isAuthenticated, route, isApprover, user, isLoading]);
 
     if (isLoading || !isAuthenticated) {
       return <Preloader />;
     }
 
-    if (user.length === 0 || !isAuthenticated) {
+    if (!user || !isAuthenticated) {
       return <Unauthenticated />;
     }
 
