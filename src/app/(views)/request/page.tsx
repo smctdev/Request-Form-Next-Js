@@ -56,6 +56,7 @@ type Record = {
     status: string;
   }[];
   user_id: number;
+  kind_of_request: string;
   request_code: string;
   form_type: string;
   form_data: MyFormData[];
@@ -242,7 +243,7 @@ const Request = (props: Props) => {
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -425,22 +426,22 @@ const Request = (props: Props) => {
         break;
       case 1:
         filteredRequests = requests.filter(
-          (item: Record) => item.status.trim() === "Completed"
+          (item: Record) => item.status.trim() === "Completed",
         );
         break;
       case 2:
         filteredRequests = requests.filter(
-          (item: Record) => item.status.trim() === "Pending"
+          (item: Record) => item.status.trim() === "Pending",
         );
         break;
       case 3:
         filteredRequests = requests.filter(
-          (item: Record) => item.status.trim() === "Ongoing"
+          (item: Record) => item.status.trim() === "Ongoing",
         );
         break;
       case 4:
         filteredRequests = requests.filter(
-          (item: Record) => item.status.trim() === "Disapproved"
+          (item: Record) => item.status.trim() === "Disapproved",
         );
         break;
       default:
@@ -585,12 +586,12 @@ const Request = (props: Props) => {
               row.status.trim() === "Pending"
                 ? "bg-yellow-400"
                 : row.status.trim() === "Approved"
-                ? "bg-green-400"
-                : row.status.trim() === "Disapproved"
-                ? "bg-accent"
-                : row.status.trim() === "Ongoing"
-                ? "bg-blue-500"
-                : "bg-blue-700"
+                  ? "bg-green-400"
+                  : row.status.trim() === "Disapproved"
+                    ? "bg-accent"
+                    : row.status.trim() === "Ongoing"
+                      ? "bg-blue-500"
+                      : "bg-blue-700"
             } rounded-lg py-1 px-3 text-center text-white flex items-center`}
           >
             {row.status.trim()}

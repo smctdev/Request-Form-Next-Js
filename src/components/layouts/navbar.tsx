@@ -68,6 +68,7 @@ type Record = {
   requested_signature: string;
   requested_position: string;
   completed_status: string;
+  kind_of_request: string;
   user: {
     branch: {
       branch_code: string;
@@ -266,7 +267,7 @@ const Navbar = ({
   const fetchNotifData = async (data: any) => {
     try {
       const response = await api.get(
-        `/request-forms/for-approval/${user.id}/for-approval-requests`
+        `/request-forms/for-approval/${user.id}/for-approval-requests`,
       );
       const request_forms = response.data.request_forms;
       request_forms.some((request: any) => {
@@ -537,32 +538,32 @@ const Navbar = ({
                           notif.data.type === "feedback"
                             ? handleReadOnly(notif.id)
                             : !notif.data.request_id
-                            ? handleGoToAllRequest()
-                            : notif.data.request_reference === "approver"
-                            ? handleViewAndMarkReadNotification(
-                                notif.data.request_id,
-                                notif.id
-                              )
-                            : notif.data.request_reference === "requester"
-                            ? handleViewAndMarkReadRequestNotification(
-                                notif.data.request_id,
-                                notif.id
-                              )
-                            : handleGoToAllRequest();
+                              ? handleGoToAllRequest()
+                              : notif.data.request_reference === "approver"
+                                ? handleViewAndMarkReadNotification(
+                                    notif.data.request_id,
+                                    notif.id,
+                                  )
+                                : notif.data.request_reference === "requester"
+                                  ? handleViewAndMarkReadRequestNotification(
+                                      notif.data.request_id,
+                                      notif.id,
+                                    )
+                                  : handleGoToAllRequest();
 
                         const textColor =
                           notif.data.status === "approved"
                             ? "text-green-400"
                             : notif.data.status === "ongoing"
-                            ? "text-blue-500"
-                            : notif.type ===
-                                "App\\Notifications\\PreviousReturnRequestNotification" ||
-                              notif.type ===
-                                "App\\Notifications\\ReturnRequestNotification"
-                            ? "text-red-500"
-                            : notif.data.type === "feedback"
-                            ? "text-purple-500"
-                            : "text-primary";
+                              ? "text-blue-500"
+                              : notif.type ===
+                                    "App\\Notifications\\PreviousReturnRequestNotification" ||
+                                  notif.type ===
+                                    "App\\Notifications\\ReturnRequestNotification"
+                                ? "text-red-500"
+                                : notif.data.type === "feedback"
+                                  ? "text-purple-500"
+                                  : "text-primary";
 
                         return (
                           <button
