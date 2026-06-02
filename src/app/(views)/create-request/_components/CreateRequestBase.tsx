@@ -46,11 +46,13 @@ function CreateRequestBase({ title }: { title: string }) {
         <option value="" disabled>
           Type of request
         </option>
-        {requestTypes.map((item) => (
-          <option key={item.title} value={item.path}>
-            {item.title}
-          </option>
-        ))}
+        {requestTypes
+          .filter((item) => item.isShow)
+          .map((item) => (
+            <option key={item.title} value={item.path}>
+              {item.title}
+            </option>
+          ))}
       </select>
 
       {isLoadingType ? (
