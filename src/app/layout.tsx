@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "SMCT Group of Companies Request Form | Home",
-    template: "SMCT Group of Companies Request Form | %s",
+    default: "SMCT Request Form | Home",
+    template: "SMCT Request Form | %s",
   },
   description: "SMCT Group of Companies Request Form",
 };
