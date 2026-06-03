@@ -56,7 +56,7 @@ const schema = z.object({
       particaulars: z.string().optional(),
       particularsAmount: z.string().optional(),
       grandTotal: z.string().optional(),
-    })
+    }),
   ),
 });
 type FormData = z.infer<typeof schema>;
@@ -153,7 +153,7 @@ const CreateLiquidation = (props: Props) => {
 
   const handleRemoveImage = (imageName: string) => {
     setFile((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -196,13 +196,13 @@ const CreateLiquidation = (props: Props) => {
   ]);
   const [tableData, setTableData] = useState<TableDataItem[]>(initialTableData);
   const [selectedRequestType, setSelectedRequestType] = useState(
-    "/create-request/liquidation-of-actual-expense"
+    "/create-request/liquidation-of-actual-expense",
   );
 
   const handleChange = (
     index: number,
     field: keyof TableDataItem,
-    value: string
+    value: string,
   ) => {
     const newData = [...tableData];
     newData[index][field] = value;
@@ -256,12 +256,12 @@ const CreateLiquidation = (props: Props) => {
 
   const totalExpense = tableData.reduce(
     (total, item) => total + parseFloat(item.grandTotal),
-    0
+    0,
   );
 
   // Convert cashAdvance to a number before performing subtraction
   const short = Math.abs(parseFloat(cashAdvance || "0") - totalExpense).toFixed(
-    2
+    2,
   );
   const shortLabel = (parseFloat(cashAdvance || "0") - totalExpense).toFixed(2);
 
@@ -402,7 +402,7 @@ const CreateLiquidation = (props: Props) => {
               grandTotal: item.grandTotal,
             })),
           },
-        ])
+        ]),
       );
 
       // Display confirmation modal
@@ -463,7 +463,7 @@ const CreateLiquidation = (props: Props) => {
       // Perform the actual form submission
       const response = await api.post(
         `/create-request`,
-        formData // Use the formData stored in state
+        formData, // Use the formData stored in state
       );
       setShowSuccessModal(true);
 
@@ -605,7 +605,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `day-${index}`
+                                `day-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -618,7 +618,7 @@ const CreateLiquidation = (props: Props) => {
                                 handleChange(
                                   index,
                                   "liquidationDate",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className={`${tableInput}`}
@@ -647,7 +647,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `from-${index}`
+                                `from-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -676,7 +676,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `to-${index}`
+                                `to-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -705,7 +705,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `type-${index}`
+                                `type-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -717,7 +717,7 @@ const CreateLiquidation = (props: Props) => {
                                 handleChange(
                                   index,
                                   "transportation",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className={`${tableInput}`}
@@ -727,7 +727,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `transportation_amount-${index}`
+                                `transportation_amount-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -740,7 +740,7 @@ const CreateLiquidation = (props: Props) => {
                                 handleChange(
                                   index,
                                   "transportationAmount",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className={`${tableInput}`}
@@ -750,7 +750,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `hotel_name-${index}`
+                                `hotel_name-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -768,7 +768,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `hotel_address-${index}`
+                                `hotel_address-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -780,7 +780,7 @@ const CreateLiquidation = (props: Props) => {
                                 handleChange(
                                   index,
                                   "hotelAddress",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className={`${tableInput}`}
@@ -790,7 +790,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `hotel_amount-${index}`
+                                `hotel_amount-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -803,7 +803,7 @@ const CreateLiquidation = (props: Props) => {
                                 handleChange(
                                   index,
                                   "hotelAmount",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className={`${tableInput}`}
@@ -813,7 +813,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `per_diem-${index}`
+                                `per_diem-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -832,7 +832,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `particulars-${index}`
+                                `particulars-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -844,7 +844,7 @@ const CreateLiquidation = (props: Props) => {
                                 handleChange(
                                   index,
                                   "particulars",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className={`${tableInput} focus:outline-0 resize-none h-[100px]  `}
@@ -854,7 +854,7 @@ const CreateLiquidation = (props: Props) => {
                             className="p-1 border"
                             onClick={() => {
                               const input = document.getElementById(
-                                `particulars_amount-${index}`
+                                `particulars_amount-${index}`,
                               );
                               if (input) input.focus();
                             }}
@@ -867,7 +867,7 @@ const CreateLiquidation = (props: Props) => {
                                 handleChange(
                                   index,
                                   "particularsAmount",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className={`${tableInput} focus:outline-0`}
