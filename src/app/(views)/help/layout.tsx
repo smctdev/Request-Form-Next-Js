@@ -5,7 +5,7 @@ export function metadata(): Metadata {
   return {
     title: {
       default: "Help",
-      template: "SMCT Group of Companies Request Form | Help | %s",
+      template: "SMCT Request Form | Help | %s",
     },
     description: "SMCT Group of Companies Request Form help page.",
   };
