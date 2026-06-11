@@ -16,6 +16,15 @@ export default function guestPage(WrappedComponent: any) {
       if (user && isAuthenticated && !isLoading && isBackToDashboard) {
         const path = isApprover ? "/approver/dashboard" : "/dashboard";
 
+        Swal.fire({
+          title: "Redirecting...",
+          text: "Redirecting to dashboard. Please wait...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
         router.push(path);
 
         if (!isLogin) {
