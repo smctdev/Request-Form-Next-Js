@@ -27,6 +27,7 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
+import Swal from "sweetalert2";
 
 type Props = {};
 
@@ -92,7 +93,7 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
   >([]);
   const [loading, setLoading] = useState(false);
   const [totalRequestsSent, setTotalRequestsSent] = useState<number | null>(
-    null
+    null,
   );
   const [totalCompletedRequests, setTotalCompletedRequests] = useState<
     number | null
@@ -108,6 +109,10 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
   >(null);
   const [dataLoading, setDataLoading] = useState(true);
   const { user } = useAuth();
+
+  useEffect(() => {
+    Swal.close();
+  }, []);
 
   useEffect(() => {
     if (user.id) {
@@ -139,7 +144,7 @@ const ApproverDashboard: React.FC<Props> = ({}) => {
   const fetchData = async () => {
     try {
       const response = await api.get(
-        `/request-forms/for-approval/${user.id}/for-approval-requests`
+        `/request-forms/for-approval/${user.id}/for-approval-requests`,
       );
 
       const requests: Request[] = response.data.request_forms || []; // Use the defined type
