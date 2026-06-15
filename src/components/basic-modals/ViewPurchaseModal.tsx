@@ -16,6 +16,7 @@ import formattedAmount from "@/utils/formattedAmount";
 import Storage from "@/utils/storage";
 import Swal from "sweetalert2";
 import SelectKindOfRequest from "../select-kind-of-request";
+import Attachment from "../attachment";
 
 type Props = {
   closeModal: () => void;
@@ -408,12 +409,6 @@ const ViewPurchaseModal: React.FC<Props> = ({
     if (newWindow) {
       newWindow.focus();
     }
-  };
-
-  const isImageFile = (fileUrl: any) => {
-    const imageExtensions = ["png", "jpg", "jpeg", "gif", "bmp", "svg", "webp"];
-    const extension = fileUrl.split(".").pop().toLowerCase();
-    return imageExtensions.includes(extension);
   };
 
   const handleViewImage = (imageUrl: any) => {
@@ -934,82 +929,13 @@ const ViewPurchaseModal: React.FC<Props> = ({
             <div className="max-w-[500px] overflow-x-auto pb-3">
               <div className="flex gap-1">
                 {attachmentUrl.map((fileItem, index) => (
-                  <div
+                  <Attachment
                     key={index}
-                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
-                  >
-                    <div className="relative w-20">
-                      {isImageFile(fileItem) ? (
-                        // Display image preview if file is an image
-                        <>
-                          <Image
-                            width={100}
-                            height={100}
-                            src={Storage(fileItem)}
-                            alt="attachment"
-                            className="object-cover w-full h-20 rounded-md"
-                          />
-
-                          {!isEditing ? (
-                            <button
-                              type="button"
-                              onClick={() => handleViewImage(fileItem)}
-                              className="px-3 py-1 mt-2 text-xs text-center w-full text-white rounded-lg bg-primary cursor-pointer"
-                            >
-                              View
-                            </button>
-                          ) : (
-                            <p key={index} className="text-center">
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveAttachment(fileItem)}
-                                className="px-3 py-1 mt-2 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
-                              >
-                                Remove
-                              </button>
-                            </p>
-                          )}
-                        </>
-                      ) : (
-                        // Display document icon if file is not an image
-                        <>
-                          <div className="flex items-center justify-center w-full h-20 bg-gray-100 rounded-md">
-                            <Image
-                              width={100}
-                              height={100}
-                              src="https://cdn-icons-png.flaticon.com/512/3396/3396255.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="mt-2">
-                            {!isEditing ? (
-                              <a
-                                href={Storage(fileItem)}
-                                download
-                                target="_blank"
-                                onClick={(e) => e.stopPropagation()}
-                                className="px-3 py-1 text-xs text-white rounded-lg bg-primary"
-                              >
-                                Download
-                              </a>
-                            ) : (
-                              <p key={index} className="text-center">
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    handleRemoveAttachment(fileItem)
-                                  }
-                                  className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
-                                >
-                                  Remove
-                                </button>
-                              </p>
-                            )}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                    fileItem={fileItem}
+                    isEditing={isEditing}
+                    handleViewImage={handleViewImage}
+                    handleRemoveAttachment={handleRemoveAttachment}
+                  />
                 ))}
                 {newAttachments.map((fileItem) => (
                   <div

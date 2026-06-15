@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Slice from "@/assets/Slice.png";
 import building from "@/assets/building.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -13,6 +13,7 @@ import { useAuth } from "../../../../context/AuthContext";
 import { useRouter } from "next/navigation";
 import guestPage from "@/lib/guestPage";
 import { EyeIcon, EyeSlashIcon, XCircleIcon } from "@heroicons/react/24/solid";
+import Swal from "sweetalert2";
 
 type UserCredentials = z.infer<typeof schema>;
 
@@ -33,6 +34,10 @@ const Login = () => {
     resolver: zodResolver(schema),
   });
   const router = useRouter();
+
+  useEffect(() => {
+    Swal.close();
+  }, []);
 
   const submitData: SubmitHandler<UserCredentials> = async (data) => {
     setLoading(true);

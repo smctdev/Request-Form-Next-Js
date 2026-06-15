@@ -4,6 +4,7 @@ import Unauthorized from "@/components/NotAuthorized";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 export default function authenticatedPage(
   WrappedComponent: any,
@@ -36,6 +37,15 @@ export default function authenticatedPage(
 
     useEffect(() => {
       if (!isLoading && !user && !isAuthenticated) {
+        Swal.fire({
+          title: "Redirecting...",
+          text: "Redirecting to login. Please wait...",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
         route.replace("/login");
       }
 

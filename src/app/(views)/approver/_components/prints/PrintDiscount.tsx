@@ -176,7 +176,7 @@ const PrintDiscount: React.FC<PrintRefundProps> = ({ data }) => {
                         <td className={`${tableStyle} `}></td>
                         <td className={`${tableStyle} `}></td>
                       </tr>
-                    )
+                    ),
                   )}
                 </React.Fragment>
               ))}

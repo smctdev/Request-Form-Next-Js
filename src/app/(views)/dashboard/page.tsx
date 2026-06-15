@@ -19,8 +19,10 @@ import { api } from "@/lib/api";
 import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
+import Swal from "sweetalert2";
 
-const boxWhite = "bg-gray-50 w-full h-[190px] rounded-[15px] drop-shadow-lg relative";
+const boxWhite =
+  "bg-gray-50 w-full h-[190px] rounded-[15px] drop-shadow-lg relative";
 const boxPink = "w-full h-[150px] rounded-t-[12px] relative";
 const outerLogo =
   "lg:w-[120px] lg:h-[125px] w-[80px] h-[90px] right-0 mr-[56px] lg:mt-[26px] mt-[56px] absolute !text-[120px]";
@@ -33,7 +35,7 @@ const Dashboard: React.FC = () => {
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalRequestsSent, setTotalRequestsSent] = useState<number | null>(
-    null
+    null,
   );
   const [totalOngoingRequests, setTotalOngoingRequests] = useState<
     number | null
@@ -90,6 +92,11 @@ const Dashboard: React.FC = () => {
       </tbody>
     </table>
   );
+
+  useEffect(() => {
+    Swal.close();
+  }, []);
+
   useEffect(() => {
     if (!user.id) return;
 
@@ -102,7 +109,7 @@ const Dashboard: React.FC = () => {
           },
         });
         const countsRequestPromise = api.get(
-          `/total-request-sent/${user.id}/my-request-total`
+          `/total-request-sent/${user.id}/my-request-total`,
         );
         const branchDataPromise = api.get("/view-branch");
 
@@ -135,7 +142,7 @@ const Dashboard: React.FC = () => {
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
         setBranchList(branches);
         setBranchMap(branchMap);
@@ -207,12 +214,12 @@ const Dashboard: React.FC = () => {
             row.status.trim() === "Pending"
               ? "bg-secondary"
               : row.status.trim() === "Approved"
-              ? "bg-green-400"
-              : row.status.trim() === "Disapproved"
-              ? "bg-accent"
-              : row.status.trim() === "Ongoing"
-              ? "bg-primary"
-              : "bg-blue-700"
+                ? "bg-green-400"
+                : row.status.trim() === "Disapproved"
+                  ? "bg-pink-400"
+                  : row.status.trim() === "Ongoing"
+                    ? "bg-primary"
+                    : "bg-blue-700"
           } rounded-lg py-1 w-full md:w-full xl:w-3/4 2xl:w-2/4 text-center text-white`}
         >
           {row.status.trim()}

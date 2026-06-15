@@ -1,7 +1,7 @@
 [
   {
     "question": "What types of requests can I submit through this system?",
-    "answer": "You can submit the following types of requests:\n- Stock Requisition\n- Purchase Order Requisition Slip\n- Cash or Card Disbursement Requisition Slip\n- Application for Cash Advance\n- Liquidation of Actual Expense\n- Request for Refund\n- Discount Request"
+    "answer": "You can submit the following types of requests:\n- Stock Requisition\n- Purchase Order Requisition Slip\n- Cash or Card Disbursement Requisition Slip\n- Check Issuance Requisition Slip"
   },
   {
     "question": "How do I choose the correct request form?",
@@ -17,7 +17,7 @@
   },
   {
     "question": "Can I cancel a request?",
-    "answer": "Yes, you can cancel a request if it is still pending. Once a request is approved, it can no longer be cancelled. Please note that once a request is cancelled, it cannot be re-submitted."
+    "answer": "Yes, you can cancel a request if it is still pending. Once a request is approved, it can no longer be canceled. Please note that once a request is canceled, it cannot be re-submitted."
   },
   {
     "question": "What if I selected the wrong request type?",
