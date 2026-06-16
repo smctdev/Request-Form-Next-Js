@@ -33,7 +33,10 @@ type Record = {
   form_data: FormData[];
   supplier?: string;
   address?: string;
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   date: string;
   user_id: number;
   grand_total: string;

@@ -30,7 +30,10 @@ type Record = {
   form_data: FormData[];
   supplier?: string;
   address?: string;
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   date: string;
   user_id: number;
   destination: string;
@@ -112,7 +115,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editedApprovers, setEditedApprovers] = useState<number>(
-    record.approvers_id
+    record.approvers_id,
   );
   const [fetchingApprovers, setFetchingApprovers] = useState(false);
   const [savedSuccessfully, setSavedSuccessfully] = useState(false);
@@ -131,10 +134,10 @@ const ViewLiquidationModal: React.FC<Props> = ({
   >([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -223,7 +226,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setNewAttachments((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -233,7 +236,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
 
     // Remove the attachment from the current list
     setAttachmentUrl((prevUrls) =>
-      prevUrls.filter((item, i) => item !== index)
+      prevUrls.filter((item, i) => item !== index),
     );
   };
 
@@ -275,7 +278,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
           item.to &&
           item.to.trim() !== "" &&
           item.liquidationDate &&
-          item.liquidationDate.trim() !== ""
+          item.liquidationDate.trim() !== "",
       )
     ) {
       setErrorMessage("Itinerary and date cannot be empty.");
@@ -318,17 +321,17 @@ const ViewLiquidationModal: React.FC<Props> = ({
             items: newData,
             short: calculateShort(
               parseFloat(calculateTotalExpense()),
-              parseFloat(newCashAdvance)
+              parseFloat(newCashAdvance),
             ).toString(),
             signature: editableRecord.form_data[0].signature,
           },
-        ])
+        ]),
       );
 
       // Append existing attachments
       attachmentUrl.forEach((url, index) => {
         const path = url.split(
-          "request-form-files/request_form_attachments/"
+          "request-form-files/request_form_attachments/",
         )[1];
         formData.append(`attachment_url_${index}`, path);
       });
@@ -354,7 +357,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
       setErrorMessage(
         error.response?.data?.message ||
           error.message ||
-          "Failed to update stock requisition."
+          "Failed to update stock requisition.",
       );
       console.error(error);
     }
@@ -365,7 +368,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
   const handleItemChange = (
     index: number,
     field: keyof Item,
-    value: string
+    value: string,
   ) => {
     const newDataCopy = [...newData];
     newDataCopy[index] = { ...newDataCopy[index], [field]: value };
@@ -527,12 +530,12 @@ const ViewLiquidationModal: React.FC<Props> = ({
                 record.status.trim() === "Pending"
                   ? "bg-yellow-400"
                   : record.status.trim() === "Approved"
-                  ? "bg-green-400"
-                  : record.status.trim() === "Disapproved"
-                  ? "bg-pink-400"
-                  : record.status.trim() === "Ongoing"
-                  ? "bg-primary"
-                  : "bg-blue-700"
+                    ? "bg-green-400"
+                    : record.status.trim() === "Disapproved"
+                      ? "bg-pink-400"
+                      : record.status.trim() === "Ongoing"
+                        ? "bg-primary"
+                        : "bg-blue-700"
               } rounded-lg  py-1 w-1/3
              font-medium text-[14px] text-center ml-2 text-white`}
             >
@@ -610,7 +613,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "liquidationDate",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -624,7 +627,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "from",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -648,7 +651,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "transportation",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -662,7 +665,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "transportationAmount",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -676,7 +679,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "hotel",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -690,7 +693,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "hotelAddress",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -704,7 +707,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "hotelAmount",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -718,7 +721,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "perDiem",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -732,7 +735,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "particulars",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -746,7 +749,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "particularsAmount",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2}`}
@@ -775,7 +778,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                             <td className={tableCellStyle}>
                               {item.transportationAmount
                                 ? parseFloat(item.transportationAmount).toFixed(
-                                    2
+                                    2,
                                   )
                                 : ""}
                             </td>
@@ -831,7 +834,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                       {isEditing
                         ? calculateTotalExpense()
                         : parseFloat(
-                            editableRecord.form_data[0].totalExpense
+                            editableRecord.form_data[0].totalExpense,
                           ).toFixed(2)}
                     </td>
                   </tr>
@@ -846,7 +849,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                           value={newCashAdvance}
                           onChange={(e) =>
                             setNewCashAdvance(
-                              e.target.value === "" ? "0" : e.target.value
+                              e.target.value === "" ? "0" : e.target.value,
                             )
                           }
                           className="w-full font-bold text-right bg-base-100"
@@ -854,7 +857,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
                         />
                       ) : (
                         parseFloat(
-                          editableRecord.form_data[0].cashAdvance
+                          editableRecord.form_data[0].cashAdvance,
                         ).toFixed(2)
                       )}
                     </td>
@@ -868,19 +871,19 @@ const ViewLiquidationModal: React.FC<Props> = ({
                       {isEditing
                         ? calculateShort(
                             parseFloat(
-                              editableRecord.form_data[0].totalExpense
+                              editableRecord.form_data[0].totalExpense,
                             ),
-                            parseFloat(newCashAdvance)
+                            parseFloat(newCashAdvance),
                           ) === "NaN"
                           ? "0.00"
                           : calculateShort(
                               parseFloat(
-                                editableRecord.form_data[0].totalExpense
+                                editableRecord.form_data[0].totalExpense,
                               ),
-                              parseFloat(newCashAdvance)
+                              parseFloat(newCashAdvance),
                             )
                         : parseFloat(editableRecord.form_data[0].short).toFixed(
-                            2
+                            2,
                           )}
                     </td>
                   </tr>
@@ -1023,10 +1026,10 @@ const ViewLiquidationModal: React.FC<Props> = ({
                               user.status === "Approved"
                                 ? "text-green-400"
                                 : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
+                                  ? "text-yellow-400"
+                                  : user.status === "Rejected"
+                                    ? "text-red"
+                                    : ""
                             }`}
                           >
                             {user.status}
@@ -1089,8 +1092,8 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending" || !user.status
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status ? user.status : "Pending"}
@@ -1154,8 +1157,8 @@ const ViewLiquidationModal: React.FC<Props> = ({
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending" || !user.status
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status ? user.status : "Pending"}

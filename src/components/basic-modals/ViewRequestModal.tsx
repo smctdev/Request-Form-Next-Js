@@ -29,7 +29,10 @@ type Record = {
   status: string;
   approvers_id: number;
   form_data: FormData[];
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   date: string;
   user_id: number;
   attachment: string;
@@ -85,7 +88,7 @@ const ViewRequestModal: React.FC<Props> = ({
   const [editableRecord, setEditableRecord] = useState(record);
   const [newData, setNewData] = useState<Item[]>([]);
   const [editedApprovers, setEditedApprovers] = useState<number>(
-    record.approvers_id
+    record.approvers_id,
   );
   const [isEditing, setIsEditing] = useState(false);
   const [fetchingApprovers, setFetchingApprovers] = useState(false);
@@ -107,10 +110,10 @@ const ViewRequestModal: React.FC<Props> = ({
   const [branchList, setBranchList] = useState<any[]>([]);
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -128,7 +131,7 @@ const ViewRequestModal: React.FC<Props> = ({
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -207,7 +210,7 @@ const ViewRequestModal: React.FC<Props> = ({
   const handleItemChange = (
     index: number,
     field: keyof Item,
-    value: string
+    value: string,
   ) => {
     // Update the field of the item at the specified index in newData
     const newDataCopy = [...newData];
@@ -268,7 +271,7 @@ const ViewRequestModal: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setNewAttachments((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -278,7 +281,7 @@ const ViewRequestModal: React.FC<Props> = ({
 
     // Remove the attachment from the current list
     setAttachmentUrl((prevUrls) =>
-      prevUrls.filter((item, i) => item !== index)
+      prevUrls.filter((item, i) => item !== index),
     );
   };
 
@@ -290,11 +293,11 @@ const ViewRequestModal: React.FC<Props> = ({
           parseFloat(item.quantity) > 0 &&
           parseFloat(item.unitCost) > 0 &&
           item.description &&
-          item.description.trim() !== ""
+          item.description.trim() !== "",
       )
     ) {
       setErrorMessage(
-        "Quantity and unit cost must be greater than 0, and description cannot be empty."
+        "Quantity and unit cost must be greater than 0, and description cannot be empty.",
       );
       return;
     }
@@ -323,13 +326,13 @@ const ViewRequestModal: React.FC<Props> = ({
             grand_total: editableRecord.form_data[0].grand_total,
             items: newData,
           },
-        ])
+        ]),
       );
 
       // Append existing attachments
       attachmentUrl.forEach((url, index) => {
         const path = url.split(
-          "request-form-files/request_form_attachments/"
+          "request-form-files/request_form_attachments/",
         )[1];
         formData.append(`attachment_url_${index}`, path);
       });
@@ -355,7 +358,7 @@ const ViewRequestModal: React.FC<Props> = ({
       setErrorMessage(
         error.response?.data?.message ||
           error.message ||
-          "Failed to update Request refund."
+          "Failed to update Request refund.",
       );
     }
   };
@@ -475,12 +478,12 @@ const ViewRequestModal: React.FC<Props> = ({
                 record.status.trim() === "Pending"
                   ? "bg-yellow-400"
                   : record.status.trim() === "Approved"
-                  ? "bg-green-400"
-                  : record.status.trim() === "Disapproved"
-                  ? "bg-pink-400"
-                  : record.status.trim() === "Ongoing"
-                  ? "bg-primary"
-                  : "bg-blue-700"
+                    ? "bg-green-400"
+                    : record.status.trim() === "Disapproved"
+                      ? "bg-pink-400"
+                      : record.status.trim() === "Ongoing"
+                        ? "bg-primary"
+                        : "bg-blue-700"
               } rounded-lg  py-1 w-1/3
              font-medium text-[14px] text-center ml-2 text-white`}
             >
@@ -534,7 +537,7 @@ const ViewRequestModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "quantity",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2} w-full`}
@@ -548,7 +551,7 @@ const ViewRequestModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "description",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2} w-full break-words whitespace-normal`}
@@ -562,7 +565,7 @@ const ViewRequestModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "unitCost",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2} w-full`}
@@ -584,7 +587,7 @@ const ViewRequestModal: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "remarks",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                                 className={`${tableStyle2} w-full break-words whitespace-normal`}
@@ -687,10 +690,10 @@ const ViewRequestModal: React.FC<Props> = ({
                               user.status === "Approved"
                                 ? "text-green-400"
                                 : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
+                                  ? "text-yellow-400"
+                                  : user.status === "Rejected"
+                                    ? "text-red"
+                                    : ""
                             }`}
                           >
                             {user.status}
@@ -753,8 +756,8 @@ const ViewRequestModal: React.FC<Props> = ({
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending" || !user.status
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status ? user.status : "Pending"}
@@ -818,8 +821,8 @@ const ViewRequestModal: React.FC<Props> = ({
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending" || !user.status
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status ? user.status : "Pending"}
@@ -937,7 +940,9 @@ const ViewRequestModal: React.FC<Props> = ({
                               <p key={index} className="text-center">
                                 <button
                                   type="button"
-                                  onClick={() => handleRemoveAttachment(fileItem)}
+                                  onClick={() =>
+                                    handleRemoveAttachment(fileItem)
+                                  }
                                   className="px-3 py-1 text-xs text-white bg-red-500 rounded-lg cursor-pointer"
                                 >
                                   Remove

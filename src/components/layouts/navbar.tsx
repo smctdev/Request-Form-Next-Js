@@ -52,7 +52,10 @@ type Record = {
   form_type: string;
   form_data: MyFormData[];
   date: Date;
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   currency: string;
   status: string;
   purpose: string;
