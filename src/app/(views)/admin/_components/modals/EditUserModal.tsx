@@ -43,6 +43,8 @@ const EditUserModal = ({
     { id: number; branch_code: string; branch: string }[]
   >([]);
   const [roleOptions, setRoleOptions] = useState<any[]>([]);
+  const [isResettingSignature, setIsResettingSignature] =
+    useState<boolean>(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const EditUserModal = ({
             id: branch.id,
             branch_code: branch.branch_code,
             branch: branch.branch,
-          })
+          }),
         );
         setBranchList(branchOptions);
       } catch (error) {
@@ -115,7 +117,7 @@ const EditUserModal = ({
     setNotedBy((prevNotedBy) =>
       prevNotedBy.includes(userId)
         ? prevNotedBy.filter((id) => id !== userId)
-        : [...prevNotedBy, userId]
+        : [...prevNotedBy, userId],
     );
   };
 
@@ -123,7 +125,7 @@ const EditUserModal = ({
     setApprovedBy((prevApprovedBy) =>
       prevApprovedBy.includes(userId)
         ? prevApprovedBy.filter((id) => id !== userId)
-        : [...prevApprovedBy, userId]
+        : [...prevApprovedBy, userId],
     );
   };
 
@@ -154,13 +156,14 @@ const EditUserModal = ({
       setEditedBranchName(selectedUser.branch_name);
       setEditedRole(selectedUser.role);
       setEditedPosition(selectedUser.position);
+      setPassword("");
     }
     editModalClose();
   };
 
   const handleBranchCodeChange = (selectedBranchId: number) => {
     const selectedBranch = branchList.find(
-      (branch) => branch.id === selectedBranchId
+      (branch) => branch.id === selectedBranchId,
     );
     setEditedBranchCode(selectedBranch?.id.toString() || "");
     if (selectedBranch) {
@@ -199,18 +202,12 @@ const EditUserModal = ({
     } else if (entityType === "Custom") {
       if (notedBy.length === 0 || approvedBy.length === 0) {
         setErrorMessage(
-          "You must select at least one noted by and one approved by."
+          "You must select at least one noted by and one approved by.",
         );
         return;
       }
     } else {
       setErrorMessage("Invalid entity type.");
-      return;
-    }
-
-    // Check if password is entered and matches confirmPassword
-    if (password.trim() !== confirmPassword.trim()) {
-      setErrorMessage("Passwords do not match.");
       return;
     }
 
@@ -266,7 +263,7 @@ const EditUserModal = ({
       if (entityType === "Branch") {
         const response = await api.post(
           `/update-branch/${selectedUser.id}`,
-          updatedData
+          updatedData,
         );
         if (response.status === 200) {
           Swal.fire({
@@ -283,7 +280,7 @@ const EditUserModal = ({
       } else if (entityType === "User") {
         const response = await api.post(
           `/update-profile/${selectedUser.id}`,
-          updatedData
+          updatedData,
         );
       } else if (entityType === "Custom") {
         try {
@@ -294,7 +291,7 @@ const EditUserModal = ({
               noted_by: notedBy,
               name: name,
               // Include other fields as necessary
-            }
+            },
           );
         } catch (error) {
           console.error("Error updating approvers:", error);
@@ -305,6 +302,7 @@ const EditUserModal = ({
       refreshData();
       openSuccessModal();
       setErrorMessage(""); // Clear error message on success
+      setPassword("");
     } catch (error: any) {
       if (error.response.status === 400) {
         setErrorMessage(error.response.data.message);
@@ -332,6 +330,7 @@ const EditUserModal = ({
       "Role",
       "Branch Code",
       "Branch Name",
+      "Password",
     ],
     Branch: ["Branch", "BranchCode", "BranchName"],
     Manager: ["Manager Name", "Manager ID", "Branch Code"],
@@ -354,6 +353,38 @@ const EditUserModal = ({
     { label: "User", value: "User" },
     { label: "Admin", value: "Admin" },
   ];
+
+  const resetSignature = async () => {
+    setIsResettingSignature(true);
+    try {
+      const response = await api.patch(
+        `/reset-signature/${selectedUser.id}/reset`,
+      );
+      if (response.status === 200) {
+        openSuccessModal();
+      }
+    } catch (error: any) {
+      console.error("Error resetting signature:", error);
+    } finally {
+      setIsResettingSignature(false);
+    }
+  };
+
+  const handleResetSignature = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, reset it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        resetSignature();
+      }
+    });
+  };
 
   return (
     <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-black/50 z-50">
@@ -471,33 +502,37 @@ const EditUserModal = ({
               ) : (
                 <>
                   <input
-                    type="text"
+                    type={field === "Password" ? "password" : "text"}
                     className={`${inputStyle}`}
                     value={
                       field === "Firstname"
                         ? firstname
                         : field === "Lastname"
-                        ? lastname
-                        : field === "Email"
-                        ? email
-                        : field === "Username"
-                        ? username
-                        : field === "Contact"
-                        ? contact
-                        : ""
+                          ? lastname
+                          : field === "Email"
+                            ? email
+                            : field === "Username"
+                              ? username
+                              : field === "Contact"
+                                ? contact
+                                : field === "Password"
+                                  ? password
+                                  : ""
                     }
                     onChange={(e) =>
                       field === "Firstname"
                         ? setFirstName(e.target.value)
                         : field === "Lastname"
-                        ? setLastName(e.target.value)
-                        : field === "Email"
-                        ? setEmail(e.target.value)
-                        : field === "Username"
-                        ? setUsername(e.target.value)
-                        : field === "Contact"
-                        ? setContact(e.target.value)
-                        : null
+                          ? setLastName(e.target.value)
+                          : field === "Email"
+                            ? setEmail(e.target.value)
+                            : field === "Username"
+                              ? setUsername(e.target.value)
+                              : field === "Contact"
+                                ? setContact(e.target.value)
+                                : field === "Password"
+                                  ? setPassword(e.target.value)
+                                  : null
                     }
                   />
                 </>
@@ -589,6 +624,15 @@ const EditUserModal = ({
           >
             Cancel
           </button>
+          {entityType === "User" && (
+            <button
+              className="text-white bg-red-500 border-red-500 btn btn-secondary hover:bg-red-600 hover:border-red-600"
+              onClick={handleResetSignature}
+              disabled={isResettingSignature}
+            >
+              {isResettingSignature ? "Resetting..." : "Reset Signature"}
+            </button>
+          )}
           <button
             className={`btn btn-primary bg-primary border-primary hover:bg-blue-400 hover:border-blue-400 text-white hover:text-white w-1/3`}
             onClick={handleUpdate}
