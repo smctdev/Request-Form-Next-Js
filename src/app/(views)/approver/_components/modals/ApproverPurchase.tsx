@@ -135,7 +135,7 @@ const ApproverPurchase: React.FC<Props> = ({
     (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [zoom, setZoom] = useState(1);
   const [dragging, setDragging] = useState(false);
   const [positionImg, setPositionImg] = useState({ x: 0, y: 0 });
@@ -382,7 +382,7 @@ const ApproverPurchase: React.FC<Props> = ({
   };
 
   const handleViewImage = (imageUrl: any) => {
-    setCurrentImage(imageUrl);
+    setCurrentImage(Storage(imageUrl));
     setIsImgModalOpen(true);
   };
 
@@ -788,11 +788,7 @@ const ApproverPurchase: React.FC<Props> = ({
                         </a>
 
                         <button
-                          onClick={() =>
-                            handleViewImage(
-                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`,
-                            )
-                          }
+                          onClick={() => handleViewImage(`${attachmentItem}`)}
                           className="focus:outline-none tooltip tooltip-info tooltip-top"
                           data-tip="View"
                         >
