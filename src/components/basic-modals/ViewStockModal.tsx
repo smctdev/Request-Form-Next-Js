@@ -147,7 +147,6 @@ const ViewStockModal: React.FC<Props> = ({
     setCheckedPurpose(record.form_data[0].purpose);
     setEditedApprovers(record.approvers_id);
     setKindOfRequest(record.kind_of_request || "");
-    console.log(record);
     try {
       // If record.attachment is a JSON string, parse it
       if (typeof record.attachment === "string") {
