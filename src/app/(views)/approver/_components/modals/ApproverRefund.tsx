@@ -47,7 +47,10 @@ type Record = {
   status: string;
   approvers_id: number;
   form_data: FormData[];
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   date: string;
   user_id: number;
   attachment: string;
@@ -106,7 +109,7 @@ const ApproverRefund: React.FC<Props> = ({
   const [editableRecord, setEditableRecord] = useState(record);
   const [newData, setNewData] = useState<Item[]>([]);
   const [editedApprovers, setEditedApprovers] = useState<number>(
-    record.approvers_id
+    record.approvers_id,
   );
   const [attachment, setAttachment] = useState<any>([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -122,7 +125,7 @@ const ApproverRefund: React.FC<Props> = ({
   const [approveLoading, setApprovedLoading] = useState(false);
   const [printWindow, setPrintWindow] = useState<Window | null>(null);
   const [modalStatus, setModalStatus] = useState<"approved" | "disapproved">(
-    "approved"
+    "approved",
   );
   const [file, setFile] = useState<File[]>([]);
   const [avpstaff, setAvpstaff] = useState<Approver[]>([]);
@@ -132,10 +135,10 @@ const ApproverRefund: React.FC<Props> = ({
   const [branchList, setBranchList] = useState<any[]>([]);
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
@@ -173,7 +176,7 @@ const ApproverRefund: React.FC<Props> = ({
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -202,8 +205,8 @@ const ApproverRefund: React.FC<Props> = ({
           (filePath: string) =>
             `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${filePath.replace(
               /\\/g,
-              "/"
-            )}`
+              "/",
+            )}`,
         );
         setAttachmentUrl(fileUrls);
       } else {
@@ -228,13 +231,13 @@ const ApproverRefund: React.FC<Props> = ({
         } else {
           console.warn(
             "Parsed approved attachment is not an array or is empty:",
-            parsedApprovedAttachment
+            parsedApprovedAttachment,
           );
         }
       } else {
         console.warn(
           "Approved attachment is not an array or is empty:",
-          record.approved_attachment
+          record.approved_attachment,
         );
       }
     } catch (error) {
@@ -267,7 +270,7 @@ const ApproverRefund: React.FC<Props> = ({
 
       const response = await api.post(
         `/request-forms/${record.id}/process`,
-        requestData
+        requestData,
       );
 
       setLoading(false);
@@ -319,7 +322,7 @@ const ApproverRefund: React.FC<Props> = ({
 
       const response = await api.post(
         `/request-forms/${record.id}/process`,
-        requestData
+        requestData,
       );
 
       setApprovedLoading(false);
@@ -365,7 +368,7 @@ const ApproverRefund: React.FC<Props> = ({
   const handleItemChange = (
     index: number,
     field: keyof Item,
-    value: string
+    value: string,
   ) => {
     // Update the field of the item at the specified index in newData
     const newDataCopy = [...newData];
@@ -493,7 +496,7 @@ const ApproverRefund: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setFile((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -534,7 +537,7 @@ const ApproverRefund: React.FC<Props> = ({
             Request for Refund
           </h1>
           <div className="flex flex-col justify-center ">
-            <p className="underline ">{record?.branch}</p>
+            <p className="underline ">{record?.branch?.name}</p>
             <p className="text-center">Branch</p>
           </div>
         </div>
@@ -556,10 +559,10 @@ const ApproverRefund: React.FC<Props> = ({
                   record.status.trim() === "Pending"
                     ? "bg-yellow-400"
                     : record.status.trim() === "Approved"
-                    ? "bg-green-400"
-                    : record.status.trim() === "Disapproved"
-                    ? "bg-pink-400"
-                    : "bg-pink-400"
+                      ? "bg-green-400"
+                      : record.status.trim() === "Disapproved"
+                        ? "bg-pink-400"
+                        : "bg-pink-400"
                 } rounded-lg  py-1 w-1/3 font-medium text-[14px] text-center ml-2 text-white`}
               >
                 {" "}
@@ -593,7 +596,7 @@ const ApproverRefund: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "quantity",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -606,7 +609,7 @@ const ApproverRefund: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "description",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -619,7 +622,7 @@ const ApproverRefund: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "unitCost",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -639,7 +642,7 @@ const ApproverRefund: React.FC<Props> = ({
                                   handleItemChange(
                                     index,
                                     "remarks",
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -674,7 +677,7 @@ const ApproverRefund: React.FC<Props> = ({
               type="text"
               className="w-full p-1 mt-2 font-bold bg-base-100 border border-black rounded-md "
               defaultValue={formattedAmount(
-                editableRecord.form_data[0].grand_total
+                editableRecord.form_data[0].grand_total,
               )}
             />
           </div>
@@ -725,10 +728,10 @@ const ApproverRefund: React.FC<Props> = ({
                               user.status === "Approved"
                                 ? "text-green-400"
                                 : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
+                                  ? "text-yellow-400"
+                                  : user.status === "Rejected"
+                                    ? "text-red"
+                                    : ""
                             }`}
                           >
                             {user.status}
@@ -791,8 +794,8 @@ const ApproverRefund: React.FC<Props> = ({
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending"
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status}
@@ -856,8 +859,8 @@ const ApproverRefund: React.FC<Props> = ({
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending"
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status}
@@ -1123,7 +1126,7 @@ const ApproverRefund: React.FC<Props> = ({
                         <button
                           onClick={() =>
                             handleViewImage(
-                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`
+                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`,
                             )
                           }
                           className="focus:outline-none tooltip tooltip-info tooltip-top"
