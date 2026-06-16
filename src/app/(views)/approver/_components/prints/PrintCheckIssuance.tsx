@@ -10,7 +10,7 @@ type PrintRefundProps = {
 
 const PrintCheckIssuace: React.FC<PrintRefundProps> = ({ data }) => {
   const [printData, setPrintData] = useState<any>(null); // State to hold print data
-  const logo = BrandName(printData?.user?.branch.branch);
+  const logo = BrandName(printData?.requested_branch?.branch);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const formatDate = (dateString: string | undefined): string => {
     if (!dateString) return ""; // Return empty string if dateString is undefined or null
@@ -109,7 +109,7 @@ const PrintCheckIssuace: React.FC<PrintRefundProps> = ({ data }) => {
           </h1>
           <div className="flex flex-col items-center mt-2 font-bold">
             <h1 className="text-sm font-medium underline uppercase">
-              {printData?.user?.branch?.branch_name}
+              {printData?.requested_branch?.name}
             </h1>
             <h1 className="text-sm font-semibold">BRANCH</h1>
           </div>
