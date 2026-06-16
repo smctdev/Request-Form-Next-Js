@@ -62,7 +62,10 @@ type Record = {
   form_data: MyFormData[];
   date: Date;
   created_at: Date;
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   payee?: string;
   bank?: string;
   account_no?: string;
