@@ -49,7 +49,10 @@ type Record = {
   form_data: FormData[];
   supplier?: string;
   address?: string;
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   date: string;
   user_id: number;
   attachment: string;
@@ -113,7 +116,7 @@ const ApproverDiscount: React.FC<Props> = ({
   const [newTotalFare, setNewTotalFare] = useState("");
   const [newTotalContingency, setNewTotalContingency] = useState("");
   const [editedApprovers, setEditedApprovers] = useState<number>(
-    record.approvers_id
+    record.approvers_id,
   );
   const [attachment, setAttachment] = useState<any>([]);
   const [file, setFile] = useState<File[]>([]);
@@ -132,16 +135,16 @@ const ApproverDiscount: React.FC<Props> = ({
   const [printWindow, setPrintWindow] = useState<Window | null>(null);
   const [attachmentUrl, setAttachmentUrl] = useState<string[]>([]);
   const [modalStatus, setModalStatus] = useState<"approved" | "disapproved">(
-    "approved"
+    "approved",
   );
   let logo;
   const [branchList, setBranchList] = useState<any[]>([]);
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
@@ -176,7 +179,7 @@ const ApproverDiscount: React.FC<Props> = ({
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -209,8 +212,8 @@ const ApproverDiscount: React.FC<Props> = ({
           (filePath: string) =>
             `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${filePath.replace(
               /\\/g,
-              "/"
-            )}`
+              "/",
+            )}`,
         );
         setAttachmentUrl(fileUrls);
       } else {
@@ -235,13 +238,13 @@ const ApproverDiscount: React.FC<Props> = ({
         } else {
           console.warn(
             "Parsed approved attachment is not an array or is empty:",
-            parsedApprovedAttachment
+            parsedApprovedAttachment,
           );
         }
       } else {
         console.warn(
           "Approved attachment is not an array or is empty:",
-          record.approved_attachment
+          record.approved_attachment,
         );
       }
     } catch (error) {
@@ -275,7 +278,7 @@ const ApproverDiscount: React.FC<Props> = ({
 
       const response = await api.post(
         `/request-forms/${record.id}/process`,
-        requestData
+        requestData,
       );
 
       setLoading(false);
@@ -328,7 +331,7 @@ const ApproverDiscount: React.FC<Props> = ({
 
       const response = await api.post(
         `/request-forms/${record.id}/process`,
-        requestData
+        requestData,
       );
 
       setApprovedLoading(false);
@@ -461,7 +464,7 @@ const ApproverDiscount: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setFile((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -499,7 +502,7 @@ const ApproverDiscount: React.FC<Props> = ({
             Discount Requisition Form
           </h1>
           <div className="flex flex-col justify-center ">
-            <p className="underline ">{record?.branch}</p>
+            <p className="underline ">{record?.branch?.name}</p>
             <p className="text-center">Branch</p>
           </div>
         </div>
@@ -521,10 +524,10 @@ const ApproverDiscount: React.FC<Props> = ({
                   record.status.trim() === "Pending"
                     ? "bg-yellow-400"
                     : record.status.trim() === "Approved"
-                    ? "bg-green-400"
-                    : record.status.trim() === "Disapproved"
-                    ? "bg-pink-400"
-                    : "bg-pink-400"
+                      ? "bg-green-400"
+                      : record.status.trim() === "Disapproved"
+                        ? "bg-pink-400"
+                        : "bg-pink-400"
                 } rounded-lg  py-1 w-1/3 font-medium text-[14px] text-center ml-2 text-white`}
               >
                 {" "}
@@ -644,10 +647,10 @@ const ApproverDiscount: React.FC<Props> = ({
                               user.status === "Approved"
                                 ? "text-green-400"
                                 : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
+                                  ? "text-yellow-400"
+                                  : user.status === "Rejected"
+                                    ? "text-red"
+                                    : ""
                             }`}
                           >
                             {user.status}
@@ -710,8 +713,8 @@ const ApproverDiscount: React.FC<Props> = ({
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending"
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status}
@@ -775,8 +778,8 @@ const ApproverDiscount: React.FC<Props> = ({
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending"
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status}
@@ -1042,7 +1045,7 @@ const ApproverDiscount: React.FC<Props> = ({
                         <button
                           onClick={() =>
                             handleViewImage(
-                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`
+                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`,
                             )
                           }
                           className="focus:outline-none tooltip tooltip-info tooltip-top"
