@@ -21,5 +21,5 @@ export default function BrandName(branchName: string) {
     logo = "";
   }
 
-  return <Image width={300} height={300} src={logo} alt="SMCT Logo" />;
+  return <Image width={150} height={150} src={logo} alt="SMCT Logo" />;
 }
