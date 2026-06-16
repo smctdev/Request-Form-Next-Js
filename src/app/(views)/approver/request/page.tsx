@@ -35,7 +35,10 @@ type Record = {
   form_type: string;
   form_data: MyFormData[];
   date: Date;
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   currency: string;
   status: string;
   purpose: string;
@@ -225,7 +228,7 @@ const RequestApprover = (props: Props) => {
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -250,7 +253,7 @@ const RequestApprover = (props: Props) => {
                 per_page: perPage,
                 search: search,
               },
-            }
+            },
           );
           setRequests(response.data.request_forms_paginated.data);
           setTotalPages(response.data.request_forms_paginated.total);
@@ -329,25 +332,26 @@ const RequestApprover = (props: Props) => {
         break;
       case 1:
         filteredRequests = requests.filter(
-          (item: Record) => item.completed_status.trim() === "Completed"
+          (item: Record) => item.completed_status.trim() === "Completed",
         );
         break;
       case 2:
         filteredRequests = requests.filter(
           (item: Record) =>
-            item.status.trim() === "Pending" || item.status.trim() === "Ongoing"
+            item.status.trim() === "Pending" ||
+            item.status.trim() === "Ongoing",
         );
         break;
       case 3:
         filteredRequests = requests.filter(
           (item: Record) =>
             item.status.trim() === "Approved" &&
-            item.completed_status.trim() !== "Completed"
+            item.completed_status.trim() !== "Completed",
         );
         break;
       case 4:
         filteredRequests = requests.filter(
-          (item: Record) => item.status.trim() === "Disapproved"
+          (item: Record) => item.status.trim() === "Disapproved",
         );
         break;
       default:
@@ -429,14 +433,14 @@ const RequestApprover = (props: Props) => {
               row.completed_status === "Completed"
                 ? "bg-primary"
                 : row.status.trim() === "Pending"
-                ? "bg-secondary"
-                : row.status.trim() === "Approved"
-                ? "bg-green-400"
-                : row.status.trim() === "Disapproved"
-                ? "bg-accent"
-                : row.status.trim() === "Ongoing"
-                ? "bg-primary"
-                : "bg-red-600"
+                  ? "bg-secondary"
+                  : row.status.trim() === "Approved"
+                    ? "bg-green-400"
+                    : row.status.trim() === "Disapproved"
+                      ? "bg-accent"
+                      : row.status.trim() === "Ongoing"
+                        ? "bg-primary"
+                        : "bg-red-600"
             } rounded-lg py-1 px-3 text-center text-white flex items-center`}
           >
             {row.completed_status === "Completed"
@@ -490,7 +494,7 @@ const RequestApprover = (props: Props) => {
               per_page: perPage,
               search: search,
             },
-          }
+          },
         );
         setRequests(response.data.request_forms_paginated.data);
         setTotalPages(response.data.request_forms_paginated.total);
