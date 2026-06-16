@@ -35,7 +35,7 @@ export default function ApproverLists({
                 <div className="relative flex flex-col items-center justify-center">
                   {/* Signature */}
                   {record?.requested_signature ? (
-                    <div className="-mb-10">
+                    <div className="-mb-10 h-17">
                       <Image
                         src={Storage(record?.requested_signature)}
                         width={120}
@@ -101,7 +101,7 @@ export default function ApproverLists({
                       {user.status === "Approved" ||
                       (typeof user.status === "string" &&
                         user.status.split(" ")[0] === "Rejected") ? (
-                        <div className="-mb-10">
+                        <div className="-mb-10 h-17">
                           <Image
                             src={Storage(user.signature || "")}
                             alt="avatar"
@@ -173,7 +173,7 @@ export default function ApproverLists({
                     {user.status === "Approved" ||
                     (typeof user.status === "string" &&
                       user.status.split(" ")[0] === "Rejected") ? (
-                      <div className="-mb-10">
+                      <div className="-mb-10 h-17">
                         <Image
                           src={Storage(user.signature || "")}
                           alt="avatar"
