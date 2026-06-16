@@ -49,7 +49,10 @@ type Record = {
   form_data: FormData[];
   supplier?: string;
   address?: string;
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   date: string;
   user_id: number;
   destination: string;
@@ -131,7 +134,7 @@ const ApproverLiquidation: React.FC<Props> = ({
   const [isFetchingUser, setisFetchingUser] = useState(false);
   const [attachmentUrl, setAttachmentUrl] = useState<string[]>([]);
   const [modalStatus, setModalStatus] = useState<"approved" | "disapproved">(
-    "approved"
+    "approved",
   );
   const [file, setFile] = useState<File[]>([]);
   const [attachment, setAttachment] = useState<any>([]);
@@ -139,10 +142,10 @@ const ApproverLiquidation: React.FC<Props> = ({
   const [branchList, setBranchList] = useState<any[]>([]);
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
@@ -177,7 +180,7 @@ const ApproverLiquidation: React.FC<Props> = ({
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -206,8 +209,8 @@ const ApproverLiquidation: React.FC<Props> = ({
           (filePath: string) =>
             `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${filePath.replace(
               /\\/g,
-              "/"
-            )}`
+              "/",
+            )}`,
         );
         setAttachmentUrl(fileUrls);
       } else {
@@ -232,13 +235,13 @@ const ApproverLiquidation: React.FC<Props> = ({
         } else {
           console.warn(
             "Parsed approved attachment is not an array or is empty:",
-            parsedApprovedAttachment
+            parsedApprovedAttachment,
           );
         }
       } else {
         console.warn(
           "Approved attachment is not an array or is empty:",
-          record.approved_attachment
+          record.approved_attachment,
         );
       }
     } catch (error) {
@@ -286,7 +289,7 @@ const ApproverLiquidation: React.FC<Props> = ({
 
       const response = await api.post(
         `/request-forms/${record.id}/process`,
-        requestData
+        requestData,
       );
 
       setLoading(false);
@@ -338,7 +341,7 @@ const ApproverLiquidation: React.FC<Props> = ({
 
       const response = await api.post(
         `/request-forms/${record.id}/process`,
-        requestData
+        requestData,
       );
 
       setApprovedLoading(false);
@@ -478,7 +481,7 @@ const ApproverLiquidation: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setFile((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -518,7 +521,7 @@ const ApproverLiquidation: React.FC<Props> = ({
             Liquidation of Actual Expense
           </h1>
           <div className="flex flex-col justify-center ">
-            <p className="underline ">{record?.branch}</p>
+            <p className="underline ">{record?.branch?.name}</p>
             <p className="text-center">Branch</p>
           </div>
         </div>
@@ -540,10 +543,10 @@ const ApproverLiquidation: React.FC<Props> = ({
                   record.status.trim() === "Pending"
                     ? "bg-yellow-400"
                     : record.status.trim() === "Approved"
-                    ? "bg-green-400"
-                    : record.status.trim() === "Disapproved"
-                    ? "bg-pink-400"
-                    : "bg-pink-400"
+                      ? "bg-green-400"
+                      : record.status.trim() === "Disapproved"
+                        ? "bg-pink-400"
+                        : "bg-pink-400"
                 } rounded-lg  py-1 w-1/3 font-medium text-[14px] text-center ml-2 text-white`}
               >
                 {" "}
@@ -684,7 +687,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                       {isEditing
                         ? calculateTotalExpense()
                         : parseFloat(
-                            editableRecord.form_data[0].totalExpense
+                            editableRecord.form_data[0].totalExpense,
                           ).toFixed(2)}
                     </td>
                   </tr>
@@ -695,7 +698,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                     <td className={`${tableStyle} font-bold`}>
                       <p className="text-right">
                         {parseFloat(
-                          editableRecord.form_data[0].cashAdvance
+                          editableRecord.form_data[0].cashAdvance,
                         ).toFixed(2)}
                       </p>
                     </td>
@@ -709,12 +712,12 @@ const ApproverLiquidation: React.FC<Props> = ({
                       {isEditing
                         ? calculateShort(
                             parseFloat(
-                              editableRecord.form_data[0].totalExpense
+                              editableRecord.form_data[0].totalExpense,
                             ),
-                            parseFloat(newCashAdvance)
+                            parseFloat(newCashAdvance),
                           )
                         : parseFloat(editableRecord.form_data[0].short).toFixed(
-                            2
+                            2,
                           )}
                     </td>
                   </tr>
@@ -855,10 +858,10 @@ const ApproverLiquidation: React.FC<Props> = ({
                               user.status === "Approved"
                                 ? "text-green-400"
                                 : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
+                                  ? "text-yellow-400"
+                                  : user.status === "Rejected"
+                                    ? "text-red"
+                                    : ""
                             }`}
                           >
                             {user.status}
@@ -921,8 +924,8 @@ const ApproverLiquidation: React.FC<Props> = ({
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending"
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status}
@@ -986,8 +989,8 @@ const ApproverLiquidation: React.FC<Props> = ({
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending"
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status}
@@ -1253,7 +1256,7 @@ const ApproverLiquidation: React.FC<Props> = ({
                         <button
                           onClick={() =>
                             handleViewImage(
-                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`
+                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`,
                             )
                           }
                           className="focus:outline-none tooltip tooltip-info tooltip-top"
