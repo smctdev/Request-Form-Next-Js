@@ -43,8 +43,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         }
       });
 
+    echo
+      .private(`signature.reset.${user.id}`)
+      .listen(".signature-reset", (event: any) => {
+        updateProfile();
+        Swal.fire({
+          icon: "info",
+          title: "Signature Reset",
+          text: event.message,
+          confirmButtonText: "Close",
+          confirmButtonColor: "#007bff",
+        });
+      });
+
     return () => {
       echo.leave(`request-access.${user.id}`);
+      echo.leave(`signature.reset.${user.id}`);
     };
   }, [echo, user]);
 
