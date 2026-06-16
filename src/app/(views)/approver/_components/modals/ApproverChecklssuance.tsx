@@ -19,6 +19,8 @@ import { formatFileSize } from "@/utils/formatFileSize";
 import ZoomableImage from "@/components/ZoomableImage";
 import formattedAmount from "@/utils/formattedAmount";
 import Storage from "@/utils/storage";
+import Attachment from "@/components/attachment";
+import ApproverLists from "../approver-lists";
 
 type Props = {
   closeModal: () => void;
@@ -51,7 +53,10 @@ type Record = {
   account_no?: string;
   swift_code?: string;
   bank?: string;
-  branch: string;
+  branch: {
+    name: string;
+    branch: string;
+  };
   date: string;
   user_id: number;
   grand_total: string;
@@ -105,7 +110,7 @@ const ApproverCheckIssuance: React.FC<Props> = ({
   const [notedBy, setNotedBy] = useState<Approver[]>([]);
   const [approvedBy, setApprovedBy] = useState<Approver[]>([]);
   const [editedApprovers, setEditedApprovers] = useState<number>(
-    record.approvers_id
+    record.approvers_id,
   );
   const [attachment, setAttachment] = useState<any>([]);
   const [file, setFile] = useState<File[]>([]);
@@ -124,16 +129,16 @@ const ApproverCheckIssuance: React.FC<Props> = ({
   const [isFetchingApprovers, setisFetchingApprovers] = useState(false);
   const [attachmentUrl, setAttachmentUrl] = useState<string[]>([]);
   const [modalStatus, setModalStatus] = useState<"approved" | "disapproved">(
-    "approved"
+    "approved",
   );
   const [commentMessage, setCommentMessage] = useState("");
   const [branchList, setBranchList] = useState<any[]>([]);
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
@@ -168,7 +173,7 @@ const ApproverCheckIssuance: React.FC<Props> = ({
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -198,13 +203,7 @@ const ApproverCheckIssuance: React.FC<Props> = ({
       if (typeof record.attachment === "string") {
         const parsedAttachment = JSON.parse(record.attachment);
         // Handle the parsed attachment
-        const fileUrls = parsedAttachment.map(
-          (filePath: string) =>
-            `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${filePath.replace(
-              /\\/g,
-              "/"
-            )}`
-        );
+        const fileUrls = parsedAttachment.map((filePath: string) => filePath);
         setAttachmentUrl(fileUrls);
       } else {
         // Handle case where record.attachment is already an object
@@ -228,13 +227,13 @@ const ApproverCheckIssuance: React.FC<Props> = ({
         } else {
           console.warn(
             "Parsed approved attachment is not an array or is empty:",
-            parsedApprovedAttachment
+            parsedApprovedAttachment,
           );
         }
       } else {
         console.warn(
           "Approved attachment is not an array or is empty:",
-          record.approved_attachment
+          record.approved_attachment,
         );
       }
     } catch (error) {
@@ -282,7 +281,7 @@ const ApproverCheckIssuance: React.FC<Props> = ({
 
       const response = await api.post(
         `/request-forms/${record.id}/process`,
-        requestData
+        requestData,
       );
 
       setApprovedLoading(false);
@@ -335,7 +334,7 @@ const ApproverCheckIssuance: React.FC<Props> = ({
 
       const response = await api.post(
         `/request-forms/${record.id}/process`,
-        requestData
+        requestData,
       );
 
       setLoading(false);
@@ -392,21 +391,6 @@ const ApproverCheckIssuance: React.FC<Props> = ({
     }
   };
 
-  const isImageFile = (fileUrl: any) => {
-    const imageExtensions = [
-      "png",
-      "jpg",
-      "jpeg",
-      "gif",
-      "bmp",
-      "svg",
-      "webp",
-      "ico",
-    ];
-    const extension = fileUrl.split(".").pop().toLowerCase();
-    return imageExtensions.includes(extension);
-  };
-
   const handleViewImage = (imageUrl: any) => {
     setCurrentImage(imageUrl);
     setIsImgModalOpen(true);
@@ -460,7 +444,7 @@ const ApproverCheckIssuance: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setFile((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -500,7 +484,7 @@ const ApproverCheckIssuance: React.FC<Props> = ({
             Check Issuance Requisition Slip
           </h1>
           <div className="flex flex-col justify-center ">
-            <p className="underline ">{record?.branch}</p>
+            <p className="underline ">{record?.branch?.name}</p>
             <p className="text-center">Branch</p>
           </div>
         </div>
@@ -522,10 +506,10 @@ const ApproverCheckIssuance: React.FC<Props> = ({
                   record.status.trim() === "Pending"
                     ? "bg-yellow-400"
                     : record.status.trim() === "Approved"
-                    ? "bg-green-400"
-                    : record.status.trim() === "Disapproved"
-                    ? "bg-pink-400"
-                    : "bg-pink-400"
+                      ? "bg-green-400"
+                      : record.status.trim() === "Disapproved"
+                        ? "bg-pink-400"
+                        : "bg-pink-400"
                 } rounded-lg  py-1 w-1/3 font-medium text-[14px] text-center ml-2 text-white`}
               >
                 {" "}
@@ -618,251 +602,29 @@ const ApproverCheckIssuance: React.FC<Props> = ({
               readOnly
             />
           </div>
-          <div className="flex-col items-center justify-center w-full">
-            {isFetchingApprovers ? (
-              <div className="flex items-center justify-center w-full h-40">
-                <h1>Fetching..</h1>
-              </div>
-            ) : (
-              <div className="flex flex-wrap">
-                <div className="mb-4 ml-5">
-                  <h3 className="mb-3 font-bold">Requested By:</h3>
-                  <ul className="flex flex-wrap gap-6">
-                    <li className="relative flex flex-col items-center justify-center w-auto text-center">
-                      <div className="relative flex flex-col items-center justify-center">
-                        {/* Signature */}
-                        {record?.requested_signature && (
-                          <div className="absolute -top-15">
-                            <Image
-                              src={Storage(record?.requested_signature) || ""}
-                              width={120}
-                              height={120}
-                              className="relative z-20 pointer-events-none"
-                              alt="signature"
-                              draggable="false"
-                              onContextMenu={(e) => e.preventDefault()}
-                              style={{ filter: "blur(1px)" }}
-                            />
-                          </div>
-                        )}
-                        {/* Name */}
-                        <p className="relative z-10 inline-block mt-4 font-medium text-center uppercase">
-                          <span className="relative z-10">
-                            {record?.requested_by}
-                          </span>
-                          <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-black"></span>
-                        </p>
-                        {/* Position */}
-                        <p className="font-bold text-[12px] text-center mt-1">
-                          {record?.requested_position}
-                        </p>
-                        {/* Status, if needed */}
-                        {user.status && (
-                          <p
-                            className={`font-bold text-[12px] text-center mt-1 ${
-                              user.status === "Approved"
-                                ? "text-green-400"
-                                : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
-                            }`}
-                          >
-                            {user.status}
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  </ul>
-                </div>
 
-                {notedBy.length > 0 && (
-                  <div className="mb-4 ml-5">
-                    <h3 className="mb-3 font-bold">Noted By:</h3>
-                    <ul className="flex flex-wrap gap-6">
-                      {notedBy.map((user, index) => (
-                        <li
-                          className="relative flex flex-col items-center justify-center text-center"
-                          key={index}
-                        >
-                          <div className="relative flex flex-col items-center justify-center text-center">
-                            {/* Signature */}
-                            {(user.status === "Approved" ||
-                              (typeof user.status === "string" &&
-                                user.status.split(" ")[0] === "Rejected")) && (
-                              <div className="absolute -top-15">
-                                <Image
-                                  src={Storage(user.signature || "")}
-                                  alt="avatar"
-                                  width={120}
-                                  height={120}
-                                  className="relative z-20 pointer-events-none"
-                                  draggable="false"
-                                  onContextMenu={(e) => e.preventDefault()}
-                                  style={{ filter: "blur(1px)" }}
-                                />
-                              </div>
-                            )}
-                            {/* Name */}
-                            <p className="relative z-10 inline-block mt-4 font-medium text-center uppercase">
-                              <span className="relative z-10">
-                                {user.firstName} {user.lastName}
-                              </span>
-                              <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-black"></span>
-                            </p>
-                            {/* Position */}
-                            <p className="font-bold text-[12px] text-center mt-1">
-                              {user.position}
-                            </p>
-                            {/* Status */}
-                            {hasDisapprovedInApprovedBy ||
-                            hasDisapprovedInNotedBy ? (
-                              user.status === "Disapproved" ? (
-                                <p className="font-bold text-[12px] text-center text-red-500 mt-1">
-                                  {user.status}
-                                </p>
-                              ) : null
-                            ) : (
-                              <p
-                                className={`font-bold text-[12px] text-center mt-1 ${
-                                  user.status === "Approved"
-                                    ? "text-green-400"
-                                    : user.status === "Pending"
-                                    ? "text-yellow-400"
-                                    : ""
-                                }`}
-                              >
-                                {user.status}
-                              </p>
-                            )}
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+          <ApproverLists
+            isFetchingApprovers={isFetchingApprovers}
+            record={record}
+            user={user}
+            notedBy={notedBy}
+            approvedBy={approvedBy}
+            hasDisapprovedInApprovedBy={hasDisapprovedInApprovedBy}
+            hasDisapprovedInNotedBy={hasDisapprovedInNotedBy}
+          />
 
-                <div className="mb-4 ml-5">
-                  <h3 className="mb-3 font-bold">Approved By:</h3>
-                  <ul className="flex flex-wrap gap-6">
-                    {approvedBy.map((user, index) => (
-                      <li
-                        className="relative flex flex-col items-center justify-center text-center"
-                        key={index}
-                      >
-                        <div className="relative flex flex-col items-center justify-center text-center">
-                          {/* Signature */}
-                          {(user.status === "Approved" ||
-                            (typeof user.status === "string" &&
-                              user.status.split(" ")[0] === "Rejected")) && (
-                            <div className="absolute -top-15">
-                              <Image
-                                src={Storage(user.signature || "")}
-                                alt="avatar"
-                                width={120}
-                                height={120}
-                                className="relative z-20 pointer-events-none"
-                                draggable="false"
-                                onContextMenu={(e) => e.preventDefault()}
-                                style={{ filter: "blur(1px)" }}
-                              />
-                            </div>
-                          )}
-                          {/* Name */}
-                          <p className="relative z-10 inline-block mt-4 font-medium text-center uppercase">
-                            <span className="relative z-10">
-                              {user.firstName} {user.lastName}
-                            </span>
-                            <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-black"></span>
-                          </p>
-                          {/* Position */}
-                          <p className="font-bold text-[12px] text-center mt-1">
-                            {user.position}
-                          </p>
-                          {/* Status */}
-                          {hasDisapprovedInApprovedBy ||
-                          hasDisapprovedInNotedBy ? (
-                            user.status === "Disapproved" ? (
-                              <p className="font-bold text-[12px] text-center text-red-500 mt-1">
-                                {user.status}
-                              </p>
-                            ) : null
-                          ) : (
-                            <p
-                              className={`font-bold text-[12px] text-center mt-1 ${
-                                user.status === "Approved"
-                                  ? "text-green-400"
-                                  : user.status === "Pending"
-                                  ? "text-yellow-400"
-                                  : ""
-                              }`}
-                            >
-                              {user.status}
-                            </p>
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
-          </div>
           <div className="w-full">
             <h1 className="font-bold">Attachments:</h1>
             <div className="max-w-[500px] overflow-x-auto pb-3">
               <div className="flex gap-1">
-                {attachmentUrl.map((fileItem) => (
-                  <div
-                    key={fileItem}
-                    className="relative w-24 p-2 bg-base-100 rounded-lg shadow-md"
-                  >
-                    <div className="relative w-20">
-                      {isImageFile(fileItem) ? (
-                        // Display image preview if file is an image
-                        <>
-                          <Image
-                            width={100}
-                            height={100}
-                            src={fileItem}
-                            alt="attachment"
-                            className="object-cover w-full h-20 rounded-md"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleViewImage(fileItem)}
-                            className="px-3 py-1 mt-2 text-xs text-center w-full text-white rounded-lg bg-primary cursor-pointer"
-                          >
-                            View
-                          </button>
-                        </>
-                      ) : (
-                        // Display document icon if file is not an image
-                        <>
-                          <div className="flex items-center justify-center w-full h-20 bg-gray-100 rounded-md">
-                            <Image
-                              width={100}
-                              height={100}
-                              src="https://cdn-icons-png.flaticon.com/512/3396/3396255.png"
-                              alt=""
-                            />
-                          </div>
-                          <div className="mt-2">
-                            <a
-                              href={fileItem}
-                              download
-                              target="_blank"
-                              onClick={(e) => e.stopPropagation()}
-                              className="px-3 py-1 text-xs text-white rounded-lg bg-primary"
-                            >
-                              Download
-                            </a>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
+                {attachmentUrl.map((fileItem, index) => (
+                  <Attachment
+                    key={index}
+                    fileItem={fileItem}
+                    isEditing={false}
+                    handleViewImage={handleViewImage}
+                    handleRemoveAttachment={() => {}}
+                  />
                 ))}
               </div>
               {isImgModalOpen && (
@@ -1060,7 +822,7 @@ const ApproverCheckIssuance: React.FC<Props> = ({
                         <button
                           onClick={() =>
                             handleViewImage(
-                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`
+                              `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${attachmentItem}`,
                             )
                           }
                           className="focus:outline-none tooltip tooltip-info tooltip-top"
