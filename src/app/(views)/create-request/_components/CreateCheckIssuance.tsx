@@ -713,7 +713,7 @@ const CreateCheckIssuance = (props: Props) => {
                               onKeyDown={(e) => {
                                 // Prevent non-digit input
                                 if (
-                                  !/[0-9.]/.test(e.key) &&
+                                  !/[0-9.-]/.test(e.key) &&
                                   e.key !== "Backspace" &&
                                   e.key !== "Tab"
                                 ) {
