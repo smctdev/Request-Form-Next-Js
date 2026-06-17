@@ -14,7 +14,7 @@ export default function PrintRequestNotedApprovedBies({ printData }: any) {
                 <Image
                   className="absolute transform -translate-x-1/2 -translate-y-6 pointer-events-none left-1/2"
                   src={Storage(printData?.id?.requested_signature) || ""}
-                  alt="avatar"
+                  alt="signature"
                   width={120}
                   height={120}
                 />
