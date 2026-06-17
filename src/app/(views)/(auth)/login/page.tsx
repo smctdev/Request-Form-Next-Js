@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Slice from "@/assets/Slice.png";
 import building from "@/assets/building.jpg";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -63,7 +62,7 @@ const Login = () => {
         />
         <div className="absolute inset-0 z-0 bg-black/40 lg:hidden" />
 
-        <div className="relative z-10 w-full max-w-md border border-base-200 rounded-2xl">
+        <div className="relative z-10 w-full max-w-lg border border-base-300 rounded-2xl">
           {/* Card */}
           <div className="bg-base-100 rounded-2xl shadow-2xl p-8 lg:p-10">
             {/* Header */}
@@ -198,12 +197,12 @@ const Login = () => {
       <div className="hidden lg:block w-1/2 relative">
         <Image
           fill
-          className="object-cover"
-          src={Slice}
+          className="object-cover rounded-l-[150px]"
+          src={building}
           alt="decorative"
           priority
         />
-        <div className="absolute inset-0 bg-primary/10" />
+        <div className="absolute inset-0 bg-primary/10 rounded-l-[150px]" />
       </div>
     </div>
   );
