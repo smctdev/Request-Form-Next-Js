@@ -112,10 +112,10 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
   const [approvedBy, setApprovedBy] = useState<Approver[]>([]);
   const [attachmentUrl, setAttachmentUrl] = useState<string[]>([]);
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -138,8 +138,8 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
             (filePath) =>
               `${process.env.NEXT_PUBLIC_API_STORAGE_URL}/${filePath.replace(
                 /\\/g,
-                "/"
-              )}`
+                "/",
+              )}`,
           );
           setAttachmentUrl(fileUrls);
         }
@@ -190,6 +190,7 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
       approvedBy: approvedBy,
       notedBy: notedBy,
       user: user,
+      requested_branch: record?.branch,
     };
 
     localStorage.setItem("printData", JSON.stringify(data));
@@ -259,12 +260,12 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
                 record.status.trim() === "Pending"
                   ? "bg-yellow-400"
                   : record.status.trim() === "Approved"
-                  ? "bg-green-400"
-                  : record.status.trim() === "Disapproved"
-                  ? "bg-pink-400"
-                  : record.status.trim() === "Ongoing"
-                  ? "bg-primary"
-                  : "bg-blue-700"
+                    ? "bg-green-400"
+                    : record.status.trim() === "Disapproved"
+                      ? "bg-pink-400"
+                      : record.status.trim() === "Ongoing"
+                        ? "bg-primary"
+                        : "bg-blue-700"
               } rounded-lg  py-1 w-1/3
              font-medium text-[14px] text-center ml-2 text-white`}
             >
@@ -394,7 +395,7 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
                     </td>
                     <td className={`${inputStyles} font-bold`}>
                       {parseFloat(
-                        editableRecord.form_data[0].totalExpense
+                        editableRecord.form_data[0].totalExpense,
                       ).toFixed(2)}
                     </td>
                   </tr>
@@ -404,7 +405,7 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
                     </td>
                     <td className={`${inputStyle} font-bold text-right`}>
                       {parseFloat(
-                        editableRecord.form_data[0].cashAdvance
+                        editableRecord.form_data[0].cashAdvance,
                       ).toFixed(2)}
                     </td>
                   </tr>
@@ -556,8 +557,8 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending" || !user.status
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status ? user.status : "Pending"}
@@ -621,8 +622,8 @@ const LiquiditionDetails: React.FC<Props> = ({ closeModal, record }) => {
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending" || !user.status
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status ? user.status : "Pending"}
