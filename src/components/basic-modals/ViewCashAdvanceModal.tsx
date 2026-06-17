@@ -113,7 +113,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editedDate, setEditedDate] = useState("");
   const [editedApprovers, setEditedApprovers] = useState<number>(
-    record.approvers_id
+    record.approvers_id,
   );
   const [loading, setLoading] = useState(false);
   const [fetchingApprovers, setFetchingApprovers] = useState(false);
@@ -133,10 +133,10 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
   const [branchList, setBranchList] = useState<any[]>([]);
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -154,7 +154,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -221,13 +221,13 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
     // total += parseFloat(newTotalHotel);
     total += newData.reduce(
       (totalHotelRate, item) => totalHotelRate + Number(item.rate),
-      0
+      0,
     );
     total += parseFloat(newTotalFare);
     total += parseFloat(newTotalContingency);
     total += newData.reduce(
       (totalPerDiem, item) => totalPerDiem + Number(item.perDiem),
-      0
+      0,
     );
     return parseFloat(total.toString()).toFixed(2);
   };
@@ -264,7 +264,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setNewAttachments((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -274,7 +274,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
 
     // Remove the attachment from the current list
     setAttachmentUrl((prevUrls) =>
-      prevUrls.filter((item, i) => item !== index)
+      prevUrls.filter((item, i) => item !== index),
     );
   };
 
@@ -308,7 +308,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
           item.to &&
           item.to.trim() !== "" &&
           item.cashDate &&
-          item.cashDate.trim() !== ""
+          item.cashDate.trim() !== "",
       )
     ) {
       setErrorMessage("From, to and date cannot be empty.");
@@ -343,13 +343,13 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
             totalFare: newTotalFare,
             totalContingency: newTotalContingency,
           },
-        ])
+        ]),
       );
 
       // Append existing attachments
       attachmentUrl.forEach((url, index) => {
         const path = url.split(
-          "request-form-files/request_form_attachments/"
+          "request-form-files/request_form_attachments/",
         )[1];
         formData.append(`attachment_url_${index}`, path);
       });
@@ -376,7 +376,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
       setErrorMessage(
         error.response?.data?.message ||
           error.message ||
-          "Failed to update Cash advance."
+          "Failed to update Cash advance.",
       );
     }
   };
@@ -384,7 +384,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
   const handleItemChange = (
     index: number,
     field: keyof Item,
-    value: string
+    value: string,
   ) => {
     const newDataCopy = [...newData];
     newDataCopy[index] = { ...newDataCopy[index], [field]: value };
@@ -466,6 +466,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
       reason: record?.form_data[0]?.reason,
       position: record?.requested_position,
       liquidationDate: record?.form_data[0]?.liquidationDate,
+      requested_branch: record?.branch,
     };
 
     localStorage.setItem("printData", JSON.stringify(data));
@@ -549,12 +550,12 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                 record.status.trim() === "Pending"
                   ? "bg-yellow-400"
                   : record.status.trim() === "Approved"
-                  ? "bg-green-400"
-                  : record.status.trim() === "Disapproved"
-                  ? "bg-pink-400"
-                  : record.status.trim() === "Ongoing"
-                  ? "bg-primary"
-                  : "bg-blue-700"
+                    ? "bg-green-400"
+                    : record.status.trim() === "Disapproved"
+                      ? "bg-pink-400"
+                      : record.status.trim() === "Ongoing"
+                        ? "bg-primary"
+                        : "bg-blue-700"
               } rounded-lg  py-1 w-1/3
              font-medium text-[14px] text-center ml-2 text-white`}
             >
@@ -634,7 +635,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "cashDate",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -648,7 +649,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "day",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -662,7 +663,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "from",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -676,7 +677,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "to",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -690,7 +691,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "activity",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -704,7 +705,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "hotel",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -718,7 +719,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "rate",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -732,7 +733,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "perDiem",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -746,7 +747,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                     handleItemChange(
                                       index,
                                       "remarks",
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                   className="w-full bg-base-100"
@@ -777,7 +778,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                   {item.remarks}
                                 </td>
                               </tr>
-                            )
+                            ),
                           )}
                     </tbody>
                   </table>
@@ -815,7 +816,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                           />
                         ) : (
                           formattedAmount(
-                            editableRecord.form_data[0].totalBoatFare
+                            editableRecord.form_data[0].totalBoatFare,
                           )
                         )}
                       </td>
@@ -829,8 +830,8 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                           newData.reduce(
                             (totalHotelRate, item) =>
                               totalHotelRate + Number(item.rate),
-                            0
-                          )
+                            0,
+                          ),
                         )}
                       </td>
                     </tr>
@@ -844,8 +845,8 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                           newData.reduce(
                             (totalPerDiem, item) =>
                               totalPerDiem + Number(item.perDiem),
-                            0
-                          )
+                            0,
+                          ),
                         )}
                       </td>
                     </tr>
@@ -884,7 +885,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                           />
                         ) : (
                           formattedAmount(
-                            editableRecord.form_data[0].totalContingency
+                            editableRecord.form_data[0].totalContingency,
                           )
                         )}
                       </td>
@@ -903,7 +904,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                         {formattedAmount(
                           isEditing
                             ? calculateGrandTotal()
-                            : editableRecord.form_data[0].grand_total
+                            : editableRecord.form_data[0].grand_total,
                         )}
                       </td>
                     </tr>
@@ -968,10 +969,10 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                               user.status === "Approved"
                                 ? "text-green-400"
                                 : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
+                                  ? "text-yellow-400"
+                                  : user.status === "Rejected"
+                                    ? "text-red"
+                                    : ""
                             }`}
                           >
                             {user.status}
@@ -1034,8 +1035,8 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending" || !user.status
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status ? user.status : "Pending"}
@@ -1099,8 +1100,8 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending" || !user.status
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status ? user.status : "Pending"}
