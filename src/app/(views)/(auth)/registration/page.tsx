@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Slice from "@/assets/Slice.png";
 import building from "@/assets/building.jpg";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
@@ -262,7 +261,7 @@ const Registration = () => {
         />
         <div className="absolute inset-0 z-0 bg-black/40 lg:hidden" />
 
-        <div className="relative z-10 w-full max-w-2xl py-8 border border-base-200 rounded-2xl">
+        <div className="relative z-10 w-full max-w-2xl py-8 border border-base-300 rounded-2xl">
           <div className="bg-base-100 rounded-2xl shadow-2xl p-8 lg:p-10">
             {/* Header */}
             <div className="mb-8">
@@ -283,216 +282,220 @@ const Registration = () => {
 
             <form onSubmit={handleSubmit(submitData, () => setLoading(false))}>
               {/* Personal Info */}
-              <p className={sectionLabelCls}>Personal Information</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className={labelCls}>First Name</label>
-                  <input
-                    type="text"
-                    {...register("firstName")}
-                    placeholder="Enter first name"
-                    className={`${inputCls} ${errors.firstName ? "border-error" : ""}`}
-                  />
-                  <FieldError message={errors.firstName?.message} />
+              <div className="max-h-[calc(100vh-340px)] overflow-y-auto">
+                <p className={sectionLabelCls}>Personal Information</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className={labelCls}>First Name</label>
+                    <input
+                      type="text"
+                      {...register("firstName")}
+                      placeholder="Enter first name"
+                      className={`${inputCls} ${errors.firstName ? "border-error" : ""}`}
+                    />
+                    <FieldError message={errors.firstName?.message} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Last Name</label>
+                    <input
+                      type="text"
+                      {...register("lastName")}
+                      placeholder="Enter last name"
+                      className={`${inputCls} ${errors.lastName ? "border-error" : ""}`}
+                    />
+                    <FieldError message={errors.lastName?.message} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Employee ID</label>
+                    <input
+                      type="text"
+                      {...register("employee_id")}
+                      placeholder="Enter employee ID"
+                      className={`${inputCls} ${errors.employee_id ? "border-error" : ""}`}
+                    />
+                    <FieldError message={errors.employee_id?.message} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Contact Number</label>
+                    <input
+                      type="text"
+                      {...register("contact")}
+                      placeholder="Enter 11-digit number"
+                      className={`${inputCls} ${errors.contact ? "border-error" : ""}`}
+                    />
+                    <FieldError message={errors.contact?.message} />
+                  </div>
                 </div>
-                <div>
-                  <label className={labelCls}>Last Name</label>
-                  <input
-                    type="text"
-                    {...register("lastName")}
-                    placeholder="Enter last name"
-                    className={`${inputCls} ${errors.lastName ? "border-error" : ""}`}
-                  />
-                  <FieldError message={errors.lastName?.message} />
-                </div>
-                <div>
-                  <label className={labelCls}>Employee ID</label>
-                  <input
-                    type="text"
-                    {...register("employee_id")}
-                    placeholder="Enter employee ID"
-                    className={`${inputCls} ${errors.employee_id ? "border-error" : ""}`}
-                  />
-                  <FieldError message={errors.employee_id?.message} />
-                </div>
-                <div>
-                  <label className={labelCls}>Contact Number</label>
-                  <input
-                    type="text"
-                    {...register("contact")}
-                    placeholder="Enter 11-digit number"
-                    className={`${inputCls} ${errors.contact ? "border-error" : ""}`}
-                  />
-                  <FieldError message={errors.contact?.message} />
-                </div>
-              </div>
 
-              {/* Account Info */}
-              <p className={sectionLabelCls}>Account Information</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className={labelCls}>Username</label>
-                  <input
-                    type="text"
-                    {...register("userName")}
-                    placeholder="Enter username"
-                    className={`${inputCls} ${errors.userName ? "border-error" : ""}`}
-                  />
-                  <FieldError message={errors.userName?.message} />
+                {/* Account Info */}
+                <p className={sectionLabelCls}>Account Information</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className={labelCls}>Username</label>
+                    <input
+                      type="text"
+                      {...register("userName")}
+                      placeholder="Enter username"
+                      className={`${inputCls} ${errors.userName ? "border-error" : ""}`}
+                    />
+                    <FieldError message={errors.userName?.message} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Email</label>
+                    <input
+                      type="text"
+                      {...register("email")}
+                      placeholder="Enter email"
+                      className={`${inputCls} ${errors.email ? "border-error" : ""}`}
+                    />
+                    <FieldError message={errors.email?.message} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Password</label>
+                    <PasswordInput
+                      name="password"
+                      placeholder="Enter password"
+                      show={showPassword}
+                      onToggle={() => setShowPassword(!showPassword)}
+                    />
+                    <FieldError message={errors.password?.message} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Confirm Password</label>
+                    <PasswordInput
+                      name="confirmPassword"
+                      placeholder="Confirm password"
+                      show={showConfirmPassword}
+                      onToggle={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    />
+                    <FieldError message={errors.confirmPassword?.message} />
+                  </div>
                 </div>
-                <div>
-                  <label className={labelCls}>Email</label>
-                  <input
-                    type="text"
-                    {...register("email")}
-                    placeholder="Enter email"
-                    className={`${inputCls} ${errors.email ? "border-error" : ""}`}
-                  />
-                  <FieldError message={errors.email?.message} />
-                </div>
-                <div>
-                  <label className={labelCls}>Password</label>
-                  <PasswordInput
-                    name="password"
-                    placeholder="Enter password"
-                    show={showPassword}
-                    onToggle={() => setShowPassword(!showPassword)}
-                  />
-                  <FieldError message={errors.password?.message} />
-                </div>
-                <div>
-                  <label className={labelCls}>Confirm Password</label>
-                  <PasswordInput
-                    name="confirmPassword"
-                    placeholder="Confirm password"
-                    show={showConfirmPassword}
-                    onToggle={() =>
-                      setShowConfirmPassword(!showConfirmPassword)
-                    }
-                  />
-                  <FieldError message={errors.confirmPassword?.message} />
-                </div>
-              </div>
 
-              {/* Work Info */}
-              <p className={sectionLabelCls}>Work Information</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className={labelCls}>Position</label>
-                  <Controller
-                    name="position"
-                    control={control}
-                    render={({ field }) => (
-                      <select
-                        {...field}
-                        className={`${selectCls} ${errors.position ? "border-error" : ""}`}
-                      >
-                        <option value="" hidden>
-                          Select position
-                        </option>
-                        <option value="" disabled>
-                          Select position
-                        </option>
-                        {roleOptions.length === 0 ? (
-                          <option disabled>No positions added yet</option>
-                        ) : (
-                          roleOptions.map((opt, i) => (
-                            <option value={opt.value} key={i}>
-                              {opt.label}
-                            </option>
-                          ))
-                        )}
-                      </select>
-                    )}
-                  />
-                  {positionError && <p className={errorCls}>{positionError}</p>}
-                  <FieldError message={errors.position?.message} />
-                </div>
-                <div>
-                  <label className={labelCls}>Branch Code</label>
-                  <Controller
-                    name="branchCode"
-                    control={control}
-                    render={({ field }) => (
-                      <select
-                        {...field}
-                        className={`${selectCls} ${errors.branchCode ? "border-error" : ""}`}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          handleBranchCodeChange(Number(e.target.value));
-                        }}
-                      >
-                        <option value="" hidden>
-                          Select branch
-                        </option>
-                        <option value="" disabled>
-                          Select branch
-                        </option>
-                        {branchList.length > 0 ? (
-                          branchList.map((b) => (
-                            <option key={b.id} value={b.id}>
-                              {b.branch_code}
-                            </option>
-                          ))
-                        ) : (
-                          <option value="" disabled>
-                            No branch codes available
+                {/* Work Info */}
+                <p className={sectionLabelCls}>Work Information</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className={labelCls}>Position</label>
+                    <Controller
+                      name="position"
+                      control={control}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className={`${selectCls} ${errors.position ? "border-error" : ""}`}
+                        >
+                          <option value="" hidden>
+                            Select position
                           </option>
-                        )}
-                      </select>
+                          <option value="" disabled>
+                            Select position
+                          </option>
+                          {roleOptions.length === 0 ? (
+                            <option disabled>No positions added yet</option>
+                          ) : (
+                            roleOptions.map((opt, i) => (
+                              <option value={opt.value} key={i}>
+                                {opt.label}
+                              </option>
+                            ))
+                          )}
+                        </select>
+                      )}
+                    />
+                    {positionError && (
+                      <p className={errorCls}>{positionError}</p>
                     )}
-                  />
-                  <FieldError message={errors.branchCode?.message} />
+                    <FieldError message={errors.position?.message} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Branch Code</label>
+                    <Controller
+                      name="branchCode"
+                      control={control}
+                      render={({ field }) => (
+                        <select
+                          {...field}
+                          className={`${selectCls} ${errors.branchCode ? "border-error" : ""}`}
+                          onChange={(e) => {
+                            field.onChange(e);
+                            handleBranchCodeChange(Number(e.target.value));
+                          }}
+                        >
+                          <option value="" hidden>
+                            Select branch
+                          </option>
+                          <option value="" disabled>
+                            Select branch
+                          </option>
+                          {branchList.length > 0 ? (
+                            branchList.map((b) => (
+                              <option key={b.id} value={b.id}>
+                                {b.branch_code}
+                              </option>
+                            ))
+                          ) : (
+                            <option value="" disabled>
+                              No branch codes available
+                            </option>
+                          )}
+                        </select>
+                      )}
+                    />
+                    <FieldError message={errors.branchCode?.message} />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className={labelCls}>Branch</label>
+                    <Controller
+                      name="branch"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          {...field}
+                          readOnly
+                          placeholder="Auto-filled from branch code"
+                          className={`${inputCls} opacity-60 cursor-not-allowed`}
+                        />
+                      )}
+                    />
+                    <FieldError message={errors.branch?.message} />
+                  </div>
                 </div>
-                <div className="md:col-span-2">
-                  <label className={labelCls}>Branch</label>
-                  <Controller
-                    name="branch"
-                    control={control}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        readOnly
-                        placeholder="Auto-filled from branch code"
-                        className={`${inputCls} opacity-60 cursor-not-allowed`}
-                      />
-                    )}
-                  />
-                  <FieldError message={errors.branch?.message} />
-                </div>
-              </div>
 
-              {/* Signature */}
-              <p className={sectionLabelCls}>Signature</p>
-              <div className="mb-6">
-                <div className="border-2 border-dashed border-base-300 rounded-xl overflow-hidden bg-base-100">
-                  <SignatureCanvas
-                    penColor="black"
-                    ref={(ref) => setSignature(ref)}
-                    canvasProps={{
-                      className: "sigCanvas w-full h-48 bg-white",
+                {/* Signature */}
+                <p className={sectionLabelCls}>Signature</p>
+                <div className="mb-6">
+                  <div className="border-2 border-dashed border-base-300 rounded-xl overflow-hidden bg-base-100">
+                    <SignatureCanvas
+                      penColor="black"
+                      ref={(ref) => setSignature(ref)}
+                      canvasProps={{
+                        className: "sigCanvas w-full h-48 bg-white",
+                      }}
+                      velocityFilterWeight={0.7}
+                      minWidth={1.5}
+                      maxWidth={2.5}
+                      throttle={10}
+                      dotSize={1.5}
+                    />
+                  </div>
+                  {signatureEmpty && (
+                    <p className={errorCls}>Please provide a signature.</p>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      signature?.clear();
+                      setSignatureEmpty(false);
                     }}
-                    velocityFilterWeight={0.7}
-                    minWidth={1.5}
-                    maxWidth={2.5}
-                    throttle={10}
-                    dotSize={1.5}
-                  />
+                    type="button"
+                    className="mt-2 text-xs text-base-content/40 hover:text-error transition-colors underline"
+                  >
+                    Clear signature
+                  </button>
                 </div>
-                {signatureEmpty && (
-                  <p className={errorCls}>Please provide a signature.</p>
-                )}
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    signature?.clear();
-                    setSignatureEmpty(false);
-                  }}
-                  type="button"
-                  className="mt-2 text-xs text-base-content/40 hover:text-error transition-colors underline"
-                >
-                  Clear signature
-                </button>
               </div>
 
               {/* Server errors */}
@@ -535,12 +538,12 @@ const Registration = () => {
       <div className="hidden lg:block w-1/2 sticky top-0 h-screen">
         <Image
           fill
-          className="object-cover"
-          src={Slice}
+          className="object-cover rounded-l-[150px]"
+          src={building}
           alt="decorative"
           priority
         />
-        <div className="absolute inset-0 bg-primary/10" />
+        <div className="absolute inset-0 bg-primary/10 rounded-l-[150px]" />
       </div>
     </div>
   );
