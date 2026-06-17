@@ -103,7 +103,7 @@ const ViewDiscountModal: React.FC<Props> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editedDate, setEditedDate] = useState("");
   const [editedApprovers, setEditedApprovers] = useState<number>(
-    record.approvers_id
+    record.approvers_id,
   );
   const [loading, setLoading] = useState(false);
   const [fetchingApprovers, setFetchingApprovers] = useState(false);
@@ -123,10 +123,10 @@ const ViewDiscountModal: React.FC<Props> = ({
   const [branchList, setBranchList] = useState<any[]>([]);
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const hasDisapprovedInNotedBy = notedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const hasDisapprovedInApprovedBy = approvedBy.some(
-    (user) => user.status === "Disapproved"
+    (user) => user.status === "Disapproved",
   );
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
@@ -144,7 +144,7 @@ const ViewDiscountModal: React.FC<Props> = ({
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -234,7 +234,7 @@ const ViewDiscountModal: React.FC<Props> = ({
 
   const handleRemoveImage = (imageName: string) => {
     setNewAttachments((prevImages) =>
-      prevImages.filter((image) => image.name !== imageName)
+      prevImages.filter((image) => image.name !== imageName),
     );
   };
 
@@ -244,7 +244,7 @@ const ViewDiscountModal: React.FC<Props> = ({
 
     // Remove the attachment from the current list
     setAttachmentUrl((prevUrls) =>
-      prevUrls.filter((item, i) => item !== index)
+      prevUrls.filter((item, i) => item !== index),
     );
   };
 
@@ -270,7 +270,7 @@ const ViewDiscountModal: React.FC<Props> = ({
           item.model &&
           item.model.trim() !== "" &&
           item.spotcash &&
-          item.spotcash.trim() !== ""
+          item.spotcash.trim() !== "",
       )
     ) {
       setErrorMessage("From, to and date cannot be empty.");
@@ -297,15 +297,15 @@ const ViewDiscountModal: React.FC<Props> = ({
       // Calculate totals for labor, spotcash, and discount
       const totalLabor = newData.reduce(
         (sum, item) => sum + parseFloat(item.labor || "0"),
-        0
+        0,
       );
       const totalSpotcash = newData.reduce(
         (sum, item) => sum + parseFloat(item.spotcash || "0"),
-        0
+        0,
       );
       const totalDiscount = newData.reduce(
         (sum, item) => sum + parseFloat(item.discountedPrice || "0"),
-        0
+        0,
       );
 
       formData.append(
@@ -320,13 +320,13 @@ const ViewDiscountModal: React.FC<Props> = ({
             total_spotcash: totalSpotcash,
             total_discount: totalDiscount,
           },
-        ])
+        ]),
       );
 
       // Append existing attachments
       attachmentUrl.forEach((url, index) => {
         const path = url.split(
-          "request-form-files/request_form_attachments/"
+          "request-form-files/request_form_attachments/",
         )[1];
         formData.append(`attachment_url_${index}`, path);
       });
@@ -354,7 +354,7 @@ const ViewDiscountModal: React.FC<Props> = ({
       setErrorMessage(
         error.response?.data?.message ||
           error.message ||
-          "Failed to update Cash advance."
+          "Failed to update Cash advance.",
       );
     }
   };
@@ -362,7 +362,7 @@ const ViewDiscountModal: React.FC<Props> = ({
   const handleItemChange = (
     index: number,
     field: keyof Item,
-    value: string
+    value: string,
   ) => {
     const newDataCopy = [...newData];
     newDataCopy[index] = { ...newDataCopy[index], [field]: value };
@@ -371,15 +371,15 @@ const ViewDiscountModal: React.FC<Props> = ({
     // Recalculate totals as numbers
     const totalLabor = newDataCopy.reduce(
       (sum, item) => sum + parseFloat(item.labor || "0"),
-      0
+      0,
     );
     const totalSpotcash = newDataCopy.reduce(
       (sum, item) => sum + parseFloat(item.spotcash || "0"),
-      0
+      0,
     );
     const totalDiscount = newDataCopy.reduce(
       (sum, item) => sum + parseFloat(item.discountedPrice || "0"),
-      0
+      0,
     );
 
     setNewData(newDataCopy);
@@ -433,6 +433,7 @@ const ViewDiscountModal: React.FC<Props> = ({
       approvedBy: approvedBy,
       notedBy: notedBy,
       user: user,
+      requested_branch: record?.branch,
     };
 
     localStorage.setItem("printData", JSON.stringify(data));
@@ -515,12 +516,12 @@ const ViewDiscountModal: React.FC<Props> = ({
                 record.status.trim() === "Pending"
                   ? "bg-yellow-400"
                   : record.status.trim() === "Approved"
-                  ? "bg-green-400"
-                  : record.status.trim() === "Disapproved"
-                  ? "bg-pink-400"
-                  : record.status.trim() === "Ongoing"
-                  ? "bg-primary"
-                  : "bg-blue-700"
+                    ? "bg-green-400"
+                    : record.status.trim() === "Disapproved"
+                      ? "bg-pink-400"
+                      : record.status.trim() === "Ongoing"
+                        ? "bg-primary"
+                        : "bg-blue-700"
               } rounded-lg  py-1 w-1/3
              font-medium text-[14px] text-center ml-2 text-white`}
             >
@@ -607,7 +608,7 @@ const ViewDiscountModal: React.FC<Props> = ({
                                 handleItemChange(
                                   index,
                                   "partno",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className="w-full bg-base-100"
@@ -633,7 +634,7 @@ const ViewDiscountModal: React.FC<Props> = ({
                                 handleItemChange(
                                   index,
                                   "spotcash",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className="w-full bg-base-100"
@@ -649,7 +650,7 @@ const ViewDiscountModal: React.FC<Props> = ({
                                 handleItemChange(
                                   index,
                                   "discountedPrice",
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               className="w-full bg-base-100"
@@ -676,7 +677,7 @@ const ViewDiscountModal: React.FC<Props> = ({
                               {formattedAmount(item.discountedPrice)}
                             </td>
                           </tr>
-                        )
+                        ),
                       )}
                 </tbody>
                 <tfoot className="bg-gray-100">
@@ -689,12 +690,12 @@ const ViewDiscountModal: React.FC<Props> = ({
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
                       {formattedAmount(
-                        editableRecord.form_data[0].total_spotcash
+                        editableRecord.form_data[0].total_spotcash,
                       )}
                     </td>
                     <td className="p-2 font-bold text-center border border-black">
                       {formattedAmount(
-                        editableRecord.form_data[0].total_discount
+                        editableRecord.form_data[0].total_discount,
                       )}
                     </td>
                   </tr>
@@ -761,10 +762,10 @@ const ViewDiscountModal: React.FC<Props> = ({
                               user.status === "Approved"
                                 ? "text-green-400"
                                 : user.status === "Pending"
-                                ? "text-yellow-400"
-                                : user.status === "Rejected"
-                                ? "text-red"
-                                : ""
+                                  ? "text-yellow-400"
+                                  : user.status === "Rejected"
+                                    ? "text-red"
+                                    : ""
                             }`}
                           >
                             {user.status}
@@ -827,8 +828,8 @@ const ViewDiscountModal: React.FC<Props> = ({
                                   user.status === "Approved"
                                     ? "text-green-400"
                                     : user.status === "Pending" || !user.status
-                                    ? "text-yellow-400"
-                                    : ""
+                                      ? "text-yellow-400"
+                                      : ""
                                 }`}
                               >
                                 {user.status ? user.status : "Pending"}
@@ -892,8 +893,8 @@ const ViewDiscountModal: React.FC<Props> = ({
                                 user.status === "Approved"
                                   ? "text-green-400"
                                   : user.status === "Pending" || !user.status
-                                  ? "text-yellow-400"
-                                  : ""
+                                    ? "text-yellow-400"
+                                    : ""
                               }`}
                             >
                               {user.status ? user.status : "Pending"}
