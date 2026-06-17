@@ -41,10 +41,10 @@ export default function RequestedByDetail({ record }: any) {
                   record?.user?.status === "Approved"
                     ? "text-green-400"
                     : record?.user?.status === "Pending"
-                    ? "text-yellow-400"
-                    : record?.user?.status === "Rejected"
-                    ? "text-red"
-                    : ""
+                      ? "text-yellow-400"
+                      : record?.user?.status === "Rejected"
+                        ? "text-red"
+                        : ""
                 }`}
               >
                 {record?.user?.status}
