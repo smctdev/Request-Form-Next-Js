@@ -712,7 +712,7 @@ const ApproversStock: React.FC<Props> = ({
               )}
             </ul>
           </div>
-          <div className="w-full max-w-full ">
+          {/* <div className="w-full max-w-full ">
             <p className="font-semibold">Approved Attachment:</p>
 
             {record.approved_attachment.length === 0 &&
@@ -791,7 +791,7 @@ const ApproversStock: React.FC<Props> = ({
                 Remove All
               </button>
             </div>
-          )}
+          )} */}
           <div className="max-w-[500px] overflow-x-auto pb-3 ">
             <div className="flex gap-1">
               {file.map((fileItem) => (
