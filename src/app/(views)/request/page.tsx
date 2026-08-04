@@ -14,6 +14,8 @@ import { BiRotateRight } from "react-icons/bi";
 import Share from "./_components/share";
 import ViewRequest from "@/app/_components/view-request";
 import SharedItemModal from "./_components/shared-items";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
 type Props = {};
 
 export type RecordProps = {
@@ -81,6 +83,7 @@ export type RecordProps = {
   approved_attachments: any;
   user_requested: string;
   total_shared: number;
+  cancelation_reason: string;
 };
 
 type MyFormData = {
@@ -191,29 +194,6 @@ type MyItem = {
   grandTotal: string;
 };
 
-const tableCustomStyles = {
-  headRow: {
-    style: {
-      color: "black",
-      backgroundColor: "#FFFF",
-    },
-  },
-  rows: {
-    style: {
-      color: "STRIPEDCOLOR",
-      backgroundColor: "STRIPEDCOLOR",
-      transition: "background-color 0.1s ease",
-      "&:hover": {
-        backgroundColor: "#D1E4F3",
-      },
-    },
-    stripedStyle: {
-      color: "NORMALCOLOR",
-      backgroundColor: "#E7F1F9",
-    },
-  },
-};
-
 const Request = (props: Props) => {
   const [selected, setSelected] = useState<string>("ALL");
   const [requests, setRequests] = useState<RecordProps[]>([]);
@@ -238,6 +218,7 @@ const Request = (props: Props) => {
   const [isSharedItemModalOpen, setIsSharedItemModalOpen] =
     useState<boolean>(false);
   const [requestId, setRequestId] = useState<string>("");
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     if (!echo || !user.id) return;
@@ -417,24 +398,6 @@ const Request = (props: Props) => {
     </div>
   );
 
-  const LoadingSpinner = () => (
-    <table className="table" style={{ background: "white" }}>
-      <tbody>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <tr key={index}>
-            <td className="w-full border border-gray-200" colSpan={6}>
-              <div className="flex justify-center">
-                <div className="flex flex-col w-full gap-4">
-                  <div className="w-full h-12 skeleton bg-slate-300"></div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-
   const refreshData = async () => {
     setIsRefreshing(true);
     if (user.id) {
@@ -510,8 +473,13 @@ const Request = (props: Props) => {
                     ? "bg-accent"
                     : row.status.trim() === "Ongoing"
                       ? "bg-blue-500"
-                      : "bg-blue-700"
-            } rounded-lg py-1 px-3 text-center text-white flex items-center`}
+                      : row.status.trim() === "Canceled"
+                        ? "bg-red-500"
+                        : "bg-blue-700"
+            } rounded-lg py-1 px-3 text-center text-white flex items-center tooltip`}
+            data-tip={
+              row.status.trim() === "Canceled" ? row.cancelation_reason : ""
+            }
           >
             {row.status.trim()}
           </div>
@@ -605,6 +573,10 @@ const Request = (props: Props) => {
       label: "Unsuccessful Requests",
       value: "Disapproved",
     },
+    {
+      label: "Canceled Requests",
+      value: "Canceled",
+    },
   ];
 
   const closeModal = () => {
@@ -680,6 +652,7 @@ const Request = (props: Props) => {
           </div>
           <div className="w-full overflow-x-auto">
             <DataTable
+              theme={resolvedTheme}
               columns={columns}
               defaultSortAsc={false}
               data={requests
@@ -690,16 +663,15 @@ const Request = (props: Props) => {
                 .sort((a: any, b: any) => b.id - a.id)}
               noDataComponent={<NoDataComponent />}
               progressPending={loading}
-              progressComponent={<LoadingSpinner />}
+              progressComponent={<TableLoader />}
+              persistTableHead
               pagination
               paginationServer
               striped
-              customStyles={tableCustomStyles}
               onChangePage={handlePageChange}
               onChangeRowsPerPage={handlePerRowsChange}
               paginationTotalRows={totalPages}
               paginationRowsPerPageOptions={paginationRowsPerPageOptions}
-              persistTableHead
             />
           </div>
         </div>
