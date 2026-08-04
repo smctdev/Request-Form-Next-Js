@@ -72,7 +72,7 @@ export default function FilterReports({
           <option value="Pending">Pending</option>
           <option value="Ongoing">Ongoing</option>
           <option value="Disapproved">Disapproved</option>
-          <option value="Rejected">Rejected</option>
+          <option value="Canceled">Canceled</option>
         </select>
       </div>
 
