@@ -21,6 +21,8 @@ import ViewUserModal from "@/app/(views)/admin/_components/modals/ViewUserModal"
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
 
 type Props = {};
 
@@ -60,6 +62,7 @@ const SetupUser = (props: Props) => {
     [key: number]: boolean;
   }>({});
   const { user } = useAuth();
+  const { resolvedTheme } = useTheme();
 
   const [filterTerm, setFilterTerm] = useState("");
   useEffect(() => {
@@ -412,79 +415,28 @@ const SetupUser = (props: Props) => {
               <MagnifyingGlassIcon className="absolute w-5 h-5   transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
             </div>
           </div>
-          {loading ? (
-            <table className="table" style={{ background: "white" }}>
-              <thead>
-                <tr>
-                  <th
-                    className="py-6"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    ID
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Name</th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>
-                    Branch code
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Email</th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Role</th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Status</th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <tr key={index}>
-                    <td className="w-full border border-gray-200" colSpan={10}>
-                      <div className="flex justify-center">
-                        <div className="flex flex-col w-full gap-4">
-                          <div className="w-full h-12 skeleton bg-slate-300"></div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <DataTable
-              columns={columns}
-              data={filteredUserList}
-              pagination
-              striped
-              noDataComponent={
-                filteredUserList.length === 0 ? (
-                  <p className="flex flex-col items-center justify-center h-64">
-                    {filterTerm
-                      ? "No " + `"${filterTerm}"` + " found"
-                      : "No data available."}
-                  </p>
-                ) : (
-                  <ClipLoader color="#36d7b7" />
-                )
-              }
-              customStyles={{
-                headRow: {
-                  style: {
-                    fontSize: "18px",
-                    fontWeight: "bold",
-                    color: "black",
-                    backgroundColor: "#FFFF",
-                  },
-                },
-                rows: {
-                  style: {
-                    color: "black", // Adjust as per your design
-                    backgroundColor: "#E7F1F9", // Adjust as per your design
-                  },
-                  stripedStyle: {
-                    color: "black", // Adjust as per your design
-                    backgroundColor: "#FFFFFF", // Adjust as per your design
-                  },
-                },
-              }}
-            />
-          )}
+
+          <DataTable
+            theme={resolvedTheme}
+            columns={columns}
+            data={filteredUserList}
+            pagination
+            striped
+            noDataComponent={
+              filteredUserList.length === 0 ? (
+                <p className="flex flex-col items-center justify-center h-64">
+                  {filterTerm
+                    ? "No " + `"${filterTerm}"` + " found"
+                    : "No data available."}
+                </p>
+              ) : (
+                <ClipLoader color="#36d7b7" />
+              )
+            }
+            progressPending={loading}
+            progressComponent={<TableLoader />}
+            persistTableHead
+          />
         </div>
       </div>
       <AddUserModal
