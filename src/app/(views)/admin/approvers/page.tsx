@@ -13,6 +13,8 @@ import EditUserModal from "@/app/(views)/admin/_components/modals/EditUserModal"
 import ViewApproverModal from "@/app/(views)/admin/_components/modals/ViewApproverModal";
 import { useAuth } from "@/context/AuthContext";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
 
 type Props = {};
 
@@ -27,27 +29,6 @@ type Record = {
   email: string;
   role: string;
   contact: string;
-};
-
-const tableCustomStyles = {
-  headRow: {
-    style: {
-      fontSize: "18px",
-      fontWeight: "bold",
-      color: "black",
-      backgroundColor: "#FFFF",
-    },
-  },
-  rows: {
-    style: {
-      color: "STRIPEDCOLOR",
-      backgroundColor: "STRIPEDCOLOR",
-    },
-    stripedStyle: {
-      color: "NORMALCOLOR",
-      backgroundColor: "#E7F1F9",
-    },
-  },
 };
 
 const SetupApprover = (props: Props) => {
@@ -65,6 +46,7 @@ const SetupApprover = (props: Props) => {
   const [branchMap, setBranchMap] = useState<Map<number, string>>(new Map());
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const fetchBranchData = async () => {
@@ -77,7 +59,7 @@ const SetupApprover = (props: Props) => {
           branches.map((branch: { id: number; branch_code: string }) => [
             branch.id,
             branch.branch_code,
-          ])
+          ]),
         );
 
         setBranchList(branches);
@@ -109,7 +91,7 @@ const SetupApprover = (props: Props) => {
             role: item.role,
             user_id: item.user_id,
             branch: item.branch,
-          })
+          }),
         );
 
         setApproverList(transformedData);
@@ -124,8 +106,8 @@ const SetupApprover = (props: Props) => {
   }, [user.id]);
   const filteredApproverlist = approverList.filter((approver) =>
     Object.values(approver).some((value) =>
-      String(value).toLowerCase().includes(filterTerm.toLowerCase())
-    )
+      String(value).toLowerCase().includes(filterTerm.toLowerCase()),
+    ),
   );
   const refreshData = async () => {
     try {
@@ -141,7 +123,7 @@ const SetupApprover = (props: Props) => {
           role: item.role,
           branch: item.branch,
           user_id: item.user_id,
-        })
+        }),
       );
 
       setApproverList(transformedData);
@@ -276,56 +258,27 @@ const SetupApprover = (props: Props) => {
               <MagnifyingGlassIcon className="absolute w-5 h-5   transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
             </div>
           </div>
-          {loading ? (
-            <table className="table" style={{ background: "white" }}>
-              <thead>
-                <tr>
-                  <th
-                    className="py-6"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Name
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>
-                    Assigned Branches
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <tr key={index}>
-                    <td className="w-full border border-gray-200" colSpan={3}>
-                      <div className="flex justify-center">
-                        <div className="flex flex-col w-full gap-4">
-                          <div className="w-full h-12 skeleton bg-slate-300"></div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <DataTable
-              columns={columns}
-              data={filteredApproverlist}
-              pagination
-              striped
-              customStyles={tableCustomStyles}
-              noDataComponent={
-                filteredApproverlist.length === 0 ? (
-                  <p className="flex flex-col items-center justify-center h-64">
-                    {filterTerm
-                      ? "No " + `"${filterTerm}"` + " found"
-                      : "No data available."}
-                  </p>
-                ) : (
-                  <ClipLoader color="#36d7b7" />
-                )
-              }
-            />
-          )}
+          <DataTable
+            theme={resolvedTheme}
+            columns={columns}
+            data={filteredApproverlist}
+            pagination
+            striped
+            noDataComponent={
+              filteredApproverlist.length === 0 ? (
+                <p className="flex flex-col items-center justify-center h-64">
+                  {filterTerm
+                    ? "No " + `"${filterTerm}"` + " found"
+                    : "No data available."}
+                </p>
+              ) : (
+                <ClipLoader color="#36d7b7" />
+              )
+            }
+            progressPending={loading}
+            progressComponent={<TableLoader />}
+            persistTableHead
+          />
         </div>
       </div>
       <AddApproverModal
