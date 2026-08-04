@@ -36,27 +36,6 @@ const formItems = {
   checker_category: "",
 };
 
-const tableCustomStyles = {
-  headRow: {
-    style: {
-      fontSize: "18px",
-      fontWeight: "bold",
-      color: "black",
-      backgroundColor: "#FFFF",
-    },
-  },
-  rows: {
-    style: {
-      color: "STRIPEDCOLOR",
-      backgroundColor: "STRIPEDCOLOR",
-    },
-    stripedStyle: {
-      color: "NORMALCOLOR",
-      backgroundColor: "#E7F1F9",
-    },
-  },
-};
-
 const emptyTable = (approverCheckers: Approver[], searchTerm: string) => {
   return (
     approverCheckers?.length === 0 && (
@@ -179,7 +158,7 @@ function ApproverCheckers() {
         } catch (error: any) {
           console.error(error);
           throw new Error(
-            error.response.data.message || "Something went wrong"
+            error.response.data.message || "Something went wrong",
           );
         }
       },
@@ -215,7 +194,7 @@ function ApproverCheckers() {
     };
 
   const categories = kindOfRequests.filter(
-    (category) => category.value !== "n/a"
+    (category) => category.value !== "n/a",
   );
 
   const approverOptions = useMemo(() => {
@@ -271,19 +250,19 @@ function ApproverCheckers() {
     try {
       const response = await api.patch(
         `/approver-checkers/${selectedApprover?.item_id}`,
-        formInputs
+        formInputs,
       );
       if (response.status === 200) {
         setData((prevData: Approver[]) => {
           const exists = prevData.some(
-            (item) => item.item_id === response.data.data.item_id
+            (item) => item.item_id === response.data.data.item_id,
           );
 
           if (exists) {
             return prevData.map((item: Approver) =>
               item.item_id === response.data.data.item_id
                 ? { ...item, ...response.data.data }
-                : item
+                : item,
             );
           } else {
             return [...prevData, response.data.data];
@@ -370,7 +349,6 @@ function ApproverCheckers() {
           data={data}
           pagination
           striped
-          customStyles={tableCustomStyles}
           noDataComponent={emptyTable(data, searchData)}
           progressPending={isLoading}
           persistTableHead
