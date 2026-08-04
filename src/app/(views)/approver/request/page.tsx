@@ -20,6 +20,8 @@ import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageO
 import ApproverCheckIssuance from "../_components/modals/ApproverChecklssuance";
 import { BiRotateRight } from "react-icons/bi";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
 type Props = {};
 
 type Record = {
@@ -55,6 +57,7 @@ type Record = {
   requested_position: string;
   completed_status: string;
   user_requested: string;
+  cancelation_reason: string;
 };
 interface Approver {
   id: number;
@@ -152,25 +155,6 @@ type MyItem = {
   grandTotal: string;
 };
 
-const tableCustomStyles = {
-  headRow: {
-    style: {
-      color: "black",
-      backgroundColor: "#FFFF",
-    },
-  },
-  rows: {
-    style: {
-      color: "black", // Adjust as per your design
-      backgroundColor: "#E7F1F9", // Adjust as per your design
-    },
-    stripedStyle: {
-      color: "black", // Adjust as per your design
-      backgroundColor: "#E7F1F9", // Adjust as per your design
-    },
-  },
-};
-
 const RequestApprover = (props: Props) => {
   const [selected, setSelected] = useState<string>("ALL");
   const [requests, setRequests] = useState<Record[]>([]);
@@ -186,6 +170,7 @@ const RequestApprover = (props: Props) => {
   const [perPage, setPerPage] = useState<number>(10);
   const debounce = useRef<NodeJS.Timeout>(null);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     if (!user.id || !echo) return;
@@ -257,23 +242,6 @@ const RequestApprover = (props: Props) => {
       <p className="text-lg">No {search ? `"${search}"` : ""} records found</p>
     </div>
   );
-  const LoadingSpinner = () => (
-    <table className="table" style={{ background: "white" }}>
-      <tbody>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <tr key={index}>
-            <td className="w-full border border-gray-200" colSpan={7}>
-              <div className="flex justify-center">
-                <div className="flex flex-col w-full gap-4">
-                  <div className="w-full h-12 skeleton bg-slate-300"></div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
 
   const handleView = (record: Record) => {
     setSelectedRecord(record);
@@ -336,35 +304,47 @@ const RequestApprover = (props: Props) => {
             className={`${
               row.completed_status === "Completed"
                 ? "bg-primary"
-                : row.status.trim() === "Pending"
-                  ? "bg-secondary"
-                  : row.status.trim() === "Approved"
-                    ? "bg-green-400"
-                    : row.status.trim() === "Disapproved"
-                      ? "bg-accent"
-                      : row.status.trim() === "Ongoing"
-                        ? "bg-primary"
-                        : "bg-red-600"
-            } rounded-lg py-1 px-3 text-center text-white flex items-center`}
+                : row.completed_status.trim() === "Canceled"
+                  ? "bg-red-600"
+                  : row.status.trim() === "Pending"
+                    ? "bg-secondary"
+                    : row.status.trim() === "Approved"
+                      ? "bg-green-400"
+                      : row.status.trim() === "Disapproved"
+                        ? "bg-accent"
+                        : row.status.trim() === "Ongoing"
+                          ? "bg-primary"
+                          : row.status.trim() === "Canceled"
+                            ? "bg-red-600"
+                            : "bg-red-600"
+            } rounded-lg py-1 px-3 text-center text-white flex items-center tooltip`}
+            data-tip={
+              row.completed_status.trim() === "Canceled"
+                ? row.cancelation_reason
+                : ""
+            }
           >
             {row.completed_status === "Completed"
               ? row.completed_status.trim()
-              : row.status.trim()}
+              : row.completed_status === "Canceled"
+                ? row.completed_status
+                : row.status.trim()}
           </div>
 
           {/* Tooltip Icon and Tooltip Itself */}
-          {(row.status === "Pending" || row.status === "Ongoing") && (
-            <div
-              className="z-20 flex items-center ml-1 transition-opacity duration-300 transform cursor-pointer tooltip tooltip-right group-hover:opacity-100"
-              data-tip={`Pending: ${
-                row.pending_approver === user?.fullName
-                  ? "You"
-                  : row.pending_approver
-              }`}
-            >
-              <QuestionMarkCircleIcon className="w-6 h-6 text-gray-500" />
-            </div>
-          )}
+          {(row.status === "Pending" || row.status === "Ongoing") &&
+            row.completed_status !== "Canceled" && (
+              <div
+                className="z-20 flex items-center ml-1 transition-opacity duration-300 transform cursor-pointer tooltip tooltip-right group-hover:opacity-100"
+                data-tip={`Pending: ${
+                  row.pending_approver === user?.fullName
+                    ? "You"
+                    : row.pending_approver
+                }`}
+              >
+                <QuestionMarkCircleIcon className="w-6 h-6 text-gray-500" />
+              </div>
+            )}
         </div>
       ),
     },
@@ -432,6 +412,10 @@ const RequestApprover = (props: Props) => {
     {
       label: "Unsuccessful Requests",
       value: "Disapproved",
+    },
+    {
+      label: "Canceled Requests",
+      value: "Canceled",
     },
   ];
 
@@ -503,6 +487,7 @@ const RequestApprover = (props: Props) => {
           </div>
           <div className="w-full overflow-x-auto">
             <DataTable
+              theme={resolvedTheme}
               columns={columns}
               defaultSortAsc={false}
               data={
@@ -515,16 +500,15 @@ const RequestApprover = (props: Props) => {
               }
               noDataComponent={<NoDataComponent />}
               progressPending={loading}
-              progressComponent={<LoadingSpinner />}
+              progressComponent={<TableLoader />}
+              persistTableHead
               paginationServer
               pagination
               striped
-              customStyles={tableCustomStyles}
               onChangePage={handlePageChange}
               onChangeRowsPerPage={handlePerRowsChange}
               paginationTotalRows={totalPages}
               paginationRowsPerPageOptions={paginationRowsPerPageOptions}
-              persistTableHead
             />
           </div>
         </div>
