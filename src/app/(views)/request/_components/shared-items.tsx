@@ -92,7 +92,7 @@ export default function SharedItemModal({
   return (
     <dialog id="my_modal_1" className="modal" open={open}>
       <div className="modal-box overflow-hidden">
-        <h3 className="font-bold text-lg">
+        <h3 className="font-bold text-lg mb-2">
           {loading ? <div className="skeleton h-6 w-62"></div> : data.title}
         </h3>
         <div>
