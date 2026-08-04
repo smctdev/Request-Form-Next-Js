@@ -17,6 +17,8 @@ import SuccessModal from "@/app/(views)/admin/_components/ui/SuccessModal";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
 
 type Props = {};
 
@@ -90,42 +92,35 @@ const SetupAreaManager = (props: Props) => {
   const [filterTerm, setFilterTerm] = useState("");
   const [isLoading, setisLoading] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [fetchCompleted, setFetchCompleted] = useState(false);
   const { user } = useAuth();
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const fetchApproverData = async () => {
-      if (!user.id) {
-        console.error("User ID is missing");
-        return;
-      }
       try {
         // Fetch area managers
         const response = await api.get<{ data: AreaManager[] }>(
-          `/view-area-managers`
+          `/view-area-managers`,
         );
 
         setAreaManagerList(response.data.data);
-        setFetchCompleted(true); // Indicate fetch completion
       } catch (error) {
         console.error("Error fetching approvers data:", error);
-        setFetchCompleted(true); // Indicate fetch completion
       } finally {
         setLoading(false);
       }
     };
 
     fetchApproverData();
-  }, [user.id]);
+  }, []);
 
   const filteredAreaManager = areaManagerList.filter((areamanager: any) =>
     Object.values(areamanager.user).some((value) =>
-      String(value).toLowerCase().includes(filterTerm.toLowerCase())
-    )
+      String(value).toLowerCase().includes(filterTerm.toLowerCase()),
+    ),
   );
 
   const refreshData = async () => {
-    setFetchCompleted(false); // Reset fetch completion state
     setisLoading(true);
 
     if (!user.id) {
@@ -134,16 +129,14 @@ const SetupAreaManager = (props: Props) => {
     }
     try {
       const response = await api.get<{ data: AreaManager[] }>(
-        `/view-area-managers`
+        `/view-area-managers`,
       );
 
       setAreaManagerList(response.data.data);
       setisLoading(false);
-      setFetchCompleted(true);
     } catch (error) {
       console.error("Error fetching approvers data:", error);
       setisLoading(false);
-      setFetchCompleted(true);
     }
   };
 
@@ -216,7 +209,7 @@ const SetupAreaManager = (props: Props) => {
     try {
       // Send PUT request to update user's role
       const response = await api.delete(
-        `/delete-area-manager/${selectedUser?.id}`
+        `/delete-area-manager/${selectedUser?.id}`,
       );
 
       setisLoading(false);
@@ -268,7 +261,7 @@ const SetupAreaManager = (props: Props) => {
       ),
     },
   ];
-
+  console.log(filteredAreaManager);
   return (
     <div className="w-full h-full px-4 pt-4 bg-graybg dark:bg-blackbg sm:px-10 md:px-10 lg:px-30 xl:px-30">
       <div className="w-full h-auto rounded-lg drop-shadow-lg md:mr-4">
@@ -298,76 +291,23 @@ const SetupAreaManager = (props: Props) => {
               <MagnifyingGlassIcon className="absolute w-5 h-5   transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
             </div>
           </div>
-          {loading ? (
-            <table className="table" style={{ background: "white" }}>
-              <thead>
-                <tr>
-                  <th
-                    className="w-[80px] py-6"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    ID
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Name</th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>
-                    Assigned Branches
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <tr key={index}>
-                    <td className="w-full border border-gray-200" colSpan={4}>
-                      <div className="flex justify-center">
-                        <div className="flex flex-col w-full gap-4">
-                          <div className="w-full h-12 skeleton bg-slate-300"></div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <DataTable
-              columns={columns}
-              data={filteredAreaManager}
-              pagination
-              striped
-              noDataComponent={
-                filteredAreaManager.length === 0 ? (
-                  <p className="flex flex-col items-center justify-center h-64">
-                    {filterTerm
-                      ? "No " + `"${filterTerm}"` + " found"
-                      : "No data available."}
-                  </p>
-                ) : (
-                  <ClipLoader color="#36d7b7" />
-                )
-              }
-              customStyles={{
-                headRow: {
-                  style: {
-                    fontSize: "18px",
-                    fontWeight: "bold",
-                    color: "black",
-                    backgroundColor: "#FFFF",
-                  },
-                },
-                rows: {
-                  style: {
-                    color: "black",
-                    backgroundColor: "#E7F1F9",
-                  },
-                  stripedStyle: {
-                    color: "black",
-                    backgroundColor: "#FFFFFF",
-                  },
-                },
-              }}
-            />
-          )}
+          <DataTable
+            theme={resolvedTheme}
+            columns={columns}
+            data={filteredAreaManager}
+            pagination
+            striped
+            noDataComponent={
+              <p className="flex flex-col items-center justify-center h-64">
+                {filterTerm
+                  ? "No " + `"${filterTerm}"` + " found"
+                  : "No data available."}
+              </p>
+            }
+            progressPending={loading}
+            progressComponent={<TableLoader />}
+            persistTableHead
+          />
         </div>
       </div>
       <AddAreaManagerModal
