@@ -11,6 +11,8 @@ import authenticatedPage from "@/lib/authenticatedPage";
 import Modal from "../reports/_components/modal";
 import FilterSharedRequest from "./_components/filter-shared-request";
 import { useSearchParams } from "next/navigation";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
 
 const ShareRequest = () => {
   const {
@@ -32,6 +34,7 @@ const ShareRequest = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [details, setDetails] = useState({});
   const searchParams = useSearchParams().get("search");
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     if (searchParams) {
@@ -178,6 +181,7 @@ const ShareRequest = () => {
             </button>
           </div>
           <DataTable
+            theme={resolvedTheme}
             columns={columns}
             data={data}
             pagination
@@ -186,22 +190,8 @@ const ShareRequest = () => {
             paginationTotalRows={pagination.total}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handlePerRowsChange}
-            progressComponent={
-              <div className="w-full">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <div key={index}>
-                    <div className="w-full border border-gray-200 p-2">
-                      <div className="flex justify-center">
-                        <div className="flex flex-col w-full gap-4">
-                          <div className="w-full h-12 skeleton bg-slate-300"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            }
             progressPending={isLoading}
+            progressComponent={<TableLoader />}
             persistTableHead
           />
         </div>
