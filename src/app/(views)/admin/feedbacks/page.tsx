@@ -16,6 +16,8 @@ import { api } from "@/lib/api";
 import Swal from "sweetalert2";
 import { BellAlertIcon } from "@heroicons/react/24/solid";
 import Textarea from "@/components/ui/textarea";
+import TableLoader from "@/components/table-loader";
+import { useTheme } from "next-themes";
 
 function Feedbacks() {
   const {
@@ -29,6 +31,7 @@ function Feedbacks() {
     useState<FormInputFeedbackType>(FORM_INPUTS_FEEDBACK);
   const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<any>(null);
+  const { resolvedTheme } = useTheme();
 
   const tableData = [
     {
@@ -138,6 +141,7 @@ function Feedbacks() {
 
       <div className="bg-base-100 rounded-xl shadow-md">
         <DataTable
+          theme={resolvedTheme}
           columns={tableData}
           data={feedbacks}
           pagination
@@ -146,22 +150,8 @@ function Feedbacks() {
           paginationTotalRows={pagination.total}
           onChangePage={handlePageChange}
           onChangeRowsPerPage={handleRowsPerPageChange}
-          progressComponent={
-            <div className="w-full">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index}>
-                  <div className="w-full border border-gray-200 p-2">
-                    <div className="flex justify-center">
-                      <div className="flex flex-col w-full gap-4">
-                        <div className="w-full h-12 skeleton bg-slate-300"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          }
           progressPending={isLoading}
+          progressComponent={<TableLoader />}
           persistTableHead
         />
       </div>
