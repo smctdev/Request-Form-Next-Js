@@ -20,6 +20,8 @@ import Image from "next/image";
 import authenticatedPage from "@/lib/authenticatedPage";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 import Swal from "sweetalert2";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
 
 const boxWhite =
   "bg-gray-50 w-full h-[190px] rounded-[15px] drop-shadow-lg relative";
@@ -58,39 +60,12 @@ const Dashboard: React.FC = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const router = useRouter();
+  const { resolvedTheme } = useTheme();
 
   const NoDataComponent = () => (
     <div className="flex items-center justify-center h-64 overflow-hidden text-gray-500">
       <p className="text-lg">No records found</p>
     </div>
-  );
-  const LoadingSpinner = () => (
-    <table className="table" style={{ background: "white" }}>
-      <thead>
-        <tr>
-          <th className="py-6" style={{ color: "black", fontWeight: "bold" }}>
-            Request ID
-          </th>
-          <th style={{ color: "black", fontWeight: "bold" }}>Request Type</th>
-          <th style={{ color: "black", fontWeight: "bold" }}>Date</th>
-          <th style={{ color: "black", fontWeight: "bold" }}>Branch</th>
-          <th style={{ color: "black", fontWeight: "bold" }}>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {Array.from({ length: 6 }).map((_, index) => (
-          <tr key={index}>
-            <td className="w-full border border-gray-200" colSpan={5}>
-              <div className="flex justify-center">
-                <div className="flex flex-col w-full gap-4">
-                  <div className="w-full h-12 skeleton bg-slate-300"></div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
   );
 
   useEffect(() => {
@@ -387,14 +362,14 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
       <div
-        className={`mt-[20px] mb-10  w-full h-full data-table-container drop-shadow-lg rounded-[12px] relative sm:w-full ${
+        className={`mt-[20px] mb-10  w-full h-fit data-table-container drop-shadow-lg rounded-[12px] relative sm:w-full ${
           latestRequests.length === 0 ? "overflow-hidden" : "overflow-x-auto"
         }`}
       >
         <h1 className="py-[16px] px-[25px] font-bold !text-[20px]">
           Recent requests
         </h1>
-        <p className="flex justify-end px-[25px] -mt-10 mb-1">
+        <p className="flex justify-end px-[25px] -mt-10 mb-3">
           <button
             type="button"
             className="cursor-pointer"
@@ -407,12 +382,13 @@ const Dashboard: React.FC = () => {
         </p>
         <div>
           <DataTable
+            theme={resolvedTheme}
             columns={columns}
             defaultSortAsc={false}
             data={latestRequests}
             noDataComponent={<NoDataComponent />}
             progressPending={loading}
-            progressComponent={<LoadingSpinner />}
+            progressComponent={<TableLoader />}
             pagination
             paginationServer
             striped
@@ -420,6 +396,7 @@ const Dashboard: React.FC = () => {
             onChangeRowsPerPage={handlePerRowsChange}
             paginationTotalRows={totalPages}
             paginationRowsPerPageOptions={paginationRowsPerPageOptions}
+            persistTableHead
           />
         </div>
       </div>
