@@ -10,6 +10,10 @@ import FilterReports from "@/components/filter-reports";
 import { useState } from "react";
 import Modal from "./_components/modal";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
+import { api } from "@/lib/api";
+import Swal from "sweetalert2";
 
 const Reports = () => {
   const {
@@ -30,7 +34,7 @@ const Reports = () => {
   });
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [details, setDetails] = useState({});
-
+  const { resolvedTheme } = useTheme();
   const columns = [
     {
       name: "Request Code",
@@ -62,7 +66,10 @@ const Reports = () => {
       selector: (row: any) => row.status,
       sortable: true,
       cell: (row: any) => (
-        <span className={`badge ${getStatusBadgeClass(row.status)}`}>
+        <span
+          className={`badge ${getStatusBadgeClass(row.status)} tooltip`}
+          data-tip={row.status === "Canceled" ? row.cancelation_reason : ""}
+        >
           {row.status}
         </span>
       ),
@@ -70,16 +77,66 @@ const Reports = () => {
     {
       name: "Actions",
       cell: (row: any) => (
-        <button
-          className="btn btn-xs btn-primary"
-          type="button"
-          onClick={handleViewDetails(row)}
-        >
-          View Details
-        </button>
+        <div className="flex gap-1 items-center">
+          <button
+            className="btn btn-xs btn-primary"
+            type="button"
+            onClick={handleViewDetails(row)}
+          >
+            View Details
+          </button>
+          <button
+            type="button"
+            className="btn btn-xs btn-error text-white"
+            onClick={handleCancelRequest(row.id)}
+          >
+            Cancel
+          </button>
+        </div>
       ),
     },
   ];
+
+  const handleCancelRequest = (requestId: number) => () => {
+    Swal.fire({
+      title: "Are you sure? ",
+      text: "You won't be able to revert this! ",
+      icon: "warning",
+      input: "text",
+      inputValidator: (value) => {
+        if (!value) {
+          return "Please provide a reason for cancelation!";
+        }
+      },
+      inputPlaceholder: "Enter cancelation reason",
+      showCancelButton: true,
+      confirmButtonText: "Yes, cancel it!",
+      confirmButtonColor: "#3085d6",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await api.patch(
+            `cancel-request/${requestId}/update`,
+            {
+              cancelation_reason: result.value,
+            },
+          );
+
+          if (response.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Request Cancelled",
+              text: response.data.message,
+              confirmButtonText: "Close",
+            });
+            handleRefresh();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
+  };
 
   const getStatusBadgeClass = (status: any) => {
     switch (status) {
@@ -171,6 +228,7 @@ const Reports = () => {
             </button>
           </div>
           <DataTable
+            theme={resolvedTheme}
             columns={columns}
             data={data}
             pagination
@@ -179,22 +237,8 @@ const Reports = () => {
             paginationTotalRows={pagination.total}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handlePerRowsChange}
-            progressComponent={
-              <div className="w-full">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <div key={index}>
-                    <div className="w-full border border-gray-200 p-2">
-                      <div className="flex justify-center">
-                        <div className="flex flex-col w-full gap-4">
-                          <div className="w-full h-12 skeleton bg-slate-300"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            }
             progressPending={isLoading}
+            progressComponent={<TableLoader />}
             persistTableHead
           />
         </div>
