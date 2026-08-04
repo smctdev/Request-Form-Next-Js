@@ -9,27 +9,56 @@ import PrintDiscount from "../../approver/_components/prints/PrintDiscount";
 import PrintPurchase from "../../approver/_components/prints/PrintPurchase";
 import PrintRefund from "../../approver/_components/prints/PrintRefund";
 import PrintLiquidation from "../../approver/_components/prints/PrintLiquidation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Preloader from "@/components/loaders/PreLoader";
 import PrintCheckIssuace from "../../approver/_components/prints/PrintCheckIssuance";
+import { api } from "@/lib/api";
+import Canceled from "@/components/canceled";
 
 export default function PrintTitle() {
   const { title } = useParams();
-  const [printData, setPrintData] = useState(null);
+  const [printData, setPrintData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const itemRef = useRef<any>(null);
+
   useEffect(() => {
     const req: any = localStorage.getItem("printData");
+
     if (!req) return;
+
     setPrintData(req);
+
+    itemRef.current = JSON.parse(req);
   }, [title]);
 
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 1000);
+  useEffect(() => {
+    const handleCheckingStatus = async () => {
+      try {
+        await api.get(`/status/${itemRef?.current?.id?.id}/checking`);
+      } catch (error: any) {
+        console.error(error);
+        if (error.response.status === 404) {
+          setPrintData(null);
+        }
+
+        if (error.response.status === 400) {
+          setError(error.response.data.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    handleCheckingStatus();
+  }, [title]);
 
   if (isLoading) return <Preloader />;
 
+  if (error) return <Canceled />;
+
   if (!printData) return <NotFound />;
+
   switch (title) {
     case "stock":
       return <PrintStock />;
