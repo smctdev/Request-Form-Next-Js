@@ -17,6 +17,8 @@ import EditAVPStaff from "@/app/(views)/admin/_components/modals/EditAVPStaff";
 import SuccessModal from "@/app/(views)/admin/_components/ui/SuccessModal";
 import { useAuth } from "@/context/AuthContext";
 import authenticatedPage from "@/lib/authenticatedPage";
+import { useTheme } from "next-themes";
+import TableLoader from "@/components/table-loader";
 
 type Props = {};
 
@@ -83,29 +85,18 @@ const SetupAVP = (props: Props) => {
   const [isLoading, setisLoading] = useState(false);
   const [staffAVP, setStaffAVP] = useState<Record[]>([]);
   const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchApprovers = async () => {
-      try {
-        const response = await api.get(`/getStaff`);
-
-        setAVPStaffList(response.data.data);
-      } catch (error) {
-        console.error("Error fetching approvers:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchApprovers();
-  }, [modalIsOpen]);
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     const fetchAVPStaff = async () => {
       try {
-        const response = await api.get(`/get-avpstaff-branch`);
+        const [staff, avpStaff] = await Promise.all([
+          api.get(`/get-avpstaff-branch`),
+          api.get(`/getStaff`),
+        ]);
 
-        setStaffAVP(response.data.data);
+        setStaffAVP(staff.data.data);
+        setAVPStaffList(avpStaff.data.data);
       } catch (error) {
         console.error("Error fetching approvers:", error);
       } finally {
@@ -191,8 +182,8 @@ const SetupAVP = (props: Props) => {
         .toLowerCase()
         .includes(filterTerm.toLowerCase()) ||
       avpstaff.branches.some((branch) =>
-        branch.toLowerCase().includes(filterTerm.toLowerCase())
-      )
+        branch.toLowerCase().includes(filterTerm.toLowerCase()),
+      ),
   );
 
   const deleteUser = async () => {
@@ -200,7 +191,7 @@ const SetupAVP = (props: Props) => {
     try {
       // Send PUT request to update user's role
       const response = await api.delete(
-        `/delete-avpstaff-branch/${selectedUser?.id}`
+        `/delete-avpstaff-branch/${selectedUser?.id}`,
       );
 
       setisLoading(false);
@@ -294,81 +285,23 @@ const SetupAVP = (props: Props) => {
               <MagnifyingGlassIcon className="absolute w-5 h-5   transform -translate-y-1/2 pointer-events-none left-3 top-1/2" />
             </div>
           </div>
-          {loading ? (
-            <table className="table" style={{ background: "white" }}>
-              <thead>
-                <tr>
-                  <th
-                    className="w-[80px] py-6"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    ID
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>AVP</th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>
-                    AVP Staff
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>
-                    Assigned Branches
-                  </th>
-                  <th style={{ color: "black", fontWeight: "bold" }}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <tr key={index}>
-                    <td className="w-full border border-gray-200" colSpan={5}>
-                      <div className="flex justify-center">
-                        <div className="flex flex-col w-full gap-4">
-                          <div className="w-full h-12 skeleton bg-slate-300"></div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <DataTable
-              columns={columns}
-              data={filteredAVP}
-              pagination
-              striped
-              // progressPending={isLoading}
-              // progressComponent={<p>Loading...</p>}
-              noDataComponent={
-                filteredAVP.length === 0 ? (
-                  <p className="flex flex-col items-center justify-center h-64">
-                    {filterTerm
-                      ? "No " + `"${filterTerm}"` + " found"
-                      : "No data available."}
-                  </p>
-                ) : (
-                  <ClipLoader color="#36d7b7" />
-                )
-              }
-              customStyles={{
-                headRow: {
-                  style: {
-                    fontSize: "18px",
-                    fontWeight: "bold",
-                    color: "black",
-                    backgroundColor: "#FFFF",
-                  },
-                },
-                rows: {
-                  style: {
-                    color: "black",
-                    backgroundColor: "#E7F1F9",
-                  },
-                  stripedStyle: {
-                    color: "black",
-                    backgroundColor: "#FFFFFF",
-                  },
-                },
-              }}
-            />
-          )}
+          <DataTable
+            theme={resolvedTheme}
+            columns={columns}
+            data={filteredAVP}
+            pagination
+            striped
+            noDataComponent={
+              <p className="flex flex-col items-center justify-center h-64">
+                {filterTerm
+                  ? "No " + `"${filterTerm}"` + " found"
+                  : "No data available."}
+              </p>
+            }
+            progressPending={loading}
+            progressComponent={<TableLoader />}
+            persistTableHead
+          />
         </div>
       </div>
       <AddAVPModal
