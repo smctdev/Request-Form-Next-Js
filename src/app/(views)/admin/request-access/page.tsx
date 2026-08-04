@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import TableLoader from "../_components/loaders/TableLoader";
 import echo from "@/hooks/echo";
 import { useAuth } from "@/context/AuthContext";
 import { FaMagnifyingGlass, FaX } from "react-icons/fa6";
@@ -14,6 +13,8 @@ import { timeFormat } from "../_utils/timeFormat";
 import { FaCheck } from "react-icons/fa";
 import { paginationRowsPerPageOptions } from "@/constants/paginationRowsPerPageOptions";
 import authenticatedPage from "@/lib/authenticatedPage";
+import TableLoader from "@/components/table-loader";
+import { useTheme } from "next-themes";
 
 function RequestAccess() {
   const { user } = useAuth();
@@ -27,6 +28,7 @@ function RequestAccess() {
     pagination,
     setPagination,
   } = useFetch({ url: "/employee-request-access" });
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     if (!user.id || !echo) return;
@@ -40,13 +42,13 @@ function RequestAccess() {
         if (is_delete) {
           setRequestAccess((prevRequestAccess: any) => [
             ...prevRequestAccess.filter(
-              (item: any) => item.id !== requestAccess.id
+              (item: any) => item.id !== requestAccess.id,
             ),
           ]);
           return;
         }
         setRequestAccess((prevRequestAccess: any) =>
-          [requestAccess, ...prevRequestAccess].slice(0, pagination.per_page)
+          [requestAccess, ...prevRequestAccess].slice(0, pagination.per_page),
         );
       });
 
@@ -95,8 +97,8 @@ function RequestAccess() {
             row.status === "pending"
               ? "bg-yellow-500"
               : row.status === "approved"
-              ? "bg-green-500"
-              : "bg-red-500"
+                ? "bg-green-500"
+                : "bg-red-500"
           } px-2 rounded-4xl text-white uppercase font-bold !text-sm`}
         >
           {row.status}
@@ -229,6 +231,7 @@ function RequestAccess() {
       </div>
       <div className="bg-base-100 rounded-xl shadow-md">
         <DataTable
+          theme={resolvedTheme}
           columns={tableData}
           data={requestAccess}
           pagination
@@ -239,21 +242,7 @@ function RequestAccess() {
           paginationRowsPerPageOptions={paginationRowsPerPageOptions}
           paginationPerPage={pagination.per_page}
           progressPending={isLoading}
-          progressComponent={
-            <div className="w-full">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index}>
-                  <div className="w-full border border-gray-200 p-2">
-                    <div className="flex justify-center">
-                      <div className="flex flex-col w-full gap-4">
-                        <div className="w-full h-12 skeleton bg-slate-300"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          }
+          progressComponent={<TableLoader />}
           persistTableHead
         />
       </div>
