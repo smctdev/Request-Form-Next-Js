@@ -1,3 +1,4 @@
+import { useTheme } from "next-themes";
 import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 
@@ -11,27 +12,9 @@ type Record = {
   status: string;
 };
 
-const tableCustomStyles = {
-  headRow: {
-    style: {
-      color: "black",
-      backgroundColor: "#FFFF",
-    },
-  },
-  rows: {
-    style: {
-      color: "STRIPEDCOLOR",
-      backgroundColor: "STRIPEDCOLOR",
-    },
-    stripedStyle: {
-      color: "NORMALCOLOR",
-      backgroundColor: "#E7F1F9",
-    },
-  },
-};
-
 const ApproverViewRequest = (props: Props) => {
   const [selected, setSelected] = useState(0);
+  const { resolvedTheme } = useTheme();
 
   const handleClick = (index: number) => {
     setSelected(index);
@@ -919,6 +902,7 @@ const ApproverViewRequest = (props: Props) => {
           </div>
           <div className="w-full  overflow-x-auto ">
             <DataTable
+              theme={resolvedTheme}
               columns={columns}
               data={data.map((item) => ({
                 ...item,
@@ -926,7 +910,6 @@ const ApproverViewRequest = (props: Props) => {
               }))}
               pagination
               striped
-              customStyles={tableCustomStyles}
             />
           </div>
         </div>
