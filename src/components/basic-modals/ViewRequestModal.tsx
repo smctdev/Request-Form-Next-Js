@@ -54,7 +54,7 @@ type Record = {
     signature: string;
     status: string;
   }[];
-  avp_staff: {
+  avp_staff?: {
     id: number;
     firstName: string;
     lastName: string;
@@ -161,6 +161,7 @@ const ViewRequestModal: React.FC<Props> = ({
   useEffect(() => {
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
+    setAvpStaff(record.avp_staff ?? []);
     setNewData(record.form_data[0].items.map((item) => ({ ...item })));
     setEditableRecord(record);
     try {

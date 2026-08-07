@@ -54,7 +54,7 @@ type Record = {
     signature: string;
     status: string;
   }[];
-  avp_staff: {
+  avp_staff?: {
     id: number;
     firstName: string;
     lastName: string;
@@ -184,7 +184,7 @@ const ViewCashAdvanceModal: React.FC<Props> = ({
   useEffect(() => {
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
-    setAvpStaff(record.avp_staff);
+    setAvpStaff(record.avp_staff ?? []);
     setNewData(record.form_data[0].items.map((item: any) => ({ ...item })));
     setEditableRecord(record);
     setNewTotalBoatFare(record.form_data[0].totalBoatFare);

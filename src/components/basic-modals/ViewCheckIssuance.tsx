@@ -67,7 +67,7 @@ type Record = {
     signature: string;
     status: string;
   }[];
-  avp_staff: {
+  avp_staff?: {
   id: number;
   firstName: string;
   lastName: string;
@@ -161,7 +161,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
     setEditableRecord(record);
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
-    setAvpStaff(record.avp_staff);
+    setAvpStaff(record.avp_staff ?? []);
     setNewBank(record?.form_data[0]?.bank || "");
     setNewAccountNo(record?.form_data[0]?.account_no || "");
     setNewSwiftCode(record?.form_data[0]?.swift_code || ""); // Initialize checkedPurpose with the original purposeNo(record?.form_data[0]?.account_no);

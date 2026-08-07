@@ -65,7 +65,7 @@ type Record = {
     signature: string;
     status: string;
   }[];
-  avp_staff: {
+  avp_staff?: {
     id: number;
     firstName: string;
     lastName: string;
@@ -155,7 +155,7 @@ const ViewPurchaseModal: React.FC<Props> = ({
     setEditableRecord(record);
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
-    setAvpStaff(record.avp_staff);
+    setAvpStaff(record.avp_staff ?? []);
     setNewAddress(record.form_data[0].address);
     setNewSupplier(record.form_data[0].supplier); // Initialize checkedPurpose with the original purpose
     setEditedApprovers(record.approvers_id);

@@ -63,7 +63,7 @@ type Record = {
     signature: string;
     status: string;
   }[];
-  avp_staff: {
+  avp_staff?: {
     id: number;
     firstName: string;
     lastName: string;
@@ -176,7 +176,7 @@ const ViewCashDisbursementModal: React.FC<Props> = ({
     setEditableRecord(record);
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
-    setAvpStaff(record.avp_staff);
+    setAvpStaff(record.avp_staff ?? []);
     setEditedApprovers(record.approvers_id);
     setKindOfRequest(record.kind_of_request);
     try {

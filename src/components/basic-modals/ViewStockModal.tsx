@@ -69,7 +69,7 @@ type Record = {
     signature: string;
     status: string;
   }[];
-  avp_staff: {
+  avp_staff?: {
     id: number;
     firstName: string;
     lastName: string;
@@ -157,7 +157,7 @@ const ViewStockModal: React.FC<Props> = ({
     setEditableRecord(record);
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
-    setAvpStaff(record.avp_staff);
+    setAvpStaff(record.avp_staff ?? []);
     setCheckedPurpose(record.form_data[0].purpose);
     setEditedApprovers(record.approvers_id);
     setKindOfRequest(record.kind_of_request || "");
