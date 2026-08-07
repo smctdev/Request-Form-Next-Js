@@ -67,6 +67,15 @@ type Record = {
     signature: string;
     status: string;
   }[];
+  avp_staff: {
+  id: number;
+  firstName: string;
+  lastName: string;
+  comment: string;
+  position: string;
+  signature: string;
+  status: string;
+}[];
 };
 
 type FormData = {
@@ -119,6 +128,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
   const [savedSuccessfully, setSavedSuccessfully] = useState(false);
   const [approvedBy, setApprovedBy] = useState<Approver[]>([]);
   const [notedBy, setNotedBy] = useState<Approver[]>([]);
+   const [avpStaff, setAvpStaff] = useState<Approver[]>([]);
   const [isFetchingApprovers, setisFetchingApprovers] = useState(false);
   const [isFetchingUser, setisFetchingUser] = useState(false);
   const [attachmentUrl, setAttachmentUrl] = useState<string[]>([]);
@@ -151,6 +161,7 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
     setEditableRecord(record);
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
+    setAvpStaff(record.avp_staff);
     setNewBank(record?.form_data[0]?.bank || "");
     setNewAccountNo(record?.form_data[0]?.account_no || "");
     setNewSwiftCode(record?.form_data[0]?.swift_code || ""); // Initialize checkedPurpose with the original purposeNo(record?.form_data[0]?.account_no);
@@ -1084,7 +1095,8 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
 
             {/* Check if there are no comments in both notedBy and approvedBy */}
             {notedBy.filter((user) => user.comment).length === 0 &&
-            approvedBy.filter((user) => user.comment).length === 0 ? (
+            approvedBy.filter((user) => user.comment).length === 0 &&
+            avpStaff.filter((user) => user.comment).length === 0 ? (
               <p className="text-gray-500">No comments yet.</p>
             ) : (
               <>
@@ -1140,6 +1152,36 @@ const ViewCheckIssuanceModal: React.FC<Props> = ({
                           <li className="flex flex-col justify-between pl-2">
                             <h3 className="text-lg font-bold">
                               {user.firstName} {user.lastName}
+                            </h3>
+                            <p>{user.comment}</p>
+                          </li>
+                        </div>
+                      </div>
+                    ))}
+                </ul>
+
+                {/* Render AVP Staff comments */}
+                <ul className="flex flex-col w-full mb-4 space-y-4">
+                  {avpStaff
+                    .filter((user) => user.comment)
+                    .map((user, index) => (
+                      <div className="flex" key={index}>
+                        <div>
+                          <Image
+                            alt="avatar"
+                            className="hidden cursor-pointer sm:block"
+                            src={Avatar}
+                            height={35}
+                            width={45}
+                            draggable="false"
+                            onContextMenu={(e) => e.preventDefault()}
+                            style={{ filter: "blur(1px)" }} // Optional: Apply a blur
+                          />
+                        </div>
+                        <div className="flex flex-row w-full">
+                          <li className="flex flex-col justify-between pl-2">
+                            <h3 className="text-lg font-bold">
+                              {user.firstName} {user.lastName} - {user.position}
                             </h3>
                             <p>{user.comment}</p>
                           </li>

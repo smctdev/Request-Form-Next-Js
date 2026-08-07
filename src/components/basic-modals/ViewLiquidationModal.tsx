@@ -56,6 +56,15 @@ type Record = {
     signature: string;
     status: string;
   }[];
+  avp_staff: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    comment: string;
+    position: string;
+    signature: string;
+    status: string;
+  }[];
   user: {
     branch: {
       branch_code: string;
@@ -124,6 +133,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
   const [newCashAdvance, setNewCashAdvance] = useState("");
   const [notedBy, setNotedBy] = useState<Approver[]>([]);
   const [approvedBy, setApprovedBy] = useState<Approver[]>([]);
+  const [avpStaff, setAvpStaff] = useState<Approver[]>([]);
   const [isFetchingApprovers, setisFetchingApprovers] = useState(false);
   const [isFetchingUser, setisFetchingUser] = useState(false);
   const [attachmentUrl, setAttachmentUrl] = useState<string[]>([]);
@@ -149,6 +159,7 @@ const ViewLiquidationModal: React.FC<Props> = ({
   useEffect(() => {
     setNotedBy(editableRecord.noted_by);
     setApprovedBy(editableRecord.approved_by);
+    setAvpStaff(record.avp_staff);
     setNewData(record.form_data[0].items.map((item) => ({ ...item })));
     setEditableRecord(record);
     setNewCashAdvance(record.form_data[0].cashAdvance);
@@ -1380,7 +1391,8 @@ const ViewLiquidationModal: React.FC<Props> = ({
 
             {/* Check if there are no comments in both notedBy and approvedBy */}
             {notedBy.filter((user) => user.comment).length === 0 &&
-            approvedBy.filter((user) => user.comment).length === 0 ? (
+            approvedBy.filter((user) => user.comment).length === 0 &&
+            avpStaff.filter((user) => user.comment).length === 0 ? (
               <p className="text-gray-500">No comments yet.</p>
             ) : (
               <>
@@ -1436,6 +1448,36 @@ const ViewLiquidationModal: React.FC<Props> = ({
                           <li className="flex flex-col justify-between pl-2">
                             <h3 className="text-lg font-bold">
                               {user.firstName} {user.lastName}
+                            </h3>
+                            <p>{user.comment}</p>
+                          </li>
+                        </div>
+                      </div>
+                    ))}
+                </ul>
+
+                {/* Render AVP Staff comments */}
+                <ul className="flex flex-col w-full mb-4 space-y-4">
+                  {avpStaff
+                    .filter((user) => user.comment)
+                    .map((user, index) => (
+                      <div className="flex" key={index}>
+                        <div>
+                          <Image
+                            alt="avatar"
+                            className="hidden cursor-pointer sm:block"
+                            src={Avatar}
+                            height={35}
+                            width={45}
+                            draggable="false"
+                            onContextMenu={(e) => e.preventDefault()}
+                            style={{ filter: "blur(1px)" }} // Optional: Apply a blur
+                          />
+                        </div>
+                        <div className="flex flex-row w-full">
+                          <li className="flex flex-col justify-between pl-2">
+                            <h3 className="text-lg font-bold">
+                              {user.firstName} {user.lastName} - {user.position}
                             </h3>
                             <p>{user.comment}</p>
                           </li>
