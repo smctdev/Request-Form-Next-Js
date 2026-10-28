@@ -20,6 +20,7 @@ import Storage from "@/utils/storage";
 import Swal from "sweetalert2";
 import SelectKindOfRequest from "../select-kind-of-request";
 import Attachment from "../attachment";
+import { formatDate2 } from "../formatDate";
 
 type Props = {
   closeModal: () => void;
@@ -910,6 +911,9 @@ const ViewStockModal: React.FC<Props> = ({
                                 {user.status ? user.status : "Pending"}
                               </p>
                             )}
+                            {user.status !== "Pending" && user.updated_at && (
+                              <p> {formatDate2(new Date(user.updated_at))}</p>
+                            )}
                           </div>
                         </li>
                       ))}
@@ -974,6 +978,9 @@ const ViewStockModal: React.FC<Props> = ({
                             >
                               {user.status ? user.status : "Pending"}
                             </p>
+                          )}
+                          {user.status !== "Pending" && user.updated_at && (
+                            <p> {formatDate2(new Date(user.updated_at))}</p>
                           )}
                         </div>
                       </li>
