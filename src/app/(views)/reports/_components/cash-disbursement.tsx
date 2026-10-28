@@ -12,6 +12,7 @@ import ZoomableImage from "@/components/ZoomableImage";
 import ApprovedAttachments from "@/components/ApprovedAttachments";
 import RequestedByDetail from "@/components/requested-by-details";
 import ApproverComments from "@/components/ApproverComments";
+import { formatDate2 } from "@/components/formatDate";
 type Props = {
   closeModal: () => void;
   record: Record;
@@ -366,6 +367,9 @@ const CashDisbursementDetails: React.FC<Props> = ({ closeModal, record }) => {
                                 {user.status ? user.status : "Pending"}
                               </p>
                             )}
+                            {user.status !== "Pending" && user.updated_at && (
+                              <p> {formatDate2(new Date(user.updated_at))}</p>
+                            )}
                           </div>
                         </li>
                       ))}
@@ -431,6 +435,9 @@ const CashDisbursementDetails: React.FC<Props> = ({ closeModal, record }) => {
                               {user.status ? user.status : "Pending"}
                             </p>
                           )}
+                          {user.status !== "Pending" && user.updated_at && (
+                              <p> {formatDate2(new Date(user.updated_at))}</p>
+                            )}
                         </div>
                       </li>
                     ))}
