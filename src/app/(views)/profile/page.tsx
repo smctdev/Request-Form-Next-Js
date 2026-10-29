@@ -460,7 +460,7 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
                   <span className="text-sm font-medium ">Branch Name</span>
                   <div className="p-3 rounded-lg border">
                     <p className=" font-medium">
-                      {user.branch?.branch || "N/A"}
+                      {user.branch?.acronym || "N/A"}-{user.branch?.branch_name || "N/A"}
                     </p>
                   </div>
                 </div>
