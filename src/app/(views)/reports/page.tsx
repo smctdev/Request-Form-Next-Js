@@ -36,6 +36,11 @@ const Reports = () => {
   const [details, setDetails] = useState({});
   const { resolvedTheme } = useTheme();
   const columns = [
+     {
+      name: "ID",
+      selector: (row: any) => row.id,
+      sortable: true,
+    },
     {
       name: "Request Code",
       selector: (row: any) => row.request_code,
