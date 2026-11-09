@@ -37,7 +37,7 @@ const Reports = () => {
   const { resolvedTheme } = useTheme();
   const columns = [
      {
-      name: "ID",
+      name: "No.",
       selector: (row: any) => row.id,
       sortable: true,
     },
